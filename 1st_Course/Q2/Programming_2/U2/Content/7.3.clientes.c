@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "clientes.h"
-#include "inventario.h"
+#include "7.2.clientes.h"
+#include "7.4.inventario.h"
 
 void print_cliente(Cliente client[], int size){
 
