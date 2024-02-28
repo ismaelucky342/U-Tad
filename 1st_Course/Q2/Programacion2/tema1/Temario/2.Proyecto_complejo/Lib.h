@@ -1,5 +1,6 @@
 #ifdef LIB_H
 #define LIB_H
+#define MAX 5
 #include <stdio.h>
 #include <stdlib.h>
 
