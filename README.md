@@ -3,12 +3,12 @@
 Projects and content carried out during the first year of my double degree in software engineering and mathematics.
 
 Subjects in this project: 
-- Programming l (C)
+- Programming 1 (C)
 - Web development (html,css,js)
 - Networks and Operative Systems (Shell)
 - Computer Architecture
 - Data Bases and Distributed Systems (mysql, mariadb ..)
-- Programming ll (C)
+- Programming 2 (C / C++)
 - Project 1: Digital Techniques and Technologies (Arduino)
 
 In the Q1 subjects, we were introduced to C programming, the main markup languages HTML, CSS and JS, as well as a networking lab in which we were introduced to virtualization, IP addressing and shell scripting.
