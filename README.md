@@ -2,14 +2,14 @@
 
 Projects and content carried out during my B.S. Double Degree in Computational Mathematics and Computer Science
 
-Subjects in this project: 
-- Programming 1 (C)
-- Web development (html,css,js)
-- Networks and Operative Systems (Shell)
+Subjects in 1st Course: 
+- Introduction to Programming I	(C)
+- Web Development Fundamentals (html,css,js)
+- Networking and Operating Systems Labs (Shell, Linux, git..)
 - Computer Architecture
-- Data Bases and Distributed Systems (mysql, mariadb ..)
-- Programming 2 (C / C++)
-- Project 1: Digital Techniques and Technologies (Arduino)
+- Database and Distributed Systems Laboratory (mysql, mariadb ..)
+- Introduction to Programming II (C / C++)
+- Projects I: Digital Techniques and Technologies (Arduino)
 
 In the Q1 subjects, we were introduced to C programming, the main markup languages HTML, CSS and JS, as well as a networking lab in which we were introduced to virtualization, IP addressing and shell scripting.
 
