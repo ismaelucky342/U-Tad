@@ -1,6 +1,6 @@
 # U-Tad 
 
-Projects and content carried out during the first year of my double degree in software engineering and mathematics.
+Projects and content carried out during my B.S. Double Degree in Computational Mathematics and Computer Science
 
 Subjects in this project: 
 - Programming 1 (C)
