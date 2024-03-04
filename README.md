@@ -9,7 +9,7 @@ Subjects in 1st Course:
 - Computer Architecture
 - Database and Distributed Systems Laboratory (mysql, mariadb ..)
 - Introduction to Programming II (C / C++)
-- Projects I: Digital Techniques and Technologies (Arduino)
+- Projects I: Digital Techniques and Technologies (Arduino / C++)
 
 In the Q1 subjects, we were introduced to C programming, the main markup languages HTML, CSS and JS, as well as a networking lab in which we were introduced to virtualization, IP addressing and shell scripting.
 
