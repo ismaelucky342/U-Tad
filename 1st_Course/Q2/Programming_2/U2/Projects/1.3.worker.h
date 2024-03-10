@@ -1,5 +1,5 @@
-#ifndef EMPLEADO_H
-#define EMPLEADO_H
+#ifndef WORKER_H
+#define WORKER_H
 
 #include<stdio.h>
 #include<stdlib.h>

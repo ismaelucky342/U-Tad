@@ -1,4 +1,4 @@
-#include"1.3.empleado.h"
+#include"1.3.worker.h"
 #define SIZE 3
 int main()
 {
