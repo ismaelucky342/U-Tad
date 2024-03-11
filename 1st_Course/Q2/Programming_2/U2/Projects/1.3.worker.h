@@ -10,7 +10,7 @@ typedef struct Worker{
     char salary[5];
 }worker_t;
 
-void    createWorker(worker_t empleado[], int size);
-void    printWorker(worker_t empleado[], int size);
+void    createWorker(worker_t worker[], int size);
+void    printWorker(worker_t worker[], int size);
 
 #endif
