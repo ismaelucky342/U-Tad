@@ -1,0 +1,55 @@
+Example: 
+
+struct book_t
+{
+    char title [20];
+    char ISBN [13];
+    int nPags;
+    char editl[20];
+    struct autor_t autor;
+};
+
+def type struct: 
+
+1. struct <type struct> var1, var2, …,varN;
+
+2. struct <name>
+{
+      <data type member 1> <name member 1>
+      <data type member 2> <name member 2>
+      …
+      <data type member N> <name member N>
+};
+
+struct to pointer: 
+
+struct alumn
+{
+    int numlist; 
+    cahr name [30]; 
+}; 
+
+struct Alumn JJ; 
+struct Alumn  *pJJ = &JJ; 
+(*pJJ).numlist  = 5; 
+
+strcpy ((*pJJ).name,"Juan"); 
+
+Arrow operator: 
+
+ptr -> campo 
+(*ptr).campo 
+
+Accessing members of a structure through a pointer:  
+The arrow operator can be used with the pointer or without it. The last two statements are equivalent
+
+example: 
+
+struct book_t
+{
+    char title [30];
+    char ISBN [13]; 
+    int npags;
+    char editl [20];
+    struct autor_t *autor;  
+} ; 

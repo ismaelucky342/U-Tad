@@ -1,5 +1,6 @@
 #include<stdio.h>
 
+/*MAIN FUNCTION*/
 int     main(int    argc, char  *argv[])
 {
     int i ;

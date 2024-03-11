@@ -1,10 +1,8 @@
-/*LIBRERIAS Y DECLARACIONES GLOBALES*/
-
-#include "Lib.h"
+#include "2.2.Lib.h"
 #define MAX 5
-#include <stdio.h>
 
-/*PROGRAMA PRINCIPAL MAIN: */
+
+/*MAIN FUNCTION: */
 
 int		main()
 {
@@ -12,14 +10,14 @@ int		main()
 	float array[5] = {0.0};
 	
 	printf("Introduce los parametros de la matriz: \n");
-	rellenarMatriz(matriz);
+	fillMatrix(matriz);
 	
 	printf("La matriz ingresada es: \n");
-	imprimirMatriz(matriz);
-	sumatorio(matriz,array);
+	printMatrix(matriz);
+	sum(matriz,array);
 	
 	printf("el sumatorio de filas es: \n");
-	mostrarArray(array);
+	Array(array);
 	
 	return 0; 
 }
