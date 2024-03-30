@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 int main() {
+    
     int n;
     printf("Ingrese el tamaño del arreglo: ");
     scanf("%d", &n);
@@ -12,10 +13,8 @@ int main() {
         printf("Error: No se pudo asignar memoria.");
         return 1;
     }
-
     printf("Tamaño del arreglo en bytes: %zu\n", n * sizeof(int));
 
     free(arr);
-    
     return 0;
 }
