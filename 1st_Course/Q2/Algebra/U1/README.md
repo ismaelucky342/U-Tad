@@ -30,3 +30,8 @@ To manage overflow issues, Java incorporates built-in mechanisms. For example, t
 Within Python, the cmath module offers a solution for handling complex numbers with numerical precision, while the numpy library provides the numpy.complex128 type, offering high precision.
 Regarding overflow, Python’s intrinsic feature grants integers arbitrary precision, alleviating concerns. However, for computations involving floating-point numbers, utilizing the decimal library ensures heightened precision.
 
+
+
+
+![image](https://github.com/ismaelucky342/U-Tad/assets/153450550/62bc16fd-1d63-401e-962d-b090cad59bdc)
+
