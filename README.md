@@ -8,11 +8,12 @@ Q1:
 - Introduction to Programming I	(C)
 - Web Development Fundamentals (html,css,js)
 - Networking and Operating Systems Labs (Shell, Linux, git..)
-
+- Discrete Mathematics
 Q2: 
 - Computer Architecture
 - Database and Distributed Systems Laboratory (mysql, mariadb ..)
 - Introduction to Programming II (C / C++)
+- Algebra 
 
 Extra: 
 - Projects I: Digital Techniques and Technologies (Arduino / C++)
