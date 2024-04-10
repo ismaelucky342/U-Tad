@@ -52,3 +52,59 @@ PRIMARY KEY (`id_usuario`)
 UNIQUE KEY `voto_contenido_un` (`id_usu_voto_cont`,`id_cont_voto_cont`)
 
 CONSTRAINT `Voto_Contenido_FK` FOREIGN KEY (`id_usu_voto_cont`) REFERENCES `usuario` (`id_usuario`)
+
+
+-- Crear tabla Usuario
+CREATE TABLE Usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    nombre_usuario VARCHAR(100) NOT NULL,
+    contraseña_usuario VARCHAR(100) NOT NULL,
+    ciudad_residencia VARCHAR(100)
+);
+
+-- Crear tabla Comentario
+CREATE TABLE Comentario (
+    id_comentario INT AUTO_INCREMENT PRIMARY KEY,
+    id_user_coment INT,
+    id_contenido_coment INT,
+    comentario VARCHAR(100),
+    FOREIGN KEY (id_user_coment) REFERENCES Usuario(id_usuario),
+    FOREIGN KEY (id_contenido_coment) REFERENCES Contenido(id_contenido)
+);
+
+-- Crear tabla Contenido
+CREATE TABLE Contenido (
+    id_contenido INT AUTO_INCREMENT PRIMARY KEY,
+    id_user_cont INT,
+    fecha_cont DATE,
+    visualizaciones INT,
+    nombre_fichero VARCHAR(100) NOT NULL,
+    puntuacion INT,
+    nombre_contenido VARCHAR(100),
+    FOREIGN KEY (id_user_cont) REFERENCES Usuario(id_usuario)
+);
+
+-- Crear tabla Voto_Comment
+CREATE TABLE Voto_Comment (
+    id_voto_comment INT AUTO_INCREMENT PRIMARY KEY,
+    id_usu_voto_comment INT,
+    id_com_voto_comment INT,
+    valor_voto_comment INT,
+    fecha_voto_commet DATE,
+    UNIQUE KEY Voto_Comment_UN (id_usu_voto_comment, id_com_voto_comment),
+    FOREIGN KEY (id_usu_voto_comment) REFERENCES Usuario(id_usuario),
+    FOREIGN KEY (id_com_voto_comment) REFERENCES Comentario(id_comentario)
+);
+
+-- Crear tabla Voto_Contenido
+CREATE TABLE Voto_Contenido (
+    id_voto_cont INT AUTO_INCREMENT PRIMARY KEY,
+    id_usu_voto_cont INT,
+    id_cont_voto_cont INT,
+    valor_voto_cont INT,
+    fecha_voto_cont DATE,
+    UNIQUE KEY voto_contenido_un (id_usu_voto_cont, id_cont_voto_cont),
+    FOREIGN KEY (id_usu_voto_cont) REFERENCES Usuario(id_usuario),
+    FOREIGN KEY (id_cont_voto_cont) REFERENCES Contenido(id_contenido)
+);
