@@ -5,7 +5,7 @@
 int main() {
     char* mensaje = leeLineaDinamica();
     printf("Mensaje ingresado: %s\n", mensaje);
-
+    
     char* mensaje_mayusculas = cambiaMayusculas(mensaje);
     printf("Mensaje en mayúsculas: %s\n", mensaje_mayusculas);
 

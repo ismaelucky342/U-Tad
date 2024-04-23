@@ -1,10 +1,10 @@
 #include "funciones.h"
+#include <stdio.h>
 
 char* encriptaMensaje(char* cadena_mayusculas);
 char* encuentraDatos(char* cadena_encriptada);
 char* decodificaDatos(char* cadena_encriptada_datos);
 char tablaEncriptacion(char letra);
-char* leeLineaDinamica();
 char* cambiaMayusculas(char* cadena_leida);
 
 char* leeLineaDinamica() {
@@ -13,6 +13,7 @@ char* leeLineaDinamica() {
     getline(&buffer, &bufsize, stdin);
     return buffer;
 }
+
 char* cambiaMayusculas(char* cadena_leida) {
     char* resultado = strdup(cadena_leida);
     int contiene_minusculas = 0;
@@ -46,8 +47,6 @@ char* cambiaMayusculas(char* cadena_leida) {
     return resultado;
 }
 
-
-
 char* encriptaMensaje(char* cadena_mayusculas) {
     char* resultado = strdup(cadena_mayusculas);
     for (int i = 0; resultado[i] != '\0'; i++) {
@@ -59,7 +58,6 @@ char* encriptaMensaje(char* cadena_mayusculas) {
     }
     return resultado;
 }
-
 
 char* encuentraDatos(char* cadena_encriptada) {
     char* inicio = strchr(cadena_encriptada, '(');
@@ -116,7 +114,6 @@ char* decodificaDatos(char* cadena_encriptada_datos) {
 
     return campos_decodificados;
 }
-
 
 char tablaEncriptacion(char letra) {
     switch (letra) {
