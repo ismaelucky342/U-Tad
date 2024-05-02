@@ -54,7 +54,7 @@ GROUP BY name_column;
 --Get how many items each supplier provides, grouped by supplier ID and ordered by the number of items from highest to lowest.
 
 SELECT
-    id_supplier_warehouse,
+    id_supplier_warehouse, 
     COUNT(*)
 FROM
     warehouse
