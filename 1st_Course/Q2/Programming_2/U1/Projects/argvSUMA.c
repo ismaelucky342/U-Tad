@@ -12,6 +12,4 @@ int     main(int argc, char *argv[]){
 
         printf("la suma de %d mas %d es %d\n", num1, num2, suma);
         return 0; 
-    
-
 }

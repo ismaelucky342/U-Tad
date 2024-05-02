@@ -20,8 +20,6 @@ int main(){
 
 }
 
- 
-
 size_t getFileSize(FILE* file){
     size_t size=0;
     size_t posOrigin=0;

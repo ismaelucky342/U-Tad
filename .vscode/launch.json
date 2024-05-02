@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/vclem/Desktop/U-Tad/U-Tad/1st_Course/Q2/Programming_2/U4/AEC4",
-      "program": "c:/Users/vclem/Desktop/U-Tad/U-Tad/1st_Course/Q2/Programming_2/U4/AEC4/build/Debug/outDebug",
+      "cwd": "c:/Users/vclem/Desktop/U-Tad/U-Tad/1st_Course/Q2/Programming_2/U6/Content",
+      "program": "c:/Users/vclem/Desktop/U-Tad/U-Tad/1st_Course/Q2/Programming_2/U6/Content/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

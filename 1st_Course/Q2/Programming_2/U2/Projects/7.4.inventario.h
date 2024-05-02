@@ -1,4 +1,4 @@
-#ifndef INVENTARIO
+#ifdef INVENTARIO
 
 #define INVENTARIO
 #include "7.2.clientes.h"
@@ -13,4 +13,3 @@ void update_inventario(Inventario invent[], int inve);
 void print_inventario(Inventario invent[], int inve);
 
  #endif // INVENTARIO
-
