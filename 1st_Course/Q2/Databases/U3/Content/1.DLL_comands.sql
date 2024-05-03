@@ -56,6 +56,10 @@ CREATE TABLE IF NOT EXISTS CHECKLIST (  -- create table checklist
 
 );
 
+-- Describe table 
+
+DESC table_example; 
+
 --Drop table (destroy tables)
 
 DROP TABLE table_name, table2; 
