@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+//read char by char
 void main () {
    FILE *fichDesc;
    char Caracter;

@@ -2,12 +2,12 @@
 #include <stdlib.h>
 
 int main () {
-   char str1[10], str2[10], str3[10];
+   char str1[10], str2[10], str3[100];
    int year;
    FILE * fp;
  
-   fp = fopen ("file.txt", "w+");
-   fputs("Yo naci en 2000", fp);
+   fp = fopen ("txt.txt", "w+");
+   fputs("hola me llamaadggfsaegfafafs 2004", fp);
 
    rewind(fp);
 

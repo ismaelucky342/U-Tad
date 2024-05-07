@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+//creates a file.txt and write a string 
 int main () {
    FILE * fp;
    fp = fopen ("file.txt", "w+");
