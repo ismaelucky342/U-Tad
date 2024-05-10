@@ -14,7 +14,7 @@ int main()
         printf("Memory allocation failed.\n");
         return 1; // Terminates the program indicating failure
     }
-    printf("vector with malloc is: ");
+    printf("vector with malloc is: ");//COMPARE WITH NO MALLOC VECTOR
     printVector(p, N); 
 
     int *q; 

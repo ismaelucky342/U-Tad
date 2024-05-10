@@ -7,7 +7,7 @@ int main()
     int len; 
     scanf("%d", &len);
 
-    float* values = (float *) malloc(len*sizeof(float));
+    float* values = (float *) malloc(len*sizeof(float));// MEMORY ALLOCATION 
     int i; 
 
     for(i = 0; i<len; i++){
