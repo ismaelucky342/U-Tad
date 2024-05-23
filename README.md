@@ -11,7 +11,7 @@ The repository will be organized by academic year, semester and finally by subje
 - Discrete Mathematics
   
 ### Q2: 
-- Computer Architecture
+- Computer Architecture (Assembly)
 - Database and Distributed Systems Laboratory (mysql, dbeaver ..)
 - Introduction to Programming II (C / C++)
 - Algebra 
