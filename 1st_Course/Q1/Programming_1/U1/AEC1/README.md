@@ -34,26 +34,31 @@ Understanding the advantages and disadvantages of compiled and interpreted langu
 
 ### Compiled Languages (e.g., C++):
 
-Advantages:
+#### Advantages:
+
 Performance: Compiled code is translated directly into machine code, making it faster and more efficient.
 Error Detection: Compilation helps catch syntax errors and some types of logical errors before execution.
 Optimization: Compilers often optimize code for better performance.
-Disadvantages:
+
+#### Disadvantages:
 Compilation Time: The process of compiling can be time-consuming.
 Flexibility: Changes require recompilation, which can be less flexible during development.
 Platform Dependency: Compiled code is specific to the target architecture.
-Interpreted Languages (e.g., Python):
 
-Advantages:
+### Interpreted Languages (e.g., Python):
+
+#### Advantages:
+
 Ease of Use: Interpreted languages often have simpler syntax and are easier to learn.
 Flexibility: No need for compilation, allowing quick iterations and testing.
 Cross-Platform: Code can run on different platforms without modification.
-Disadvantages:
+
+#### Disadvantages:
 Performance: Generally slower execution since code is translated on the fly.
 Runtime Errors: Errors are caught during execution, which can lead to runtime issues that are harder to debug.
 Both types have their place in software development, and the choice depends on project requirements, performance needs, and development speed.
 
-The Debugging Process
+### The Debugging Process
 The debugging process is essential in software development as it involves identifying and correcting errors and bugs in the code. Debugging ensures that the software works correctly and meets the established requirements. Key aspects of debugging include:
 
 Error Identification: Finding the source of errors through systematic testing and logging.
@@ -64,8 +69,8 @@ Effective debugging saves time and money in the long run by preventing minor iss
 Benefits of Structured Programming
 Structured programming provides significant benefits when developing software:
 
-Modularity: Dividing problems into smaller, manageable modules facilitates understanding and allows focused problem-solving.
-Code Reusability: Avoids duplication by creating reusable code components, making the software more efficient and easier to maintain.
-Maintainability: Structured code is easier to update and maintain, improving long-term code quality.
-Error Detection: Smaller modules make it easier to detect and fix errors, enhancing overall software reliability.
+- Modularity: Dividing problems into smaller, manageable modules facilitates understanding and allows focused problem-solving.
+- Code Reusability: Avoids duplication by creating reusable code components, making the software more efficient and easier to maintain.
+- Maintainability: Structured code is easier to update and maintain, improving long-term code quality.
+- Error Detection: Smaller modules make it easier to detect and fix errors, enhancing overall software reliability.
 Structured programming promotes a disciplined approach to coding, leading to clearer, more efficient, and more reliable software.
