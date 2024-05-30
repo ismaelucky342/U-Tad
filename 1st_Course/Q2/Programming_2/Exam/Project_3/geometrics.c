@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<math.h>
+#define M_PI 3.14
 
+//struct area
 struct Circle
 {
     float radix; 
@@ -29,7 +31,7 @@ enum Type
     CIRCLE, RECTANGLE, SQUARE
 };
 
-
+//main area
 int main() {
     union Figures figures;
     enum Type type;
@@ -40,17 +42,19 @@ int main() {
     printf("2. RectÃ¡ngulo\n");
     printf("3. Cuadrado\n");
     printf("Ingrese su opciÃ³n: ");
-    scanf("%d", &tipo);
+    scanf("%d", &type );
 
-    switch (tipo) {
+    switch (type) {
+
         case CIRCLE:
             printf("Ingrese el radio del cÃ­rculo: ");
             scanf("%f", &figures.circle.radix);
-            area = M_PI * figures.circle.radix * figures.circulo.radio;
+            area = M_PI * figures.circle.radix * figures.circle.radix;
             diametro = 2 * figures.circle.radix;
             printf("El Ã¡rea del cÃ­rculo es: %.2f\n", area);
             printf("El diÃ¡metro del cÃ­rculo es: %.2f\n", diametro);
             break;
+        
         case RECTANGLE:
             printf("Ingrese la base del rectÃ¡ngulo: ");
             scanf("%f", &figures.rectangle.b);
@@ -61,6 +65,7 @@ int main() {
             printf("El Ã¡rea del rectÃ¡ngulo es: %.2f\n", area);
             printf("El perÃ­metro del rectÃ¡ngulo es: %.2f\n", perimetro);
             break;
+        
         case SQUARE:
             printf("Ingrese el lado del cuadrado: ");
             scanf("%f", &figures.square.a);
@@ -69,6 +74,7 @@ int main() {
             printf("El Ã¡rea del cuadrado es: %.2f\n", area);
             printf("El perÃ­metro del cuadrado es: %.2f\n", perimetro);
             break;
+        
         default:
             printf("OpciÃ³n no vÃ¡lida.\n");
             return 1; // Salir del programa con cÃ³digo de error
