@@ -1,13 +1,11 @@
 #include <IRremote.h>
 #include <Servo.h>
+#include <LiquidCrystal.h>
 
 #define IR_pin 7
-
-#define servo_pulse 13
 #define trigger_pin 12
-#define right_line_sensor A0
-#define middle_line_sensor A1
-#define left_line_sensor A2
+#define echo_pin 11
+#define line_sensor A0
 
 #define Enable_motor_right 5
 #define motor_right_A 6
@@ -15,6 +13,26 @@
 #define Enable_motor_left 9
 #define motor_left_A 8
 #define motor_left_B 10
+
+#define Enable_motor_right_2 11
+#define motor_right_2_A 4
+#define motor_right_2_B 2
+#define Enable_motor_left_2 12
+#define motor_left_2_A 13
+#define motor_left_2_B 14
+
+#define servo_pulse 13
+
+#define lcd_rs 2
+#define lcd_en 3
+#define lcd_d4 4
+#define lcd_d5 5
+#define lcd_d6 6
+#define lcd_d7 7
+
+const int led1 = 8;
+const int led2 = 9;
+
 int motor_speed = 80;
 
 const long forward_cmd = 16613503;
@@ -30,86 +48,126 @@ IRrecv ir_receiver(IR_pin);
 decode_results ir_results;
 
 Servo servo_motor;
+LiquidCrystal lcd(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7);
 
 bool manual_control = false;
 bool obstacle_detection = false;
 bool line_following = false;
 
-void setup() {
+void setup()
+{
   Serial.begin(9600);
   ir_receiver.enableIRIn();
   servo_motor.attach(servo_pulse);
   servo_motor.write(90);
+  lcd.begin(16, 2);
 
   pinMode(motor_right_A, OUTPUT);
   pinMode(motor_right_B, OUTPUT);
   pinMode(motor_left_A, OUTPUT);
   pinMode(motor_left_B, OUTPUT);
   pinMode(trigger_pin, OUTPUT);
+  pinMode(echo_pin, INPUT);
 
-  pinMode(left_line_sensor, INPUT);
-  pinMode(middle_line_sensor, INPUT);
-  pinMode(right_line_sensor, INPUT);
+  pinMode(line_sensor, INPUT);
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+
+  pinMode(motor_right_2_A, OUTPUT);
+  pinMode(motor_right_2_B, OUTPUT);
+  pinMode(motor_left_2_A, OUTPUT);
+  pinMode(motor_left_2_B, OUTPUT);
 }
 
-int getDistance() {
-  unsigned long pulse_duration = 0;
-  pinMode(trigger_pin, OUTPUT);
+int getDistance()
+{
   digitalWrite(trigger_pin, LOW);
-  delayMicroseconds(5);
+  delayMicroseconds(2);
   digitalWrite(trigger_pin, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigger_pin, LOW);
-  pinMode(trigger_pin, INPUT);
-  pulse_duration = pulseIn(trigger_pin, HIGH);
-  pulse_duration = pulse_duration / 2;
-  int distance = int(pulse_duration / 29);
-  delayMicroseconds(50);
-  return distance;
+  long duration = pulseIn(echo_pin, HIGH);
+  return duration * 0.034 / 2;
 }
 
-void moveForward() {
+void moveForward()
+{
   analogWrite(Enable_motor_left, motor_speed);
   analogWrite(Enable_motor_right, motor_speed);
   digitalWrite(motor_left_A, HIGH);
   digitalWrite(motor_left_B, LOW);
   digitalWrite(motor_right_A, LOW);
   digitalWrite(motor_right_B, HIGH);
+
+  analogWrite(Enable_motor_left_2, motor_speed);
+  analogWrite(Enable_motor_right_2, motor_speed);
+  digitalWrite(motor_left_2_A, HIGH);
+  digitalWrite(motor_left_2_B, LOW);
+  digitalWrite(motor_right_2_A, LOW);
+  digitalWrite(motor_right_2_B, HIGH);
 }
 
-void moveBackward() {
+void moveBackward()
+{
   analogWrite(Enable_motor_left, motor_speed);
   analogWrite(Enable_motor_right, motor_speed);
   digitalWrite(motor_left_A, LOW);
   digitalWrite(motor_left_B, HIGH);
   digitalWrite(motor_right_A, HIGH);
   digitalWrite(motor_right_B, LOW);
+
+  analogWrite(Enable_motor_left_2, motor_speed);
+  analogWrite(Enable_motor_right_2, motor_speed);
+  digitalWrite(motor_left_2_A, LOW);
+  digitalWrite(motor_left_2_B, HIGH);
+  digitalWrite(motor_right_2_A, HIGH);
+  digitalWrite(motor_right_2_B, LOW);
 }
 
-void turnLeft() {
+void turnLeft()
+{
   analogWrite(Enable_motor_left, motor_speed);
   analogWrite(Enable_motor_right, motor_speed);
   digitalWrite(motor_left_A, LOW);
   digitalWrite(motor_left_B, HIGH);
   digitalWrite(motor_right_A, LOW);
   digitalWrite(motor_right_B, HIGH);
+
+  analogWrite(Enable_motor_left_2, motor_speed);
+  analogWrite(Enable_motor_right_2, motor_speed);
+  digitalWrite(motor_left_2_A, LOW);
+  digitalWrite(motor_left_2_B, HIGH);
+  digitalWrite(motor_right_2_A, LOW);
+  digitalWrite(motor_right_2_B, HIGH);
 }
 
-void turnRight() {
+void turnRight()
+{
   analogWrite(Enable_motor_left, motor_speed);
   analogWrite(Enable_motor_right, motor_speed);
   digitalWrite(motor_left_A, HIGH);
   digitalWrite(motor_left_B, LOW);
   digitalWrite(motor_right_A, HIGH);
   digitalWrite(motor_right_B, LOW);
+
+  analogWrite(Enable_motor_left_2, motor_speed);
+  analogWrite(Enable_motor_right_2, motor_speed);
+  digitalWrite(motor_left_2_A, HIGH);
+  digitalWrite(motor_left_2_B, LOW);
+  digitalWrite(motor_right_2_A, HIGH);
+  digitalWrite(motor_right_2_B, LOW);
 }
 
-void stopMotors() {
+void stopMotors()
+{
   digitalWrite(Enable_motor_left, LOW);
   digitalWrite(Enable_motor_right, LOW);
+  digitalWrite(Enable_motor_left_2, LOW);
+  digitalWrite(Enable_motor_right_2, LOW);
 }
 
-int lookRight() {
+int lookRight()
+{
   servo_motor.write(50);
   delay(500);
   int distance = getDistance();
@@ -118,7 +176,8 @@ int lookRight() {
   return distance;
 }
 
-int lookLeft() {
+int lookLeft()
+{
   servo_motor.write(170);
   delay(500);
   int distance = getDistance();
@@ -127,39 +186,73 @@ int lookLeft() {
   return distance;
 }
 
-void loop() {
-  if (ir_receiver.decode(&ir_results)) {
-    if (ir_results.value == option1_cmd) {
+void loop()
+{
+  if (ir_receiver.decode(&ir_results))
+  {
+    if (ir_results.value == option1_cmd)
+    {
       manual_control = true;
       obstacle_detection = false;
       line_following = false;
+      lcd.clear();
+      lcd.print("Modo Manual");
 
-      while (manual_control) {
-        if (ir_receiver.decode(&ir_results)) {
-          if (ir_results.value == forward_cmd) {
+      while (manual_control)
+      {
+        if (ir_receiver.decode(&ir_results))
+        {
+          if (ir_results.value == forward_cmd)
+          {
             moveForward();
-          } else if (ir_results.value == backward_cmd) {
+            lcd.setCursor(0, 1);
+            lcd.print("Adelante  ");
+          }
+          else if (ir_results.value == backward_cmd)
+          {
             moveBackward();
-          } else if (ir_results.value == right_cmd) {
+            lcd.setCursor(0, 1);
+            lcd.print("Atras     ");
+          }
+          else if (ir_results.value == right_cmd)
+          {
             turnRight();
-          } else if (ir_results.value == left_cmd) {
+            lcd.setCursor(0, 1);
+            lcd.print("Derecha   ");
+          }
+          else if (ir_results.value == left_cmd)
+          {
             turnLeft();
-          } else if (ir_results.value == stop_cmd) {
+            lcd.setCursor(0, 1);
+            lcd.print("Izquierda ");
+          }
+          else if (ir_results.value == stop_cmd)
+          {
             stopMotors();
-          } else if (ir_results.value == option2_cmd || ir_results.value == option3_cmd) {
+            lcd.setCursor(0, 1);
+            lcd.print("Detenido  ");
+          }
+          else if (ir_results.value == option2_cmd || ir_results.value == option3_cmd)
+          {
             break;
           }
           ir_receiver.resume();
         }
       }
-    } else if (ir_results.value == option2_cmd) {
+    }
+    else if (ir_results.value == option2_cmd)
+    {
       manual_control = false;
       obstacle_detection = true;
       line_following = false;
+      lcd.clear();
+      lcd.print("Evitar Obstaculos");
 
-      while (obstacle_detection) {
+      while (obstacle_detection)
+      {
         int distance = getDistance();
-        if (distance <= 30) {
+        if (distance <= 30)
+        {
           stopMotors();
           delay(100);
           moveBackward();
@@ -171,44 +264,60 @@ void loop() {
           int distance_left = lookLeft();
           delay(200);
 
-          if (distance_right >= distance_left) {
+          if (distance_right >= distance_left)
+          {
             turnRight();
             stopMotors();
-          } else {
+          }
+          else
+          {
             turnLeft();
             stopMotors();
           }
-        } else {
+        }
+        else
+        {
           moveForward();
         }
 
-        if (ir_receiver.decode(&ir_results)) {
-          if (ir_results.value == option1_cmd || ir_results.value == option3_cmd) {
+        if (ir_receiver.decode(&ir_results))
+        {
+          if (ir_results.value == option1_cmd || ir_results.value == option3_cmd)
+          {
             break;
           }
           ir_receiver.resume();
         }
       }
-    } else if (ir_results.value == option3_cmd) {
+    }
+    else if (ir_results.value == option3_cmd)
+    {
       manual_control = false;
       obstacle_detection = false;
       line_following = true;
+      lcd.clear();
+      lcd.print("Seguir Linea");
 
-      while (line_following) {
-        int right_sensor_value = analogRead(right_line_sensor);
-        int middle_sensor_value = analogRead(middle_line_sensor);
-        int left_sensor_value = analogRead(left_line_sensor);
+      while (line_following)
+      {
+        int sensor_value = analogRead(line_sensor);
 
-        if (middle_sensor_value >= 80 && right_sensor_value >= 80) {
-          turnLeft();
-        } else if (middle_sensor_value >= 80 && left_sensor_value >= 80) {
-          turnRight();
-        } else if (middle_sensor_value >= 80) {
+        if (sensor_value >= 80)
+        {
           moveForward();
         }
+        else
+        {
+          stopMotors();
+          delay(100);
+          turnRight(); // O turnLeft() dependiendo de tu configuración
+          delay(300);
+        }
 
-        if (ir_receiver.decode(&ir_results)) {
-          if (ir_results.value == option1_cmd || ir_results.value == option2_cmd) {
+        if (ir_receiver.decode(&ir_results))
+        {
+          if (ir_results.value == option1_cmd || ir_results.value == option2_cmd)
+          {
             break;
           }
           ir_receiver.resume();
