@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-int contarCaracteres(const char *cadena);
+int ft_strlen(const char *cadena);
 int contarPalabras(const char *cadena); 
 void reemplazarVocales(char *cadena);
 
@@ -23,29 +23,32 @@ int main()
     return 0; 
 }
 
-int contarCaracteres(const char *cadena) {
-    int contador = 0;
-    while (*cadena != '\0') {
-        contador++;
-        cadena++;
-    }
-    return contador;
+int ft_strlen(const char *cadena)
+{
+   int a = 0; 
+   while (cadena[a] != '\0')
+   {
+    a++;
+   }
+   return a; 
 }
 
-int contarPalabras(const char *cadena) {
-    int contador = 0;
-    bool dentroPalabra = false;
+int contarPalabras(const char *cadena)
+{
+    int a = 0;
+    bool dentro = false;  
 
-    while (*cadena != '\0') {
-        if (*cadena == ' ' || *cadena == '\t' || *cadena == '\n') {
-            dentroPalabra = false;
-        } else if (!dentroPalabra) {
-            dentroPalabra = true;
-            contador++;
+    while(*cadena != '\0')
+    {
+        if (*cadena != ' ' || *cadena != '\t' || *cadena != '\n')
+                dentro = false; 
+        else if (dentro = '0')
+        {
+            dentro = true;
+            a++; 
         }
-        cadena++;
     }
-    return contador;
+    cadena++; 
 }
 
 void reemplazarVocales(char *cadena) {
@@ -67,3 +70,5 @@ void reemplazarVocales(char *cadena) {
         cadena++;
     }
 }
+
+
