@@ -59,7 +59,9 @@
   "C_Cpp.dimInactiveRegions": false,
   "files.associations": {
     "string.h": "c",
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "random": "c",
+    "limits": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
