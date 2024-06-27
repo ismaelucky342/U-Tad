@@ -5,17 +5,9 @@
 #define NUM_MAX_CARACTERES 15
 
 
-// Funcion que valida el formato del login (3 numeros, 1 letra MAY, 1 letra min y un guión
-// y devuelve 1 su es valido y 0 en caso contrario
 int validaLogin(char login[NUM_MAX_CARACTERES]);
-
-// Genera la password según el algortimo de transformación
 void generaPassword(char login[NUM_MAX_CARACTERES], char password[NUM_MAX_CARACTERES]);
 
-// Función que valida el formato del login (3 numeros, 1 letra MAY, 1 letra min y un guión
-// y devuelve 1 su es valido y 0 en caso contrario
-// al mismo tiempo genera la password según el algortimo de transformación
-// int validaLoginYgeneraPasswd(char login[NUM_MAX_CARACTERES], char password[NUM_MAX_CARACTERES]);
 
 
 int main()
@@ -49,22 +41,18 @@ int main()
 				i=0;
 				car=getchar();
 			}
-			else // car=='\n' y long >=8
+			else 
 			{
 				salir=1;
 			}
 		}
 		
-		// si nos hemos salido porque car!='\n' y la long supera el maximo, limpiamos el buffer
 		if (car!='\n') while(getchar()!='\n');
 		
-		// y terminamos el login
 		login[i]='\0';
 		printf("\n===>El login introducido es: %s\n", login);
 		printf("===> Su longitud es: %d\n", i);
 		
-		// Validamos si tiene el formato adecuado
-		//if (validaLoginYgeneraPasswd(login, password) == 0)
 		if (validaLogin(login) == 0)
 		{
 			printf("\n===>El login NO ES valido, intentalo de nuevo\n");
@@ -83,7 +71,6 @@ int main()
 	
 }
 
-// Funcion que valida si el formato del login es correcto
 int validaLogin(char login[NUM_MAX_CARACTERES])
 {
 	int i=0;
@@ -122,7 +109,6 @@ int validaLogin(char login[NUM_MAX_CARACTERES])
 	
 }
 
-// Función que genera la password con el algoritmo de transformación
 void generaPassword(char login[NUM_MAX_CARACTERES], char password[NUM_MAX_CARACTERES])
 {
 	int i=0, j=0;
@@ -155,9 +141,8 @@ void generaPassword(char login[NUM_MAX_CARACTERES], char password[NUM_MAX_CARACT
 	
 	printf("Primera parte de la transformacion de la passwd: %s\n", aux_passwd);
 	
-	// Ahora invertimos la password para transformarla totalmente
 	i=0;
-	while(aux_passwd[i] != '\0')	// "hola"  j=4 i=0
+	while(aux_passwd[i] != '\0')	
 	{
 		password[i] = aux_passwd[j-1];
 		i++;
@@ -166,82 +151,3 @@ void generaPassword(char login[NUM_MAX_CARACTERES], char password[NUM_MAX_CARACT
 	password[i]='\0';
 	
 }
-
-
-/*
-
-// Función que genera la password con el algoritmo de transformación
-void generaPassword(char login[NUM_MAX_CARACTERES], char password[NUM_MAX_CARACTERES])
-{
-	int i=0, j=0;
-	
-	while(login[i] != '\0')
-	{
-		if (login[i] >= '0' && login[i] <='9')
-		{
-			password[j] = login[i] + ('z' - '9');
-
-		}
-		else if (login[i] >= 'A' && login[i] <='Z')
-		{
-			password[j] = login[i] + ('a' -'A');
-		}
-		else if (login[i] >= 'a' && login[i] <='z')
-		{
-			password[j] = login[i] - ('a' -'A');
-		}
-		else if (login[i] == '-')
-		{
-			password[j] = '*';
-		}
-		i++;
-		j++;
-	}
-	password[j]='\0';
-}
-*/
-
-
-
-// Función que valida el formato del login y genera la password al mismo tiempo. 
-//int validaLoginYgeneraPasswd(char login[NUM_MAX_CARACTERES], char password[NUM_MAX_CARACTERES])
-/*
-{
-	int i=0,j=0;
-	int cont_nums=0;
-	int cont_may=0;
-	int cont_min=0;
-	int cont_guion=0;
-	
-	while(login[i] != '\0')
-	{
-		if (login[i] >= '0' && login[i] <='9')
-		{
-			cont_nums++;
-			password[j] = login[i] + ('z' - '9');
-		}
-		else if (login[i] >='A' && login[i] <='Z')
-		{
-			cont_may++;
-			password[j] = login[i] + ('a' -'A');
-		}
-		else if (login[i] >= 'a' && login[i] <='z')
-		{
-			cont_min++;
-			password[j] = login[i] - ('a' -'A');
-		}
-		else if (login[i] == '-')
-		{
-			cont_guion++;
-			password[j] = '*';
-		}
-		i++;
-		j++;
-	}
-	password[j]='\0';
-	
-	if (cont_nums>=3 && cont_may>=1 && cont_min>=1 && cont_guion>=1) return 1;
-	else return 0;
-	
-}
-*/
