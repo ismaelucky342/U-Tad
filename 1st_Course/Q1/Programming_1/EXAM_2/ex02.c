@@ -21,7 +21,7 @@ int main()
     {
         printf("%.2f", temperaturas[i]);
     }
-    printf("\
+    printf("\n");
 
     return 0;
 }
