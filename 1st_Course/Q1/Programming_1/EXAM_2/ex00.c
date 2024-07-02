@@ -19,9 +19,7 @@ int main(int argc, char** argv)
 	int terminaciones[NUM_TERMINACIONES]={0,0,0,0,0,0,0,0,0,0};		
 	
 	printf("Introduce 12 números entre 0 y 90.000. Deben ser los premiados en los últimos 12 sorteos\n");
-	
 	leeNumeros(num_premiados, NUM_ELEMENTOS);
-	
 	
 	printf("\n==> Los números premiados en los últimos 12 sorteos son:\n");
 	
@@ -29,18 +27,15 @@ int main(int argc, char** argv)
 	{
 		 printf("%d	", num_premiados[i] );
 	}
-	printf("\n");
-	
+	printf("\n");	
 	calculaTerminaciones(terminaciones, num_premiados, NUM_ELEMENTOS); 
 	
 	for (i=0; i<NUM_TERMINACIONES; i++)
 	{
 		printf("Numeros terminados en %d: %d\n", i, terminaciones[i]);
 	}
-	
 	int termPopular = terminacionMasPopular(terminaciones, NUM_TERMINACIONES);
 	printf("==> La terminación más popular en estos años ha sido el: %d\n", termPopular); 
-	
 	
 	numMasAlto= maximoNumeroPremiado(num_premiados, NUM_ELEMENTOS);
 	printf("\n==>El número premiado más alto premiado en estos últimos años ha sido el: %d\n", numMasAlto);
@@ -50,7 +45,6 @@ int main(int argc, char** argv)
 void leeNumeros(int num_premiados[], int num_elementos)
 {
 	int res;
-	
 	
 	for (int i=0; i<num_elementos; i++)
 	{
@@ -62,18 +56,12 @@ void leeNumeros(int num_premiados[], int num_elementos)
 			 if (res!=1) printf("El dato no es válido\n");
 		}while (num_premiados[i] <= 0 || num_premiados[i] > 90000 || res!=1);
 	}
-
-	
-	
-	
 }
 
 void calculaTerminaciones(int terminaciones[], int num_premiados[], int num_elementos)
 {
 	int cifra;
 		
-	// Calculamos para cada número su terminación y la usamos como indice de un array para 
-	// ir contando cuantos números han acabado en dicha terminación
 	for (int i=0; i<num_elementos; i++)
 	{
 		cifra=num_premiados[i]%10;
@@ -84,9 +72,6 @@ void calculaTerminaciones(int terminaciones[], int num_premiados[], int num_elem
 
 int terminacionMasPopular(int terminaciones[], int num_elementos)
 {
-	// Tenemos que calcular la terminacion que ha salido más veces
-	// Primero calculamos el maximo de terminacions[] y devilvemos el índice asociado que se corresponde 
-	// precisamente con la terminación
 	int numMax, popular;
 	
 	numMax=terminaciones[0];

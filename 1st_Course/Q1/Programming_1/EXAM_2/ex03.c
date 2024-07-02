@@ -15,29 +15,108 @@ Mostrarlo al usuario
 */
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
-#define MAX_LEN 200
+int contar_vocales(const char *frase);
+int contar_consonantes(const char *frase);
+int contar_palabras(const char *frase);
 
 int main()
 {
-}
+    char    frase[201];
 
-int is_valid(char c)
+    printf("Introduce una frase (solo letras minúsculas y espacios, máximo 200 caracteres): ");
+    fgets(frase, sizeof(frase), stdin);
 
-
-int str_len(char *str)
-{
-    int aux = 0;
-    while (str[aux] != '\0')
+    // Eliminar el salto de línea al final si está presente
+    size_t len = strlen(frase);
+    if (len > 0 && frase[len - 1] == '\n')
     {
-        aux++;
+        frase[len - 1] = '\0';
     }
-    return aux;
+
+    // Validar la frase
+    int valida = 1;
+    for (int i = 0; frase[i] != '\0'; i++)
+    {
+        if (!(islower(frase[i]) || frase[i] == ' '))
+        {
+            valida = 0;
+            break;
+        }
+    }
+
+    if (!valida)
+    {
+        printf("La frase contiene caracteres inválidos.\n");
+        return 1;
+    }
+
+    // Calcular estadísticas
+    int num_caracteres = strlen(frase);
+    int num_vocales = contar_vocales(frase);
+    int num_consonantes = contar_consonantes(frase);
+    int num_palabras = contar_palabras(frase);
+
+    // Mostrar resultados
+    printf("Número total de caracteres: %d\n", num_caracteres);
+    printf("Número de vocales: %d\n", num_vocales);
+    printf("Número de consonantes: %d\n", num_consonantes);
+    printf("Número de palabras: %d\n", num_palabras);
+
+    return 0;
 }
 
-int wordcount(char *str)
+int contar_vocales(const char *frase)
 {
+    int vocales = 0;
+    for (int i = 0; frase[i] != '\0'; i++)
+    {
+        char c = frase[i];
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+        {
+            vocales++;
+        }
+    }
+    return vocales;
+}
 
+// Función para contar consonantes
+int contar_consonantes(const char *frase)
+{
+    int consonantes = 0;
+    for (int i = 0; frase[i] != '\0'; i++)
+    {
+        char c = frase[i];
+        if (isalpha(c) && !(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'))
+        {
+            consonantes++;
+        }
+    }
+    return consonantes;
+}
+
+// Función para contar palabras
+int contar_palabras(const char *frase)
+{
+    int palabras = 0;
+    int inWord = 0; // Variable para verificar si estamos dentro de una palabra
+
+    for (int i = 0; frase[i] != '\0'; i++)
+    {
+        if (isalpha(frase[i]))
+        {
+            if (!inWord)
+            {
+                palabras++;
+                inWord = 1; // Estamos dentro de una palabra
+            }
+        }
+        else
+        {
+            inWord = 0; // Hemos salido de una palabra
+        }
+    }
+    return palabras;
 }
