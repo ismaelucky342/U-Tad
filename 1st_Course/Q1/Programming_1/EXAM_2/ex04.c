@@ -69,21 +69,19 @@ void leeTemperaturas(int temperaturas[], int num_dias)
     for (int i = 0; i < num_dias; i++)
     {
         printf("Introduce la temperatura %d: ", i + 1);
-        res = scanf("%d", &temperaturas[i]);
-        while (getchar() != '\n'); 
+        res = 0;
 
         // Verificar si la entrada es válida y está dentro del rango
         while (res != 1 || temperaturas[i] < TEMP_MIN || temperaturas[i] > TEMP_MAX)
         {
+            res = scanf("%d", &temperaturas[i]);
+            while (getchar() != '\n'); 
             if (res != 1) {
                 printf("El dato no es válido. Inténtalo de nuevo.\n");
             } else if (temperaturas[i] < TEMP_MIN || temperaturas[i] > TEMP_MAX) {
                 printf("Incorrecto, temperatura no válida. Debe estar entre %d y %d.\n", TEMP_MIN, TEMP_MAX);
             }
             // Pedir nuevamente la temperatura
-            printf("Introduce la temperatura %d: ", i + 1);
-            res = scanf("%d", &temperaturas[i]);
-            while (getchar() != '\n'); 
         }
     }
 }
