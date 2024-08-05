@@ -4,6 +4,7 @@ Projects and content carried out during my Double Degree in Computer Science and
 
 The repository will be organized by academic year, semester and finally by subject, where I have stored practical materials from the subjects, personal projects and exams. 
 # 1st Course: 
+
 ### Q1: 
 - Introduction to Programming I	(C)
 - Web Development Fundamentals (html,css,js)
@@ -14,13 +15,27 @@ The repository will be organized by academic year, semester and finally by subje
 - Computer Architecture (Assembly)
 - Database and Distributed Systems Laboratory (mysql, dbeaver ..)
 - Introduction to Programming II (C / C++)
-- Algebra 
-
-### Extra
+- Algebra
+  
+### Annual: 
 - Projects I: Digital Techniques and Technologies (Arduino / C++)
 
 
-# 2nd Course: (coming soon)
+# 2nd Course: 
+### Q1:
+- Fundamentals of Visual Composition
+- Object Oriented Programming
+- Computer Networks
+- Operating Systems
+  
+### Q2: 
+- Analysis and Design of Algorithms
+- Data Base
+- Software Design
+
+### Annual: 
+- Projects II: Trends in Software Engineering
+
 # 3th Course: (coming soon)
 # 4th Course: (coming soon)
 # 5th Course: (coming soon)
