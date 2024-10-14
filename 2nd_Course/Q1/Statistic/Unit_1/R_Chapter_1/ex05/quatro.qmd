@@ -1,0 +1,2 @@
+install.packages("quarto") # instalar el paquete quarto
+quarto::install_quarto() # instalar Quarto
