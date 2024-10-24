@@ -1,16 +1,9 @@
 ---
 title: "Muestreo y Análisis de los Pingüinos del Archipiélago Palmer"
-<<<<<<< Updated upstream
-author: "Nombre Apellido1 Apellido2"
+author: "Ismael Hernández Clemente"
 lang: es
 format: 
   html:
-=======
-author: "Ismael Hernandez Clemente"
-lang: es
-format: 
-  html: 
->>>>>>> Stashed changes
     embed-resources: true
 ---
 
@@ -41,11 +34,13 @@ Construye una tabla de contingencia de la variables `sex` y `species`.
 La siguiente tabla de contingencia muestra la frecuencia absoluta de cada combinación de sex y species, así como los totales marginales.
 
 ```{r}
-<<<<<<< Updated upstream
 # Construye aquí la tabla de contingencia
 # Almacena la tabla en la variable tabla_sexo_especie
-tabla_sexo_especie <- table(penguins$sex, penguins$species)
-kable(addmargins(tabla_sexo_especie), caption = "Tabla de contingencia de la variable `sex` y `species`")
+# Construir la tabla de contingencia
+tabla_sexo_especie <- addmargins(table(penguins$sex, penguins$species))
+
+# Mostrar la tabla
+kable(tabla_sexo_especie, caption = "Tabla de contingencia de la variable `sex` y `species`")
 
 ```
 
@@ -76,34 +71,14 @@ kable(tabla_sexo_especie, caption = "Tabla de contingencia de la variable `sex` 
 ```
 
 **Análisis:**
-La tabla muestra que la distribución de machos y hembras varía entre especies. Los Adelia tienen un número similar de machos y hembras, mientras que los Gentoo tienen más machos y los Chinstrap más hembras. Hay datos faltantes en la variable sexo.
-=======
-# Construcción de la tabla de contingencia de las variables `sex` y `species`
-tabla_sexo_especie <- addmargins(table(penguins$species, penguins$sex))
-
-# Muestra la tabla de contingencia
-kable(tabla_sexo_especie, caption = "Tabla de contingencia de la variable `sex` y `species`")
-
-# Comentario sobre la distribución
-cat("La tabla de contingencia muestra que las tres especies de pingüinos (Adelie, Chinstrap, Gentoo) tienen una distribución desigual en cuanto al sexo. La especie Adelie cuenta con la mayor cantidad de observaciones tanto de machos como de hembras. La especie Gentoo tiene una proporción ligeramente mayor de machos que de hembras, mientras que en la especie Chinstrap no hay una gran diferencia en la distribución por sexo. Sin embargo, hay algunos valores faltantes para el sexo en todas las especies, lo que puede influir en la interpretación general de la distribución de sexos.")
-
-
-**Análisis:**
->>>>>>> Stashed changes
-
+En la tabla de contingencia, se observa que la distribución de las especies de pingüinos es bastante equitativa, con las tres especies principales (Adelie, Chinstrap y Gentoo) representadas. Dentro de cada especie, no hay una gran diferencia entre el número de machos y hembras, aunque algunos valores pueden estar desbalanceados por datos faltantes. Los pingüinos Gentoo tienen una representación más uniforme en cuanto al sexo en comparación con los Adelie, quienes muestran una ligera preponderancia de hembras.
 ## 2. Muestra
 
 ```{r}
 #| echo: false
 # Fijar la semilla para reproducibilidad
-<<<<<<< Updated upstream
-dia_nacimiento <- 22  # Introduce aquí tu día de nacimiento (si has nacido el 22 de abril, 22)
+dia_nacimiento <- 3  # Reemplazar con tu día de nacimiento
 set.seed(dia_nacimiento)
-
-=======
-dia_nacimiento <- NULL  # Introduce aquí tu día de nacimiento (si has nacido el 22 de abril, 22)
-set.seed(dia_nacimiento)
->>>>>>> Stashed changes
 ```
 
 ```{r NO MODIFICAR ESTA CELDA test dia_nacimiento}
@@ -127,18 +102,14 @@ Realiza un **muestreo estratificado uniforme** por especie para obtener una mues
 :::
 
 ```{r}
-# Realiza aquí el muestreo estratificado uniforme
-# Almacena la muestra en la variable muestra_penguins
-<<<<<<< Updated upstream
 library(dplyr)
+# Realizar muestreo estratificado por especie
 muestra_penguins <- penguins %>%
   group_by(species) %>%
-  sample_n(40)
-kable(head(muestra_penguins, 5), caption = "Muestra de pingüinos seleccionada")
+  sample_n(size = 120 / n_distinct(penguins$species))
 
-=======
-muestra_penguins <- NULL
->>>>>>> Stashed changes
+# Mostrar la muestra
+kable(head(muestra_penguins, 5), caption = "Muestra de pingüinos")
 ```
 
 ```{r NO MODIFICAR ESTA CELDA test muestra_penguins}
@@ -180,19 +151,17 @@ Con la muestra obtenida `muestra_penguins`, construye una **tabla de frecuencias
 
 La siguiente tabla muestra la frecuencia absoluta de cada categoría de la variable `island`.
 ```{r}
-# Construye aquí la tabla de frecuencias de la variable `island`
-<<<<<<< Updated upstream
+# Tabla de frecuencias de la variable island
 tabla_frecuencias_isla <- muestra_penguins %>%
   count(island) %>%
-  mutate(f_i = n / sum(n),
+  mutate(n_i = n,
+         f_i = n / sum(n),
          N_i = cumsum(n),
          F_i = cumsum(f_i))
+
+# Mostrar la tabla
 kable(tabla_frecuencias_isla, digits = 3, caption = "Tabla de frecuencias de la variable `island`")
 
-=======
-# Almacena la tabla en la variable tabla_frecuencias_isla
-tabla_frecuencias_isla <- NULL
->>>>>>> Stashed changes
 ```
 
 ```{r NO MODIFICAR ESTA CELDA test tabla_frecuencias_isla}
@@ -221,11 +190,7 @@ kable(tabla_frecuencias_isla, digits = 3, caption = "Tabla de frecuencias de la 
 ```
 
 **Análisis:**
-<<<<<<< Updated upstream
-La mayoría de los pingüinos en la muestra provienen de la isla Biscoe, seguida de Dream y Torgersen.
-=======
->>>>>>> Stashed changes
-
+La tabla de frecuencias de la variable island revela que la mayoría de los pingüinos de la muestra provienen de la isla Biscoe, lo cual sugiere que esta isla alberga una mayor cantidad de pingüinos o es más accesible para la recolección de datos. Las otras dos islas, Dream y Torgersen, tienen una representación menor. Este desequilibrio puede deberse a diferencias en los hábitats o en los esfuerzos de muestreo en cada isla.
 ### 2.2. Análisis del peso de los pingüinos (de la muestra)
 
 ::: {.callout-note collapse="true"}
@@ -249,21 +214,18 @@ Con la muestra obtenida `muestra_penguins`, construye una **tabla de frecuencias
 La siguiente tabla muestra la frecuencia absoluta agrupada en intervalos de la variable `body_mass_g`.
 
 ```{r}
-# Construye aquí la tabla de frecuencias de la variable `body_mass_g`
-<<<<<<< Updated upstream
+# Definir intervalos para el peso
+breaks <- seq(2500, 6500, by = 500)
 tabla_frecuencias_peso <- muestra_penguins %>%
-  mutate(body_mass_g_interval = cut(body_mass_g, breaks = seq(2500, 6500, by = 500), include.lowest = TRUE)) %>%
-  count(body_mass_g_interval) %>%
-  mutate(x_i = (as.numeric(sub(".*, ", "", body_mass_g_interval)) + as.numeric(sub("\\(.*", "", body_mass_g_interval))) / 2,
+  mutate(intervalo = cut(body_mass_g, breaks, include.lowest = TRUE)) %>%
+  count(intervalo) %>%
+  mutate(x_i = (lag(breaks) + breaks) / 2,  # Marca de clase
          f_i = n / sum(n),
          N_i = cumsum(n),
          F_i = cumsum(f_i))
-kable(tabla_frecuencias_peso, digits = 3, caption = "Tabla de frecuencias de la variable `body_mass_g`")
 
-=======
-# Almacena la tabla en la variable tabla_frecuencias_peso
-tabla_frecuencias_peso <- NULL
->>>>>>> Stashed changes
+# Mostrar la tabla
+kable(tabla_frecuencias_peso, digits = 3, caption = "Tabla de frecuencias de la variable `body_mass_g`")
 ```
 
 ```{r NO MODIFICAR ESTA CELDA test tabla_frecuencias_peso}
@@ -292,11 +254,7 @@ kable(tabla_frecuencias_peso, digits = 3, caption = "Tabla de frecuencias de la 
 ```
 
 **Análisis:**
-<<<<<<< Updated upstream
- La mayoría de los pingüinos en la muestra pesan entre 3500 g y 4500 g, lo que refleja una distribución relativamente normal, con menos pingüinos en los extremos del rango de peso.
-=======
-
->>>>>>> Stashed changes
+La distribución del peso de los pingüinos, agrupada en intervalos de 500 g, muestra una tendencia centrada en el rango de 3500 g a 4500 g, lo que sugiere que la mayoría de los pingüinos en la muestra tienen un peso corporal dentro de este rango. Hay algunos casos de pingüinos más ligeros o más pesados, pero son menos comunes. Esta distribución es consistente con las diferencias en las especies de pingüinos, ya que cada especie tiene un tamaño y peso corporal característico.
 
 ```{r NO MODIFICAR ESTA CELDA}
 #| echo: false
