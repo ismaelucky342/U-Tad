@@ -17,7 +17,7 @@ The repository will be organized by academic year, semester and finally by subje
 - Introduction to Programming II (C / C++)
 - Algebra
   
-### Annual: 
+### Full-year Project: 
 - Projects I: Digital Techniques and Technologies (Arduino / C++)
 
 
@@ -33,7 +33,7 @@ The repository will be organized by academic year, semester and finally by subje
 - Data Base
 - Software Design
 
-### Annual: 
+### Full-year Project: 
 - Projects II: Trends in Software Engineering
 
 # 3th Course: (coming soon)
