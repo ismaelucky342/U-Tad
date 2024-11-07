@@ -23,11 +23,12 @@ The repository will be organized by academic year, semester and finally by subje
 
 # 2nd Course: 
 ### Q1:
-- Fundamentals of Visual Composition
-- Object Oriented Programming
-- Computer Networks
-- Operating Systems
-  
+- Fundamentals of Visual Composition (Blender)
+- Object Oriented Programming (java)
+- Computer Networks (Wireshark, Ubuntu)
+- Operating Systems (C / Assembly)
+- Statistics (R , RStudio) 
+
 ### Q2: 
 - Analysis and Design of Algorithms
 - Data Base
