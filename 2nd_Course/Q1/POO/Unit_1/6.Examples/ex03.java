@@ -34,5 +34,6 @@ public class ex03{
         }else{
             System.out.println("No se ha introducido ningún número");
         }
+        sc.close();
     }
 }

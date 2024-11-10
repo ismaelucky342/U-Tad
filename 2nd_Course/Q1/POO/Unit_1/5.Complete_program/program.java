@@ -3,11 +3,11 @@ class Persona {
     int age; 
 
     public void talk() {
-        System.out.println("Hello my name is " + name + " i'm " + age "years old");
+        System.out.println("Hello my name is " + name + " i'm " + age + " years old");
     }
 }
 
-public class main {
+public class program {
     public static void main(String[] args) {
         Persona persona1 = new Persona(); 
         persona1.name = "Juan"; 

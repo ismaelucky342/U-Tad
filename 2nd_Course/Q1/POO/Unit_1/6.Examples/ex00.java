@@ -18,5 +18,6 @@ public class ex00 {
 
         result = n1 * n2 * n3;
         System.out.println("The result is: " + result);
+        sc.close();
     }
 }
