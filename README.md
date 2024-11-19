@@ -17,23 +17,24 @@ The repository will be organized by academic year, semester and finally by subje
 - Introduction to Programming II (C / C++)
 - Algebra
   
-### Annual: 
+### Full-year Project: 
 - Projects I: Digital Techniques and Technologies (Arduino / C++)
 
 
 # 2nd Course: 
 ### Q1:
-- Fundamentals of Visual Composition
-- Object Oriented Programming
-- Computer Networks
-- Operating Systems
-  
+- Fundamentals of Visual Composition (Blender)
+- Object Oriented Programming (java)
+- Computer Networks (Wireshark, Ubuntu)
+- Operating Systems (C / Assembly)
+- Statistics (R , RStudio) 
+
 ### Q2: 
 - Analysis and Design of Algorithms
 - Data Base
 - Software Design
 
-### Annual: 
+### Full-year Project: 
 - Projects II: Trends in Software Engineering
 
 # 3th Course: (coming soon)
