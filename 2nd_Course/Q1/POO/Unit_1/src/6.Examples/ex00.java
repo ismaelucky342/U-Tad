@@ -1,7 +1,6 @@
 /*
 Escribir un programa en Java que calcule el producto de tres números enteros introducidos por el usuario.
 */
-
 import java.util.Scanner;
 
 public class ex00 {

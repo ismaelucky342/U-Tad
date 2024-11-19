@@ -7,23 +7,21 @@ import java.util.Scanner;
 public class ex01 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        
-        System.out.print("Introduce un número entero: ");
-        int numero = scanner.nextInt();
-        
-        int multiplicacion = numero * 20;
-        int division1 = multiplicacion / 10;
-        System.out.println("Resultado de la división por 10 de la multiplicación: " + division1);
-        
-        int suma = numero + multiplicacion;
-        int division2 = suma / 10;
-        System.out.println("Resultado de la división por 10 de la suma: " + division2);
-        
-        int resto = suma % 10;
-        if (resto != 0) {
-            System.out.println("El resto es: " + resto);
+        System.out.println("Introduce a number: \n");
+        int number = scanner.nextInt();
+
+        int result = number * 20;
+        double division = result / 10; 
+        System.out.println("The result is: " + division);
+
+        int sum = result + number;
+        double result2 = sum / 10;
+        System.out.println("The result is: " + result2);
+
+        int resit = sum % 10;
+        if (resit != 0) {
+            System.out.println("The rest is: " + resit);
         }
-        
         scanner.close();
     }
 }

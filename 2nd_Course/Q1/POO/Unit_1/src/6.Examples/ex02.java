@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class ex02{
     public static void main(String[] args){
-        Scanner sc = new Scaneer(System.in);
+        Scanner sc = new Scanner(System.in);
         char continuar = 's';
         while(continuar == 's'){
             System.out.println("Introduce un número: ");
