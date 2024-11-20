@@ -1,26 +1,15 @@
-# Datos de frecuencia de uso (veces por semana) y número de jugadores
-frecuencia_uso <- c(0, 1, 2, 3, 4, 5, 6, 7, 8)
-frecuencia_jugadores <- c(10, 12, 15, 20, 18, 8, 7, 5, 4)
+# Crear un conjunto de datos de ejemplo
+set.seed(123)
+datos <- rnorm(100)
 
-# Crear un vector de datos distribuidos según las frecuencias
-datos <- rep(frecuencia_uso, frecuencia_jugadores)
+# Calcular el percentil 25
+percentil_25 <- quantile(datos, 0.25)
 
-# Calcular la media
-media <- mean(datos)
-cat("La media de frecuencia de uso es:", media, "\n")
+# Dibujar el diagrama de caja y bigotes
+boxplot(datos, main = "Diagrama de Caja y Bigotes", col = "lightblue")
 
-# Crear el diagrama de caja
-par(mfrow=c(1,2))  # Coloca los gráficos lado a lado
-boxplot(datos, main="Diagrama de caja de frecuencia de uso", 
-        ylab="Frecuencia de uso (veces por semana)", 
-        col="lightblue", border="blue")
+# Añadir una línea roja en el percentil 25
+abline(h = percentil_25, col = "red", lwd = 2, lty = 2)
 
-# Crear el diagrama de barras
-barplot(frecuencia_jugadores, names.arg=frecuencia_uso, 
-        main="Frecuencia de uso de la tienda in-game", 
-        xlab="Frecuencia de uso (veces por semana)", 
-        ylab="Número de jugadores", 
-        col="lightgreen", border="darkgreen")
-
-# Restaurar la disposición del gráfico a uno solo
-par(mfrow=c(1,1))
+# Añadir una etiqueta para señalar el percentil 25
+text(x = 1.3, y = percentil_25, labels = paste("Percentil 25:\n", round(percentil_25, 2)), col = "red")

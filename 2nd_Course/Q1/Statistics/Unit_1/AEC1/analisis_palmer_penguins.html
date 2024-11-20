@@ -46,29 +46,25 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="datos-de-frecuencia-de-uso-veces-por-semana-y-número-de-jugadores" class="level1">
-<h1>Datos de frecuencia de uso (veces por semana) y número de jugadores</h1>
-<p>frecuencia_uso &lt;- c(0, 1, 2, 3, 4, 5, 6, 7, 8) frecuencia_jugadores &lt;- c(10, 12, 15, 20, 18, 8, 7, 5, 4)</p>
+<section id="crear-un-conjunto-de-datos-de-ejemplo" class="level1">
+<h1>Crear un conjunto de datos de ejemplo</h1>
+<p>set.seed(123) datos &lt;- rnorm(100)</p>
 </section>
-<section id="crear-un-vector-de-datos-distribuidos-según-las-frecuencias" class="level1">
-<h1>Crear un vector de datos distribuidos según las frecuencias</h1>
-<p>datos &lt;- rep(frecuencia_uso, frecuencia_jugadores)</p>
+<section id="calcular-el-percentil-25" class="level1">
+<h1>Calcular el percentil 25</h1>
+<p>percentil_25 &lt;- quantile(datos, 0.25)</p>
 </section>
-<section id="calcular-la-media" class="level1">
-<h1>Calcular la media</h1>
-<p>media &lt;- mean(datos) cat(“La media de frecuencia de uso es:”, media, “”)</p>
+<section id="dibujar-el-diagrama-de-caja-y-bigotes" class="level1">
+<h1>Dibujar el diagrama de caja y bigotes</h1>
+<p>boxplot(datos, main = “Diagrama de Caja y Bigotes”, col = “lightblue”)</p>
 </section>
-<section id="crear-el-diagrama-de-caja" class="level1">
-<h1>Crear el diagrama de caja</h1>
-<p>par(mfrow=c(1,2)) # Coloca los gráficos lado a lado boxplot(datos, main=“Diagrama de caja de frecuencia de uso”, ylab=“Frecuencia de uso (veces por semana)”, col=“lightblue”, border=“blue”)</p>
+<section id="añadir-una-línea-roja-en-el-percentil-25" class="level1">
+<h1>Añadir una línea roja en el percentil 25</h1>
+<p>abline(h = percentil_25, col = “red”, lwd = 2, lty = 2)</p>
 </section>
-<section id="crear-el-diagrama-de-barras" class="level1">
-<h1>Crear el diagrama de barras</h1>
-<p>barplot(frecuencia_jugadores, names.arg=frecuencia_uso, main=“Frecuencia de uso de la tienda in-game”, xlab=“Frecuencia de uso (veces por semana)”, ylab=“Número de jugadores”, col=“lightgreen”, border=“darkgreen”)</p>
-</section>
-<section id="restaurar-la-disposición-del-gráfico-a-uno-solo" class="level1">
-<h1>Restaurar la disposición del gráfico a uno solo</h1>
-<p>par(mfrow=c(1,1))</p>
+<section id="añadir-una-etiqueta-para-señalar-el-percentil-25" class="level1">
+<h1>Añadir una etiqueta para señalar el percentil 25</h1>
+<p>text(x = 1.3, y = percentil_25, labels = paste(“Percentil 25:”, round(percentil_25, 2)), col = “red”)</p>
 </section>
 
 </main>
