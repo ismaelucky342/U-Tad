@@ -1,0 +1,202 @@
+---
+title: "Identificación de Distribuciones"
+author: "Ismael Hernández Clemente"
+lang: es
+format: 
+  html:
+    embed-resources: true
+---
+
+## 1. Carga y Exploración Inicial de Datos
+
+::: {.callout-note collapse="true"}
+#### Instrucciones
+- Asegúrate de que el fichero `muestras.Rdata` se encuentra en tu directorio de trabajo o en una ubicación accesible. 
+- Si no se encuentra en el directorio de trabajo, actualiza la variable `path` para que contenga la ruta correcta (`path <- "ruta/del/archivo/muestras.Rdata"`).
+- Carga las muestras del archivo `muestras.Rdata` y realiza una exploración inicial. Una vez cargados los datos, tendrás acceso a las variables `muestra_A` y `muestra_B`.
+- Calcula el tamaño muestral de cada muestra.
+:::
+
+```{r}
+# Path
+path <- "muestras.Rdata"
+# Cargar las muestras
+load(path)
+
+# Explorar las muestras
+head(muestra_A) # Primeros valores de muestra_A
+head(muestra_B) # Primeros valores de muestra_B
+```
+
+**Tamaño muestral muestra_A**
+```{r}
+# Calcula el tamaño muestral de muestra_A
+tm_muestra_A <- length(muestra_A)
+tm_muestra_A # Imprimir tamaño muestral de muestra_A
+
+```
+
+**Tamaño muestral muestra_B**
+```{r}
+# Calcula el tamaño muestral de muestra_B
+tm_muestra_B <- length(muestra_B)
+tm_muestra_B # Imprimir tamaño muestral de muestra_B
+```
+
+## 2. Medidas Estadísticas
+
+::: {.callout-note collapse="true"}
+#### Instrucciones
+- Calcula las siguientes medidas estadísticas para cada muestra y almacénalas en las variables correspondientes. Las medidas incluyen:
+  - Media
+  - Mediana
+  - Moda
+  - Primer cuartil (Q1)
+  - Tercer cuartil (Q3)
+  - Rango
+  - Varianza
+  - Desviación típica
+
+- Escribe un breve comentario (máximo 200 palabras) sobre las diferencias más significativas entre ambas muestras basadas en estas medidas.
+
+:::
+
+```{r}
+# Medidas estadísticas para muestra_A
+media_A <- mean(muestra_A)
+mediana_A <- median(muestra_A)
+moda_A <- as.numeric(names(sort(table(muestra_A), decreasing = TRUE)[1]))
+q1_A <- quantile(muestra_A, 0.25)
+q3_A <- quantile(muestra_A, 0.75)
+rango_A <- diff(range(muestra_A))
+varianza_A <- var(muestra_A)
+desv_tipica_A <- sd(muestra_A)
+
+# Medidas estadísticas para muestra_B
+media_B <- mean(muestra_B)
+mediana_B <- median(muestra_B)
+moda_B <- as.numeric(names(sort(table(muestra_B), decreasing = TRUE)[1]))
+q1_B <- quantile(muestra_B, 0.25)
+q3_B <- quantile(muestra_B, 0.75)
+rango_B <- diff(range(muestra_B))
+varianza_B <- var(muestra_B)
+desv_tipica_B <- sd(muestra_B)
+
+```
+
+```{r}
+# Tabla con las medidas
+medidas <- data.frame(
+  Medida = c("Media", "Mediana", "Moda", "Q1", "Q3", "Rango", "Varianza", "Desviación típica"),
+  Muestra_A = c(media_A, mediana_A, moda_A, q1_A, q3_A, rango_A, varianza_A, desv_tipica_A),
+  Muestra_B = c(media_B, mediana_B, moda_B, q1_B, q3_B, rango_B, varianza_B, desv_tipica_B)
+)
+
+# Mostrar tabla
+knitr::kable(medidas, digits = 3, caption = "Medidas estadísticas de las muestras")
+```
+
+**Análisis basado en las medidas estadísticas:**
+La media y la varianza de muestra_A se asemejan a las propiedades esperadas de una distribución Binomial. Por otro lado, los valores de muestra_B presentan una mayor dispersión y se ajustan mejor a las características de una distribución Poisson (media ≈ varianza).
+
+## 3. Gráficos Estadísticos
+
+::: {.callout-note collapse="true"}
+#### Instrucciones
+- Genera al menos un gráfico estadístico para cada una de las muestras (`muestra_A` y `muestra_B`). 
+- Escribe un breve comentario (máximo 200 palabras) sobre las diferencias más significativas entre ambas muestras basadas en estos gráficos.
+:::
+
+```{r}
+# Gráfico estadístico muestra_A
+# Histograma y gráfico de frecuencias para muestra_A
+
+library(ggplot2)
+
+df_A <- data.frame(Valor = muestra_A)
+p_A <- ggplot(df_A, aes(x = Valor)) +
+  geom_histogram(binwidth = 1, fill = "blue", alpha = 0.7) +
+  labs(title = "Histograma de muestra_A", x = "Valor", y = "Frecuencia") +
+  theme_minimal()
+p_A
+
+```
+
+```{r}
+# Gráfico estadístico muestra_B
+# Histograma y gráfico de frecuencias para muestra_B
+
+df_B <- data.frame(Valor = muestra_B)
+p_B <- ggplot(df_B, aes(x = Valor)) +
+  geom_histogram(binwidth = 1, fill = "green", alpha = 0.7) +
+  labs(title = "Histograma de muestra_B", x = "Valor", y = "Frecuencia") +
+  theme_minimal()
+p_B
+
+```
+
+**Análisis basado en los gráficos estadísticos:**
+El histograma de la muestra_A muestra una simetría clara, lo cual es una característica típica de las distribuciones Binomiales. Esta simetría implica que los valores más frecuentes de la muestra están alrededor de un valor central, lo que corresponde a la media de la distribución. En una distribución Binomial, los resultados más probables tienden a concentrarse en torno a la media, y los valores en los extremos (tanto hacia el 0 como hacia el valor máximo posible) son menos frecuentes.
+
+Por otro lado, el histograma de la muestra_B muestra un comportamiento diferente. Esta muestra presenta una asimetría positiva. Esto significa que los valores de la muestra tienden a acumularse hacia los valores más bajos, pero existe una cola que se extiende hacia la derecha. Esta asimetría es una característica común de las distribuciones Poisson, que suelen tener una forma sesgada hacia la izquierda (hacia valores bajos), pero con la posibilidad de que haya unos pocos valores más altos, lo que provoca que la distribución se "estire" hacia la derecha
+
+
+## 4. Identificación de Distribuciones
+
+### 4.1 Comparación con Distribuciones Teóricas
+
+::: {.callout-note collapse="true"}
+#### Instrucciones
+- Compara las características observadas en las muestras en los apartados anteriores con las propiedades teóricas de las distribuciones Binomial(n=8, p=0.5) y Poisson(λ=4). Para ello debes considerar:
+  - La relación entre las medidas estadísticas de las muestras y las medidas características propias de cada distribución.
+  - La relación entre la función de masa de probabilidad de cada distribución y la frecuencia (relativa) de cada valor en las muestras.
+
+:::
+
+
+### 4.2 Conclusiones
+::: {.callout-note collapse="true"}
+#### Instrucciones
+- Basándote en tu análisis previo, identifica cual de las dos distribuciones es más probable que corresponda a cada muestra: Binomial(n=8, p=0.5) o Poisson(λ=4).
+- Justifica tu elección (máximo 200 palabras para cada muestra) indicando los principales elementos del análisis previo que te han llevado a esta conclusión.
+:::
+
+**Identificación de la Muestra A:** Binomial(n=8, p=0.5) o Poisson(λ=4)
+
+**Justificación:**
+Una distribución Binomial describe el número de éxitos en una secuencia de n experimentos independientes, cada uno con dos posibles resultados (éxito o fracaso), y con una probabilidad constante de éxito p en cada experimento. La media de la muestra_A es aproximadamente 4, lo que es consistente con n*p.La varianza es aproximadamente 2, que también se ajusta bien a la fórmula de la varianza de una Binomial para p=0.5.
+
+**Identificación de la Muestra B:** Binomial(n=8, p=0.5) o Poisson(λ=4)
+
+**Justificación:**
+La muestra_B muestra características que son típicas de una distribución Poisson como describir el número de eventos que ocurren en un intervalo de tiempo o espacio fijo, dado un promedio de ocurrencias.
+En el caso de muestra_B, observamos que la media es aproximadamente 4, lo que sugiere que lamda=4 y la varianza también es aproximadamente 4, lo cual es característico de una distribución Poisson, donde la media y la varianza son iguales.
+
+```{r NO MODIFICAR ESTA CELDA}
+#| echo: false
+# El siguiente código guardará las variables requeridas en 'identificacion_distribuciones.RData'
+# No modifiques este bloque, pero asegúrate de que todas las variables necesarias existen
+
+faltan_variables <- FALSE
+variables_necesarias <- c("media_A", "media_B", "mediana_A", "mediana_B", 
+                         "moda_A", "moda_B", "q1_A", "q1_B", "q3_A", "q3_B",
+                         "rango_A", "rango_B", "varianza_A", "varianza_B",
+                         "desv_tipica_A", "desv_tipica_B")
+variables_faltantes <- variables_necesarias[!sapply(variables_necesarias, exists)]
+
+if(length(variables_faltantes) == 0) {
+  save(list = variables_necesarias, file = "identificacion_distribuciones.RData")
+} else {
+  faltan_variables <- TRUE
+}
+```
+
+```{r NO MODIFICAR ESTA CELDA test save}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr 'faltan_variables'
+cat("::: {.callout-warning}
+### ¡Cuidado!
+No se ha podido generar el fichero `identificacion_distribuciones.RData` porque las siguientes variables no están definidas: `", paste(variables_faltantes, collapse = "`, `"), "`.
+:::")
+```
