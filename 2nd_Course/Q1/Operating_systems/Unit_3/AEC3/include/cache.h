@@ -23,9 +23,9 @@
 
 /*==================================FUNCTIONS============================*/
 
-void resolver_cache_directa();
-void resolver_cache_asociativa();
-void mostrar_ejemplos();
-void mostrar_teoria();
-
+void calculate_direct_mapping(unsigned int address, int block_size);
+void calculate_associative_mapping(unsigned int address, int block_size);
+void calculate_set_associative_mapping(unsigned int address, int block_size, int num_sets);
+void cache_problem_1();
+void cache_problem_2();
 #endif

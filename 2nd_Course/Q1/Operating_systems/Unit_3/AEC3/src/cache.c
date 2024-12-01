@@ -11,88 +11,71 @@
 /*                                                                                                  */
 /****************************************************************************************************/
 
-
 #include "cache.h"
 #include "utils.h"
 
-void resolver_cache_directa()
+void calculate_direct_mapping(unsigned int address, int block_size)
 {
-    int tam_memoria, tam_cache, tam_bloque, num_lineas;
+    int block_offset = address % block_size;
+    int line_number = (address / block_size) % 256;
+    int tag = address / (block_size * 256);
 
-    // Leer datos
-    printf("Ingrese el tamaño de la memoria (en bytes): ");
-    tam_memoria = leer_potencia_dos();
-    printf("Ingrese el tamaño de la caché (en bytes): ");
-    tam_cache = leer_potencia_dos();
-    printf("Ingrese el tamaño del bloque (en bytes): ");
-    tam_bloque = leer_potencia_dos();
-
-    // Cálculos
-    num_lineas = tam_cache / tam_bloque;
-    int bits_bloque = log2(tam_bloque);
-    int bits_linea = log2(num_lineas);
-    int bits_etiqueta = log2(tam_memoria) - (bits_bloque + bits_linea);
-
-    printf("\nEstructura de la dirección:\n");
-    printf("Bits de etiqueta: %d\n", bits_etiqueta);
-    printf("Bits de línea: %d\n", bits_linea);
-    printf("Bits de bloque: %d\n", bits_bloque);
-
-    // Ejemplo práctico
-    printf("\nIngrese una dirección en decimal: ");
-    int direccion = leer_entero();
-    int linea = (direccion / tam_bloque) % num_lineas;
-    int etiqueta = direccion / (num_lineas * tam_bloque);
-
-    printf("\nDescomposición de la dirección:\n");
-    printf("Etiqueta: %d\n", etiqueta);
-    printf("Línea: %d\n", linea);
-    printf("Desplazamiento: %d\n", direccion % tam_bloque);
+    printf("Direct Mapping:\n");
+    printf("Block Offset: %d\n", block_offset);
+    printf("Line Number: %d\n", line_number);
+    printf("Tag: %d\n", tag);
 }
 
-void resolver_cache_asociativa()
+void calculate_associative_mapping(unsigned int address, int block_size)
 {
-    int tam_memoria, tam_cache, tam_bloque, num_conjuntos;
+    int block_offset = address % block_size;
+    int tag = address / block_size;
 
-    // Leer datos
-    printf("Ingrese el tamaño de la memoria (en bytes): ");
-    tam_memoria = leer_potencia_dos();
-    printf("Ingrese el tamaño de la caché (en bytes): ");
-    tam_cache = leer_potencia_dos();
-    printf("Ingrese el tamaño del bloque (en bytes): ");
-    tam_bloque = leer_potencia_dos();
-    printf("Ingrese el número de conjuntos: ");
-    num_conjuntos = leer_potencia_dos();
-
-    // Cálculos
-    int num_lineas = tam_cache / tam_bloque;
-    int num_lineas_por_conjunto = num_lineas / num_conjuntos;
-
-    int bits_bloque = log2(tam_bloque);
-    int bits_conjunto = log2(num_conjuntos);
-    int bits_etiqueta = log2(tam_memoria) - (bits_bloque + bits_conjunto);
-
-    printf("\nEstructura de la dirección:\n");
-    printf("Bits de etiqueta: %d\n", bits_etiqueta);
-    printf("Bits de conjunto: %d\n", bits_conjunto);
-    printf("Bits de bloque: %d\n", bits_bloque);
+    printf("Associative Mapping:\n");
+    printf("Block Offset: %d\n", block_offset);
+    printf("Tag: %d\n", tag);
 }
 
-void mostrar_ejemplos()
+void calculate_set_associative_mapping(unsigned int address, int block_size, int num_sets)
 {
-    printf("\n--- Ejemplo 1: Correspondencia directa ---\n");
-    printf("Memoria: 64KB, Caché: 4KB, Bloque: 64B\n");
-    printf("Resultado: Etiqueta: 9 bits, Línea: 6 bits, Bloque: 6 bits\n");
+    int block_offset = address % block_size;
+    int set_number = (address / block_size) % num_sets;
+    int tag = address / (block_size * num_sets);
 
-    printf("\n--- Ejemplo 2: Correspondencia asociativa ---\n");
-    printf("Memoria: 32KB, Caché: 8KB, Bloque: 32B, Conjuntos: 4\n");
-    printf("Resultado: Etiqueta: 10 bits, Conjunto: 4 bits, Bloque: 5 bits\n");
+    printf("Set-Associative Mapping:\n");
+    printf("Block Offset: %d\n", block_offset);
+    printf("Set Number: %d\n", set_number);
+    printf("Tag: %d\n", tag);
 }
 
-void mostrar_teoria()
+void cache_problem_1()
 {
-    printf("\n--- Teoría de modos de correspondencia ---\n");
-    printf("1. Directa: Cada bloque de memoria mapea a una única línea de caché.\n");
-    printf("2. Asociativa: Un bloque puede estar en cualquier línea de caché.\n");
-    printf("3. Asociativa por conjuntos: La memoria se divide en conjuntos, y un bloque puede estar en cualquier línea de su conjunto.\n");
+    unsigned int address;
+    printf("Enter an address in hexadecimal (without 0x): ");
+    validate_hex_input(&address);
+
+    printf("The entered address is: 0x%X\n", address);
+
+    int block_size = 16;
+    int num_sets = 4;
+
+    calculate_direct_mapping(address, block_size);
+    calculate_associative_mapping(address, block_size);
+    calculate_set_associative_mapping(address, block_size, num_sets);
+}
+
+void cache_problem_2()
+{
+    int block_size;
+    printf("Enter the block size: ");
+    validate_int_input(&block_size);
+
+    printf("The entered block size is: %d\n", block_size);
+
+    unsigned int address = 0x12345678; // Example address
+    int num_sets = 4;
+
+    calculate_direct_mapping(address, block_size);
+    calculate_associative_mapping(address, block_size);
+    calculate_set_associative_mapping(address, block_size, num_sets);
 }

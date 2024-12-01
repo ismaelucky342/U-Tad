@@ -16,24 +16,20 @@
 #include <math.h>
 #include "utils.h"
 
-int leer_entero()
+void validate_hex_input(unsigned int *address)
 {
-    int valor;
-    if (scanf("%d", &valor) != 1)
+    while (scanf("%x", address) != 1)
     {
-        printf("Entrada inválida. Saliendo...\n");
-        exit(EXIT_FAILURE);
+        printf("Invalid input. Please enter a hexadecimal address (without 0x): ");
+        while (getchar() != '\n'); // Clear the input buffer
     }
-    return valor;
 }
 
-int leer_potencia_dos()
+void validate_int_input(int *value)
 {
-    int valor = leer_entero();
-    if ((valor & (valor - 1)) != 0)
+    while (scanf("%d", value) != 1)
     {
-        printf("Error: El valor ingresado no es una potencia de 2. Intente de nuevo.\n");
-        exit(EXIT_FAILURE);
+        printf("Invalid input. Please enter an integer: ");
+        while (getchar() != '\n'); // Clear the input buffer
     }
-    return valor;
 }
