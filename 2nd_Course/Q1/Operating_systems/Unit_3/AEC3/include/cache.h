@@ -23,8 +23,8 @@
 
 /*==================================FUNCTIONS============================*/
 
-void resolver_cache_directa();
-void resolver_cache_asociativa();
+void resolver_cache_tamano_memoria();
+void resolver_cache_hexadecimal();
 void mostrar_ejemplos();
 void mostrar_teoria();
 

@@ -37,3 +37,14 @@ int leer_potencia_dos()
     }
     return valor;
 }
+
+unsigned int leer_hexadecimal()
+{
+    unsigned int direccion_hex;
+    if (scanf("%x", &direccion_hex) != 1)
+    {
+        printf("Entrada inválida. Saliendo...\n");
+        exit(EXIT_FAILURE);
+    }
+    return direccion_hex;
+}

@@ -18,5 +18,6 @@
 
 int leer_entero();
 int leer_potencia_dos();
+unsigned int leer_hexadecimal();
 
 #endif

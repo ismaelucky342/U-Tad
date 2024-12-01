@@ -17,8 +17,8 @@
 void mostrar_menu()
 {
     printf("\n--- Menú Principal ---\n");
-    printf("1. Tipo de problema de caché 1 (Correspondencia directa)\n");
-    printf("2. Tipo de problema de caché 2 (Correspondencia asociativa)\n");
+    printf("1. Problema de caché con tamaño de memoria\n");
+    printf("2. Problema de caché con direcciones en hexadecimal\n");
     printf("3. Ejemplos prácticos\n");
     printf("4. Explicación teórica\n");
     printf("5. Salir\n");
@@ -35,12 +35,12 @@ int main()
         switch (opcion)
         {
         case 1:
-            printf("\n--- Problema de caché tipo 1 (Correspondencia directa) ---\n");
-            resolver_cache_directa();
+            printf("\n--- Problema de caché con tamaño de memoria ---\n");
+            resolver_cache_tamano_memoria();
             break;
         case 2:
-            printf("\n--- Problema de caché tipo 2 (Correspondencia asociativa) ---\n");
-            resolver_cache_asociativa();
+            printf("\n--- Problema de caché con direcciones en hexadecimal ---\n");
+            resolver_cache_hexadecimal();
             break;
         case 3:
             printf("\n--- Ejemplos prácticos ---\n");

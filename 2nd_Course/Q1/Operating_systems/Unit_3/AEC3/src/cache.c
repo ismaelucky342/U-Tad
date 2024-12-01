@@ -14,12 +14,14 @@
 
 #include "cache.h"
 #include "utils.h"
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-void resolver_cache_directa()
+void resolver_cache_tamano_memoria()
 {
-    int tam_memoria, tam_cache, tam_bloque, num_lineas;
+    int tam_memoria, tam_cache, tam_bloque;
 
-    // Leer datos
     printf("Ingrese el tamaño de la memoria (en bytes): ");
     tam_memoria = leer_potencia_dos();
     printf("Ingrese el tamaño de la caché (en bytes): ");
@@ -27,8 +29,7 @@ void resolver_cache_directa()
     printf("Ingrese el tamaño del bloque (en bytes): ");
     tam_bloque = leer_potencia_dos();
 
-    // Cálculos
-    num_lineas = tam_cache / tam_bloque;
+    int num_lineas = tam_cache / tam_bloque;
     int bits_bloque = log2(tam_bloque);
     int bits_linea = log2(num_lineas);
     int bits_etiqueta = log2(tam_memoria) - (bits_bloque + bits_linea);
@@ -37,45 +38,31 @@ void resolver_cache_directa()
     printf("Bits de etiqueta: %d\n", bits_etiqueta);
     printf("Bits de línea: %d\n", bits_linea);
     printf("Bits de bloque: %d\n", bits_bloque);
-
-    // Ejemplo práctico
-    printf("\nIngrese una dirección en decimal: ");
-    int direccion = leer_entero();
-    int linea = (direccion / tam_bloque) % num_lineas;
-    int etiqueta = direccion / (num_lineas * tam_bloque);
-
-    printf("\nDescomposición de la dirección:\n");
-    printf("Etiqueta: %d\n", etiqueta);
-    printf("Línea: %d\n", linea);
-    printf("Desplazamiento: %d\n", direccion % tam_bloque);
 }
 
-void resolver_cache_asociativa()
+void resolver_cache_hexadecimal()
 {
-    int tam_memoria, tam_cache, tam_bloque, num_conjuntos;
+    int tam_cache, tam_bloque;
 
-    // Leer datos
-    printf("Ingrese el tamaño de la memoria (en bytes): ");
-    tam_memoria = leer_potencia_dos();
     printf("Ingrese el tamaño de la caché (en bytes): ");
     tam_cache = leer_potencia_dos();
     printf("Ingrese el tamaño del bloque (en bytes): ");
     tam_bloque = leer_potencia_dos();
-    printf("Ingrese el número de conjuntos: ");
-    num_conjuntos = leer_potencia_dos();
 
-    // Cálculos
     int num_lineas = tam_cache / tam_bloque;
-    int num_lineas_por_conjunto = num_lineas / num_conjuntos;
-
     int bits_bloque = log2(tam_bloque);
-    int bits_conjunto = log2(num_conjuntos);
-    int bits_etiqueta = log2(tam_memoria) - (bits_bloque + bits_conjunto);
+    int bits_linea = log2(num_lineas);
 
-    printf("\nEstructura de la dirección:\n");
-    printf("Bits de etiqueta: %d\n", bits_etiqueta);
-    printf("Bits de conjunto: %d\n", bits_conjunto);
-    printf("Bits de bloque: %d\n", bits_bloque);
+    printf("Ingrese una dirección en hexadecimal (sin 0x): ");
+    unsigned int direccion_hex = leer_hexadecimal();
+
+    int linea = (direccion_hex / tam_bloque) % num_lineas;
+    int etiqueta = direccion_hex / (num_lineas * tam_bloque);
+
+    printf("\nDescomposición de la dirección:\n");
+    printf("Etiqueta: %d\n", etiqueta);
+    printf("Línea: %d\n", linea);
+    printf("Desplazamiento: %d\n", direccion_hex % tam_bloque);
 }
 
 void mostrar_ejemplos()
