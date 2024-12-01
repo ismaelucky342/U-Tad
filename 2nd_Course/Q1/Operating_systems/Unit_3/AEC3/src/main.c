@@ -19,10 +19,10 @@ int main() {
 
     while (1) {
         printf("Menu:\n");
-        printf("1. Tipo de problema de caché 1\n");
-        printf("2. Tipo de problema de caché 2\n");
-        printf("3. Salir\n");
-        printf("Elija una opción: ");
+        printf("1. Cache problem type 1\n");
+        printf("2. Cache problem type 2\n");
+        printf("3. Exit\n");
+        printf("Choose an option: ");
         scanf("%d", &choice);
 
         switch (choice) {

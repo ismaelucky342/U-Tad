@@ -51,10 +51,10 @@ void calculate_set_associative_mapping(unsigned int address, int block_size, int
 void cache_problem_1()
 {
     unsigned int address;
-    printf("Ingrese una dirección en hexadecimal (sin 0x): ");
+    printf("Enter an address in hexadecimal (without 0x): ");
     validate_hex_input(&address);
 
-    printf("La dirección ingresada es: 0x%X\n", address);
+    printf("The entered address is: 0x%X\n", address);
 
     int block_size = 16;
     int num_sets = 4;
@@ -67,12 +67,12 @@ void cache_problem_1()
 void cache_problem_2()
 {
     int block_size;
-    printf("Ingrese el tamaño del bloque de línea: ");
+    printf("Enter the block size: ");
     validate_int_input(&block_size);
 
-    printf("El tamaño del bloque de línea ingresado es: %d\n", block_size);
+    printf("The entered block size is: %d\n", block_size);
 
-    unsigned int address = 0x12345678; // Ejemplo de dirección
+    unsigned int address = 0x12345678; // Example address
     int num_sets = 4;
 
     calculate_direct_mapping(address, block_size);
