@@ -16,8 +16,7 @@
 
 /*==================================FUNCTIONS============================*/
 
-int leer_entero();
-int leer_potencia_dos();
-unsigned int leer_hexadecimal();
+void validate_hex_input(unsigned int *address);
+void validate_int_input(int *value);
 
 #endif
