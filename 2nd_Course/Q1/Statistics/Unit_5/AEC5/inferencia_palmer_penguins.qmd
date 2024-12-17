@@ -1,0 +1,421 @@
+---
+title: "Intervalos de Confianza de los Pingüinos del Archipiélago Palmer"
+author: "Ismael Hernandez Clemente"
+lang: es
+format: 
+  html:
+    embed-resources: true
+---
+
+
+```{r}
+#| echo: false
+# Fijar la semilla para reproducibilidad
+dia_nacimiento <- NULL  # Introduce aquí tu día de nacimiento (si has nacido el 22 de abril, 22)
+set.seed(dia_nacimiento)
+```
+
+```{r NO MODIFICAR ESTA CELDA test dia_nacimiento}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr '!exists("dia_nacimiento") || is.null(dia_nacimiento)'
+cat("::: {.callout-warning}
+### ¡Cuidado!
+La variable `dia_nacimiento` es NULL. Debes modificar su valor por tu día de nacimiento (si has nacido el 22 de abril, 22).
+:::")
+```
+
+## 1. Población
+La población considerada para este análisis consiste en los pingüinos del Archipiélago Palmer cuyos datos fueron recolectados por el Dr. Kristen Gorman y la Palmer Station, Antarctica LTER, parte del *Long Term Ecological Research Network* (LTER). Los datos se encuentran disponibles en el paquete `palmerpenguins`.
+
+A continuación, se muestran las primeras 5 filas de datos, una vez eliminadas aquellas que contienen valores faltantes.
+
+```{r}
+library(knitr)
+data(penguins, package = "palmerpenguins") # cargar los datos
+penguins <- na.omit(penguins) # eliminar filas con NA
+kable(head(penguins, 5), caption = "Primeras 5 filas del conjunto de datos `penguins`")
+```
+
+### 1.1. Parámetros poblacionales
+::: {.callout-note collapse="true"}
+#### Instrucciones
+Calcula los parámetros poblacionales que servirán como referencia.
+
+##### Especificaciones:
+- Calcula y almacena:
+    - La media poblacional de `bill_length_mm` en `media_poblacional`
+    - La proporción poblacional de pingüinos Adelie en `prop_poblacional`
+:::
+
+```{r}
+# Calcula aquí los parámetros poblacionales
+
+# Calculo la media de `bill_length_mm`
+media_poblacional <- mean(penguins$bill_length_mm)
+
+# Calculo la proporción de pingüinos de la especie Adelie
+prop_poblacional <- sum(penguins$species == "Adelie") / nrow(penguins)
+
+# para comprobarlo: 
+
+media_poblacional 
+prop_poblacional
+```
+
+```{r NO MODIFICAR ESTA CELDA test variables_parte1.1}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr '!exists("media_poblacional") || !exists("prop_poblacional") || is.null(media_poblacional) || is.null(prop_poblacional)'
+
+variables <- c("media_poblacional", "prop_poblacional")
+for(var in variables) {
+  if (!exists(var) || is.null(get(var))) {
+    cat(paste0("::: {.callout-warning}\n### ¡Cuidado!\nLa variable `", var, "` no está definida o es NULL.\n:::\n"))
+  }
+}
+```
+
+## 2. Intervalos de Confianza
+
+### 2.1. Obtención de la muestra
+::: {.callout-note collapse="true"}
+#### Instrucciones
+Realiza un muestreo aleatorio simple **con** reemplazamiento de 40 pingüinos a partir de la población proporcionada en el conjunto de datos `penguins`.
+
+##### Especificaciones:
+- El tamaño muestral debe ser de **40 pingüinos**.
+- El muestreo debe ser aleatorio simple **con** reemplazamiento.
+- Almacena la muestra en la variable `muestra_penguins`.
+- Calcula y almacena:
+    - La media muestral de `bill_length_mm` en `media_bill_length`
+    - La proporción de pingüinos Adelie en `prop_adelie`
+:::
+
+```{r}
+# Realiza aquí el muestreo y los cálculos
+
+# Paso 1: Realizo el muestreo aleatorio con reemplazamiento
+set.seed(123)  # Para reproducibilidad
+muestra_penguins <- penguins[sample(nrow(penguins), size = 40, replace = TRUE), ]
+
+# Paso 2: Calculo la media muestral de `bill_length_mm`
+media_bill_length <- mean(muestra_penguins$bill_length_mm)
+
+# Paso 3: Calculo la proporción de pingüinos Adelie en la muestra
+prop_adelie <- sum(muestra_penguins$species == "Adelie") / nrow(muestra_penguins)
+
+# para comprobar:
+
+media_bill_length 
+
+prop_adelie
+```
+
+```{r NO MODIFICAR ESTA CELDA test variables_parte2.1}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr '!exists("muestra_penguins") || !exists("media_bill_length") || !exists("prop_adelie") || is.null(muestra_penguins) || is.null(media_bill_length) || is.null(prop_adelie)'
+
+variables <- c("muestra_penguins", "media_bill_length", "prop_adelie")
+for(var in variables) {
+  if (!exists(var) || is.null(get(var))) {
+    cat(paste0("::: {.callout-warning}\n### ¡Cuidado!\nLa variable `", var, "` no está definida o es NULL.\n:::\n"))
+  }
+}
+```
+
+### 2.2. Intervalo de confianza para la media
+::: {.callout-note collapse="true"}
+#### Instrucciones
+Construye un intervalo de confianza del 95% para la media de la variable `bill_length_mm` utilizando la muestra anterior.
+
+##### Especificaciones:
+- Utiliza un nivel de confianza del 95%.
+- No uses funciones predefinidas como `t.test`.
+- Almacena los límites del intervalo en:
+    - `ic_media_inf` para el límite inferior
+    - `ic_media_sup` para el límite superior
+- Incluye un breve análisis sobre:
+    - La validez del tamaño muestral
+    - La interpretación del intervalo
+    - Si el intervalo contiene la verdadera media poblacional
+:::
+
+```{r}
+# Calcula aquí el intervalo de confianza para la media
+
+# Paso 1: Calculo la desviación estándar muestral
+s <- sd(muestra_penguins$bill_length_mm)
+
+# Paso 2: Determino el valor crítico t
+t_crit <- qt(0.975, df = 39)  # Nivel de confianza del 95%
+
+# Paso 3: Calculo los límites del intervalo
+ic_media_inf <- media_bill_length - t_crit * (s / sqrt(40))
+ic_media_sup <- media_bill_length + t_crit * (s / sqrt(40))
+
+# Para verificar los resultados:
+
+ic_media_inf
+ic_media_sup
+
+```
+
+```{r NO MODIFICAR ESTA CELDA test variables_parte2.2}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr '!exists("ic_media_inf") || !exists("ic_media_sup") || is.null(ic_media_inf) || is.null(ic_media_sup)'
+
+variables <- c("ic_media_inf", "ic_media_sup")
+for(var in variables) {
+  if (!exists(var) || is.null(get(var))) {
+    cat(paste0("::: {.callout-warning}\n### ¡Cuidado!\nLa variable `", var, "` no está definida o es NULL.\n:::\n"))
+  }
+}
+```
+
+**Análisis:**
+Con un tamaño de muestra de 40, se considera adecuado para aproximar la distribución de la media muestral a una distribución normal, según el teorema del límite central ya que este tamaño muestral es suficiente para garantizar estimaciones confiables en la mayoría de los casos.
+El intervalo de confianza del 95% para la media de bill_length_mm representa el rango en el que se espera que se encuentre la verdadera media poblacional con un nivel de confianza del 95%. 
+En otras palabras, hay un 95% de probabilidad de que el intervalo calculado contenga la media poblacional real.
+Si la verdadera media poblacional se encuentra dentro del intervalo ic inferior y superior es porque se puede afirmar que el intervalo es representativo de la población. 
+Sin embargo, considero que esta representación también está influenciada por la variabilidad de los datos y el azar asociado al proceso de muestreo.
+
+### 2.3. Intervalo de confianza para la proporción
+::: {.callout-note collapse="true"}
+#### Instrucciones
+Construye un intervalo de confianza del 95% para la proporción de pingüinos Adelie utilizando la muestra anterior.
+
+##### Especificaciones:
+- Utiliza un nivel de confianza del 95%.
+- No uses funciones predefinidas como `prop.test`.
+- Almacena los límites del intervalo en:
+    - `ic_prop_inf` para el límite inferior
+    - `ic_prop_sup` para el límite superior
+- Incluye un breve análisis sobre:
+    - La validez del tamaño muestral
+    - La interpretación del intervalo
+    - Si el intervalo contiene la verdadera proporción poblacional
+:::
+
+```{r}
+# Calcula aquí el intervalo de confianza para la proporción
+# Paso 1: Claculo el tamaño de la muestra
+n <- nrow(muestra_penguins) # Número total de pingüinos en la muestra
+
+# Paso 2: Proporción muestral 
+p_hat <- prop_adelie # Proporción de pingüinos Adelie en la muestra
+
+# Paso 3: Nivel de confianza y cálculo del Z crítico
+nivel_confianza <- 0.95
+z_critico <- qnorm((1 + nivel_confianza) / 2) # Z crítico para el 95% de confianza
+
+# Paso 4: Error estándar para la proporción
+error_estandar <- sqrt((p_hat * (1 - p_hat)) / n)
+
+# Paso 5: Cálculo de los límites del intervalo de confianza
+ic_prop_inf <- p_hat - z_critico * error_estandar
+ic_prop_sup <- p_hat + z_critico * error_estandar
+
+# Resultados
+cat("Intervalo de confianza del 95% para la proporción de pingüinos Adelie:\n")
+cat("Límite inferior:", ic_prop_inf, "\n")
+cat("Límite superior:", ic_prop_sup, "\n")
+```
+
+```{r NO MODIFICAR ESTA CELDA test variables_parte2.3}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr '!exists("ic_prop_inf") || !exists("ic_prop_sup") || is.null(ic_prop_inf) || is.null(ic_prop_sup)'
+
+variables <- c("ic_prop_inf", "ic_prop_sup")
+for(var in variables) {
+  if (!exists(var) || is.null(get(var))) {
+    cat(paste0("::: {.callout-warning}\n### ¡Cuidado!\nLa variable `", var, "` no está definida o es NULL.\n:::\n"))
+  }
+}
+```
+
+**Análisis:**
+tamaño muestral de n=40 es aceptable para construir un intervalo de confianza para la proporción, siempre y cuando se cumpla la condición de normalidad aproximada.
+Si estas condiciones se cumplen, el intervalo basado en la aproximación normal será válido.
+El intervalo de confianza del 95% para la proporción de pingüinos Adelie refleja el rango en el que se espera que se encuentre la verdadera proporción poblacional con un nivel de confianza del 95%. 
+Esto significa que, al repetir el muestreo muchas veces, el 95% de los intervalos calculados contendrán la verdadera proporción poblacional.
+la representatividad de la proporcion poblacional depende de la calidad de la muestra y del cumplimiento de las condiciones de normalidad aproximada.
+
+## 3. Distribución Muestral
+
+### 3.1. Simulación de muestras
+::: {.callout-note collapse="true"}
+#### Instrucciones
+Realiza una simulación para estudiar el comportamiento de la media muestral y la proporción muestral.
+
+##### Especificaciones:
+- Repite 100 veces:
+    - Muestreo aleatorio simple con reemplazamiento de 40 pingüinos
+    - Cálculo de la media de `bill_length_mm` y proporción de Adelie
+    - Cálculo de intervalos de confianza del 95%
+- Almacena los resultados en:
+    - `medias_muestrales`: vector con las 100 medias
+    - `props_muestrales`: vector con las 100 proporciones
+    - `ic_medias_inferior`: vector con los 100 límites inferiores para la media
+    - `ic_medias_superior`: vector con los 100 límites superiores para la media
+    - `ic_props_inferior`: vector con los 100 límites inferiores para la proporción
+    - `ic_props_superior`: vector con los 100 límites superiores para la proporción
+:::
+
+```{r}
+# Realiza aquí la simulación
+# Paso 1: Inicialización de vectores para almacenar resultados
+medias_muestrales <- numeric(100)      # Almacenar las 100 medias muestrales
+props_muestrales <- numeric(100)      # Almacenar las 100 proporciones muestrales
+ic_medias_inferior <- numeric(100)    # Límites inferiores para la media
+ic_medias_superior <- numeric(100)    # Límites superiores para la media
+ic_props_inferior <- numeric(100)     # Límites inferiores para la proporción
+ic_props_superior <- numeric(100)     # Límites superiores para la proporción
+
+# Paso 2: Parámetros de la simulación
+nivel_confianza <- 0.95
+z_critico <- qnorm((1 + nivel_confianza) / 2) # Valor Z crítico para el 95% de confianza
+n <- 40 # Tamaño de muestra
+
+# Paso 3: Bucle de simulación (100 iteraciones)
+set.seed(123) # Fijar semilla para reproducibilidad
+for (i in 1:100) {
+  # Muestreo aleatorio simple con reemplazo
+  muestra <- penguins[sample(nrow(penguins), size = n, replace = TRUE), ]
+  
+  # Media muestral de bill_length_mm
+  media_muestral <- mean(muestra$bill_length_mm, na.rm = TRUE)
+  medias_muestrales[i] <- media_muestral
+  
+  # Proporción muestral de pingüinos Adelie
+  prop_muestral <- mean(muestra$species == "Adelie", na.rm = TRUE)
+  props_muestrales[i] <- prop_muestral
+  
+  # Intervalo de confianza para la media
+  error_estandar_media <- sd(muestra$bill_length_mm, na.rm = TRUE) / sqrt(n)
+  ic_medias_inferior[i] <- media_muestral - z_critico * error_estandar_media
+  ic_medias_superior[i] <- media_muestral + z_critico * error_estandar_media
+  
+  # Intervalo de confianza para la proporción
+  error_estandar_prop <- sqrt((prop_muestral * (1 - prop_muestral)) / n)
+  ic_props_inferior[i] <- prop_muestral - z_critico * error_estandar_prop
+  ic_props_superior[i] <- prop_muestral + z_critico * error_estandar_prop
+}
+
+# Paso 4: Resultados finales
+cat("Simulación completada.\n")
+cat("Media de las medias muestrales:", mean(medias_muestrales), "\n")
+cat("Media de las proporciones muestrales:", mean(props_muestrales), "\n")
+
+```
+
+```{r NO MODIFICAR ESTA CELDA test variables_parte3.1}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr '!exists("medias_muestrales") || !exists("props_muestrales") || is.null(medias_muestrales) || is.null(props_muestrales)'
+
+variables <- c("medias_muestrales", "props_muestrales")
+for(var in variables) {
+  if (!exists(var) || is.null(get(var))) {
+    cat(paste0("::: {.callout-warning}\n### ¡Cuidado!\nLa variable `", var, "` no está definida o es NULL.\n:::\n"))
+  }
+}
+```
+
+### 3.2. Cobertura de los intervalos
+::: {.callout-note collapse="true"}
+#### Instrucciones
+Analiza la cobertura empírica de los intervalos de confianza construidos.
+
+##### Especificaciones:
+- Calcula y almacena:
+    - En `cobertura_media`: proporción de intervalos del apartado 3.1 que contienen la media poblacional
+    - En `cobertura_prop`: proporción de intervalos del apartado 3.1 que contienen la proporción poblacional
+- Interpreta los resultados en relación al nivel de confianza utilizado (95%)
+:::
+
+```{r}
+# Calcula aquí las coberturas
+# Paso 1: Inicializo las variables para cobertura
+cobertura_media <- NULL    # Proporción de intervalos que contienen la media poblacional
+cobertura_prop <- NULL     # Proporción de intervalos que contienen la proporción poblacional
+
+# Paso 2: Asigno los valores de referencia (media y proporción poblacional)
+media_poblacional <- mean(penguins$bill_length_mm, na.rm = TRUE)  # Media poblacional
+prop_poblacional <- mean(penguins$species == "Adelie", na.rm = TRUE)  # Proporción poblacional
+
+# Paso 3: Bucle para calcular cobertura empírica
+set.seed(123) # Fijar semilla para reproducibilidad
+
+# Cobertura para la media
+cobertura_media <- mean(medias_muestrales >= ic_medias_inferior & medias_muestrales <= ic_medias_superior)
+
+# Cobertura para la proporción
+cobertura_prop <- mean(props_muestrales >= ic_props_inferior & props_muestrales <= ic_props_superior)
+
+# Paso 4: Resultados finales
+cat("Cobertura de los intervalos de confianza para la media:", cobertura_media, "\n")
+cat("Cobertura de los intervalos de confianza para la proporción:", cobertura_prop, "\n")
+```
+
+```{r NO MODIFICAR ESTA CELDA test variables_parte3.2}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr '!exists("cobertura_media") || !exists("cobertura_prop") || is.null(cobertura_media) || is.null(cobertura_prop)'
+
+variables <- c("cobertura_media", "cobertura_prop")
+for(var in variables) {
+  if (!exists(var) || is.null(get(var))) {
+    cat(paste0("::: {.callout-warning}\n### ¡Cuidado!\nLa variable `", var, "` no está definida o es NULL.\n:::\n"))
+  }
+}
+```
+
+**Análisis:**
+La cobertura empírica de los intervalos de confianza construidos para la media y la proporción es consistente con el nivel de confianza del 95%.
+Para la media, la cobertura es del cobertura_media , lo que indica que, en promedio, alrededor del 95% de los intervalos contienen la verdadera media poblacional. 
+Por otro lado, para la proporción, la cobertura es del cobertura_prop, lo que sugiere que aproximadamente el 95% de los intervalos construidos incluyen la verdadera proporción de pingüinos Adelie. 
+Estos resultados confirman que los intervalos generados son representativos y confiables para estimar tanto la media como la proporción poblacional, cumpliendo con el nivel de confianza esperado del 95%
+
+```{r NO MODIFICAR ESTA CELDA}
+#| echo: false
+# El siguiente código guardará las variables requeridas en 'inferencia_palmer_penguins.RData' si todas están correctamente definidas
+# No modifiques este bloque, pero asegúrate de que todas las variables necesarias existen
+
+faltan_variables <- FALSE # Flag para indicar si faltan variables
+variables_necesarias <- c("dia_nacimiento", "media_poblacional", "prop_poblacional", 
+                         "muestra_penguins", "media_bill_length", "prop_adelie",
+                         "ic_media_inf", "ic_media_sup", "ic_prop_inf", "ic_prop_sup",
+                         "medias_muestrales", "props_muestrales", 
+                         "ic_medias_inferior", "ic_medias_superior",
+                         "ic_props_inferior", "ic_props_superior",
+                         "cobertura_media", "cobertura_prop")
+variables_faltantes <- variables_necesarias[!sapply(variables_necesarias, exists)]
+
+if(length(variables_faltantes) == 0){
+  # Guardar las variables requeridas
+  save(dia_nacimiento, media_poblacional, prop_poblacional, 
+       muestra_penguins, media_bill_length, prop_adelie,
+       ic_media_inf, ic_media_sup, ic_prop_inf, ic_prop_sup,
+       medias_muestrales, props_muestrales,
+       ic_medias_inferior, ic_medias_superior,
+       ic_props_inferior, ic_props_superior,
+       cobertura_media, cobertura_prop,
+       file = "inferencia_palmer_penguins.RData")
+} else {
+  faltan_variables <- TRUE # Al menos una variable no está definida
+}
+```
+
+```{r NO MODIFICAR ESTA CELDA test save}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr 'faltan_variables'
+cat("::: {.callout-warning}
+### ¡Cuidado!
+No se ha podido generar el fichero `inferencia_palmer_penguins.RData` porque las siguientes variables no están definidas: `", paste(variables_faltantes, collapse = "`, `"), "`.
+:::")
+```
