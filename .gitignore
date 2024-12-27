@@ -2,3 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
+.vscode
+.idea
+*.Rproj
+*.Rproj.user
+*.Rproj.user.lock
+*.RData
+*.Rhistory
