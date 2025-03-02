@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -Werror -std=c99
 SRCDIR = src
 OBJDIR = obj
 
-SRCFILES = $(wildcard $(SRCDIR)/*.c)
+SRCFILES = $(wildcard $(SRCDIR)#.c)
 OBJFILES = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCFILES))
 EXECUTABLE = program.exe
 
