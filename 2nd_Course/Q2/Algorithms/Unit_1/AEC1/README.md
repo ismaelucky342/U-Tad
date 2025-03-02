@@ -1,5 +1,3 @@
-![image.png](attachment:4b3a58b8-0c6a-4791-b55c-ca0d2dc15595:image.png)
-
 ## Project Description
 
 This project includes two exercises designed to practice basic algorithmic thinking and C++ programming skills. Each exercise should be implemented in a separate `.cpp` file, and the program logic should follow good programming practices. Each function is well-documented, includes preconditions (if applicable), and performs an analysis of its time and space complexity.
@@ -153,3 +151,7 @@ This project is licensed under the [MIT License](https://www.notion.so/LICENSE).
 - **Code Quality**: Is the code well-organized and well-commented? Does it follow best practices?
 - **Error Handling**: Does the program handle invalid inputs (e.g., non-positive integers or empty strings) appropriately?
 - **Efficiency**: Does the program consider the time and space complexity of the implemented algorithms?
+
+## Extras
+Throughout this project, I have gained valuable insights into the practical application of fundamental programming concepts in C++, including algorithmic thinking, function design, error handling, and efficiency analysis. 
+![image](https://github.com/user-attachments/assets/a8443dae-b7f1-43eb-87a8-1d67c5e69409)
