@@ -1,0 +1,37 @@
+@startuml
+
+class KinderGardenServiceContext {
+    - serviceStrategy: DoctorServiceStrategy
+    + setServiceStrategy(serviceStrategy: DoctorServiceStrategy)
+    + applyServiceStrategy()
+}
+
+abstract class DoctorServiceStrategy {
+    + applyServiceStrategy()
+    + inspectChildren()
+    + sendResultsInspection()
+    + sendInvoice()
+}
+
+class NoDoctorServiceStrategy {
+    + inspectChildren()
+}
+
+class FongDoctorStrategy {
+    + inspectChildren()
+}
+
+class WangDoctorStrategy {
+    + inspectChildren()
+}
+
+KinderGardenServiceContext "1" --* "1" DoctorServiceStrategy : serviceStrategy
+DoctorServiceStrategy <|-- NoDoctorServiceStrategy
+DoctorServiceStrategy <|-- FongDoctorStrategy
+DoctorServiceStrategy <|-- WangDoctorStrategy
+
+class TestKinderGardenService {
+    + main()
+}
+
+@enduml
