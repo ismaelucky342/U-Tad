@@ -1,0 +1,11 @@
+{
+    "nombre": "Juan Pérez",
+    "email": "juan@email.com",
+    "pedidos": [
+      {
+        "producto": "Laptop",
+        "cantidad": 1
+      }
+    ]
+  }
+  
