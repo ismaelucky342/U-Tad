@@ -1,6 +1,6 @@
 # U-Tad 
 
-Projects and content carried out during my Double Degree in Computer Science and Computational Mathematics 
+Projects and content carried out during my B.S. Double Degree in Computer Science and Computational Mathematics at U-Tad 
 
 The repository will be organized by academic year, semester and finally by subject, where I have stored practical materials from the subjects, personal projects and exams. 
 # 1st Course: 
