@@ -8,20 +8,20 @@ The repository is organized by academic year, semester, and finally by subject, 
 
 ### Q1:
 - **[Introduction to Programming I](1st_Course/Q1/Programming_1)** (6 ECTS)
-- **[Web Development Fundamentals](1st_Course/Q1/Web development)** (6 ECTS)
+- **[Web Development Fundamentals](1st_Course/Q1/Web_development)** (6 ECTS)
 - **[Networking and Operating Systems Labs](1st_Course/Q1/Networks_SO)** (6 ECTS)
-- **[Logic and Discrete Mathematics](1st_Course/Q2/Algebra)** (6 ECTS) (Only syllabus transcription available)
-- **Creative Thinking** (3 ECTS)
+- **[Logic and Discrete Mathematics](1st_Course/Q2/Logic_and_discrete_mathematics)** (6 ECTS) (Only Study Material)
+- **[Creative Thinking](1st_Course/Q1/Creative_Thinking)** (3 ECTS)
 
 ### Q2:
-- **[Algebra](1st_Course/Q2/Algebra)** (6 ECTS) (Only syllabus transcription available)
+- **[Algebra](1st_Course/Q2/Algebra)** (6 ECTS) (Only Study Material)
 - **[Computer Architecture](1st_Course/Q2/Computer_Arch)** (6 ECTS)
 - **[Introduction to Programming II](1st_Course/Q2/Programming_2)** (6 ECTS)
 - **[Database and Distributed Systems Laboratory](1st_Course/Q2/Databases)** (6 ECTS)
-- **Digital Society** (3 ECTS)
+- **[Digital Society](1st_Course/Q2/Databases)** (3 ECTS) (Only Study Material)
   
 ### Full-year Project: 
-- **[Projects I: Digital Techniques and Technologies](1st_Course/Projects l)** (6 ECTS)
+- **[Projects I: Digital Techniques and Technologies](1st_Course/Projects_l)** (6 ECTS)
 
 ## 2nd Course:
 
@@ -35,9 +35,9 @@ The repository is organized by academic year, semester, and finally by subject, 
 ### Q2:
 - **[Algorithm Analysis and Design](2nd_Course/Q2/Algorithms)** (6 ECTS)
 - **[Databases](2nd_Course/Q2/DataBases)** (6 ECTS)
-- **Calculus** (6 ECTS)
+- **[Calculus](2nd_Course/Q2/Calculus)** (6 ECTS) (Only Study Material)
 - **[Software Design](2nd_Course/Q2/Software_Design)** (6 ECTS)
-- **Digital Business Models** (3 ECTS)
+- **[Digital Business Models](Bussiness_and_DM)** (3 ECTS)
   
 ### Full-year Project: 
 - **[Projects II: Software Engineering Trends](2nd_Course/Projects_ll)** (6 ECTS)
