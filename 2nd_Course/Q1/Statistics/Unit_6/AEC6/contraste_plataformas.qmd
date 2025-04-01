@@ -1,0 +1,236 @@
+---
+title: "Contraste de Hipótesis en Plataformas E-commerce"
+author: "Ismael Hernández Clemente"
+lang: es
+format: 
+  html:
+    embed-resources: true
+---
+
+## 1. Carga y exploración de datos
+::: {.callout-note collapse="true"}
+#### Instrucciones
+Carga los datos de la Plataforma B.
+
+##### Especificaciones:
+- Modifica (si fuera necesario) la variable `path` con la ruta al archivo `plataforma_b.csv`.
+- Muestra las primeras filas de los datos usando kable
+- Calcula:
+
+  * La media muestral de visitas en `media_visitas_b`
+  * La media muestral de ventas en `media_ventas_b`
+  * La tasa de conversión en `tasa_conversion_b`
+:::
+
+```{r}
+library(knitr)
+
+# Ruta del archivo de datos
+path <- "plataforma_b.csv"
+
+# Carga de datos y visualización
+datos_b <- read.csv(path)
+
+# Cálculo de estadísticos muestrales
+media_visitas_b <- mean(datos_b$Visitas, na.rm = TRUE)
+media_ventas_b <- mean(datos_b$Ventas, na.rm = TRUE)
+tasa_conversion_b <- mean(datos_b$Ventas, na.rm = TRUE) / mean(datos_b$Visitas, na.rm = TRUE)
+
+kable(head(datos_b), caption = "Primeras filas de los datos de la Plataforma B")
+
+```
+
+**Estadísticos muestrales de la Plataforma B:**
+
+* Media de visitas diarias: `r format(media_visitas_b, nsmall = 2, digits = 2)`
+* Media de ventas diarias: `r format(media_ventas_b, nsmall = 2, digits = 2)`
+* Tasa de conversión: `r format(tasa_conversion_b, nsmall = 4, digits = 4)`
+
+```{r NO MODIFICAR ESTA CELDA test estadísticos}
+#| echo: false
+#| results: 'asis'
+variables <- c("media_visitas_b", "media_ventas_b", "tasa_conversion_b")
+for(var in variables) {
+  if (!exists(var) || is.null(get(var))) {
+    cat(paste0("::: {.callout-warning}\n### ¡Cuidado!\nLa variable `", var, "` no está definida o es NULL.\n:::\n"))
+  }
+}
+```
+
+
+## 2. Contraste de hipótesis para las visitas
+::: {.callout-note collapse="true"}
+#### Instrucciones
+Realiza un contraste de hipótesis para comparar la media de visitas diarias entre las plataformas.
+
+Queremos contrastar si la media de visitas diarias en la Plataforma B es mayor que la media de visitas diarias en la Plataforma A.
+
+##### Especificaciones:
+- Indica el tamaño muestral
+- Formula las hipótesis nula y alternativa
+- Justifica el tipo de contraste a realizar
+- Implementa el contraste usando la función apropiada con α = 0.05
+- Almacena el resultado en la variable `test_visitas`
+- Interpreta los resultados
+:::
+
+**Tamaño muestral:** n = 45
+
+**Hipótesis:**
+
+*𝐻0: La media de visitas diarias en la Plataforma B es igual a la media de visitas diarias en la Plataforma A.
+
+*𝐻𝑎: La media de visitas diarias en la Plataforma B es mayor que la media de visitas diarias en la Plataforma A.
+
+**Tipo de Contraste:**
+
+Contraste de una cola.
+
+**Justificación:**
+Queremos saber si la Plataforma B tiene una media de visitas diaria mayor a la de la Plataforma A, por lo que usamos un contraste de una cola.
+
+```{r}
+# Realiza aquí el contraste para las visitas
+test_visitas <- t.test(datos_b$Visitas, mu = 754, alternative = "greater")
+test_visitas
+
+```
+
+```{r NO MODIFICAR ESTA CELDA test visitas}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr '!exists("test_visitas") || is.null(test_visitas)'
+cat("::: {.callout-warning}
+### ¡Cuidado!
+La variable `test_visitas` no está definida o es NULL.
+:::")
+```
+
+**Conclusión:**
+Dado que el valor p es 0.05752, que es mayor que 0.05, no podemos rechazar la hipótesis nula 𝐻0. Por lo tanto, no se puede concluir que la media de visitas diarias en la Plataforma B sea mayor que en la Plataforma A.
+
+## 3. Contraste de hipótesis para las ventas
+::: {.callout-note collapse="true"}
+#### Instrucciones
+Realiza un contraste de hipótesis para comparar la media de ventas diarias entre las plataformas.
+
+Queremos contrastar si la media de ventas diarias en la Plataforma B es mayor que la media de ventas diarias en la Plataforma A.
+
+##### Especificaciones:
+- Indica el tamaño muestral
+- Formula las hipótesis nula y alternativa
+- Justifica el tipo de contraste a realizar
+- Implementa el contraste usando la función apropiada con α = 0.05
+- Almacena el resultado en la variable `test_ventas`
+- Interpreta los resultados
+:::
+
+**Tamaño muestral:** n = 23
+
+**Hipótesis:**
+
+* $H_0$: La media de ventas diarias en la Plataforma B es igual a la media de ventas diarias en la Plataforma A.
+* $H_a$: La media de ventas diarias en la Plataforma B es mayor que la media de ventas diarias en la Plataforma A.
+
+**Tipo de Contraste:**
+Contraste de una cola.
+
+**Justificación:**
+Queremos saber si la Plataforma B tiene una media de ahora ventas diarias mayor a la de la Plataforma A, por lo que usamos de nuevo un contraste de una cola.
+
+```{r}
+# Realiza aquí el contraste para las ventas
+test_ventas <- t.test(datos_b$Ventas[1:23], mu = 135.72, alternative = "greater")
+test_ventas
+
+```
+
+```{r NO MODIFICAR ESTA CELDA test ventas}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr '!exists("test_ventas") || is.null(test_ventas)'
+cat("::: {.callout-warning}
+### ¡Cuidado!
+La variable `test_ventas` no está definida o es NULL.
+:::")
+```
+
+**Conclusión:**
+Dado que el valor p es 0.03591, que es menor que 0.05, rechazamos la hipótesis nula 𝐻0. Por lo tanto, la media de ventas diarias en la Plataforma B es significativamente mayor que en la Plataforma A.
+
+## 4. Contraste de hipótesis para la tasa de conversión
+::: {.callout-note collapse="true"}
+#### Instrucciones
+Realiza un contraste de hipótesis para comparar la tasa de conversión entre las plataformas.
+
+Queremos contrastar si la tasa de conversión en la Plataforma B es distinta que la tasa de conversión en la Plataforma A.
+
+##### Especificaciones:
+- Indica el tamaño muestral
+- Formula las hipótesis nula y alternativa
+- Justifica el tipo de contraste a realizar
+- Implementa el contraste usando la función apropiada con α = 0.05
+- Almacena el resultado en la variable `test_conversion`
+- Interpreta los resultados
+:::
+
+**Tamaño muestral:** n = 23
+
+**Hipótesis:**
+
+* $H_0$: La tasa de conversión en la Plataforma B es igual a la tasa de conversión en la Plataforma A.
+* $H_a$: La tasa de conversión en la Plataforma B es distinta a la tasa de conversión en la Plataforma A.
+
+**Tipo de Contraste:**
+Contraste de dos colas.
+
+**Justificación:**
+Queremos saber si la tasa de conversión en la Plataforma B es distinta a la de la Plataforma A, por lo que usamos un contraste de dos colas.
+
+```{r}
+# Realiza aquí el contraste para la tasa de conversión
+conversion_b <- datos_b$Ventas[1:23] / datos_b$Visitas[1:23]
+test_conversion <- t.test(conversion_b, mu = 0.18, alternative = "two.sided")
+test_conversion
+
+```
+
+```{r NO MODIFICAR ESTA CELDA test conversion}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr '!exists("test_conversion") || is.null(test_conversion)'
+cat("::: {.callout-warning}
+### ¡Cuidado!
+La variable `test_conversion` no está definida o es NULL.
+:::")
+```
+
+**Conclusión:**
+Dado que el valor p es 0.06064, que es mayor que 0.05, no podemos rechazar la hipótesis nula 𝐻0. Por lo tanto, no se puede concluir que la tasa de conversión en la Plataforma B sea distinta a la de la Plataforma A.
+
+```{r NO MODIFICAR ESTA CELDA}
+#| echo: false
+# El siguiente código guardará las variables requeridas en 'contraste_plataformas.RData'
+# No modifiques este bloque, pero asegúrate de que todas las variables necesarias existen
+
+faltan_variables <- FALSE
+variables_necesarias <- c("test_visitas", "test_ventas", "test_conversion")
+variables_faltantes <- variables_necesarias[!sapply(variables_necesarias, exists)]
+
+if(length(variables_faltantes) == 0) {
+  save(test_visitas, test_ventas, test_conversion,
+       file = "contraste_plataformas.RData")
+} else {
+  faltan_variables <- TRUE
+}
+```
+
+```{r NO MODIFICAR ESTA CELDA test save}
+#| echo: false
+#| results: 'asis'
+#| eval: !expr 'faltan_variables'
+cat("::: {.callout-warning}
+### ¡Cuidado!
+No se ha podido generar el fichero `contraste_plataformas.RData` porque las siguientes variables no están definidas: `", paste(variables_faltantes, collapse = "`, `"), "`.
+:::")
+```
