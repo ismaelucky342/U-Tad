@@ -8,7 +8,7 @@ Here is a summary of the course folders and my study material:
 2. [**Unit 2: Creativity and the Unconscious Mind**](Unit_2/)
 3. [**Unit 3: The Creative Process and Computational Creativity**](Unit_3/)
 
-The linked folders contain relevant materials for studying the subject. The **Extra Material** folder includes additional resources on lateral thinking techniques and computational creativity, which complement the theory covered in the previous units.
+The linked folders contain relevant materials for studying the subject. 
 
 ## **Course Description**
 
