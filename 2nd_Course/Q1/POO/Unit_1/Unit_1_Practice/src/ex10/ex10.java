@@ -2,8 +2,8 @@ package ex10;
 
 public class ex10 {
 
-    // Método para multiplicar dos matrices
-    public static int[][] multiplyMatrices(int[][] mat1, int[][] mat2) {
+    // Método para multiplicar dos matrix
+    public static int[][] multiplymatrix(int[][] mat1, int[][] mat2) {
         int rows1 = mat1.length;
         int cols1 = mat1[0].length;
         int rows2 = mat2.length;
@@ -11,13 +11,13 @@ public class ex10 {
 
         // Verificar si las dimensiones son compatibles
         if (cols1 != rows2) {
-            throw new IllegalArgumentException("Dimensiones incompatibles para multiplicar matrices");
+            throw new IllegalArgumentException("Dimensiones incompatibles para multiplicar matrix");
         }
 
         // Crear la matriz resultado
         int[][] result = new int[rows1][cols2];
 
-        // Multiplicar las matrices
+        // Multiplicar las matrix
         for (int i = 0; i < rows1; i++) {
             for (int j = 0; j < cols2; j++) {
                 for (int k = 0; k < cols1; k++) {
@@ -54,9 +54,9 @@ public class ex10 {
             {11, 12}
         };
 
-        // Multiplicar matrices
+        // Multiplicar matrix
         try {
-            int[][] result = multiplyMatrices(mat1, mat2);
+            int[][] result = multiplymatrix(mat1, mat2);
 
             // Imprimir la matriz resultado
             System.out.println("Resultado de la multiplicación:");

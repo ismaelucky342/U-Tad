@@ -137,8 +137,7 @@ The Z80 processor architecture is composed of several key parts:
 The most frequently used instruction in Z80 assembly is `LD` (short for **load**). It is used to **transfer data** from one location to another. The syntax is:
 
 ```
-asm
-CopyEdit
+
 LD destination, source
 
 ```
@@ -148,8 +147,7 @@ This instruction **copies** the value from the source to the destination. The so
 ### Examples:
 
 ```
-asm
-CopyEdit
+
 LD A, B      ; Copies the value in register B into register A
 LD B, 45     ; Loads the decimal number 45 into register B
 LD A, 3CH    ; Loads the hexadecimal value 3C into register A
@@ -163,8 +161,7 @@ LD HL, 2100H ; Loads the 16-bit value 2100H into register pair HL
 In assembly, accessing memory often involves parentheses. For example:
 
 ```
-asm
-CopyEdit
+
 LD A, (3000H)  ; Loads the value at memory address 3000H into register A
 LD (3000H), A  ; Stores the value in register A into memory at 3000H
 
@@ -175,8 +172,7 @@ LD (3000H), A  ; Stores the value in register A into memory at 3000H
 These are special 16-bit registers used for **indirect addressing**.
 
 ```
-asm
-CopyEdit
+
 LD A, (IX+0)    ; Load from memory at address IX + 0 into A
 LD (IY+5), B    ; Store the value of B at the address IY + 5
 
@@ -221,8 +217,7 @@ These flags are automatically updated after arithmetic and logic operations and 
 ### Examples:
 
 ```
-asm
-CopyEdit
+
 ADD A, B      ; A ← A + B
 SUB C         ; A ← A - C
 INC D         ; D ← D + 1
@@ -249,8 +244,7 @@ These instructions change the flow of execution:
 ### Examples:
 
 ```
-asm
-CopyEdit
+
 JP 2050H      ; Unconditionally jump to address 2050H
 JP Z, 2100H   ; Jump to 2100H if the Zero flag is set
 CALL 3000H    ; Call the subroutine at 3000H
@@ -275,8 +269,7 @@ The **stack** in Z80 is a section of memory used to **store return addresses, te
 ### Examples:
 
 ```
-asm
-CopyEdit
+
 LD SP, 4000H   ; Initialize stack pointer
 PUSH BC        ; Push BC onto the stack
 POP DE         ; Pop two bytes into DE (BC's old value)
@@ -310,8 +303,7 @@ There are **two types**:
 Interrupt mode is set using:
 
 ```
-asm
-CopyEdit
+
 IM 0          ; Interrupt Mode 0 (most flexible)
 IM 1          ; Mode 1 (simplest)
 IM 2          ; Mode 2 (advanced, uses vector table)

@@ -9,7 +9,7 @@ This C program is designed to work with a two-dimensional integer matrix and per
 3. **Detects "valley" elements**, which are elements smaller than all their adjacent neighbors.
 4. **Prints the valley element** along with its neighbors when one is detected.
 
-This program is a great example of working with matrices in C, demonstrating concepts such as nested loops, relative indexing, and modular programming.
+This program is a great example of working with matrix in C, demonstrating concepts such as nested loops, relative indexing, and modular programming.
 
 ---
 
@@ -101,7 +101,7 @@ To compile and execute the program, follow these steps:
 ## 📚 Additional Notes
 
 - **Edge Cases**: The program ensures that no edge elements are considered as valley elements since they lack the required number of neighbors.
-- **Matrix Size**: While the matrix size is fixed at `5x4`, the program can be adapted to work with matrices of different sizes by modifying the size constants.
-- **Error Handling**: The program assumes valid input and does not handle cases such as empty matrices or invalid dimensions.
+- **Matrix Size**: While the matrix size is fixed at `5x4`, the program can be adapted to work with matrix of different sizes by modifying the size constants.
+- **Error Handling**: The program assumes valid input and does not handle cases such as empty matrix or invalid dimensions.
 
 This program is an excellent exercise for understanding matrix operations, nested loops, and modular programming in C.

@@ -8,7 +8,7 @@ Below is a summary of the course folders and their contents:
 2. [**Unit 2: The C Language - Basic Elements**](U2/)
 3. [**Unit 3: Operators, Expressions, and Selection and Control Structures**](U3/)
 4. [**Unit 4: Functions**](U4/)
-5. [**Unit 5: Arrays, Strings, and Matrices**](U5/)
+5. [**Unit 5: Arrays, Strings, and matrix**](U5/)
 6. [**Unit 6: Pointers**](U6/)
 7. [**Extra Material**](Extra_Material/)
 8. [**EXAM**](EXAM/)
@@ -80,9 +80,9 @@ Use of operators and implementation of control structures (if, switch) and loops
 
 Definition and use of functions in C, and how to modularize code for better organization.
 
-### **Unit 5: Arrays, Strings, and Matrices**
+### **Unit 5: Arrays, Strings, and matrix**
 
-Use of arrays, strings, and matrices to handle collections of data in C.
+Use of arrays, strings, and matrix to handle collections of data in C.
 
 ### **Unit 6: Pointers**
 

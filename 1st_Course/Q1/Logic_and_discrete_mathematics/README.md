@@ -53,7 +53,7 @@ By the end of this course, students will be able to:
 - Distinguish and manipulate common number systems (N, Z, Q, R, C).
 - Understand and apply the fundamentals of set theory.
 - Use basic combinatorics for enumeration problems.
-- Solve systems of linear equations and work with vectors, matrices, and coordinate geometry.
+- Solve systems of linear equations and work with vectors, matrix, and coordinate geometry.
 - Manipulate and understand vector spaces, subspaces, and linear applications.
 - Work with functions, derivatives, integrals, and understand basic geometric concepts in higher dimensions.
 - Use elementary integration techniques for real-world applications.
