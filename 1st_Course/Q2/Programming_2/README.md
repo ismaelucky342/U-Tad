@@ -4,12 +4,12 @@
 
 Here is an overview of the course folders and their contents:
 
-1. [**Unit 1: Parameter Passing, Complex Projects, and Code Debugging**](U_1/)
-2. [**Unit 2: Complex Data Types**](U_2/)
-3. [**Unit 3: Dynamic Memory Management**](U_3/)
-4. [**Unit 4: In-Depth Strings**](U_4/)
-5. [**Unit 5: Basic File Input/Output**](U_5/)
-6. [**Unit 6: Advanced File Input/Output**](U_6/)
+1. [**Unit 1: Parameter Passing, Complex Projects, and Code Debugging**](U1/)
+2. [**Unit 2: Complex Data Types**](U2/)
+3. [**Unit 3: Dynamic Memory Management**](U3/)
+4. [**Unit 4: In-Depth Strings**](U4/)
+5. [**Unit 5: Basic File Input/Output**](U5/)
+6. [**Unit 6: Advanced File Input/Output**](U6/)
 7. [**Exam**](Exam/)
 
 The folders linked above contain study materials relevant to the course content. These materials will help you to understand and apply fundamental concepts in programming, particularly in the C programming language.

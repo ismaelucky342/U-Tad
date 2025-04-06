@@ -4,12 +4,12 @@
 
 Here is an overview of the course folders and their contents:
 
-1. [**Unit 1: Complex Numbers**](U_1/)
-2. [**Unit 2: Vectors**](U_2/)
-3. [**Unit 3: matrix and Determinants**](U_3/)
-4. [**Unit 4: Systems of Linear Equations**](U_4/)
-5. [**Unit 5: Vector Spaces**](U_5/)
-6. [**Unit 6: Linear Applications**](U_6/)
+1. [**Unit 1: Complex Numbers**](U1/)
+2. [**Unit 2: Vectors**](U2/)
+3. [**Unit 3: matrix and Determinants**](U3/)
+4. [**Unit 4: Systems of Linear Equations**](U4/)
+5. [**Unit 5: Vector Spaces**](U5/)
+6. [**Unit 6: Linear Applications**](U6/)
 
 The folders linked above contain study materials relevant to the core topics of the course.
 

@@ -4,12 +4,12 @@
 
 Here is an overview of the course folders and their contents:
 
-1. [**Unit 1: Introduction to Computer Architecture and Hardware Components**](U_1/)
-2. [**Unit 2: Basic Principles: Boolean Algebra, Logic, and Digital Circuits**](U_2/)
-3. [**Unit 3: Arithmetic and Computer Operation Part I**](U_3/)
-4. [**Unit 4: Arithmetic and Computer Operation Part II**](U_4/)
-5. [**Unit 5: Processor Part I**](U_5/)
-6. [**Unit 6: Processor Part II**](U_6/)
+1. [**Unit 1: Introduction to Computer Architecture and Hardware Components**](U1/)
+2. [**Unit 2: Basic Principles: Boolean Algebra, Logic, and Digital Circuits**](U2/)
+3. [**Unit 3: Arithmetic and Computer Operation Part I**](U3/)
+4. [**Unit 4: Arithmetic and Computer Operation Part II**](U4/)
+5. [**Unit 5: Processor Part I**](U5/)
+6. [**Unit 6: Processor Part II**](U6/)
 7. [**EXAM**](EXAM/)
 8. [**ASSEMBLY_Extras**](ASSEMBLY_Extras/)
 
