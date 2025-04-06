@@ -1,0 +1,2 @@
+1.	Pruebecilla de uso de Zeus:
+Escribir un programa que cargue un 7 en el acumulador, un 8 en el registro B, y los sume.
