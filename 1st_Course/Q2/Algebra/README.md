@@ -1,4 +1,4 @@
-# Algebra - Course Material
+# Algebra 
 
 ## **Folder Structure**
 

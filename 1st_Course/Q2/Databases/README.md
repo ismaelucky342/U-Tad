@@ -1,4 +1,4 @@
-# **Database Systems and Distributed Systems Lab - Course Material**
+# **Database Systems and Distributed Systems Lab **
 
 ## **Folder Structure**
 

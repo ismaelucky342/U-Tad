@@ -1,4 +1,4 @@
-# Introduction to Programming II - Course Material
+# Introduction to Programming II 
 
 ## **Folder Structure**
 

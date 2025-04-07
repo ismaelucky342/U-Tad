@@ -1,4 +1,4 @@
-# Creative Thinking - Course Material
+# Creative Thinking 
 
 ## **Folder Structure**
 

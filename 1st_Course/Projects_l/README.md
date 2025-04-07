@@ -1,4 +1,4 @@
-# Projects I: Digital Techniques and Technologies - Course Material
+# Projects I: Digital Techniques and Technologies 
 
 ## **Folder Structure**
 

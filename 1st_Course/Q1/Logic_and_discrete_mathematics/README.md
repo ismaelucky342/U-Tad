@@ -1,4 +1,4 @@
-# Discrete Mathematics and Logic - Course Material
+# Discrete Mathematics and Logic 
 
 ## **Folder Structure**
 

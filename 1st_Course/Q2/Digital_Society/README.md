@@ -1,4 +1,4 @@
-# Digital Society - Course Material
+# Digital Society 
 
 ## **Folder Structure**
 

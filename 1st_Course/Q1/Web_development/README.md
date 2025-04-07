@@ -1,4 +1,4 @@
-# Web Development Fundamentals - Course Material
+# Web Development Fundamentals 
 
 ## **Links to Units and Exam Folder**
 

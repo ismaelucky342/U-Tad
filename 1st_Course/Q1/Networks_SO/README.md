@@ -1,4 +1,4 @@
-# Operating Systems and Networks Laboratory - Course Material
+# Operating Systems and Networks Laboratory 
 
 ## **Folder Structure**
 

@@ -1,4 +1,4 @@
-# Computer Architecture - Course Material
+# Computer Architecture 
 
 ## **Folder Structure**
 
