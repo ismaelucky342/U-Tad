@@ -17,7 +17,7 @@ Here is an overview of the course units:
 
 **Degree**: Software Engineering and Mathematics
 
-**Faculty**: University of Technology and Digital Arts (U-TAD)
+**Faculty**: University of Technology, Arts and Design (U-Tad)
 
 **Subject**: Software Engineering 
 

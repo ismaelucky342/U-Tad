@@ -16,7 +16,7 @@ The linked folders contain relevant materials for studying the subject.
 
 **Degree Program**: Software Engineering and Mathematics
 
-**Faculty**: University of technology, arts and design (U-Tad)
+**Faculty**: University of Technology, Arts and Design (U-Tad)
 
 **Subject**: Interdisciplinary Foundations
 

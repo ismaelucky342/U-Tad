@@ -16,7 +16,7 @@ The folders linked above contain the study materials relevant to the course. In 
 
 **Degree**: Software Engineering and Mathematics
 
-**Faculty**: University of technology, arts and design (U-Tad)
+**Faculty**: University of Technology, Arts and Design (U-Tad)
 
 **Subject**: Annual Projects
 

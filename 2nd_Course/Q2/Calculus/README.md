@@ -17,7 +17,7 @@ Here is an overview of the course folders and their contents:
 
 **Degree**: Software Engineering and Mathematics
 
-**Faculty**: University of Technology and Digital Arts (U-Tad)
+**Faculty**: University of Technology, Arts and Design (U-Tad)
 
 **Subject**: Scientific Foundations
 

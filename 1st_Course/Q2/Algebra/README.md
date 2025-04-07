@@ -19,7 +19,7 @@ The folders linked above contain study materials relevant to the core topics of 
 
 **Degree**: Software Engineering and Mathematics
 
-**Faculty**: University of Technology, Arts and Design (U-TAD)
+**Faculty**: University of Technology, Arts and Design (U-Tad)
 
 **Subject**: Scientific Fundamentals
 

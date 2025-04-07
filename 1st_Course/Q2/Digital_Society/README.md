@@ -16,7 +16,7 @@ The folders linked above contain study materials related to the social and techn
 
 **Degree**: Software Engineering and Mathematics
 
-**Faculty**: University of Technology, Arts and Design (U-TAD)
+**Faculty**: University of Technology, Arts and Design (U-Tad)
 
 **Subject**: Interdisciplinary Foundations
 

@@ -22,7 +22,7 @@ The "Fundamentals of Web Development" course introduces students to the essentia
 
 **Degree Program**: Software Engineering and Mathematics
 
-**Faculty or Center**: University of technology, arts and design (U-Tad)
+**Faculty or Center**: University of Technology, Arts and Design (U-Tad)
 
 **Subject**: Computer Science Fundamentals
 

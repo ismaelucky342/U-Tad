@@ -20,7 +20,7 @@ Below is a summary of the course folders and their contents:
 
 **Degree Program**: Software Engineering and Mathematics
 
-**Faculty**: University of technology, arts and design (U-Tad)
+**Faculty**: University of Technology, Arts and Design (U-Tad)
 
 **Subject**: Computer Fundamentals
 
