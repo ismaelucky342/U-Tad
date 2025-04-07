@@ -15,7 +15,7 @@ In the **first year**, we are introduced to the fundamental concepts of programm
 - **[Introduction to Programming I](1st_Course/Q1/Programming_1)** (6 ECTS)
 - **[Web Development Fundamentals](1st_Course/Q1/Web_development)** (6 ECTS)
 - **[Networking and Operating Systems Labs](1st_Course/Q1/Networks_SO)** (6 ECTS)
-- **[Logic and Discrete Mathematics](1st_Course/Q2/Logic_and_discrete_mathematics)** (6 ECTS) (Only Study Material)
+- **[Logic and Discrete Mathematics](1st_Course/Q1/Logic_and_discrete_mathematics)** (6 ECTS) (Only Study Material)
 - **[Creative Thinking](1st_Course/Q1/Creative_Thinking)** (3 ECTS)
 
 ### Q2:
