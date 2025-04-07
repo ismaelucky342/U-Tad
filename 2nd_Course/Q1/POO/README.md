@@ -17,7 +17,7 @@ Here is an overview of the course folders and their contents:
 
 **Degree**: Software Engineering and Mathematics
 
-**Faculty**: University of Technology, Arts, and Design (U-Tad)
+**Faculty**: University of Technology, Arts and Design (U-Tad)
 
 **Subject**: Programming
 
@@ -27,7 +27,7 @@ Here is an overview of the course folders and their contents:
 
 **Credits**: 6 ECTS
 
-**Language**: Spanish
+**Language**: Spanish / English
 
 ### **Course Overview**
 
