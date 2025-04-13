@@ -53,6 +53,35 @@ El segmento más atractivo para Homestead Energies son **cooperativas rurales y 
 **Targeting**
 Nuestro segmento principal serán comunidades rurales organizadas o asociaciones que busquen soluciones energéticas autosuficientes. Son prioritarias porque tienen urgencia en resolver un problema estructural y suelen tener apoyos gubernamentales o de ONGs para implementar estas soluciones.
 
-Estrategia de Posicionamiento y Propuesta de Valor
+## **Estrategia de Posicionamiento y Propuesta de Valor**
 
-------
+**¿Cómo se diferencia Homestead Energies?**
+Homestead Energies se posiciona como una solución sencilla, ecológica y de fácil instalación, diseñada específicamente para zonas de difícil acceso. A diferencia de otras empresas de energía, nosotros no dependemos de grandes infraestructuras ni de redes de distribución tradicionales.
+
+**Diferenciación frente a la competencia:**
+
+- Mayor facilidad de instalación (no requiere infraestructura compleja).
+- Diseño flotante que opera a mayor altura, aprovechando mejor el viento.
+- Monitoreo remoto desde app.
+
+**Propuesta de valor**
+"Energía limpia y constante, donde más se necesita."
+
+**Mensaje clave**
+
+"Lleva energía sostenible a donde otros no llegan."
+
+### **¿Cual será el Lienzo de posicionamiento?**
+
+Para comunidades rurales que necesitan una fuente de energía constante y accesible, Homestead Energies ofrece turbinas flotantes innovadoras que garantizan independencia energética. A diferencia de generadores a combustión o paneles solares ineficientes en climas variables, nuestras turbinas aprovechan los vientos de altura y se adaptan al terreno ademas de ser limpias, fáciles de instalar y pensadas para tu realidad como ciudadano de comunidades rurales.
+
+### Lienzo aprox:
+
+| Clientes | Necesidad |
+| --- | --- |
+| **Comunidades rurales** | **Necesidad de una fuente de energía constante y accesible.** |
+| **Homestead Energies** | **Turbinas flotantes innovadoras para generación de energía eólica.** |
+| Beneficios principales | Razones para creer |
+| **Independencia energética, energía limpia y constante, facilidad de instalación, adaptación al terreno.** | **Diseño flotante que opera a mayor altura, no requiere infraestructura compleja, monitoreo remoto desde app, aprovecha vientos de altura.** |
+| Rivales | Diferenciadores |
+| **Generadores a combustión, paneles solares.** | **Mayor facilidad de instalación, mejor aprovechamiento del viento (alturas), adaptación al terreno, solución limpia y pensada para comunidades rurales.** |

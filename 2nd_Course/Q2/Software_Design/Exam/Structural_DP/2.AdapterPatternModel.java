@@ -12,6 +12,8 @@ public class EnchufeAmericano {
 	}
 }
 
+
+
 // Adaptador
 public class AdaptadorEnchufe implements EnchufeEuropeo {
 	private EnchufeAmericano enchufeAmericano;

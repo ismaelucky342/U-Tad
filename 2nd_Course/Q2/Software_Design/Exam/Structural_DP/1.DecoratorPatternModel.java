@@ -51,6 +51,8 @@ class NotificadorSMS extends NotificadorDecorador {
 	}
 }
 
+
+
 // Decorador concreto: Email
 class NotificadorEmail extends NotificadorDecorador {
 	public NotificadorEmail(Notificador envoltorio) {
