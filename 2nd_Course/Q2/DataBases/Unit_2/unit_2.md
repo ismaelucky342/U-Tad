@@ -17,6 +17,7 @@ Nace así la primera generación de los SGBD referenciando 13 reglas fundamental
 
 **Regla 1. Regla de la información**
 
+
 - Toda la información en la base de datos es representada unidireccionalmente, por valores en posiciones de las columnas dentro de filas de tablas.
 - Toda la información en una base de datos relacional se representa explícitamente como valores en tablas. No hay información que no esté en tablas.
 - Los metadatos (diccionario, catálogo) se representan y se manipulan exactamente igual que los datos de usuario, pudiéndose usar el mismo lenguaje.

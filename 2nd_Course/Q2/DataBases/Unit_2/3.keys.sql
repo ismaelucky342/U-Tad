@@ -24,6 +24,7 @@ CREATE TABLE Enrollment (
     PRIMARY KEY (StudentID, CourseID) -- Composite Primary Key
 );
 
+
 -- Example 5: Multiple Candidate Keys
 CREATE TABLE Products (
     ProductID INT PRIMARY KEY, -- Primary Key

@@ -18,6 +18,7 @@ CREATE TABLE Orders (
     OrderDate DATE NOT NULL
 );
 
+
 CREATE TABLE OrderDetails (
     OrderDetailID INT PRIMARY KEY,
     OrderID INT,

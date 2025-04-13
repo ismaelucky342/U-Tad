@@ -23,6 +23,7 @@ CREATE TABLE libros (
 
 ---
 
+
 ### b) Insertar 2000 registros (usando Python)
 
 > Aquí uso Python junto con la librería Faker para generar datos aleatorios y simular una base de datos más realista con 2000 libros. Uso random para variar los años y géneros. Me conecto a MySQL con mysql.connector y voy insertando los datos uno a uno con un bucle. Esto me permite probar el rendimiento de la base de datos con una cantidad considerable de información.

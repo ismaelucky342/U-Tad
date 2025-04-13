@@ -22,3 +22,4 @@ CREATE INDEX idx_usuario_fecha ON LOGS(usuario, fecha);
 -- Consulta típica optimizada
 EXPLAIN SELECT * FROM LOGS
 WHERE usuario = 'admin' AND fecha BETWEEN '2022-01-01' AND '2022-12-31';
+

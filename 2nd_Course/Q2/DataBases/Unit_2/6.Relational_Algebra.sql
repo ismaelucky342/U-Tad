@@ -17,6 +17,7 @@ SELECT name, age
 FROM Students;
 
 -- In relational algebra:
+
 -- π_name,age(Students)
 
 -- Example 3: Union (∪)
@@ -26,6 +27,7 @@ FROM Students
 UNION
 SELECT course_name 
 FROM Courses;
+
 
 -- In relational algebra:
 -- π_name(Students) ∪ π_course_name(Courses)

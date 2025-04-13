@@ -25,6 +25,7 @@ CREATE TABLE FACTURAS (
         ON UPDATE CASCADE -- Update rule: Cascade (updates the foreign key)
 );
 
+
 -- Example of data insertion
 INSERT INTO LOCALIDADES (codLocalidad, nombreLocalidad) VALUES (1, 'Madrid');
 INSERT INTO CLIENTES (codCliente, nombreCliente, direccion, codLocalidad) VALUES (101, 'Juan Pérez', 'Calle Mayor 1', 1);

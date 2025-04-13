@@ -21,6 +21,7 @@ CREATE TABLE Enrollments (
     FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
 );
 
+
 -- Example 2: Employees and Departments
 CREATE TABLE Departments (
     DepartmentID INT PRIMARY KEY,

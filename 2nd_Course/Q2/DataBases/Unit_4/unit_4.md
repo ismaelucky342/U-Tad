@@ -18,6 +18,7 @@ Accessing a MySQL database involves establishing a connection to the database se
 
 ### 💻 **Access via MySQL Client (Terminal)**
 
+
 The MySQL client is a powerful command-line tool that allows users to connect to the MySQL server and execute SQL commands interactively. It is particularly useful for database administrators and developers who require direct control over the database or need to troubleshoot issues quickly.
 
 Example usage:

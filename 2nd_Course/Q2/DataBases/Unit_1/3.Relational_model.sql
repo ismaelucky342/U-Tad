@@ -17,6 +17,7 @@ CREATE TABLE Pedidos (
 INSERT INTO Clientes (nombre, email) VALUES ('Juan Pérez', 'juan@email.com');
 INSERT INTO Pedidos (cliente_id, producto, cantidad) VALUES (1, 'Laptop', 1);
 
+
 -- Consulta para obtener pedidos con información del cliente
 SELECT Clientes.nombre, Pedidos.producto, Pedidos.cantidad
 FROM Clientes

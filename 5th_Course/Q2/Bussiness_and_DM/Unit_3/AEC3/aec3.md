@@ -75,13 +75,59 @@ Homestead Energies se posiciona como una solución sencilla, ecológica y de fá
 
 Para comunidades rurales que necesitan una fuente de energía constante y accesible, Homestead Energies ofrece turbinas flotantes innovadoras que garantizan independencia energética. A diferencia de generadores a combustión o paneles solares ineficientes en climas variables, nuestras turbinas aprovechan los vientos de altura y se adaptan al terreno ademas de ser limpias, fáciles de instalar y pensadas para tu realidad como ciudadano de comunidades rurales.
 
-### Lienzo aprox:
+### Lienzo desarrollado:
 
 | Clientes | Necesidad |
 | --- | --- |
+| ¿Quién es nuestro cliente: características demográficas/filmográficas, psicográficas, comportamiento...? | ¿Qué problema / necesidad / trabajo por realizar tiene el cliente? |
 | **Comunidades rurales** | **Necesidad de una fuente de energía constante y accesible.** |
+| Nombre | Descripción y marco de referencia |
+| ¿Cómo se llama nuestro producto? | ¿En qué consiste? ¿A qué categoría de producto pertenece? |
 | **Homestead Energies** | **Turbinas flotantes innovadoras para generación de energía eólica.** |
 | Beneficios principales | Razones para creer |
+| ¿Qué valor aporta, qué resultados de todo tipo proporciona al cliente? | ¿Qué características/atributos, etc. justifican esos beneficios? |
 | **Independencia energética, energía limpia y constante, facilidad de instalación, adaptación al terreno.** | **Diseño flotante que opera a mayor altura, no requiere infraestructura compleja, monitoreo remoto desde app, aprovecha vientos de altura.** |
 | Rivales | Diferenciadores |
+| ¿Cuáles son los competidores / sustitutivos / alternativos que el cliente considera? | ¿Por qué es mejor que ellos, atendiendo a dimensiones que son relevantes para el cliente? |
 | **Generadores a combustión, paneles solares.** | **Mayor facilidad de instalación, mejor aprovechamiento del viento (alturas), adaptación al terreno, solución limpia y pensada para comunidades rurales.** |
+
+## **Diseño del Viaje del Cliente**
+
+Conciencia 
+
+La etapa de conciencia es fundamental para atraer a los posibles clientes hacia Homestead Energies, especialmente en zonas rurales donde la educación sobre energía renovable puede ser limitada. Aquí, nuestro objetivo es captar la atención y generar interés sobre las turbinas flotantes y cómo pueden mejorar la calidad de vida.
+
+- **Contenido Educativo en Redes Sociales y Colaboraciones con ONGs**: A través de posts, infografías y videos educativos, explicamos cómo las turbinas flotantes son una solución energética viable y sostenible. Las colaboraciones con ONGs locales nos permitirán llegar a las comunidades más necesitadas.
+
+- Se producirán documentales cortos o videos testimoniales donde los propios miembros de las comunidades puedan contar su experiencia con nuestras turbinas. Estos videos se compartirán en plataformas como YouTube, Facebook y las redes sociales de la empresa.
+
+-Publicaciones en Blogs Especializados y Webinars Gratuitos: Aprovecharemos blogs que aborden temas de sostenibilidad, energía renovable, y tecnologías para zonas rurales, publicando artículos sobre los beneficios de la energía eólica flotante. Los webinars, además de ser educativos, permitirán a los asistentes interactuar directamente con nuestros expertos.
+
+---
+
+Consideración 
+
+En esta etapa, el cliente ya ha sido informado sobre el producto y empieza a considerar cómo puede beneficiarse de las turbinas flotantes de Homestead. Aquí, buscamos ofrecer pruebas de la efectividad de nuestras soluciones.
+
+- **Página Web con Simuladores que Muestran el Ahorro y Beneficios**: La página web tendrá una sección interactiva donde los usuarios pueden calcular el ahorro en costes y los beneficios ambientales que obtendrían al instalar una turbina. Este simulador incluirá escenarios de ahorro basados en la localización, tipo de uso y cantidad de energía requerida.
+- **Contacto Directo con Expertos que Explican la Viabilidad para su Zona**: Ofrecemos consultas virtuales o telefónicas con nuestros expertos, quienes pueden dar asesoramiento personalizado sobre cómo las turbinas flotantes pueden adaptarse a las condiciones específicas de cada comunidad, incluyendo el viento disponible y los posibles beneficios económicos.
+- **Testimonios Reales y Tours Virtuales de Instalaciones Existentes**: Proporcionaremos testimonios detallados de otras comunidades que ya estén utilizando nuestras turbinas. Además, ofreceremos tours virtuales de instalaciones donde los usuarios puedan ver cómo funciona la tecnología en la práctica y entender su impacto positivo.
+
+---
+
+Decisión 
+
+Una vez que los clientes están convencidos de los beneficios, se llega a la etapa de decisión, donde deben tomar la decisión de compra. En este momento, es crucial ofrecer incentivos que hagan más fácil la compra.
+
+- **Planes de Financiación Flexibles y Acceso a Subsidios o Ayudas**: Homestead Energies ofrecerá planes de financiación adaptados a las necesidades económicas de las comunidades, como pagos fraccionados o condiciones preferentes para asociaciones. También proporcionaremos información sobre subsidios gubernamentales o ayudas de ONGs que puedan reducir el costo inicial.
+- **Propuesta Técnica Personalizada para la Comunidad**: Crearemos una propuesta técnica que incluya un análisis detallado del tamaño adecuado de la turbina, el ahorro estimado y la instalación. Este informe estará diseñado para cada comunidad específica, asegurando que todas las necesidades locales sean cubiertas.
+
+
+---
+
+Fidelización
+
+El trabajo no termina con la venta. La fidelización es clave para que el cliente continúe recomendando nuestros productos y confíe en Homestead Energies para futuras necesidades energéticas.
+
+- **Mantenimiento Remoto y Asesoría Continua**: Ofreceremos un servicio de mantenimiento remoto para resolver cualquier incidencia sin que el cliente tenga que desplazarse. También proporcionaremos asesoría continua sobre cómo maximizar el uso de las turbinas para obtener el máximo rendimiento.
+
