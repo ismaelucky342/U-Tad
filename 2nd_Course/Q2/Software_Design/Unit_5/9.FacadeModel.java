@@ -37,6 +37,7 @@ class FachadaLuzInfrarroja {
     }
 }
 
+
 // --- Fachada principal ---
 class FachadaGeneradorLuz {
     private FachadaLuzVisible fachadaVisible = new FachadaLuzVisible();

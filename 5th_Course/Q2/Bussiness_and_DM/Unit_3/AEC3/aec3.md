@@ -166,6 +166,42 @@ El email marketing se utilizará para mantener el contacto con clientes potencia
 
 ---
 
- **Evaluación de Métricas Clave**
+ # **Evaluación de Métricas Clave**
+
+### **Para Marketing de Contenidos**:
+
+- **Tiempo Promedio en Página**: Mediremos cuánto tiempo pasan los usuarios en cada artículo, lo que nos indica su nivel de interés.
+- **Número de Artículos Leídos por Visitante**: Un indicador de cuán comprometidos están los usuarios con el contenido que ofrecemos.
+- **Tasa de Conversión desde Blog hacia Contacto Comercial**: Veremos cuántos visitantes del blog se convierten en clientes potenciales o generan una consulta.
+
+### **Para Redes Sociales**:
+
+- **Engagement Rate**: La tasa de interacción en nuestras publicaciones es crucial para medir la efectividad de las campañas.
+- **Número de Seguidores Nuevos por Semana**: Este dato nos ayudará a medir el crecimiento de nuestra comunidad en las redes sociales.
+- **Clics en Enlaces Hacia la Página Web**: Evaluaremos el tráfico que nuestras redes sociales generan hacia la página web, especialmente aquellos que se traducen en consultas.
+
+### **Para Email Marketing**:
+
+- **Tasa de Apertura**: Esta métrica nos indica cuán efectivos son nuestros correos electrónicos para atraer la atención del destinatario.
+- **CTR (Click Through Rate)**: Nos ayudará a saber qué tan efectivo es el contenido del email en dirigir a los usuarios a la página web.
+- **Número de Leads Calificados Generados**: Mediremos cuántos leads obtenemos que cumplen con los criterios para convertirse en clientes potenciales.
+
+### Tabla:
+
+| **Táctica** | **Métrica** | **Justificación** |
+| --- | --- | --- |
+| **Marketing de Contenidos** | **Tiempo Promedio en Página** | Refleja el nivel de interés y profundidad de lectura del visitante en los artículos del blog. |
+|  | **Tasa de Conversión (blog → lead)** | Mide la efectividad del contenido para generar interés comercial (consultas o solicitudes de contacto). |
+|  | **CAC (Costo de Adquisición)** | Permite evaluar cuánto cuesta, en promedio, convertir un lector en cliente mediante esta táctica. |
+| **Redes Sociales** | **Engagement Rate** | Evalúa la calidad del contenido y su capacidad para generar interacción (likes, comentarios, compartidos). |
+|  | **Clics en Enlaces a la Web** | Mide si las publicaciones logran llevar a los usuarios hacia la web, paso clave hacia la conversión. |
+|  | **Conversión desde redes (%)** | Indica cuántas personas que vienen desde redes sociales terminan tomando una acción deseada (contacto, registro, etc.). |
+| **Email Marketing** | **Tasa de Apertura (Open Rate)** | Muestra cuán atractivos y relevantes son los asuntos de los emails para el destinatario. |
+|  | **CTR (Click Through Rate)** | Evalúa el interés real en el contenido del email, midiendo cuántos hacen clic en los enlaces. |
+|  | **Leads Calificados Generados** | Indica la calidad de los contactos obtenidos: personas o entidades con posibilidades reales de convertirse en clientes. |
 
 ---
+
+**Cierre personal:**
+
+Con Homestead Energies, mi objetivo es mostrar cómo una tecnología innovadora puede ser accesible y útil para las comunidades que más lo necesitan. Este enfoque no solo busca vender un producto, sino también generar un cambio real y duradero en zonas rurales y aisladas. La energía es un derecho básico, y me apasiona ver cómo nuestras turbinas podrían mejorar la calidad de vida de las personas que, por diversas razones, no tienen acceso a fuentes de energía confiables y sostenibles.

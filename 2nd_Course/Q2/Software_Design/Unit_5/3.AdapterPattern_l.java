@@ -22,6 +22,7 @@ public class PaymentAdapter implements PaymentGateway {
 }
 
 public class App {
+    
     public static void main(String[] args) {
         OldPaymentProcessor oldSystem = new OldPaymentProcessor();
         PaymentGateway payment = new PaymentAdapter(oldSystem); // Use adapter

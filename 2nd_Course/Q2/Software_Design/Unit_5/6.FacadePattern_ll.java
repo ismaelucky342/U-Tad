@@ -24,6 +24,7 @@ public class EmailService {
     }
 }
 
+
 public class GameStoreFacade {
     private UserService userService;
     private GameCatalogService catalogService;

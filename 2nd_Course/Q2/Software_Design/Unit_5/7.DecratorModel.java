@@ -24,6 +24,7 @@ abstract class LuzDecorator implements Luz {
         this.luzDecorada = luz;
     }
 
+
     @Override
     public void encender() {
         luzDecorada.encender();

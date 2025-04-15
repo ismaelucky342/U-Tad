@@ -20,6 +20,7 @@ public class EUtoUSAdapter implements USPlug {
         System.out.println("Using adapter to convert EU plug to US socket...");
         euPlug.connectToEUSocket();
     }
+    
 }
 
 public class Main {
