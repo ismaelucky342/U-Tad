@@ -10,7 +10,6 @@ public class Car {
         this.model = model;
         this.isRunning = false; // Default state: the car is stopped
     }
-
     // Methods (behavior)
 
     // Start the car
