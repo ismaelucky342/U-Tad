@@ -2,12 +2,14 @@
 
 He ideado Homestead Energies como una startup ficticia dedicada al desarrollo y distribución de turbinas eólicas flotantes inspiradas en tecnologías como BAT (Buoyant Airborne Turbine). Su principal objetivo es ofrecer soluciones energéticas sostenibles a comunidades rurales y de difícil acceso, donde las redes eléctricas convencionales no llegan o no son fiables. La empresa tiene presencia online mediante una página web donde se informa sobre sus productos, se reciben pedidos, y se publican historias reales de clientes que han transformado su calidad de vida gracias a esta tecnología.
 
-Nombre: Homestead Energies 
-Industria: Energía Renovable / Tecnología Sostenible / Ecommerce (B2B y B2C)
-Producto: Turbinas eólicas flotantes tipo BAT (Buoyant Airborne Turbines) para zonas rurales de difícil acceso.
-Presencia Online: Sitio web informativo y comercial, catálogo digital, tienda online para compra directa o contacto comercial, app de mantenimiento y monitoreo.
+**Nombre:** Homestead Energies 
+**Industria:** Energía Renovable / Tecnología Sostenible / Ecommerce (B2B y B2C)
+**Producto:** Turbinas eólicas flotantes tipo BAT (Buoyant Airborne Turbines) para zonas rurales de difícil acceso.
+**Presencia Online:** Sitio web informativo y comercial, catálogo digital, tienda online para compra directa o contacto comercial, app de mantenimiento y monitoreo.
 
-![alt text](bighero6bat.png)
+![image.png](attachment:d7dee8df-60b3-484e-9543-f52f7fe25135:f584222e-d279-415f-89b4-8f95913b19da.png)
+
+---
 
 ## **Segmentación y Público Objetivo**
 
@@ -53,6 +55,8 @@ El segmento más atractivo para Homestead Energies son **cooperativas rurales y 
 **Targeting**
 Nuestro segmento principal serán comunidades rurales organizadas o asociaciones que busquen soluciones energéticas autosuficientes. Son prioritarias porque tienen urgencia en resolver un problema estructural y suelen tener apoyos gubernamentales o de ONGs para implementar estas soluciones.
 
+---
+
 ## **Estrategia de Posicionamiento y Propuesta de Valor**
 
 **¿Cómo se diferencia Homestead Energies?**
@@ -91,55 +95,51 @@ Para comunidades rurales que necesitan una fuente de energía constante y accesi
 | ¿Cuáles son los competidores / sustitutivos / alternativos que el cliente considera? | ¿Por qué es mejor que ellos, atendiendo a dimensiones que son relevantes para el cliente? |
 | **Generadores a combustión, paneles solares.** | **Mayor facilidad de instalación, mejor aprovechamiento del viento (alturas), adaptación al terreno, solución limpia y pensada para comunidades rurales.** |
 
-## **Diseño del Viaje del Cliente**
+## **Diseño del Viaje del Cliente (Customer Journey Map)**
 
-Conciencia 
+### **1. Conciencia (Awareness)**:
 
 La etapa de conciencia es fundamental para atraer a los posibles clientes hacia Homestead Energies, especialmente en zonas rurales donde la educación sobre energía renovable puede ser limitada. Aquí, nuestro objetivo es captar la atención y generar interés sobre las turbinas flotantes y cómo pueden mejorar la calidad de vida.
 
-Contenido Educativo en Redes Sociales y Colaboraciones con ONGs: A través de posts, infografías y videos educativos, explicamos cómo las turbinas flotantes son una solución energética viable y sostenible. Las colaboraciones con ONGs locales nos permitirán llegar a las comunidades más necesitadas.
-
-Se producirán documentales cortos o videos testimoniales donde los propios miembros de las comunidades puedan contar su experiencia con nuestras turbinas. Estos videos se compartirán en plataformas como YouTube, Facebook y las redes sociales de la empresa.
-
--Publicaciones en Blogs Especializados y Webinars Gratuitos: Aprovecharemos blogs que aborden temas de sostenibilidad, energía renovable, y tecnologías para zonas rurales, publicando artículos sobre los beneficios de la energía eólica flotante. Los webinars, además de ser educativos, permitirán a los asistentes interactuar directamente con nuestros expertos.
+- **Contenido Educativo en Redes Sociales y Colaboraciones con ONGs**: A través de posts, infografías y videos educativos, explicamos cómo las turbinas flotantes son una solución energética viable y sostenible. Las colaboraciones con ONGs locales nos permitirán llegar a las comunidades más necesitadas, estableciendo una relación de confianza y legitimidad. Las ONGs también pueden proporcionar recomendaciones directas a las comunidades.
+- **Videos Mostrando Comunidades que Ahora Tienen Energía Gracias a Homestead**: Se producirán documentales cortos o videos testimoniales donde los propios miembros de las comunidades puedan contar su experiencia con nuestras turbinas. Estos videos se compartirán en plataformas como YouTube, Facebook y las redes sociales de la empresa.
+- **Publicaciones en Blogs Especializados y Webinars Gratuitos**: Aprovecharemos blogs que aborden temas de sostenibilidad, energía renovable, y tecnologías para zonas rurales, publicando artículos sobre los beneficios de la energía eólica flotante. Los webinars, además de ser educativos, permitirán a los asistentes interactuar directamente con nuestros expertos, haciendo preguntas sobre cómo funciona la tecnología, su instalación y sus beneficios. Los webinars se promoverán en las redes sociales y se presentarán como una forma de capacitar a las comunidades.
 
 ---
 
-Consideración 
+### **Consideración (Consideration)**:
 
 En esta etapa, el cliente ya ha sido informado sobre el producto y empieza a considerar cómo puede beneficiarse de las turbinas flotantes de Homestead. Aquí, buscamos ofrecer pruebas de la efectividad de nuestras soluciones.
 
-Página Web con Simuladores que Muestran el Ahorro y Beneficios: La página web tendrá una sección interactiva donde los usuarios pueden calcular el ahorro en costes y los beneficios ambientales que obtendrían al instalar una turbina. Este simulador incluirá escenarios de ahorro basados en la localización, tipo de uso y cantidad de energía requerida.
-Contacto Directo con Expertos que Explican la Viabilidad para su Zona: Ofrecemos consultas virtuales o telefónicas con nuestros expertos, quienes pueden dar asesoramiento personalizado sobre cómo las turbinas flotantes pueden adaptarse a las condiciones específicas de cada comunidad, incluyendo el viento disponible y los posibles beneficios económicos.
-Testimonios Reales y Tours Virtuales de Instalaciones Existentes**: Proporcionaremos testimonios detallados de otras comunidades que ya estén utilizando nuestras turbinas. Además, ofreceremos tours virtuales de instalaciones donde los usuarios puedan ver cómo funciona la tecnología en la práctica y entender su impacto positivo.
+- **Página Web con Simuladores que Muestran el Ahorro y Beneficios**: La página web tendrá una sección interactiva donde los usuarios pueden calcular el ahorro en costes y los beneficios ambientales que obtendrían al instalar una turbina. Este simulador incluirá escenarios de ahorro basados en la localización, tipo de uso y cantidad de energía requerida.
+- **Contacto Directo con Expertos que Explican la Viabilidad para su Zona**: Ofrecemos consultas virtuales o telefónicas con nuestros expertos, quienes pueden dar asesoramiento personalizado sobre cómo las turbinas flotantes pueden adaptarse a las condiciones específicas de cada comunidad, incluyendo el viento disponible y los posibles beneficios económicos.
+- **Testimonios Reales y Tours Virtuales de Instalaciones Existentes**: Proporcionaremos testimonios detallados de otras comunidades que ya estén utilizando nuestras turbinas. Además, ofreceremos tours virtuales de instalaciones donde los usuarios puedan ver cómo funciona la tecnología en la práctica y entender su impacto positivo.
 
 ---
 
-Decisión 
+### **Decisión (Decision)**:
 
 Una vez que los clientes están convencidos de los beneficios, se llega a la etapa de decisión, donde deben tomar la decisión de compra. En este momento, es crucial ofrecer incentivos que hagan más fácil la compra.
 
-Planes de Financiación Flexibles y Acceso a Subsidios o Ayudas: Homestead Energies ofrecerá planes de financiación adaptados a las necesidades económicas de las comunidades, como pagos fraccionados o condiciones preferentes para asociaciones. También proporcionaremos información sobre subsidios gubernamentales o ayudas de ONGs que puedan reducir el costo inicial.
-
-Propuesta Técnica Personalizada para la Comunidad: Crearemos una propuesta técnica que incluya un análisis detallado del tamaño adecuado de la turbina, el ahorro estimado y la instalación. Este informe estará diseñado para cada comunidad específica, asegurando que todas las necesidades locales sean cubiertas.
-
-Garantías de Funcionamiento y Servicio Post-Venta: Ofreceremos garantías que aseguren el funcionamiento de las turbinas durante un largo período. Además, se incluirá un servicio post-venta en el que el cliente pueda recibir soporte técnico, mantenimiento remoto, y actualizaciones de software o hardware si es necesario
+- **Planes de Financiación Flexibles y Acceso a Subsidios o Ayudas**: Homestead Energies ofrecerá planes de financiación adaptados a las necesidades económicas de las comunidades, como pagos fraccionados o condiciones preferentes para asociaciones. También proporcionaremos información sobre subsidios gubernamentales o ayudas de ONGs que puedan reducir el costo inicial.
+- **Propuesta Técnica Personalizada para la Comunidad**: Crearemos una propuesta técnica que incluya un análisis detallado del tamaño adecuado de la turbina, el ahorro estimado y la instalación. Este informe estará diseñado para cada comunidad específica, asegurando que todas las necesidades locales sean cubiertas.
+- **Garantías de Funcionamiento y Servicio Post-Venta**: Ofreceremos garantías que aseguren el funcionamiento de las turbinas durante un largo período. Además, se incluirá un servicio post-venta en el que el cliente pueda recibir soporte técnico, mantenimiento remoto, y actualizaciones de software o hardware si es necesario.
 
 ---
 
-Fidelización
+### **Fidelización (Retention)**:
 
 El trabajo no termina con la venta. La fidelización es clave para que el cliente continúe recomendando nuestros productos y confíe en Homestead Energies para futuras necesidades energéticas.
 
-Mantenimiento Remoto y Asesoría Continua: Ofreceremos un servicio de mantenimiento remoto para resolver cualquier incidencia sin que el cliente tenga que desplazarse. También proporcionaremos asesoría continua sobre cómo maximizar el uso de las turbinas para obtener el máximo rendimiento.
+- **Mantenimiento Remoto y Asesoría Continua**: Ofreceremos un servicio de mantenimiento remoto para resolver cualquier incidencia sin que el cliente tenga que desplazarse. También proporcionaremos asesoría continua sobre cómo maximizar el uso de las turbinas para obtener el máximo rendimiento.
+- **Comunidad Online de Usuarios Donde Comparten sus Experiencias**: Crearemos una plataforma en línea donde los usuarios pueden intercambiar consejos, experiencias y resolver dudas. Este espacio servirá como un lugar para fortalecer la comunidad, facilitando la cooperación entre usuarios y generando un entorno de confianza.
+- **Programa de Referidos: Descuentos y Mejoras en el Sistema**: A través de un programa de referidos, los clientes actuales podrán recomendar a otras comunidades a cambio de beneficios, como descuentos en su próxima compra o mejoras en su sistema de turbinas.
 
-Comunidad Online de Usuarios Donde Comparten sus Experiencias: Crearemos una plataforma en línea donde los usuarios pueden intercambiar consejos, experiencias y resolver dudas. Este espacio servirá como un lugar para fortalecer la comunidad, facilitando la cooperación entre usuarios y generando un entorno de confianza.
+### Viaje del Cliente desarrollado:
 
-Programa de Referidos: Descuentos y Mejoras en el Sistema: A través de un programa de referidos, los clientes actuales podrán recomendar a otras comunidades a cambio de beneficios, como descuentos en su próxima compra o mejoras en su sistema de turbinas.
+![image.png](attachment:49fd7198-a4bc-42e5-a528-59e2edc243f7:image.png)
 
-Viaje del Cliente desarrollado: 
-
-![alt text](viajecliente1.png)
+---
 
 ## **Tácticas de Marketing Digital**
 
@@ -166,7 +166,7 @@ El email marketing se utilizará para mantener el contacto con clientes potencia
 
 ---
 
- # **Evaluación de Métricas Clave**
+## **Evaluación de Métricas Clave**
 
 ### **Para Marketing de Contenidos**:
 
