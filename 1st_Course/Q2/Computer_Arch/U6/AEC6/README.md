@@ -52,7 +52,7 @@ Optional:
 
 ```
 asm
-CopyEdit
+
 NUM1: DB 7, 4, 2, 10, 4, 1, 7
 NUM2: DB 5, 6, 9, 10, 1, 0, 4
 
@@ -61,7 +61,7 @@ NUM2: DB 5, 6, 9, 10, 1, 0, 4
 **Sum results** (before parity):
 
 ```
-CopyEdit
+
 12, 10, 11, 20, 5, 1, 11
 
 ```
@@ -69,7 +69,7 @@ CopyEdit
 **Parity values** (stored in memory starting at `$8110`):
 
 ```
-CopyEdit
+
 0, 0, 1, 0, 1, 1, 1
 
 ```

@@ -14,7 +14,7 @@ Vim is a highly configurable text editor used for editing code and text. It is a
     
     ```bash
     bash
-    CopyEdit
+    
     vim filename  # Opens the file in Vim editor
     
     ```
@@ -54,7 +54,7 @@ Nano is a simple and easy-to-use text editor that is available by default on man
     
     ```bash
     bash
-    CopyEdit
+    
     nano filename  # Opens the file in Nano editor
     
     ```
@@ -86,7 +86,7 @@ Emacs is a powerful text editor with a steep learning curve but many advanced fe
     
     ```bash
     bash
-    CopyEdit
+    
     emacs filename  # Opens the file in Emacs editor
     
     ```
@@ -141,7 +141,7 @@ To run a Bash script, follow these steps:
     
     ```bash
     bash
-    CopyEdit
+    
     chmod +x script.sh
     
     ```
@@ -150,7 +150,7 @@ To run a Bash script, follow these steps:
     
     ```bash
     bash
-    CopyEdit
+    
     ./script.sh
     
     ```

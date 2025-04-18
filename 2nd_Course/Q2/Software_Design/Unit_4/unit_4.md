@@ -195,7 +195,7 @@ Create a **Shape Factory** that can generate different types of shapes like **Ci
 
 ```java
 java
-CopyEdit
+
 // Product interface
 interface Shape {
     void draw();
@@ -236,7 +236,7 @@ class ShapeFactory {
 
 ```java
 java
-CopyEdit
+
 public class FactoryPatternDemo {
     public static void main(String[] args) {
         ShapeFactory shapeFactory = new ShapeFactory();
@@ -257,7 +257,7 @@ public class FactoryPatternDemo {
 
 ```
 mathematica
-CopyEdit
+
 Drawing Circle
 Drawing Rectangle
 
@@ -342,7 +342,7 @@ Create an **Abstract Factory** that can produce **buttons** and **checkboxes** f
 
 ```java
 java
-CopyEdit
+
 // Abstract Products
 interface Button {
     void render();
@@ -412,7 +412,7 @@ class MacOSFactory implements GUIFactory {
 
 ```java
 java
-CopyEdit
+
 public class AbstractFactoryPatternDemo {
     public static void main(String[] args) {
         // Client code: Decide which factory to use based on OS type
@@ -441,7 +441,7 @@ public class AbstractFactoryPatternDemo {
 
 ```
 mathematica
-CopyEdit
+
 Rendering Windows Button
 Rendering Windows Checkbox
 

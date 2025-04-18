@@ -52,7 +52,7 @@ In this exercise, the goal is to write a program that reads a string and checks 
 
 ```
 bash
-CopyEdit
+
 AEC1/
 ├── src/
 │   ├── SumFirstNNumbers.cpp    # Sum of First N Numbers exercise

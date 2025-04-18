@@ -41,7 +41,7 @@ Si hay memoria libre contigua a la ya reservada, el sistema simplemente amplía 
 
 ```cpp
 cpp
-CopyEdit
+
 #include <iostream>
 #include <vector>
 
@@ -68,7 +68,7 @@ Si no hay memoria libre contigua, el sistema asigna una nueva zona, copia los da
 
 ```cpp
 cpp
-CopyEdit
+
 #include <iostream>
 #include <vector>
 
@@ -95,7 +95,7 @@ Reducir la memoria reservada es una operación eficiente, ya que solo indica al 
 
 ```cpp
 cpp
-CopyEdit
+
 #include <iostream>
 #include <vector>
 
@@ -121,7 +121,7 @@ Cuando se copian datos en memoria que se solapan, el uso de `memcpy()` puede pro
 
 ```cpp
 cpp
-CopyEdit
+
 #include <iostream>
 #include <cstring>
 
@@ -143,7 +143,7 @@ La función `memmove()` maneja el solapamiento copiando primero los datos a una 
 
 ```cpp
 cpp
-CopyEdit
+
 #include <iostream>
 #include <cstring>
 
@@ -171,7 +171,7 @@ Al insertar un elemento, pueden ocurrir dos casos:
 
 ```cpp
 cpp
-CopyEdit
+
 #include <iostream>
 #include <vector>
 
@@ -191,7 +191,7 @@ int main() {
 
 ```cpp
 cpp
-CopyEdit
+
 #include <iostream>
 #include <cstring>
 
@@ -238,7 +238,7 @@ Cuando se elimina un elemento, los elementos a la derecha deben desplazarse a la
 
 ```cpp
 cpp
-CopyEdit
+
 #include <iostream>
 #include <vector>
 
@@ -258,7 +258,7 @@ int main() {
 
 ```cpp
 cpp
-CopyEdit
+
 #include <iostream>
 #include <cstring>
 
@@ -290,7 +290,7 @@ El acceso es directo y tiene una complejidad constante.
 
 ```cpp
 cpp
-CopyEdit
+
 #include <iostream>
 #include <vector>
 

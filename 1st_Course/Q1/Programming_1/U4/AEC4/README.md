@@ -41,7 +41,7 @@ This C program prompts the user for a **valid birth date** and calculates their 
 
 ```
 yaml
-CopyEdit
+
 Enter your Birth Date.
 year: 2000
 month: 12

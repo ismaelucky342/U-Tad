@@ -20,7 +20,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     sudo apt install htop
     
     ```
@@ -31,7 +31,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     kill 1234  # Terminate the process with PID 1234
     
     ```
@@ -40,7 +40,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     kill -9 1234
     
     ```
@@ -51,7 +51,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     killall firefox  # Terminates all Firefox processes
     
     ```
@@ -70,7 +70,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     nice -n 10 command  # Starts a command with lower priority
     
     ```
@@ -81,7 +81,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     renice 10 -p 1234  # Changes the priority of process with PID 1234 to 10
     
     ```
@@ -100,7 +100,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     nohup command &  # Runs command in the background, ignoring hangup signals
     
     ```
@@ -118,7 +118,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     free -h  # Shows memory usage in human-readable format
     
     ```
@@ -129,7 +129,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     vmstat 1  # Displays memory statistics every second
     
     ```
@@ -148,7 +148,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     pmap 1234  # Shows memory map for the process with PID 1234
     
     ```
@@ -159,7 +159,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     cat /proc/meminfo
     
     ```
@@ -170,7 +170,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     cat /proc/1234/status  # Displays memory stats for process with PID 1234
     
     ```
@@ -181,7 +181,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     swapon --show  # Displays active swap devices and their usage
     
     ```
@@ -192,7 +192,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     sysctl vm.swappiness=30  # Reduces the swapping aggressiveness
     
     ```
@@ -212,7 +212,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     lsof  # Lists all open files
     
     ```
@@ -223,7 +223,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     strace -p 1234  # Traces the system calls made by process with PID 1234
     
     ```
@@ -234,7 +234,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     dmesg | grep -i memory  # Filters dmesg output for memory-related entries
     
     ```
@@ -245,7 +245,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     sar -r 1 5  # Reports memory usage every 1 second for 5 intervals
     
     ```
@@ -261,7 +261,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     free -h  # Displays memory usage in a human-readable format
     vmstat 1  # Displays memory statistics every second
     
@@ -275,7 +275,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     top  # Displays system processes and their resource usage
     
     ```
@@ -288,7 +288,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     ps aux | grep firefox  # Find the PID of Firefox
     
     ```
@@ -297,7 +297,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     kill 1234  # Replace 1234 with the actual PID
     
     ```
@@ -310,7 +310,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     swapon --show
     
     ```
@@ -319,7 +319,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     sudo swapoff -a  # Disables all swap devices
     
     ```
@@ -328,7 +328,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     sudo swapon -a  # Enables all swap devices
     
     ```
@@ -340,7 +340,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     sysctl vm.swappiness
     
     ```
@@ -349,7 +349,7 @@
     
     ```bash
     bash
-    CopyEdit
+    
     sudo sysctl vm.swappiness=30
     
     ```
