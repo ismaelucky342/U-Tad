@@ -14,7 +14,7 @@ The folders linked above contain the study materials relevant to the course. In 
 
 **Course Title**: Projects I: Digital Techniques and Technologies
 
-**Degree**: Software Engineering and Mathematics
+**Degree**: Double B.S Degree in Computational Mathematics and Software Engineering
 
 **Faculty**: University of Technology, Arts and Design (U-Tad)
 

@@ -25,7 +25,7 @@ The folders linked above only contain study materials relevant to the mathematic
 
 **Course Title**: Discrete Mathematics and Logic
 
-**Degree**: Software Engineering and Mathematics
+**Degree**: Double B.S Degree in Computational Mathematics and Software Engineering
 
 **Faculty**: University of Technology, Arts and Design (U-Tad)
 

@@ -18,7 +18,7 @@ Below is a summary of the course folders and their contents:
 
 **Course Title**: Introduction to Programming I
 
-**Degree Program**: Software Engineering and Mathematics
+**Degree**: Software Engineering and Mathematics
 
 **Faculty**: University of Technology, Arts and Design (U-Tad)
 

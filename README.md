@@ -4,7 +4,7 @@ Projects and content carried out during my B.S. Double Degree in Computer Scienc
 
 The repository is organized by academic year, semester, and finally by subject, where I have stored the main study content, practical materials from the subjects, personal projects, and exams. Many of the subjects, such as those taken in the mathematics section of the double degree, do not include practical or coding content, so they will only contain a transcription of my summaries and study materials into Markdown. The rest of the subjects, unless otherwise specified, will have the full content (study material, examples, practical exercises, etc.).
 
-# Degree Curriculum (345 ETCS):
+## Degree Curriculum (345 ETCS):
 The degree is divided into **five academic years**, each consisting of two semesters (Q1 & Q2), which offer a blend of **core subjects**, **elective subjects**, and **project work**. Throughout the degree, students explore a variety of subjects related to both disciplines, giving them a well-rounded understanding of both the technical and mathematical aspects of computing.
 
 ## 1st Course (72 ETCS):

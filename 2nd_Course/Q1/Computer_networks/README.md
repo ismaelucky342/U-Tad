@@ -15,9 +15,7 @@ Here is an overview of the course folders and their contents:
 
 **Course Title**: Computer Networks
 
-**Degree**: Software Engineering and Mathematics
-
-**Faculty**: University of Technology, Arts, and Design (U-Tad)
+**Degree**: Double B.S Degree in Computational Mathematics and Software Engineering **Faculty**: University of Technology, Arts, and Design (U-Tad)
 
 **Subject**: Computer Science Fundamentals
 

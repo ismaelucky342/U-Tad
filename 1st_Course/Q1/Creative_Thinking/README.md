@@ -14,7 +14,7 @@ The linked folders contain relevant materials for studying the subject.
 
 **Course Title**: Creative Thinking
 
-**Degree Program**: Software Engineering and Mathematics
+**Degree**: Software Engineering and Mathematics
 
 **Faculty**: University of Technology, Arts and Design (U-Tad)
 

@@ -12,9 +12,7 @@ Here is an overview of the course folders and their contents:
 
 **Course Title**: Visual Composition Fundamentals
 
-**Degree**: Software Engineering and Mathematics
-
-**Faculty**: University of Technology, Arts, and Digital Design (U-TAD)
+**Degree**: Double B.S Degree in Computational Mathematics and Software Engineering **Faculty**: University of Technology, Arts, and Digital Design (U-TAD)
 
 **Subject**: Interdisciplinary Fundamentals
 

@@ -20,9 +20,7 @@ Unlike traditional theoretical courses, the focus in this course is on practical
 
 **Course Title**: Database Systems and Distributed Systems Lab
 
-**Degree**: Software Engineering and Mathematics
-
-**Faculty**: University of Technology, Arts and  Design (U-Tad)
+**Degree**: Double B.S Degree in Computational Mathematics and Software Engineering **Faculty**: University of Technology, Arts and  Design (U-Tad)
 
 **Subject**: Laboratory Work
 

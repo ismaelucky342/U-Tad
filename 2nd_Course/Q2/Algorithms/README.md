@@ -15,7 +15,7 @@ Here is an overview of the course folders and their contents:
 
 **Course Title**: Analysis and Design of Algorithms
 
-**Degree**: Software Engineering and Mathematics
+**Degree**: Double B.S Degree in Computational Mathematics and Software Engineering
 
 **Faculty**: University of Technology, Arts and Design (U-Tad)
 

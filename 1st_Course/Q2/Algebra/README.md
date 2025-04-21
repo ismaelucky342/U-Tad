@@ -17,7 +17,7 @@ The folders linked above contain study materials relevant to the core topics of 
 
 **Course Title**: Algebra
 
-**Degree**: Software Engineering and Mathematics
+**Degree**: Double B.S Degree in Computational Mathematics and Software Engineering
 
 **Faculty**: University of Technology, Arts and Design (U-Tad)
 

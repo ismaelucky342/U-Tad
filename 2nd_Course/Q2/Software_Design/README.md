@@ -15,7 +15,7 @@ Here is an overview of the course units:
 
 **Course Title**: Software Design
 
-**Degree**: Software Engineering and Mathematics
+**Degree**: Double B.S Degree in Computational Mathematics and Software Engineering
 
 **Faculty**: University of Technology, Arts and Design (U-Tad)
 

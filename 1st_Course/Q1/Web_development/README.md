@@ -20,7 +20,7 @@ The "Fundamentals of Web Development" course introduces students to the essentia
 
 **Course Name**: Fundamentals of Web Development
 
-**Degree Program**: Software Engineering and Mathematics
+**Degree**: Software Engineering and Mathematics
 
 **Faculty or Center**: University of Technology, Arts and Design (U-Tad)
 
