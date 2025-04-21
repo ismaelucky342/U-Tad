@@ -555,3 +555,122 @@ The integration of changes of variables refers to the technique of calculating i
 ```math 
 \int \frac{1}{x^2 + 4} \, dx = \frac{1}{2} \arctan \left( \frac{x}{2} \right) + C
 ```
+
+# Definite Integrals
+
+The definite integral of a function `f(x)` over the interval `[a, b]` is defined as the limit of a Riemann sum as the number of subintervals approaches infinity. It represents the signed area under the curve of `f(x)` from `a` to `b`. Mathematically, it is expressed as:
+
+```math
+\int_a^b f(x) \, dx = \lim_{n \to \infty} \sum_{i=1}^n f(x_i^*) \Delta x
+```
+
+where `x_i^*` is a point in the `i-th` subinterval and `\Delta x` is the width of each subinterval.
+The definite integral is used to calculate areas, volumes, and other quantities that can be represented as the accumulation of infinitesimal changes. It is also used in probability calculations and in modeling physical and economic phenomena.
+
+### **Properties of the Definite Integral**
+
+If `f(x)` and `g(x)` are functions of a real variable and `k` is a constant, the following properties hold:
+
+```math
+\int_a^b (f(x) \pm g(x))\,dx = \int_a^b f(x)\,dx \pm \int_a^b g(x)\,dx
+```
+```math
+\int_a^b k f(x)\,dx = k \int_a^b f(x)\,dx
+```
+```math
+\int_a^a f(x)\,dx = 0
+```
+```math
+\int_a^b f(x)\,dx = -\int_b^a f(x)\,dx
+```
+```math
+\int_a^b f(x)\,dx = \int_a^c f(x)\,dx + \int_c^b f(x)\,dx, \quad \text{where } a \leq c \leq b
+```
+
+### **Comparison Properties**
+```math
+\int_a^b f(x)\,dx \leq \int_a^b g(x)\,dx \quad \text{if } f(x) \leq g(x) \text{ for all } x \in [a,b]
+```
+```math
+\int_a^b f(x)\,dx \geq \int_a^b g(x)\,dx \quad \text{if } f(x) \geq g(x) \text{ for all } x \in [a,b]
+```
+```math
+\int_a^b f(x)\,dx = \int_a^b g(x)\,dx \quad \text{if } f(x) = g(x) \text{ for all } x \in [a,b]
+```
+
+## Fundamental Theorem of Calculus
+
+The Fundamental Theorem of Calculus establishes a connection between differentiation and integration. It states that if `f(x)` is continuous on the interval `[a, b]`, then the definite integral of `f(x)` from `a` to `b` can be computed using an antiderivative `F(x)` of `f(x)`:
+
+```math
+\int_a^b f(x) \, dx = F(b) - F(a)
+```
+This theorem allows us to evaluate definite integrals without having to compute the limit of Riemann sums directly. It also provides a way to find the area under the curve of a function by using its antiderivative.
+### Example of the Fundamental Theorem of Calculus
+```math
+\int_0^1 x^2 \, dx
+```
+1. Find an antiderivative of `f(x) = x^2`, which is `F(x) = \frac{x^3}{3}`.
+2. Apply the Fundamental Theorem of Calculus:
+
+```math
+\int_0^1 x^2 \, dx = F(1) - F(0) = \frac{1^3}{3} - \frac{0^3}{3} = \frac{1}{3}
+```
+3. Therefore, the result is:
+
+```math
+\int_0^1 x^2 \, dx = \frac{1}{3}
+```
+
+## Second Fundamental Theorem of Calculus (Barrow rule)
+
+The Second Fundamental Theorem of Calculus, also known as the Barrow rule, states that if `f(x)` is continuous on the interval `[a, b]`, then the derivative of the definite integral of `f(x)` with respect to `x` is equal to `f(x)`:
+
+```math
+\frac{d}{dx} \int_a^x f(t) \, dt = f(x)
+```
+This theorem allows us to compute the derivative of a definite integral without having to evaluate the integral itself. It is particularly useful in applications where we need to find the rate of change of an accumulated quantity.
+### Example of the Second Fundamental Theorem of Calculus
+```math
+\frac{d}{dx} \int_0^x t^2 \, dt
+```
+1. Apply the Second Fundamental Theorem of Calculus:
+
+```math
+\frac{d}{dx} \int_0^x t^2 \, dt = x^2
+```
+2. Therefore, the result is:
+
+```math
+\frac{d}{dx} \int_0^x t^2 \, dt = x^2
+```
+### Example of the Second Fundamental Theorem of Calculus with a Constant
+```math
+\frac{d}{dx} \int_0^x 3t^2 \, dt
+```
+1. Apply the Second Fundamental Theorem of Calculus:
+
+```math
+\frac{d}{dx} \int_0^x 3t^2 \, dt = 3x^2
+```
+2. Therefore, the result is:
+
+```math
+\frac{d}{dx} \int_0^x 3t^2 \, dt = 3x^2
+```
+
+### Aplications of the Definite Integral
+The definite integral has numerous applications in various fields, including physics, engineering, economics, and biology. Some common applications include:
+1. **Area under a curve**: The definite integral can be used to calculate the area under a curve defined by a function `f(x)` over a specific interval `[a, b]`.
+2. **Volume of solids**: The definite integral can be used to calculate the volume of solids of revolution by integrating the area of cross-sections.
+3. **Average value of a function**: The definite integral can be used to calculate the average value of a function over an interval `[a, b]` using the formula:
+
+```math
+\text{Average value} = \frac{1}{b - a} \int_a^b f(x) \, dx
+```
+4. **Work done by a variable force**: The definite integral can be used to calculate the work done by a variable force acting on an object over a distance.
+5. **Probability**: The definite integral can be used to calculate probabilities in continuous probability distributions by integrating the probability density function over a specific interval.
+6. **Accumulated change**: The definite integral can be used to calculate the accumulated change of a quantity over time, such as distance traveled or total revenue.
+7. **Center of mass**: The definite integral can be used to calculate the center of mass of a solid or a system of particles by integrating the mass distribution over the volume or area.
+
+
