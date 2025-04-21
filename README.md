@@ -17,7 +17,7 @@ In the **first year**, we are introduced to the fundamental concepts of programm
 - **[Networking and Operating Systems Labs](1st_Course/Q1/Networks_SO)** (6 ECTS)
 - **[Logic and Discrete Mathematics](1st_Course/Q1/Logic_and_discrete_mathematics)** (6 ECTS) (Only Study Material)
 - **[Creative Thinking](1st_Course/Q1/Creative_Thinking)** (3 ECTS)
-- **[Probability and Statistics](2nd_Course/Q1/Statistics)** (6 ECTS)
+- **[Probability and Statistics](1st_Course/Q1/Statistics)** (6 ECTS)
 
 ### Q2:
 - **[Algebra](1st_Course/Q2/Algebra)** (6 ECTS) (Only Study Material)
@@ -25,7 +25,7 @@ In the **first year**, we are introduced to the fundamental concepts of programm
 - **[Introduction to Programming II](1st_Course/Q2/Programming_2)** (6 ECTS)
 - **[Database and Distributed Systems Laboratory](1st_Course/Q2/Databases)** (6 ECTS)
 - **[Digital Society](1st_Course/Q2/Databases)** (3 ECTS) (Only Study Material)
-- **[Calculus](2nd_Course/Q2/Calculus)** (6 ECTS) (Only Study Material)
+- **[Calculus](1st_Course/Q2/Calculus)** (6 ECTS) (Only Study Material)
   
 ### Full-year Project: 
 - **[Projects I: Digital Techniques and Technologies](1st_Course/Projects_l)** (6 ECTS)
