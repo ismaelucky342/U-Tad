@@ -1,0 +1,20 @@
+{
+    "intents": [
+      {
+        "tag": "saludo",
+        "patterns": ["Hola", "¿Qué tal?", "Buenas", "Hey"],
+        "responses": ["¡Hola!", "¿Cómo estás?", "¡Hola, humano!"]
+      },
+      {
+        "tag": "despedida",
+        "patterns": ["Adiós", "Hasta luego", "Nos vemos", "Chao"],
+        "responses": ["¡Hasta pronto!", "Cuídate", "Nos vemos luego"]
+      },
+      {
+        "tag": "gracias",
+        "patterns": ["Gracias", "Muchas gracias", "Te lo agradezco"],
+        "responses": ["¡De nada!", "No hay problema", "¡Con gusto!"]
+      }
+    ]
+  }
+  

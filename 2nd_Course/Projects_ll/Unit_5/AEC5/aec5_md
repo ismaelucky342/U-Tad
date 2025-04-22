@@ -1,0 +1,317 @@
+# AEC5 - SQL Injection
+
+### 🔸 What is SQL Injection and in what environments can it occur?
+
+**SQL Injection** is a security vulnerability that allows an attacker to **insert or manipulate SQL queries** into an application, usually through unvalidated forms or input fields. This technique can be used to gain unauthorized access to data, modify information, or even completely compromise a database.
+
+**Environments where it can occur**:
+
+- Web applications with forms (login, search, registration).
+- APIs that use parameters to construct SQL queries.
+- Mobile applications connected to databases.
+- Desktop applications that access remote databases.
+- Any software that interacts with a database and does not implement secure input validation mechanisms.
+
+---
+
+### 🔸 What types of SQL Injection exist and how do they differ?
+
+The main types of SQL Injection are:
+
+### 1. **Classic (or standard) SQL Injection**
+
+- The attacker directly inserts SQL code into input fields.
+- Example:
+
+```sql
+' OR 1=1 --
+```
+
+- Result: They can gain access without authentication, delete records, etc.
+
+### 2. **Blind SQL Injection**
+
+- The application displays no errors or visible responses, but the database's behavior can be inferred from response times or indirect results.
+- Subtypes:
+- **Boolean-based**: The query is modified to return TRUE or FALSE, and the behavior is observed.
+- **Time-based**: Functions such as `SLEEP()` are used to deduce information based on the response time.
+
+### 3. **Error-based Injection**
+
+- The database is forced to return error messages containing useful information (such as table or column names).
+- Example: `ORDER BY 9999` can generate a revealing error.
+
+### 4. **Out-of-Band SQLi Injection**
+
+- Used when the main channel does not return useful information.
+- The attacker forces the database to make external connections (for example, to a server they control) and thus extract data.
+
+### Similarities:
+
+- All exploit **poor input validation** and insecure SQL query construction.
+- All can compromise data confidentiality, integrity, or availability.
+
+### Differences:
+
+- **Visibility**: Some show direct results (classic), others do not (blind).
+- **Exfiltration channel**: Some use the same HTTP response, others require alternative (out-of-band) channels.
+- **Speed**: Blind techniques are usually slower, as they require trial and error.
+
+---
+
+### 🔸 What barriers would you put in place to prevent SQL Injection?
+
+1. **Prepared statements**
+- They separate data from SQL statements, preventing manipulation.
+- Example in PHP (PDO):
+
+```php
+$stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
+$stmt->execute([$username]);
+```
+
+2. **Input validation and sanitization**
+- Reject dangerous characters or input outside the expected format.
+- Validate type, length, format, and range of values.
+3. **Principle of least privilege in the database**
+- Do not use accounts with elevated permissions for basic operations.
+4. **Properly escape input if parameterized queries are not used**
+- Although less secure than prepared statements, it helps mitigate certain attacks.
+5. **Monitoring and logging suspicious activity**
+- Analyze injection attempts to detect and respond to attacks in real time.
+6. **Web application firewalls (WAFs)**
+- Detect and block common attack patterns.
+
+---
+
+### 🔸 What actions can you take with SQLi vulnerabilities?
+
+An attacker can perform many dangerous actions if they exploit a SQLi vulnerability:
+
+1. **Authentication bypass**
+- Access accounts without a password.
+2. **Reading sensitive data**
+- Obtaining usernames, passwords, card numbers, etc.
+3. **Data Modification or Deletion**
+- Altering records, deleting tables or entire databases.
+4. **Privilege Escalation**
+- Elevating to administrator accounts by manipulating data.
+5. **Executing Commands on the Server**
+- In databases like MySQL or MSSQL, they can even execute system commands.
+6. **Accessing Database Structure**
+- Obtaining table names, columns, schemas, etc.
+7. **Persistence in the System**
+- Injecting malicious payloads to maintain access or compromise other users.
+
+
+# SQL Injection Vulnerability Exploitation – *Web For Pentester*
+
+Before starting, I made sure I had the **Web For Pentester** environment properly set up and running on a virtual machine. To access it from my browser, I first identified the local IP address of the vulnerable machine.
+
+From the terminal, I ran:
+
+```bash
+ifconfig
+```
+
+I noted the corresponding IP address (in my case, it was `http://192.168.68.101/`) and opened it in the browser. The main interface of the vulnerable site loaded correctly, displaying the different attack categories.
+
+
+---
+
+## 🎯 Lab Objective
+
+The goal was to exploit the first SQL injection example available on the site (`SQL injections → Example 1`) and extract information from the database using different injection techniques.
+
+---
+
+## 🔍 Step by Step
+
+### Accessing the SQL Injection Example
+
+I navigated to:
+
+```
+http://192.168.56.101/sqli/example1.php
+```
+
+
+---
+
+---
+
+### Simple Injection to Check for Vulnerability
+
+Then I tried a basic injection:
+
+```
+' OR '1'='1
+```
+
+This payload forces an always-true condition, so the query returns **all possible records**, demonstrating that **no records are being returned. using prepared queries** and there is no proper filtering.
+
+
+---
+
+## Exploiting the Vulnerability
+
+**Find the Number of Columns**
+
+First, what I want to do is find out how many columns the query has in the database. This is crucial to be able to use `UNION`, which is the technique I'll use later to inject and extract information.
+
+So, I'm going to do the following:
+
+```
+http://192.168.68.101/sqli/example1.php?name=root' order by 5--+
+```
+
+What am I doing with this?
+
+- I'm using the `ORDER BY` command to sort the query results by the number of columns.
+
+- If the original query has fewer than 5 columns, it will return an error. If it doesn't, it means the query has at least 5 columns, which tells me I can continue.
+- If the page returns an error, then I lower the number (for example, `order by 4`, `order by 3`, etc.) until I find the exact number of columns.
+
+In our case, we already know it's 5.
+
+---
+
+**2. Finding the vulnerable columns**
+
+Now that I know how many columns the original query has (for example, 5), I'm going to try to inject a query using `UNION` to see which columns are vulnerable and if they reflect what I'm passing.
+
+Then I run this injection:
+
+```
+http://192.168.68.101/sqli/example1.php?name=root' +UNION+ALL+SELECT+1,2,3,4,5--+
+```
+
+What am I doing here?
+
+- The idea behind this is that I'm using UNION ALL to combine the results of the original query with a query that returns five simple values ​​(in this case, the numbers 1, 2, 3, 4, 5), which allows me to see which columns reflect these values.
+- If any column reflects the numbers I just submitted, that column is vulnerable, allowing me to inject values ​​that I can use later to extract information.
+
+
+---
+
+**3. Get the database name**
+
+Now that I have the vulnerable columns, I want to know which database the application is using. To do this, I'm going to use the following SQL injection:
+
+```
+http://192.168.68.101/sqli/example1.php?name=root' +UNION+ALL+SELECT+(SELECT+GROUP_CONCAT(schema_name+SEPARATOR+0x3c62723e)+FROM+INFORMATION_SCHEMA.SCHEMATA),2,3,4,5--+
+```
+
+What am I doing with this?
+
+- I'm using `GROUP_CONCAT` to gather all the database names and display them in a single string.
+- `INFORMATION_SCHEMA.SCHEMATA` is a special MySQL table that contains all the database names.
+
+- I use the separator `0x3c62723e`, which is actually the hexadecimal code for `<br>`, to separate database names in the response.
+- With this, I can get the name of the database in use (like `exercises`).
+
+
+---
+
+
+**4. Obtener las tablas de la base de datos**
+
+Ya sé el nombre de la base de datos, así que ahora quiero ver qué tablas hay en esa base de datos. Para hacer esto, utilizo la siguiente inyección:
+
+```
+http://192.168.68.101/sqli/example1.php?name=root' + UNION+ALL+SELECT+(SELECT+GROUP_CONCAT(id,'<--Name-->',name,'<--age-->',age,'<--GID-->',groupid,'<--Password-->',passwd+SEPARATOR+0x3c62723e)+FROM+exercises.users),2,3,4,5--+
+```
+
+¿Qué hago aquí?
+
+- Usando `GROUP_CONCAT`, ahora concateno los nombres de las tablas de la base de datos `exercises` (especificando el nombre de la base de datos con `TABLE_SCHEMA=0x657865726369736573` que es el valor hexadecimal de `exercises`).
+- `INFORMATION_SCHEMA.TABLES` contiene los nombres de todas las tablas dentro de la base de datos.
+- Así que al ejecutar esto, obtengo una lista de tablas como `users`, y esa es la que me interesa, porque probablemente contenga la información que quiero.
+
+
+---
+
+**5. Obtener las columnas de la tabla `users`**
+
+Ahora que sé que la tabla que quiero explorar es `users`, voy a averiguar qué columnas tiene esta tabla. Para eso, hago la siguiente inyección:
+
+```
+http://192.168.68.101/sqli/example1.php?name=root' +UNION+ALL+SELECT+(SELECT+GROUP_CONCAT(column_name+SEPARATOR+0x3c62723e)+FROM+INFORMATION_SCHEMA.COLUMNS+WHERE+TABLE_NAME=0x7573657273),2,3,4,5--+
+```
+
+¿Qué hago con esto?
+
+- Similar a lo anterior, uso `GROUP_CONCAT` para juntar todos los nombres de las columnas de la tabla `users` (especificando la tabla con `TABLE_NAME=0x7573657273`, que es el valor hexadecimal de `users`).
+- `INFORMATION_SCHEMA.COLUMNS` contiene los nombres de las columnas dentro de las tablas, y al ejecutar esta consulta obtengo las columnas de la tabla `users`.
+- En este caso, la respuesta me muestra que las columnas son: `id`, `name`, `age`, `groupid`, `passwd`.
+
+
+1. **Extraer información de la tabla `users`**
+
+Ahora que sé qué columnas existen en la tabla `users`, quiero obtener los datos reales almacenados en esas columnas (por ejemplo, los nombres, edades, contraseñas, etc.). Para eso, voy a hacer una inyección SQL más avanzada, que utiliza `GROUP_CONCAT` para concatenar los datos de las columnas de cada fila y devolverlos en un solo resultado.
+
+La inyección que utilizo es esta:
+
+```
+http://192.168.68.101/sqli/example1.php?name=root'+UNION+ALL+SELECT+GROUP_CONCAT(id,'<--Name-->',name,'<--age-->',age,'<--GID-->',groupid,'<--Password-->',passwd,SEPARATOR+0x3c62723e)+FROM+exercises.users);2,3,4,5,--+
+```
+
+**Explicación de lo que estoy haciendo:**
+
+- **`GROUP_CONCAT`**: Esta función de MySQL me permite concatenar los resultados de varias filas en una sola cadena. En este caso, lo que quiero es concatenar los valores de las columnas `id`, `name`, `age`, `groupid`, y `passwd` de cada fila de la tabla `users`.
+- **`'<--Name-->'`, `'<--age-->'`, `'<--GID-->'`, `'<--Password-->'`**: Estos son simplemente delimitadores que pongo entre cada columna para que luego sea fácil de separar y entender cada parte de la información extraída.
+- **`SEPARATOR+0x3c62723e`**: Este es el valor hexadecimal para el separador `<br>`, que va a colocar un salto de línea entre los resultados de cada fila. Esto facilita la lectura de los datos cuando los obtengo como respuesta.
+
+Lo que hago aquí es combinar la información de las columnas `id`, `name`, `age`, `groupid`, y `passwd` de cada fila en un solo string, y luego me devuelve esa información concatenada, separada por saltos de línea (`<br>`). Esto me permite obtener todos los datos de la tabla `users` de forma eficiente.
+
+
+**4. Get the database tables**
+
+I already know the database name, so now I want to see what tables are in that database. To do this, I use the following injection:
+
+```
+http://192.168.68.101/sqli/example1.php?name=root' + UNION+ALL+SELECT+(SELECT+GROUP_CONCAT(id,'<--Name-->',name,'<--age-->',age,'<--GID-->',groupid,'<--Password-->',passwd+SEPARATOR+0x3c62723e)+FROM+exercises.users),2,3,4,5--+
+```
+
+What do I do here?
+
+- Using `GROUP_CONCAT`, I now concatenate the table names in the `exercises` database (specifying the database name with `TABLE_SCHEMA=0x657865726369736573`, which is the hexadecimal value of `exercises`).
+- `INFORMATION_SCHEMA.TABLES` contains the names of all the tables in the database.
+- So when I run this, I get a list of tables like `users`, and that's the one I'm interested in because it likely contains the information I want.
+
+
+---
+
+**5. Getting the columns from the `users` table**
+
+Now that I know the table I want to explore is `users`, I'll find out what columns this table has. To do that, I run the following injection:
+
+```
+http://192.168.68.101/sqli/example1.php?name=root' +UNION+ALL+SELECT+(SELECT+GROUP_CONCAT(column_name+SEPARATOR+0x3c62723e)+FROM+INFORMATION_SCHEMA.COLUMNS+WHERE+TABLE_NAME=0x7573657273),2,3,4,5--+
+```
+
+What do I do with this?
+
+- Similar to the above, I use `GROUP_CONCAT` to gather all the column names from the `users` table (specifying the table with `TABLE_NAME=0x7573657273`, which is the hexadecimal value of `users`).
+- `INFORMATION_SCHEMA.COLUMNS` contains the column names within the tables, and running this query returns the columns from the `users` table.
+- In this case, the response shows the columns are: `id`, `name`, `age`, `groupid`, `passwd`.
+
+
+1. **Extract information from the `users` table**
+
+Now that I know what columns exist in the `users` table, I want to get the actual data stored in those columns (e.g., names, ages, passwords, etc.). To do that, I'm going to perform a more advanced SQL injection, which uses `GROUP_CONCAT` to concatenate the data from the columns in each row and return them in a single result.
+
+The injection I'm using is this:
+
+```
+http://192.168.68.101/sqli/example1.php?name=root'+UNION+ALL+SELECT+GROUP_CONCAT(id,'<--Name-->',name,'<--age-->',age,'<--GID-->',groupid,'<--Password-->',passwd,SEPARATOR+0x3c62723e)+FROM+exercises.users);2,3,4,5,--+
+```
+
+**Explanation of what I'm doing:**
+
+- **`GROUP_CONCAT`**: This MySQL function allows me to concatenate the results of multiple rows into a single string. In this case, I want to concatenate the values ​​of the `id`, `name`, `age`, `groupid`, and `passwd` columns from each row in the `users` table.
+- **`'<--Name-->'`, `'<--age-->'`, `'<--GID-->'`, `'<--Password-->'`**: These are simply delimiters I put between each column so that it's easy to separate and understand each piece of extracted information.
+- **`SEPARATOR+0x3c62723e`**: This is the hexadecimal value for the `<br>` separator, which will place a line break between the results in each row. This makes the data easier to read when I get it back.
+
+What I'm doing here is combining the information from the `id`, `name`, `age`, `groupid`, and `passwd` columns of each row into a single string, and then returning that information concatenated, separated by newlines (`<br>`). This allows me to efficiently retrieve all the data from the `users` table.
+
