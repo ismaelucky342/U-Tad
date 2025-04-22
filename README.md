@@ -4,10 +4,10 @@ Projects and content carried out during my B.S. Double Degree in Computer Scienc
 
 The repository is organized by academic year, semester, and finally by subject, where I have stored the main study content, practical materials from the subjects, personal projects, and exams. Many of the subjects, such as those taken in the mathematics section of the double degree, do not include practical or coding content, so they will only contain a transcription of my summaries and study materials into Markdown. The rest of the subjects, unless otherwise specified, will have the full content (study material, examples, practical exercises, etc.).
 
-## Degree Curriculum (345 ETCS):
+## Degree Curriculum (345 ECTS):
 The degree is divided into **five academic years**, each consisting of two semesters (Q1 & Q2), which offer a blend of **core subjects**, **elective subjects**, and **project work**. Throughout the degree, students explore a variety of subjects related to both disciplines, giving them a well-rounded understanding of both the technical and mathematical aspects of computing.
 
-## 1st Course (72 ETCS):
+## 1st Course (72 ECTS):
 In the **first year**, we are introduced to the fundamental concepts of programming, web development, operating systems, and networking, along with the foundational mathematical concepts such as **Algebra** and **Discrete Mathematics**. This is the period where students build their base knowledge and start developing problem-solving skills. The first-year projects focus on digital technologies and basic software development practices, with a year final project of robotics.
 
 
@@ -30,7 +30,7 @@ In the **first year**, we are introduced to the fundamental concepts of programm
 ### Full-year Project: 
 - **[Projects I: Digital Techniques and Technologies](1st_Course/Projects_l)** (6 ECTS)
 
-## 2nd Course (72 ETCS):
+## 2nd Course (72 ECTS):
 In the **second year** we acquire programming skills in algorithms, POO, data structures, and design patterns. We are introduced to the subjects of computer networks and operating systems as a continuation and extension of first-year subjects (network lab and computer architecture). For the mathematics part, we are presented with some of the main branches of mathematics (like **Probability**, **Statistics**, and **Calculus**) and their practical applications in software. With the final project, students are presented and must choose between the two main mentions of the degree, cybersecurity and big data.
 
 ### Q1:
@@ -38,11 +38,11 @@ In the **second year** we acquire programming skills in algorithms, POO, data st
 - **[Mathematical_Analysis](2nd_Course/Q1/Mathematical_Analysis_l)** (6 ECTS)
 - **[Computer Networks](2nd_Course/Q1/Computer_networks)** (6 ECTS)
 - **[Operating Systems](2nd_Course/Q1/Operating_systems)** (6 ECTS)
-- **[Linear Algebra](2nd_Course/Q1/Linear_Algebra)** (9 ETCS)
+- **[Linear Algebra](2nd_Course/Q1/Linear_Algebra)** (9 ECTS)
 
 ### Q2:
 - **[Mathematical_Analysis](2nd_Course/Q2/Mathematical_Analysis_ll)** (6 ECTS)
-- **[Linear_Geometry](2nd_Course/Q2/Linear_Geometry)** (9 ETCS)
+- **[Linear_Geometry](2nd_Course/Q2/Linear_Geometry)** (9 ECTS)
 - **[Algorithm Analysis and Design](2nd_Course/Q2/Algorithms)** (6 ECTS)
 - **[Databases](2nd_Course/Q2/DataBases)** (6 ECTS)
 - **[Software Design](2nd_Course/Q2/Software_Design)** (6 ECTS)
@@ -50,7 +50,7 @@ In the **second year** we acquire programming skills in algorithms, POO, data st
 ### Full-year Project: 
 - **[Projects II: Software Engineering Trends](2nd_Course/Projects_ll)** (6 ECTS)
 
-## 3rd Course: (72 ETCS): (Coming soon)
+## 3rd Course: (72 ECTS): (Coming soon)
 The **third year** introduces specialized subjects such as **Artificial Intelligence**, **Machine Learning**, **Distributed Systems**, and **Web Programming**. The mathematics curriculum also evolves with more advanced subjects such as **Numerical Calculus**, **Partial Differential Equations**, and **Topology**. Students are exposed to real-world applications of these subjects, particularly through **Mobile Application Development** and **Server-side Web Programming**. This is also the year when students begin focusing on more complex projects in both fields.
 
 ### Q1:
@@ -70,7 +70,7 @@ The **third year** introduces specialized subjects such as **Artificial Intellig
 - **Machine Learning l** (6 ECTS)
 - **Web Programming II, Server** (6 ECTS)
 
-## 4th Course: (72 ETCS): (Coming soon)
+## 4th Course: (72 ECTS): (Coming soon)
 In the **fourth year**, students focus on more advanced topics such as **Mathematical Analysis III**, **Optimization**, and **Algebraic Structures**. They also dive deeper into **Software Engineering**, **Machine Learning ll**, and **UX Fundamentals**, preparing them for the real-world challenges they will face in the technology industry. Projects during this year include developing complex web and mobile applications, as well as working on larger-scale software systems. This year is particularly geared toward applying all the learned concepts to real-world problems.
 
 ### Q1:
@@ -89,7 +89,7 @@ In the **fourth year**, students focus on more advanced topics such as **Mathema
 ### Full-year Project: 
 - **Projects III: Web and App Development** (9 ECTS)
 
-## 5th Course: (57 ETCS):(Coming soon)
+## 5th Course: (57 ECTS):(Coming soon)
 The **final year** is focused on preparation for the professional world. Students engage in an **internship** with a company, gaining practical experience in the industry, and they also work on their two **Final Degree Projects** (Bachelor's Thesis, BT). As a dual degree, the student must complete the BT for the mathematics section and the BT for the software section, which will result in the completion of the dual degree, thus obtaining:
 - An officially-recognized Degree in Software Engineering with a minor in Data Engineering.
 - An officially-recognized Degree in Computational Mathematics.
