@@ -54,7 +54,7 @@ In the **second year** we acquire programming skills in algorithms, POO, data st
 The **third year** introduces specialized subjects such as **Artificial Intelligence**, **Machine Learning**, **Distributed Systems**, and **Web Programming**. The mathematics curriculum also evolves with more advanced subjects such as **Numerical Calculus**, **Partial Differential Equations**, and **Topology**. Students are exposed to real-world applications of these subjects, particularly through **Mobile Application Development** and **Server-side Web Programming**. This is also the year when students begin focusing on more complex projects in both fields.
 
 ### Q1:
-- **[Fundamentals of Visual Composition](2nd_Course/Q1/Fundamentals_of_VC)** (3 ECTS)
+- **[Fundamentals of Visual Composition](3th_Course/Q1/Fundamentals_of_VC)** (3 ECTS)
 - **Database Expansion** (6 ECTS)
 - **Artificial Intelligence** (6 ECTS)
 - **Distributed Systems Programming** (6 ECTS)
