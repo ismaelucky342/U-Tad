@@ -1,321 +1,267 @@
-# Unit 2: The Limit of a Function and Continuity
+# Unit 2: The Limit of a Function 
 
----
+The concept of a limit is essential in calculus and plays a fundamental role in understanding the behavior of functions. The limit of a function at a specific point describes the value that the function approaches as the independent variable gets closer to that point. It is important to note that the limit of a function at a point does not necessarily coincide with the value of the function at that point, and in some cases, that value may not even exist.
 
-## 🎯 Introduction and Objectives
+The continuity of a function at a point is established when the limit of the function at that point exactly matches its value. More intuitively, a function is continuous if its graph can be drawn without interruptions, without needing to lift the pencil from the paper.
 
-In this unit, you will:
+## Definition of the Limit of a Function
 
-- Understand what a **limit** is and how to interpret it both graphically and algebraically.
-- Apply properties and laws of limits to solve problems.
-- Identify and handle **indeterminate forms** using various algebraic strategies.
-- Understand the concept of **continuity**, both at a point and over intervals.
-- Classify types of **discontinuities** and their implications.
-- Build strong foundational skills necessary for **calculus**, particularly **derivatives**.
-
----
-
-## 🔚 The Limit of a Function
-
-### 📌 Introduction
-
-A **limit** describes how a function behaves as the input approaches a specific value. It answers the question:
-
-> "As x gets closer to a certain value, what value does f(x) get closer to?"
-
-This is not necessarily the value of the function at that point—it’s about the **trend** or **approach** of the values.
-
----
-
-### 📐 Formal Definition of Limit
-
-We write:
-
+The limit of a function \(f(x)\) as \(x\) approaches \(a\) is denoted as:
 ```math
 \lim_{x \to a} f(x) = L
 ```
-
-If we can make the value of \( f(x) \) **as close as we like** to **L** by choosing \( x \) values **sufficiently close** to **a** (but not equal to \( a \)), then the limit exists and equals **L**.
-
-🧪 **Example 1:**
-Let \( f(x) = 3x + 1 \). Find \( \lim_{x \to 2} f(x) \):
-
-Just substitute:
-```math
-f(2) = 3(2) + 1 = 7
-```
-
-✅ The limit exists and is 7.
-
-🧪 **Example 2:**
-Let
+This means that as \(x\) gets arbitrarily close to \(a\), the value of \(f(x)\) approaches \(L\). The limit can be approached from the left (\(x \to a^-\)) or from the right (\(x \to a^+\)). If both limits exist and are equal, we can say that the limit exists.
 
 ```math
-f(x) =
-\begin{cases} 
-x^2 & \text{if } x \neq 2 \\
-5 & \text{if } x = 2 
-\end{cases}
+\lim_{x \to a^-} f(x) = L \quad \text{and} \quad \lim_{x \to a^+} f(x) = L
 ```
 
-Then:
+### Derivated Theorems with Limits
+
+**-> T1:**If the limit of a function exists at a point, then that limit is unique.
 
 ```math
-\lim_{x \to 2} f(x) = 4, \quad \text{but } f(2) = 5.
+\lim_{x \to a} f(x) = L \implies \lim_{x \to a} f(x) = L
 ```
 
-➡️ The limit depends on the **approach**, not the actual value at the point.
-
----
-
-### 📈 One-Sided Limits
-
-Sometimes we want to consider the behavior of \( f(x) \) as \( x \) approaches from **one side** only:
-
-- **Left-hand limit**: \( \lim_{x \to a^-} f(x) \) → \( x \) approaches \( a \) from values **less than \( a \)**
-- **Right-hand limit**: \( \lim_{x \to a^+} f(x) \) → \( x \) approaches \( a \) from values **greater than \( a \)**
-
-🧪 **Example 3:**
-Let
+**-> T2:**If the limit of a function exists at a point, then the function is bounded in a neighborhood of that point.
 
 ```math
-f(x) =
-\begin{cases} 
-1 & \text{if } x < 0 \\
-2 & \text{if } x \geq 0 
-\end{cases}
+\lim_{x \to a} f(x) = L \implies \exists \delta > 0 : |f(x) - L| < \epsilon
 ```
 
-Then:
+### Side Limits
+
+The left-hand limit and right-hand limit are defined as follows:
+```math
+\lim_{x \to a^-} f(x) = L \quad \text{and} \quad \lim_{x \to a^+} f(x) = L
+```
+```math
+\lim_{x \to a^-} f(x) = L \quad \text{and} \quad \lim_{x \to a^+} f(x) = L
+```
+**-> T3:**If the left-hand limit and right-hand limit exist and are equal, then the limit exists:
+```math
+\lim_{x \to a} f(x) = L \implies \lim_{x \to a^-} f(x) = L \quad \text{and} \quad \lim_{x \to a^+} f(x) = L
+```
+
+## Properties of Limits and Limit Calculation
+
+The most important properties of limits are:
+
+1. **Sum Rule**: 
+```math
+\lim_{x \to a} (f(x) + g(x)) = \lim_{x \to a} f(x) + \lim_{x \to a} g(x)
+```
+2. **Difference Rule**: 
+```math
+\lim_{x \to a} (f(x) - g(x)) = \lim_{x \to a} f(x) - \lim_{x \to a} g(x)
+```
+3. **Product Rule**: 
+```math
+\lim_{x \to a} (f(x) \cdot g(x)) = \lim_{x \to a} f(x) \cdot \lim_{x \to a} g(x)
+```
+4. **Quotient Rule**: 
+```math
+\lim_{x \to a} \left(\frac{f(x)}{g(x)}\right) = \frac{\lim_{x \to a} f(x)}{\lim_{x \to a} g(x)}
+```
+5. **Constant Multiple Rule**: 
+```math
+\lim_{x \to a} (c \cdot f(x)) = c \cdot \lim_{x \to a} f(x)
+```
+6. **Power Rule**: 
+```math
+\lim_{x \to a} (f(x))^n = \left(\lim_{x \to a} f(x)\right)^n
+```
+7. **Root Rule**: 
+```math
+\lim_{x \to a} \sqrt[n]{f(x)} = \sqrt[n]{\lim_{x \to a} f(x)}
+```
+8. **Absolute Value Rule**: 
+```math
+\lim_{x \to a} |f(x)| = |\lim_{x \to a} f(x)|
+```
+
+
+### Direct Substitution Rule
+
+The direct substitution rule states that if \(f(x)\) is continuous at \(x = a\), then:
+```math
+\lim_{x \to a} f(x) = f(a)
+```
+This means that if you can directly substitute \(x = a\) into the function without any issues (like division by zero), then the limit is simply the value of the function at that point.
+```math
+\lim_{x \to a} f(x) = f(a)
+```
+**Example:**
+```math
+\lim_{x \to 2} (3x + 1) = 3(2) + 1 = 7
+```
+
+### Functions that match except in one point
 
 ```math
-\lim_{x \to 0^-} f(x) = 1, \quad \lim_{x \to 0^+} f(x) = 2
+\lim_{x \to a} f(x) = L \quad \text{if } f(x) \text{ is defined at } x = a
 ```
 
-Because these one-sided limits differ:
+### Lace Theorem
 
+The lace theorem states that if \(f(x)\) is continuous at \(x = a\) and \(g(x)\) is continuous at \(x = b\), then:
 ```math
-\lim_{x \to 0} f(x) \quad \text{does not exist.}
+\lim_{x \to a} f(g(x)) = f(\lim_{x \to a} g(x))
 ```
 
----
-
-## 🧠 Properties and Limit Calculations
-
-### 🧾 Limit Laws
-
-These rules simplify the computation of limits:
-
-Let \( \lim_{x \to a} f(x) = L \) and \( \lim_{x \to a} g(x) = M \):
-
-- **Sum Rule**: \( \lim_{x \to a}(f(x) + g(x)) = L + M \)
-- **Difference Rule**: \( \lim_{x \to a}(f(x) - g(x)) = L - M \)
-- **Product Rule**: \( \lim_{x \to a}(f(x) \cdot g(x)) = L \cdot M \)
-- **Quotient Rule**: \( \lim_{x \to a}\frac{f(x)}{g(x)} = \frac{L}{M} \) (as long as \( M \neq 0 \))
-- **Constant Multiple**: \( \lim_{x \to a}(c \cdot f(x)) = c \cdot L \)
-
-🧪 **Example 4:**
-Find \( \lim_{x \to 2} (3x^2 - x + 4) \):
-
-Use substitution:
+## Infinite Limits
+An infinite limit occurs when the function approaches infinity as \(x\) approaches a certain value. This can happen when the function has a vertical asymptote at that point. In such cases, we write:
 ```math
-= 3(2)^2 - 2 + 4 = 12 - 2 + 4 = 14
+\lim_{x \to a} f(x) = +\infty \quad \text{or} \quad \lim_{x \to a} f(x) = -\infty
 ```
 
----
+### Possible Cases of Infinite Limits
 
-### 🔁 Direct Substitution
+1. **Vertical Asymptote**: The function approaches infinity or negative infinity as \(x\) approaches a certain value.
+2. **Oscillatory Behavior**: The function oscillates between two values as \(x\) approaches a certain value, leading to an undefined limit.
+3. **Unbounded Behavior**: The function grows without bound as \(x\) approaches a certain value, but does not approach a specific value.
+4. **Indeterminate Forms**: The limit may be in an indeterminate form, such as \(\frac{0}{0}\) or \(\frac{\infty}{\infty}\), which requires further analysis to resolve.
 
-If the function is continuous at \( x = a \), the limit can be computed by **plugging in the value**:
-
-🧪 **Example 5:**
-\( f(x) = \sqrt{x + 1} \), find \( \lim_{x \to 3} f(x) \):
-
-Just plug in:
+### Indeterminate Forms
+Indeterminate forms are expressions that do not have a well-defined limit. The most common indeterminate forms are:
 ```math
-\sqrt{3 + 1} = \sqrt{4} = 2
+- \frac{0}{0}
+- \frac{\infty}{\infty}
+- 0 \cdot \infty
+- \infty - \infty
+- 0^0
+- \infty^0
+- 1^\infty
+- \infity * 0
 ```
+These forms require additional techniques, such as L'Hôpital's Rule or algebraic manipulation, to evaluate the limit.
 
----
+### equivalent infinitesimals
+An infinitesimal is a quantity that is infinitely small, meaning it is smaller than any positive real number but greater than zero. In calculus, infinitesimals are often used to describe the behavior of functions as they approach certain values.
 
-### 🧩 Matching Functions Except at a Point
-
-Sometimes a function is undefined at a point, but we can simplify it to evaluate the limit.
-
-🧪 **Example 6:**
-\( f(x) = \frac{x^2 - 1}{x - 1}, \, x \neq 1 \)
-
-Factor:
-```math
-\frac{(x - 1)(x + 1)}{x - 1} = x + 1 \quad \text{(for \( x \neq 1 \))}
-```
-
-Now:
-```math
-\lim_{x \to 1} f(x) = 1 + 1 = 2
-```
-
-✅ Even though \( f(1) \) is undefined, the **limit exists**.
-
----
-
-### 🔒 Squeeze Theorem (Sandwich Theorem)
-
-If:
-
-```math
-h(x) \leq f(x) \leq g(x)
-```
-
-and both \( \lim_{x \to a} h(x) = \lim_{x \to a} g(x) = L \),
-
-then:
-```math
-\lim_{x \to a} f(x) = L
-```
-
-🧪 **Example 7:**
-Let:
-
-- \( h(x) = -x^2 \)
-- \( f(x) = x^2 \cdot \sin\left(\frac{1}{x}\right) \)
-- \( g(x) = x^2 \)
-
-Since \( -x^2 \leq x^2 \cdot \sin\left(\frac{1}{x}\right) \leq x^2 \), and \( \lim_{x \to 0} -x^2 = \lim_{x \to 0} x^2 = 0 \),
-
-```math
-\lim_{x \to 0} x^2 \cdot \sin\left(\frac{1}{x}\right) = 0
-```
-
----
-
-## ♾️ Infinite Limits and Indeterminate Forms
-
-### 🔺 Infinite Limits
-
-If the function grows without bound as \( x \) approaches a point:
-
-```math
-\lim_{x \to a} f(x) = \infty \quad \text{or} \quad \lim_{x \to a} f(x) = -\infty
-```
-
-🧪 **Example 8:**
-```math
-\lim_{x \to 0^+} \frac{1}{x} = \infty, \quad \lim_{x \to 0^-} \frac{1}{x} = -\infty
-```
-
-So the general limit does not exist (one side goes up, the other down).
-
----
-
-### ❓ Indeterminate Forms
-
-Forms like \( \frac{0}{0} \) or \( \frac{\infty}{\infty} \) don’t yield a clear answer and must be simplified:
-
-Common types:
-
-- \( \frac{0}{0} \)
-- \( \frac{\infty}{\infty} \)
-- \( 0 \cdot \infty \)
-- \( \infty - \infty \)
-- \( 1^\infty, 0^0, \infty^0 \)
-
-🧪 **Example 9:**
-```math
-\lim_{x \to 2} \frac{x^2 - 4}{x - 2}
-```
-
-Factor:
-```math
-\frac{(x - 2)(x + 2)}{x - 2} \to x + 2
-```
-
-Now:
-```math
-\lim_{x \to 2} (x + 2) = 4
-```
-
-🧪 **Example 10 (rationalizing):**
-```math
-\lim_{x \to 0} \frac{\sqrt{x + 1} - 1}{x}
-```
-
-Multiply numerator and denominator by the conjugate:
-```math
-\frac{(\sqrt{x + 1} - 1)(\sqrt{x + 1} + 1)}{x(\sqrt{x + 1} + 1)} = \frac{x}{x(\sqrt{x + 1} + 1)}
-```
-
-Cancel \( x \) and simplify:
-```math
-\lim_{x \to 0} \frac{1}{\sqrt{x + 1} + 1} = \frac{1}{2}
-```
-
----
-
-### 🔄 Equivalent Infinitesimals
-
-Some functions are nearly equal as \( x \to 0 \):
-
-- \( \sin(x) \sim x \)
-- \( \tan(x) \sim x \)
-- \( 1 - \cos(x) \sim \frac{x^2}{2} \)
-
-🧪 **Example 11:**
+**Example:**
 ```math
 \lim_{x \to 0} \frac{\sin(x)}{x} = 1
 ```
 
-🧪 **Example 12:**
+This means that as \(x\) approaches 0, the ratio of \(\sin(x)\) to \(x\) approaches 1. In this case, both \(\sin(x)\) and \(x\) are infinitesimals as \(x\) approaches 0, and their ratio approaches a finite value (1).
+
+## In what cases does a function have no limit?
+A function may not have a limit at a certain point if:
+1. The function oscillates infinitely as \(x\) approaches that point.
+2. The function approaches different values from the left and right sides.
+3. The function has a vertical asymptote at that point.
+4. The function is not defined at that point and does not approach a specific value.
+5. The function has a removable discontinuity at that point, meaning it can be made continuous by redefining the function at that point, but it is not defined there.
+6. The function has a jump discontinuity at that point, meaning it jumps from one value to another without approaching any specific value.
+7. The function has an infinite discontinuity at that point, meaning it approaches infinity or negative infinity as \(x\) approaches that point.
+
+## Continuity of a Function
+
+We define the continuity of a function at a point \(x = a\) as follows:
 ```math
-\lim_{x \to 0} \frac{1 - \cos(x)}{x^2} = \frac{1}{2}
+f(a) \text{ is defined} \quad \text{and} \quad \lim_{x \to a} f(x) = f(a)
 ```
 
----
+### Continuity of an open interval
+A function is continuous on an open interval \((a, b)\) if it is continuous at every point in that interval. This means that for every point \(c\) in the interval, the following conditions hold:
+```math
+f(c) \text{ is defined} \quad \text{and} \quad \lim_{x \to c} f(x) = f(c)
+```
+### Continuity of a closed interval
+A function is continuous on a closed interval \([a, b]\) if it is continuous at every point in that interval, including the endpoints. This means that for every point \(c\) in the interval, the following conditions hold:
+```math
+f(c) \text{ is defined} \quad \text{and} \quad \lim_{x \to c} f(x) = f(c)
+```
 
-## 🔗 Continuity
+## Non-continuous functions
 
-### 📖 Definition of Continuity
+A function is non-continuous at a point \(x = a\) if any of the following conditions hold:
+1. The function is not defined at that point.
+2. The limit of the function does not exist at that point.
+3. The limit of the function exists, but it does not equal the value of the function at that point.
+4. The function has a removable discontinuity at that point, meaning it can be made continuous by redefining the function at that point, but it is not defined there.
 
-A function \( f(x) \) is **continuous at \( x = a \)** if:
+### Evitable discontinuity
 
-1. \( f(a) \) is defined
-2. \( \lim_{x \to a} f(x) \) exists
-3. \( \lim_{x \to a} f(x) = f(a) \)
+A removable discontinuity occurs when a function is not defined at a certain point, but can be made continuous by redefining the function at that point. This means that the limit of the function exists at that point, but the value of the function does not equal that limit.
 
-If **any** of these conditions fail, the function is **discontinuous** at that point.
+```math
+\lim_{x \to a} f(x) = L \quad \text{and} \quad f(a) \text{ is not defined}
+```
+```math
+\lim_{x \to a} f(x) = L \quad \text{and} \quad f(a) \neq L
+```
+```math
+\lim_{x \to a} f(x) = L \quad \text{and} \quad f(a) \text{ is defined}
+```
+```math
+\lim_{x \to a} f(x) = L \quad \text{and} \quad f(a) \neq L
+```
 
----
+### Non-removable discontinuity
+A non-removable discontinuity occurs when a function is not defined at a certain point, and cannot be made continuous by redefining the function at that point. This means that the limit of the function does not exist at that point, or the limit exists but does not equal the value of the function at that point.
+```math
+\lim_{x \to a} f(x) \neq f(a)
+```
+```math
+\lim_{x \to a} f(x) \text{ does not exist}
+```
+```math
+\lim_{x \to a} f(x) \text{ exists but } \lim_{x \to a} f(x) \neq f(a)
+```
 
-### ❌ Types of Discontinuity
+## Properties of Continuous Functions
 
-- **Removable Discontinuity**: A hole in the graph. The limit exists, but \( f(a) \) is missing or incorrect.
-    
-    🧪 Example: \( f(x) = \frac{x^2 - 1}{x - 1}, \, x \neq 1 \)
-    
-- **Jump Discontinuity**: Left-hand and right-hand limits exist but are not equal.
-    
-    🧪 Example: Piecewise function with different values on either side of a point.
-    
-- **Infinite Discontinuity**: The function approaches \( \infty \) or \( -\infty \).
-    
-    🧪 Example: \( f(x) = \frac{1}{x - 2} \) at \( x = 2 \)
-    
+1. **Sum Rule**: The sum of two continuous functions is continuous.
+```math
+f(x) + g(x) \text{ is continuous if } f(x) \text{ and } g(x) \text{ are continuous}
+```
+2. **Difference Rule**: The difference of two continuous functions is continuous.
+```math
+f(x) - g(x) \text{ is continuous if } f(x) \text{ and } g(x) \text{ are continuous}
+```
+3. **Product Rule**: The product of two continuous functions is continuous.
+```math
+f(x) \cdot g(x) \text{ is continuous if } f(x) \text{ and } g(x) \text{ are continuous}
+```
+4. **Quotient Rule**: The quotient of two continuous functions is continuous, provided the denominator is not zero.
+```math
+\frac{f(x)}{g(x)} \text{ is continuous if } f(x) \text{ and } g(x) \text{ are continuous and } g(x) \neq 0
+```
+5. **Composition Rule**: The composition of two continuous functions is continuous.
+```math
+f(g(x)) \text{ is continuous if } f(x) \text{ and } g(x) \text{ are continuous}
+```
 
----
+## Intermediate Value Theorem (Darboux's Theorem)
 
-### 📐 Properties of Continuous Functions
+The Intermediate Value Theorem states that if \(f(x)\) is continuous on the closed interval \([a, b]\), and \(N\) is any number between \(f(a)\) and \(f(b)\), then there exists at least one point \(c\) in the interval \((a, b)\) such that:
+```math
+f(c) = N
+```
+This theorem is useful for proving the existence of roots in a continuous function. It guarantees that if a continuous function takes on two different values at two points, it must take on every value in between those two points at least once.
+```math
+f(a) < N < f(b) \implies \exists c \in (a, b) : f(c) = N
+```
 
-The following are continuous **everywhere on their domains**:
+## Intermediate Cero Theorem (Bolzano's Theorem)
 
-- Polynomial functions (e.g., \( f(x) = x^2 + 3x - 1 \))
-- Rational functions (except where denominator = 0)
-- Trigonometric functions (e.g., \( \sin(x), \cos(x) \))
-- Exponential and logarithmic functions
+The Intermediate Cero Theorem, also known as Bolzano's Theorem, is a specific case of the Intermediate Value Theorem. It states that if \(f(x)\) is continuous on the closed interval \([a, b]\), and \(f(a) \cdot f(b) < 0\), then there exists at least one point \(c\) in the interval \((a, b)\) such that:
+```math
+f(c) = 0
+```
+This theorem is particularly useful for finding roots of continuous functions. It guarantees that if a continuous function takes on opposite signs at two points, it must have at least one root in between those two points.
+```math
+f(a) \cdot f(b) < 0 \implies \exists c \in (a, b) : f(c) = 0
+```
 
-🧪 **Example 13:**
-\( f(x) = \ln(x) \) is continuous for \( x > 0 \)
+## Weierstrass Theorem
+The Weierstrass Theorem states that every continuous function defined on a closed interval \([a, b]\) is uniformly continuous. This means that for any given positive number \(\epsilon\), there exists a positive number \(\delta\) such that for all \(x_1, x_2 \in [a, b]\):
+```math
+|x_1 - x_2| < \delta \implies |f(x_1) - f(x_2)| < \epsilon
+```
+This theorem is important because it guarantees that continuous functions on closed intervals behave nicely and do not have abrupt changes in their values.
 
-\( f(x) = \frac{1}{x} \) is continuous for \( x \neq 0 \)
 
-🧪 **Example 14:**
-\( f(x) = \frac{\sin(x)}{x} \) is not continuous at \( x = 0 \), but its **limit exists**.
