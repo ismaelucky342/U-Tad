@@ -1,5 +1,7 @@
 # Additional SQL Commands
 
+--
+
 ![alt text](image.png)
 In this section, we will cover commands from the DCL, DML, and TCL categories, as reflected in the image above, which have not been addressed so far. Similarly, those not covered in this unit will be addressed in the next unit to avoid content repetition.
 
