@@ -102,12 +102,12 @@ The **final year** is focused on preparation for the professional world. Student
 - **Computer Vision** (6 ECTS)
 
 ### Q2:
-- **[Digital Business Models](Bussiness_and_DM)** (3 ECTS)
-- **Internship in a Company** (6 ECTS)
+- **[Digital Business Models](5th_Course/Q2/Bussiness_and_DM/)** (3 ECTS)
+- **Internship in a Company** (6 ECTS) (Telefonica Tech)
 - **Data Visualization** (3 ECTS)
-- **Data Engineering Projects** (9 ECTS)
   
 ### Full-year Project: 
+- **Data Engineering Projects** (9 ECTS)
 - **Computational Maths Final Degree Project** (6 ECTS)
 - **Software Engineering Final Degree Project** (6 ECTS)
 

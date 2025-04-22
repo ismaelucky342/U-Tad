@@ -1,4 +1,4 @@
-## 🎯 **Introduction and Objectives**
+## **Introduction and Objectives**
 
 This unit explores the building blocks of real mathematics: the **real number system** and **real-valued functions**.
 
