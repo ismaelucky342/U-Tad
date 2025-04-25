@@ -114,7 +114,7 @@ The **final year** is focused on preparation for the professional world. Student
 ## Extras
 This repository serves as a personal archive of the academic journey, showcasing both the depth of knowledge gained in **computer science** and **computational mathematics**, as well as the practical skills developed throughout the program.
 
-Here more Info about the Degree and:
-[https://u-tad.com/en/studies/double-degree-computational-mathematics-computer-science](https://u-tad.com/en/studies/double-degree-computational-mathematics-computer-science)
+Here more Info about the Degree:
+[U-Tad_Web](https://u-tad.com/en/studies/double-degree-computational-mathematics-computer-science)
 
 ![image](https://github.com/ismaelucky342/U-Tad/assets/153450550/62bc16fd-1d63-401e-962d-b090cad59bdc)
