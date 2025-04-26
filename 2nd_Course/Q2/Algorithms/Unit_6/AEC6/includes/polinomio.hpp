@@ -13,35 +13,14 @@
 /*                                                                                     */
 /***************************************************************************************/
 
-#ifndef POLINOMIO_H
-#define POLINOMIO_H
+// polinomio.hpp
+#ifndef POLINOMIO_HPP
+#define POLINOMIO_HPP
 
-/*=================================DEFINES======================================*/
-
-#include <iostream>
-#include <random>
-#include <cstdlib>
-#include <ctime>
 #include <vector>
 #include <cmath>
-
-/*=================================COLORS======================================*/
-
-#define RED     "\033[0;31m"
-#define RESET   "\033[0m"
-#define GREEN   "\033[0;32m"
-#define CYAN    "\033[0;36m"
-
-/*=================================CLASS=====================================*/
-
-class SolucionParcial {
-public:
-    float x;
-    float y;
-
-    SolucionParcial(float x_val = 0);
-    void imprimir() const;
-};
+#include <random>
+#include <iomanip>
 
 class Polinomio {
 private:
@@ -49,11 +28,22 @@ private:
     float* coeficientes;
 
 public:
-    Polinomio(int grado, const float* coefs);
+    Polinomio(int g, const float* coeffs);
     ~Polinomio();
 
     float evaluar(float x) const;
-    float obtenerRaizRecursivo(const SolucionParcial& padre, std::mt19937& gen);
+
+    class SolucionParcial {
+    public:
+        float x;
+        float y;
+
+        SolucionParcial(float x_val);
+        void calcularY(const Polinomio& polinomio);
+        void imprimir() const;
+    };
+
+    float obtenerRaizRecursivo(SolucionParcial padre);
 };
 
-#endif
+#endif // POLINOMIO_HPP

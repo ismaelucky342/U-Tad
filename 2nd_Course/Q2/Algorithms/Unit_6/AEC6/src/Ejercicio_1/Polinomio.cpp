@@ -1,73 +1,65 @@
+// polinomio.cpp
 #include "../../includes/polinomio.hpp"
+#include <iostream>
 
-SolucionParcial::SolucionParcial(float x_val)
-{
-    x = x_val;
-    y = 0;
-}
-
-void SolucionParcial::imprimir() const
-{
-    std::cout << CYAN << "Seleccionada\n(" << x << "," << y << ")\n"
-              << RESET;
-}
-
-Polinomio::Polinomio(int g, const float *coefs)
-{
-    if (g < 0 || coefs == nullptr)
-    {
-        std::cerr << RED << "Error: grado inválido o coeficientes nulos\n"
-                  << RESET;
-        grado = 0;
-        coeficientes = new float[1]{0};
-        return;
-    }
-
-    grado = g;
+Polinomio::Polinomio(int g, const float* coeffs) : grado(g) {
     coeficientes = new float[grado + 1];
-    for (int i = 0; i <= grado; ++i)
-        coeficientes[i] = coefs[i];
+    for (int i = 0; i <= grado; ++i) {
+        coeficientes[i] = coeffs[i];
+    }
 }
 
-Polinomio::~Polinomio()
-{
+Polinomio::~Polinomio() {
     delete[] coeficientes;
 }
 
-float Polinomio::evaluar(float x) const
-{
-    float resultado = 0;
-    for (int i = 0; i <= grado; ++i)
-        resultado += coeficientes[i] * pow(x, i);
+float Polinomio::evaluar(float x) const {
+    float resultado = 0.0f;
+    for (int i = grado; i >= 0; --i) {
+        resultado = resultado * x + coeficientes[i];
+    }
     return resultado;
 }
 
-float Polinomio::obtenerRaizRecursivo(const SolucionParcial &padre, std::mt19937 &gen)
-{
-    SolucionParcial mejor = padre;
-    mejor.y = evaluar(mejor.x);
-    mejor.imprimir();
+Polinomio::SolucionParcial::SolucionParcial(float x_val) : x(x_val) {}
 
-    std::cout << "Mutaciones\n";
+void Polinomio::SolucionParcial::calcularY(const Polinomio& polinomio) {
+    y = polinomio.evaluar(x);
+}
+
+void Polinomio::SolucionParcial::imprimir() const {
+    std::cout << "(" << std::fixed << std::setprecision(6) << x << "," << y << ")" << std::endl;
+}
+
+float Polinomio::obtenerRaizRecursivo(SolucionParcial padre) {
+    padre.calcularY(*this);
+    std::cout << "Seleccionada" << std::endl;
+    padre.imprimir();
 
     std::vector<SolucionParcial> hijos;
-    std::uniform_real_distribution<float> dist(-1.0f, 1.0f); // Distribución uniforme entre -1 y 1
-    for (int i = 0; i < 10; ++i)
-    {
-        float mut = dist(gen); // Genera un número aleatorio entre -1 y 1
-        float nuevoX = padre.x + mut;
-        float nuevoY = evaluar(nuevoX);
-        hijos.emplace_back(nuevoX);
-        hijos.back().y = nuevoY;
-        std::cout << "(" << nuevoX << "," << nuevoY << ")\n";
+    std::normal_distribution<float> distribution(0.0f, 1.0f);
+    std::mt19937 generator(static_cast<unsigned int>(std::rand()));
+
+    std::cout << "Mutaciones" << std::endl;
+    for (int i = 0; i < 10; ++i) {
+        float mutacion = distribution(generator);
+        SolucionParcial hijo(padre.x + mutacion);
+        hijo.calcularY(*this);
+        hijos.push_back(hijo);
+        hijo.imprimir();
     }
 
-    for (const auto &hijo : hijos)
-    {
-        if (std::abs(hijo.y) < std::abs(mejor.y))
-            return obtenerRaizRecursivo(hijo, gen);
+    SolucionParcial mejor_hijo = hijos[0];
+    for (const auto& hijo : hijos) {
+        if (std::abs(hijo.y) < std::abs(mejor_hijo.y)) {
+            mejor_hijo = hijo;
+        }
     }
 
-    std::cout << GREEN << "Iteracion final Raiz " << mejor.x << RESET << "\n";
-    return mejor.x;
+    if (std::abs(mejor_hijo.y) < std::abs(padre.y)) {
+        return obtenerRaizRecursivo(mejor_hijo);
+    } else {
+        std::cout << "Iteracion final Raiz " << std::fixed << std::setprecision(6) << padre.x << std::endl;
+        return padre.x;
+    }
 }

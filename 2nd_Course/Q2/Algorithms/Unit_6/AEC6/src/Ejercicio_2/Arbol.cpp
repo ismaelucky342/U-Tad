@@ -1,131 +1,147 @@
+/***************************************************************************************/
+/*                                                                                     */
+/*                                         ██╗   ██╗   ████████╗ █████╗ ██████╗        */
+/*      AEC6 - Algorithms                  ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*                                         ██║   ██║█████╗██║   ███████║██║  ██║       */
+/*      created:        02/04/2025         ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
+/*      last change:    17/04/2025         ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
+/*                                          ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        */
+/*                                                                                     */
+/*       Ismael Hernandez Clemente              ismael.hernandez@live.u-tad.com        */
+/*                                                                                     */
+/*       Github:  https://github.com/ismaelucky342/                                    */
+/*                                                                                     */
+/***************************************************************************************/
+
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <stdexcept>
+#include <string>
 
 using namespace std;
 
-// Constantes para colores
-const int SIN_COLOR = 0;
-const int ROJO = 1;
-const int BLANCO = 2;
-
 /**
- * bool esRojiblanco(const vector<vector<int>>& grafo)
- * Determina si el grafo dado puede ser pintado de rojiblanco (bipartito).
- * Utiliza BFS para recorrer el grafo asignando colores alternos.
+ * @brief Función para verificar si un grafo es bipartito (rojiblanco).
  *
- * Precondiciones:
- * - El grafo debe estar representado correctamente como lista de adyacencias.
- * - No debe haber aristas a sí mismo ni aristas repetidas (el enunciado garantiza esto).
+ * Realiza un recorrido por el grafo utilizando BFS para intentar colorear los nodos
+ * con dos colores de manera que no haya aristas entre nodos del mismo color.
  *
- * Complejidad:
- * - Tiempo: O(V + A), donde V es el número de vértices y A el número de aristas.
- * - Espacio: O(V), para almacenar los colores y la cola del BFS.
+ * @param num_vertices Número de vértices en el grafo.
+ * @param adj Lista de adyacencia representando el grafo.
+ * @param color Vector para almacenar los colores asignados a los nodos.
+ * @return true si el grafo es bipartito (rojiblanco), false en caso contrario.
+ *
+ * @throws std::invalid_argument Si el número de vértices es menor que 1.
+ *
+ * @complexity
+ * Tiempo: O(V + A), donde V es el número de vértices y A es el número de aristas.
+ * Espacio: O(V), para almacenar los colores de los nodos y la cola del BFS.
  */
-bool esRojiblanco(const vector<vector<int>>& grafo) {
-    int V = grafo.size();
-    vector<int> color(V, SIN_COLOR); // 0 = no coloreado aún
+bool esRojiblanco(int num_vertices, const vector<vector<int>> &adj, vector<int> &color)
+{
+    if (num_vertices < 1)
+    {
+        throw invalid_argument("El número de vértices debe ser al menos 1.");
+    }
 
-    for (int i = 0; i < V; ++i) {
-        if (color[i] == SIN_COLOR) {
-            queue<int> q;
-            q.push(i);
-            color[i] = ROJO;
+    color.assign(num_vertices, -1); 
+    queue<int> q;
 
-            while (!q.empty()) {
+    for (int start_node = 0; start_node < num_vertices; ++start_node)
+    {
+        if (color[start_node] == -1)
+        {
+            color[start_node] = 0; 
+            q.push(start_node);
+
+            while (!q.empty())
+            {
                 int u = q.front();
                 q.pop();
 
-                for (int v : grafo[u]) {
-                    if (color[v] == SIN_COLOR) {
-                        color[v] = (color[u] == ROJO) ? BLANCO : ROJO;
+                for (int v : adj[u])
+                {
+                    if (color[v] == -1)
+                    {
+                        color[v] = 1 - color[u]; 
                         q.push(v);
-                    } else if (color[v] == color[u]) {
-                        return false; // Dos vecinos con el mismo color → No es bipartito
+                    }
+                    else if (color[v] == color[u])
+                    {
+                        return false;
                     }
                 }
             }
         }
     }
+
     return true;
 }
 
-/**
- * void procesarCasos()
- * Lee múltiples casos de prueba desde la entrada estándar,
- * procesa cada grafo y determina si puede pintarse de rojiblanco.
- *
- * Precondiciones:
- * - La entrada debe respetar el formato especificado en el enunciado.
- * - Protege errores de lectura usando cin.fail().
- *
- * Complejidad:
- * - Tiempo: O(T * (V + A)), donde T es el número de casos de prueba.
- * - Espacio: O(V), para cada caso por la lista de adyacencias.
- */
-void procesarCasos() {
-    int V;
-    while (cin >> V) {
-        if (V == 0)
+int main()
+{
+    string input;
+    while (true)
+    {
+        cout << "Menú principal:" << endl;
+        cout << "1. Comprobar si un grafo es bipartito (rojiblanco)." << endl;
+        cout << "q. Salir." << endl;
+        cout << "Seleccione una opción: ";
+        cin >> input;
+
+        if (input == "q")
+        {
+            cout << "Saliendo del programa..." << endl;
             break;
-
-        if (V < 0 || V > 100) {
-            cerr << "Error: número de vértices fuera de rango (1-100)." << endl;
-            exit(EXIT_FAILURE);
         }
-
-        int A;
-        if (!(cin >> A)) {
-            cerr << "Error: lectura inválida del número de aristas." << endl;
-            exit(EXIT_FAILURE);
-        }
-
-        vector<vector<int>> grafo(V);
-
-        for (int i = 0; i < A; ++i) {
-            int u, v;
-            if (!(cin >> u >> v)) {
-                cerr << "Error: lectura inválida de arista." << endl;
-                exit(EXIT_FAILURE);
+        else if (input == "1")
+        {
+            int v, a;
+            cout << "Ingrese el número de vértices (0 para salir): ";
+            cin >> v;
+            if (v == 0)
+            {
+                cout << "Saliendo al menú principal..." << endl;
+                continue;
             }
-            if (u < 0 || u >= V || v < 0 || v >= V) {
-                cerr << "Error: vértices fuera de rango." << endl;
-                exit(EXIT_FAILURE);
+
+            cout << "Ingrese el número de aristas: ";
+            cin >> a;
+            vector<vector<int>> adj(v);
+            cout << "Ingrese las aristas (formato: u w):" << endl;
+            for (int i = 0; i < a; ++i)
+            {
+                int u, w;
+                cin >> u >> w;
+                adj[u].push_back(w);
+                adj[w].push_back(u);
             }
-            grafo[u].push_back(v);
-            grafo[v].push_back(u);
+
+            vector<int> color;
+            try
+            {
+                if (esRojiblanco(v, adj, color))
+                {
+                    cout << "SI" << endl;
+                    cout << "Colores asignados a los nodos:" << endl;
+                    for (int i = 0; i < v; ++i)
+                    {
+                        cout << "Nodo " << i << ": " << (color[i] == 0 ? "Rojo" : "Blanco") << endl;
+                    }
+                }
+                else
+                    cout << "NO" << endl;
+            }
+            catch (const invalid_argument &e)
+            {
+                cerr << "Error: " << e.what() << endl;
+            }
         }
-
-        if (esRojiblanco(grafo)) {
-            cout << "SI" << endl;
-        } else {
-            cout << "NO" << endl;
+        else
+        {
+            cout << "Opción no válida. Intente de nuevo." << endl;
         }
     }
-
-    if (cin.fail() && !cin.eof()) {
-        cerr << "Error: fallo en la lectura de datos." << endl;
-        exit(EXIT_FAILURE);
-    }
-}
-
-/**
- * int main(int argc, char* argv[])
- * Función principal protegida contra número incorrecto de argumentos.
- * No espera argumentos pero verifica argc.
- *
- * Precondiciones:
- * - argc debe ser igual a 1 (no se aceptan argumentos).
- */
-int main(int argc, char* argv[]) {
-
-    (void)argv;
-    if (argc != 1) {
-        cerr << "Error: este programa no recibe argumentos." << endl;
-        return EXIT_FAILURE;
-    }
-
-    procesarCasos();
-
-    return EXIT_SUCCESS;
+    return 0;
 }
