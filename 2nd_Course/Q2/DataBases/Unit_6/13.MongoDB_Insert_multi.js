@@ -20,3 +20,11 @@ db.productos.insertMany([
     }
   ]);
   
+// Mostrar todos los productos
+db.productos.find().pretty();
+
+// Mostrar solo los productos de la categoría "Ropa"
+db.productos.find({ categoria: "Ropa" }).pretty();
+
+// Mostrar solo los productos con un precio menor a 30
+db.productos.find({ precio: { $lt: 30 } }).pretty();
