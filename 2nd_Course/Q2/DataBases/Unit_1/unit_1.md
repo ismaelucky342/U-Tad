@@ -81,14 +81,14 @@ Un Sistema Gestor de Bases de Datos (SGBD) es una aplicación que permite defini
 a una base de datos.
 
 📌 Ventajas y funciones clave:
-✔ Independencia entre la estructura física y lógica de los datos.
-✔ Acceso controlado y seguridad para evitar accesos no autorizados.
-✔ Diccionario de datos que describe la estructura de la base de datos.
-✔ Monitorización en tiempo real para garantizar el rendimiento.
-✔ Mecanismos de integridad para mantener datos consistentes.
-✔ Vistas personalizadas según permisos de los usuarios.
-✔ Control de concurrencia para acceso simultáneo seguro.
-✔ Recuperación ante fallos de hardware o software.
+✅ Independencia entre la estructura física y lógica de los datos.
+✅ Acceso controlado y seguridad para evitar accesos no autorizados.
+✅ Diccionario de datos que describe la estructura de la base de datos.
+✅ Monitorización en tiempo real para garantizar el rendimiento.
+✅ Mecanismos de integridad para mantener datos consistentes.
+✅ Vistas personalizadas según permisos de los usuarios.
+✅ Control de concurrencia para acceso simultáneo seguro.
+✅ Recuperación ante fallos de hardware o software.
 
 📌 Lenguajes utilizados en SGBD:
 LDD (DDL - Data Definition Language) → Define estructura de datos.
@@ -149,24 +149,24 @@ Podemos establecer cuatro grandes grupos de perfiles que intervienen en este ent
 ```agda
 📌 1. Administrador de la Base de Datos (DBA)
 👨‍💻 Gestiona la infraestructura, almacenamiento, seguridad y acceso concurrente.
-✔️ Selecciona hardware/Cloud.
-✔️ Configura seguridad y permisos.
-✔️ Mantiene el sistema operativo y optimizado.
+✅️ Selecciona hardware/Cloud.
+✅️ Configura seguridad y permisos.
+✅️ Mantiene el sistema operativo y optimizado.
 
 📌 2. Diseñadores de la Base de Datos
 📊 Diseñan la estructura de la base de datos.
-✔️ Identifican datos, relaciones y restricciones.
-✔️ Conocen las reglas de negocio de la organización.
-✔️ Colaboran con los usuarios para optimizar el diseño.
+✅️ Identifican datos, relaciones y restricciones.
+✅️ Conocen las reglas de negocio de la organización.
+✅️ Colaboran con los usuarios para optimizar el diseño.
 
 📌 3. Programadores de Aplicaciones
 💻 Desarrollan software que interactúa con la base de datos.
-✔️ Codifican consultas, inserciones, actualizaciones y eliminaciones.
+✅️ Codifican consultas, inserciones, actualizaciones y eliminaciones.
 
 📌 4. Usuarios Finales
 📈 Utilizan los datos en su trabajo diario.
-✔️ Perfiles: analistas, científicos de datos, comerciales, contables…
-✔️ Usan herramientas como Power BI, Tableau, MicroStrategy.
+✅️ Perfiles: analistas, científicos de datos, comerciales, contables…
+✅️ Usan herramientas como Power BI, Tableau, MicroStrategy.
 ```
 
 ## Niveles de Abstracción de una base de datos
@@ -202,18 +202,18 @@ Para ocultar la complejidad y facilitar el acceso a los datos, los SGBD utilizan
 
 📌 1. Nivel Físico 🖴
 📌 Cómo se almacenan los datos en disco.
-✔️ Describe estructuras de bajo nivel (bloques, bytes).
-✔️ Solo los administradores suelen conocer estos detalles.
+✅️ Describe estructuras de bajo nivel (bloques, bytes).
+✅️ Solo los administradores suelen conocer estos detalles.
 
 📌 2. Nivel Lógico 🛠️
 📌 Qué datos existen y cómo se relacionan.
-✔️ Define registros y relaciones.
-✔️ Usado por programadores y administradores.
+✅️ Define registros y relaciones.
+✅️ Usado por programadores y administradores.
 
 📌 3. Nivel de Vistas 👀
 📌 Qué información ve cada usuario.
-✔️ Muestra solo los datos necesarios.
-✔️ Mejora la seguridad ocultando información sensible.
+✅️ Muestra solo los datos necesarios.
+✅️ Mejora la seguridad ocultando información sensible.
 
 💡 Ejemplo: Empleados de un banco pueden ver cuentas de clientes, pero no hipotecas.
 ```
@@ -258,18 +258,18 @@ Los modelos de datos describen cómo se organizan y relacionan los datos en una 
 
 📌 1.Modelo Relacional 📊
 📌 Organiza los datos en tablas con filas y columnas.
-✔️ Cada tabla representa una entidad con atributos.
-✔️ Es el modelo más utilizado (Ej: MySQL).
+✅️ Cada tabla representa una entidad con atributos.
+✅️ Es el modelo más utilizado (Ej: MySQL).
 
 📌 2.Modelo Entidad-Relación (E/R) 🔗
 📌 Usa entidades y relaciones para representar datos del mundo real.
-✔️ Representa datos como objetos y sus conexiones.
-✔️ Es la base del diseño de bases de datos relacionales.
+✅️ Representa datos como objetos y sus conexiones.
+✅️ Es la base del diseño de bases de datos relacionales.
 
 📌 3.Modelo Semiestructurado 🏷️
 📌 No sigue un esquema rígido de tablas.
-✔️ Los datos se representan en formatos como XML.
-✔️ Se organiza en jerarquías con etiquetas (tags).
+✅️ Los datos se representan en formatos como XML.
+✅️ Se organiza en jerarquías con etiquetas (tags).
 
 💡 Otros modelos:
 📌 Modelo en Red 🌐 y Modelo Jerárquico 🌲, precursores del modelo relacional.
@@ -311,9 +311,9 @@ destacando 2 arquitecturas:
 
 📌 1.Arquitectura de dos capas 🖥️➡️📊
 📌 Modelo cliente-servidor que consta de dos capas, una capa de presentacion(GUI) y una de datos(Almacenamiento y gestión).
-✔️ Puede ejecutarse en cualquiera de las capas o en ambas.
-✔️ Utiliza estándares como ODBC y JDBC para la comunicación entre el cliente y el servidor.
-✔️ Aunque aún se utiliza en ciertos sistemas por razones históricas, no es común en aplicaciones modernas.
+✅️ Puede ejecutarse en cualquiera de las capas o en ambas.
+✅️ Utiliza estándares como ODBC y JDBC para la comunicación entre el cliente y el servidor.
+✅️ Aunque aún se utiliza en ciertos sistemas por razones históricas, no es común en aplicaciones modernas.
 
 📌 2.Arquitectura de Tres Capas 🌐
 📌 No hay comunicación directa entre la capa de presentación y la capa de datos.
@@ -321,9 +321,9 @@ destacando 2 arquitecturas:
 		- Capa de Aplicación: Procesa los datos y contiene la lógica de negocio, ejecutándose en un servidor de aplicaciones. Aquí se 
 													utilizan lenguajes como Python, Java, PHP, Ruby, etc. Se comunica con la capa de datos a través de APIs.
 		- Capa de datos: Almacena y gestiona los datos 
-✔️ Cada capa opera en su propia infraestructura, permitiendo la evolución y despliegue de cada una sin afectar a las otras.
-✔️ Muy común en aplicaciones web, especialmente con tecnologías en la nube, como contenedores y microservicios.
-✔️ Ventajas:
+✅️ Cada capa opera en su propia infraestructura, permitiendo la evolución y despliegue de cada una sin afectar a las otras.
+✅️ Muy común en aplicaciones web, especialmente con tecnologías en la nube, como contenedores y microservicios.
+✅️ Ventajas:
 			📈 Escalabilidad: Permite escalar cada capa de manera independiente según las necesidades.
 			🔒 Seguridad: Al no haber comunicación directa entre la presentación y la capa de datos, se pueden implementar medidas de seguridad adicionales para proteger contra ataques, como inyecciones SQL.
 
@@ -357,20 +357,20 @@ destacando 2 arquitecturas:
 Existen diferentes tipos de usuarios que interactúan con la base de datos.
 
 📌 2. Gestor de Consultas 🔍
-✔️ Submódulos:
+✅️ Submódulos:
 ➡️Intérprete LDD: Interpreta instrucciones LDD y registra definiciones en el diccionario de datos. 📜
 ➡️Compilador LMD: Traduce instrucciones LMD a bajo nivel para el motor de evaluación de consultas (optimización de consultas). ⚙️
 ➡️Motor de Evaluación de Consultas: Ejecuta las instrucciones de bajo nivel generadas por el compilador. 🚀
 
 📌 3. Gestor de Almacenamiento 💾
-✔️ Responsabilidades: Interactúa con el gestor de archivos del sistema operativo, transcribe instrucciones LMD a comandos de bajo nivel y 
+✅️ Responsabilidades: Interactúa con el gestor de archivos del sistema operativo, transcribe instrucciones LMD a comandos de bajo nivel y 
 											 maneja almacenamiento, recuperación y actualización de datos. 🔄
-✔️ Elementos Internos:
+✅️ Elementos Internos:
 - Gestor de autorizaciones e integridad 🔑
 - Gestor de transacciones 📊
 - Gestor de archivos 🗂️
 - Gestor de memoria intermedia 📦
-✔️ Estructuras de Datos Internas:
+✅️ Estructuras de Datos Internas:
 - Archivos de datos 📁
 - Diccionario de datos 📚
 - Estadísticas 📈
@@ -417,15 +417,15 @@ unidad atómica. Esto asegura que todas las operaciones se completen con éxito 
 Garantizan la coherencia e integridad de los datos, asegurando que la base de datos se mantenga consistente, incluso ante fallos.
 
 📌 Propiedades ACID 🔑
-✔️Atomicidad: La transacción se trata como una unidad indivisible; o se completa todo, o no se aplica nada. 🔄
-✔️Consistencia: Mantiene la base de datos en un estado coherente, verificando restricciones de integridad. ✅
-✔️Aislamiento: Los cambios no son visibles para otras transacciones hasta que se confirman (commit). 🛡️
-✔️Durabilidad: Una vez confirmada, la transacción persiste, incluso ante fallos del sistema. 💾
+✅️Atomicidad: La transacción se trata como una unidad indivisible; o se completa todo, o no se aplica nada. 🔄
+✅️Consistencia: Mantiene la base de datos en un estado coherente, verificando restricciones de integridad. ✅
+✅️Aislamiento: Los cambios no son visibles para otras transacciones hasta que se confirman (commit). 🛡️
+✅️Durabilidad: Una vez confirmada, la transacción persiste, incluso ante fallos del sistema. 💾
 
 📌 Funcionamiento ⚙️
-✔️Se inicia una transacción y se crea un contexto de transacción.
-✔️Al finalizar, se puede hacer commit (aplicar cambios) o rollback (deshacer cambios).
-✔️El SGBD utiliza bloqueo para evitar conflictos entre transacciones simultáneas y registro para deshacer cambios en caso de fallo.
+✅️Se inicia una transacción y se crea un contexto de transacción.
+✅️Al finalizar, se puede hacer commit (aplicar cambios) o rollback (deshacer cambios).
+✅️El SGBD utiliza bloqueo para evitar conflictos entre transacciones simultáneas y registro para deshacer cambios en caso de fallo.
 ```
 
 ## Lenguajes de las bases de datos
@@ -497,28 +497,28 @@ Hay dos tipos de lenguajes de manejo de datos: **los procedurales y los no proc
 
 ```agda
 📌 Esquema y Sub-lenguajes 🔍
-✔️LDD (Lenguaje de Definición de Datos): Define el esquema de la base de datos.
-✔️LMD (Lenguaje de Manipulación de Datos): Expresa las consultas y modificaciones necesarias.
+✅️LDD (Lenguaje de Definición de Datos): Define el esquema de la base de datos.
+✅️LMD (Lenguaje de Manipulación de Datos): Expresa las consultas y modificaciones necesarias.
 
 📌Restricciones de consistencia📏
- ✔️ Restricciones de dominio: Asociar un dominio a cada atributo (ej. entero, carácter, fecha/hora) que actúa como restricción de valores
+ ✅️ Restricciones de dominio: Asociar un dominio a cada atributo (ej. entero, carácter, fecha/hora) que actúa como restricción de valores
 														  posibles y donde el SGBD verifica estas restricciones al insertar/modificar valores.
- ✔️ Integridad referencial: Asegura que los valores en una relación aparecen en otra relación.
+ ✅️ Integridad referencial: Asegura que los valores en una relación aparecen en otra relación.
 
 📌 Autorizaciones: 🛡️
-✔️Autorización de lectura 📖
-✔️Autorización de inserción 📝
-✔️Autorización de actualización 🔄
-✔️Autorización de eliminación 🗑️
+✅️Autorización de lectura 📖
+✅️Autorización de inserción 📝
+✅️Autorización de actualización 🔄
+✅️Autorización de eliminación 🗑️
 
 📌 Diccionario de datos: 📚
-✔️ Information Schema: Guarda toda la info de la BD, tablas son vistas.
-✔️ Mysql: Información de parámetros del SGBD y usuarios.
-✔️ Sys y Performance Schema: Análisis y rendimiento del SGBD.
+✅️ Information Schema: Guarda toda la info de la BD, tablas son vistas.
+✅️ Mysql: Información de parámetros del SGBD y usuarios.
+✅️ Sys y Performance Schema: Análisis y rendimiento del SGBD.
 
 📌 Tipos de LMD: 💻
-✔️ Procedurales: Manipulan la BD registro a registro.
-✔️ No procedurales: Operan sobre conjuntos de registros (ej. SQL).
+✅️ Procedurales: Manipulan la BD registro a registro.
+✅️ No procedurales: Operan sobre conjuntos de registros (ej. SQL).
 
 💡 NOTA: DCL y TCL se verán en detalle en las siguientes unidades.
 ```
@@ -622,11 +622,11 @@ Los DataNodes almacenan los bloques de datos y envían los datos solicitados en 
 ```agda
 
 📌 Datos estructurados:📊
-✔️ Son valores que se ajustan a campos y columnas fijos en una base de datos relacional (por ejemplo MySQL) o hojas de cálculo.
-✔️ Algunos tipos son carácter, numérico, lista de valores, etc.
-✔️ Características: Tamaño máximo prefijado. Permiten búsquedas, actualizaciones y manipulaciones rápidas y sencillas con 
+✅️ Son valores que se ajustan a campos y columnas fijos en una base de datos relacional (por ejemplo MySQL) o hojas de cálculo.
+✅️ Algunos tipos son carácter, numérico, lista de valores, etc.
+✅️ Características: Tamaño máximo prefijado. Permiten búsquedas, actualizaciones y manipulaciones rápidas y sencillas con 
 										 lenguajes de consulta como SQL.
-✔️ Las fuentes de datos estructurados generan datos en tiempo real y en altos volúmenes, permitiendo analizar comportamientos de clientes,
+✅️ Las fuentes de datos estructurados generan datos en tiempo real y en altos volúmenes, permitiendo analizar comportamientos de clientes,
 	 compras online, campañas de marketing, etc.
 
 Ejemplos:
@@ -637,10 +637,10 @@ Ejemplos:
 📇 Fichas estandarizadas de clientes
 
 📌  Datos semi-estructurados:📂
-✔️ Definición: Datos que tienen un cierto nivel de estructura, jerarquía y organización, pero sin un esquema fijo.
-✔️ Características: Estructuran el árbol con etiquetas, contienen metadatos para agrupar y describir cómo se almacenan, por último gestionan
+✅️ Definición: Datos que tienen un cierto nivel de estructura, jerarquía y organización, pero sin un esquema fijo.
+✅️ Características: Estructuran el árbol con etiquetas, contienen metadatos para agrupar y describir cómo se almacenan, por último gestionan
 								 y automatizan más complicada que los datos estructurados.
-✔️ Servicios como el sistema de recomendación de Amazon o LinkedIn se basan en datos semi-estructurados.
+✅️ Servicios como el sistema de recomendación de Amazon o LinkedIn se basan en datos semi-estructurados.
 
 Ejemplos:
 📧 Correos electrónicos
@@ -650,11 +650,11 @@ Ejemplos:
 📦 Paquetes TCP/IP
 
 📌  Datos no estructurados: 📚
-✔️ Definición: Datos con estructura interna, pero sin modelos o esquemas de datos fijos y predefinidos.
-✔️ Características: No se pueden usar en bases de datos relacionales.Suponen un alto volumen de todos los datos generados. Utilizan 
+✅️ Definición: Datos con estructura interna, pero sin modelos o esquemas de datos fijos y predefinidos.
+✅️ Características: No se pueden usar en bases de datos relacionales.Suponen un alto volumen de todos los datos generados. Utilizan 
 								herramientas y modelos de almacenamiento y computación avanzados (e.g., sistemas cloud, ELT, DataLake).
-✔️ El DataLake es un repositorio que contiene una gran cantidad de datos en crudo, almacenados hasta que resulten útiles. 
-✔️ Hadoop es un framework opensource que se utiliza para almacenar y procesar grandes cantidades de datos en clusters.
+✅️ El DataLake es un repositorio que contiene una gran cantidad de datos en crudo, almacenados hasta que resulten útiles. 
+✅️ Hadoop es un framework opensource que se utiliza para almacenar y procesar grandes cantidades de datos en clusters.
 
 Ejemplos:
 📄 Documentos en archivos de texto (doc, txt, cnf)
@@ -665,7 +665,7 @@ Ejemplos:
 📍 Datos de ubicaciones y mensajería instantánea
 🎧 Grabaciones telefónicas, archivos de audio (MP3)
 
-✔️ Características de Hadoop:
+✅️ Características de Hadoop:
 Capacidad para almacenar y procesar grandes cantidades de datos rápidamente siendo un modelo de procesamiento distribuido por n nodos
 - Tolerancia a fallos: Redirige trabajos automáticamente en caso de problemas HW.
 - Flexibilidad: Permite almacenar todos los datos necesarios y decidir cómo utilizarlos después.
@@ -701,22 +701,22 @@ Importancia: Bases de datos son claves para generar valor añadido en todos los 
 Capturan y organizan datos para convertirlos en información útil para los stakeholders.
 
 🔧 Elección de base de datos
-✔️ Tipado y modelo: Ajuste a datos.
-✔️ Consulta: Eficiencia.
-✔️ Latencia: Tiempo de entrega.
-✔️ Consistencia: Nivel requerido.
-✔️ Velocidad: Batch, Near Real-Time, Real Time.
+✅️ Tipado y modelo: Ajuste a datos.
+✅️ Consulta: Eficiencia.
+✅️ Latencia: Tiempo de entrega.
+✅️ Consistencia: Nivel requerido.
+✅️ Velocidad: Batch, Near Real-Time, Real Time.
 
 ☁️ Transformación digital: 
 Uso de servicios pay on demand y Cloud Computing facilita bases de datos personalizadas.
 
 📊 Bases de datos en la nube: 
-✔️ Relacionales: SQL Server, Oracle, MySQL, PostgreSQL, Spanner, Cloud SQL.
-✔️ No relacionales: MongoDB, Redis, Cassandra, Hbase.
+✅️ Relacionales: SQL Server, Oracle, MySQL, PostgreSQL, Spanner, Cloud SQL.
+✅️ No relacionales: MongoDB, Redis, Cassandra, Hbase.
 
 🖥️ Desarrollo de aplicaciones: 
-✔️ De entornos centralizados a arquitecturas cliente-servidor y microservicios, impactando en la evolución de las bases de datos.
-✔️ Espero que te sea útil este resumen. ¿Necesitas algo más? 😊
+✅️ De entornos centralizados a arquitecturas cliente-servidor y microservicios, impactando en la evolución de las bases de datos.
+✅️ Espero que te sea útil este resumen. ¿Necesitas algo más? 😊
 ```
 
 ## Bases de datos Relacionales (SQL)
@@ -845,21 +845,21 @@ Aunque tendremos la última unidad de esta asignatura para las bases de datos No
 ```agda
 **Bases de Datos NoSQL**
 📌 Ventajas:✅
-✔️ Flexibilidad: Sin esquema predefinido, fácil adaptación a cambios. 🔄
-✔️ Escalabilidad Horizontal: Añadir servidores para manejar más datos y tráfico. 📈
-✔️ Tolerancia a Fallos: Replicación y sharding mantienen el sistema operativo. 🔧
-✔️ Rendimiento: Rápidas operaciones de lectura y escritura, especialmente en bases de datos clave-valor. ⚡
+✅️ Flexibilidad: Sin esquema predefinido, fácil adaptación a cambios. 🔄
+✅️ Escalabilidad Horizontal: Añadir servidores para manejar más datos y tráfico. 📈
+✅️ Tolerancia a Fallos: Replicación y sharding mantienen el sistema operativo. 🔧
+✅️ Rendimiento: Rápidas operaciones de lectura y escritura, especialmente en bases de datos clave-valor. ⚡
 
 📌 Desventajas:🚫
-✔️ Consistencia Eventual: Pueden no garantizar la integridad de datos. ⚠️
-✔️ Limitaciones en Consultas: Falta de soporte para operaciones complejas como JOIN. 🔍
-✔️ Curva de Aprendizaje: Requiere nuevas estrategias de modelado y consultas. 📚
+✅️ Consistencia Eventual: Pueden no garantizar la integridad de datos. ⚠️
+✅️ Limitaciones en Consultas: Falta de soporte para operaciones complejas como JOIN. 🔍
+✅️ Curva de Aprendizaje: Requiere nuevas estrategias de modelado y consultas. 📚
 
 📌 Tipos de Bases de Datos NoSQL: 💽
-✔️ Clave-Valor: Rápido acceso a datos simples. Ejemplos: Redis, DynamoDB. 🔑
-✔️ Orientadas a Columnas: Eficientes para grandes volúmenes de datos relacionados. Ejemplos: Cassandra, HBase. 📊
-✔️ Grafos: Adecuadas para relaciones complejas. Ejemplos: Neo4j, ArangoDB. 🌐
-✔️ Documentales: Flexibles y semi-estructuradas. Ejemplos: MongoDB, Couchbase. 📄
+✅️ Clave-Valor: Rápido acceso a datos simples. Ejemplos: Redis, DynamoDB. 🔑
+✅️ Orientadas a Columnas: Eficientes para grandes volúmenes de datos relacionados. Ejemplos: Cassandra, HBase. 📊
+✅️ Grafos: Adecuadas para relaciones complejas. Ejemplos: Neo4j, ArangoDB. 🌐
+✅️ Documentales: Flexibles y semi-estructuradas. Ejemplos: MongoDB, Couchbase. 📄
 💡 Conclusión: Las bases de datos NoSQL son ideales para Big Data y aplicaciones que requieren escalabilidad y flexibilidad en el manejo de datos. 🚀
 ```
 

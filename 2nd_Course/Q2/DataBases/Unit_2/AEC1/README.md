@@ -256,11 +256,11 @@ CREATE TABLE Solicita (
 
 Este modelo relacional cumple con la **Tercera Forma Normal (3FN)** porque:
 
-✔️ **No hay grupos repetitivos** (1FN).
+✅️ **No hay grupos repetitivos** (1FN).
 
-✔️ **Cada atributo depende totalmente de la clave primaria** (2FN).
+✅️ **Cada atributo depende totalmente de la clave primaria** (2FN).
 
-✔️ **No existen dependencias transitivas** (3FN).
+✅️ **No existen dependencias transitivas** (3FN).
 
 ## **Exercise 3: Database Creation in MySQL**
 

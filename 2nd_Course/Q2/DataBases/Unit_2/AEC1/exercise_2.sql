@@ -83,6 +83,6 @@ CREATE TABLE Solicita (
 -- - The relationship between Paciente and Analisis is naturally handled in the "Analisis" table with a foreign key reference to Paciente.
 
 -- This model is in **Third Normal Form (3NF)** because:
--- ✔️ **No repeating groups** (1NF).
--- ✔️ **All attributes depend fully on the primary key** (2NF).
--- ✔️ **No transitive dependencies** (3NF).
+-- ✅️ **No repeating groups** (1NF).
+-- ✅️ **All attributes depend fully on the primary key** (2NF).
+-- ✅️ **No transitive dependencies** (3NF).
