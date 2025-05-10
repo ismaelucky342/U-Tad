@@ -8,6 +8,8 @@ We first introduce the concept of an asymptote, which, along with the concepts s
 
 An asymptote of a function (f(x)) whose graph is the curve (C), is a line (r) to which the curve (C) gets closer and closer, so that in the limit, they become infinitesimally close, but without fully coinciding with the line (r) itself. In other words, the curve "sticks" to the line as we move toward infinity or toward a specific point.
 
+
+
 **Types of Asymptotes:**
 
 The text focuses on two main types of asymptotes:

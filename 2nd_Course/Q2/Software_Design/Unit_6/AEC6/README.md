@@ -21,6 +21,8 @@ System.out.println("Insufficient Stock");
 return;
 }
 
+
+
 // Apply a possible discount
 double discount = 0;
 if (totalAmount > 100) { 
@@ -292,13 +294,16 @@ public class OrderProcessor {
 
 Throughout this unit, I have learned that **refactoring** is not simply "improving the code," but an essential practice for maintaining a healthy, flexible, and maintainable project over the long term. Applying refactoring has several very concrete benefits that I have seen both in theory and in practice.
 
+
 ### **Improves code readability**
 
 One of the most obvious benefits is that, after refactoring, the code becomes much easier to understand. For example, in the exercise for the `OrderProcessor` class, the `processOrder()` method performed several tasks at once. Applying the **Extract Method** technique, I broke it down into smaller methods like `applyDiscountIfNeeded()` or `hasStock()`. This allowed each block to have a descriptive name, and now I can understand at a glance what each part does, without having to read all the internal details.
 
 ### **Facilitates maintenance**
 
+
 When code is well-structured, any future changes are much simpler and less risky. Continuing with the previous example, if the discount policy changes tomorrow, I would only have to modify the content of `applyDiscountIfNeeded()`, without having to worry about breaking other parts of the `processOrder()` method. This separation of responsibilities also prevents unwanted side effects.
+
 
 ### **Reduces code duplication**
 
