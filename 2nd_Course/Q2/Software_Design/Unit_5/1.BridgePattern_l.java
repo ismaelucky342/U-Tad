@@ -7,7 +7,7 @@ public interface Device {
 }
 
 // ConcreteImplementor
-public class TV implements {
+public class TV implements Device {
     @Override
     public void turnOn() {
         System.out.println("TV is turned on.");
@@ -70,6 +70,7 @@ public class AdvancedRemote extends RemoteControl {
     }
 
     public void mute() {
+        setVolume(0);
         System.out.println("Device is muted.");
     }
 }
