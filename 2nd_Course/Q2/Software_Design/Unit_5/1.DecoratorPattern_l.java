@@ -1,12 +1,11 @@
-// implementor 
-
+// Componente
 public interface Device {
     void turnOn();
     void turnOff();
     void setVolume(int volume);
 }
 
-// ConcreteImplementor
+// Componente Concreto
 public class TV implements Device {
     @Override
     public void turnOn() {
@@ -24,7 +23,7 @@ public class TV implements Device {
     }
 }
 
-// ConcreteImplementor
+// Componente Concreto
 public class Radio implements Device {
     @Override
     public void turnOn() {
@@ -42,54 +41,55 @@ public class Radio implements Device {
     }
 }
 
-// Abstraction
-public class RemoteControl {
-    private Device device;
+// Decorador base
+public abstract class DeviceDecorator implements Device {
+    protected Device decoratedDevice;
 
-    public RemoteControl(Device device) {
-        this.device = device;
+    public DeviceDecorator(Device decoratedDevice) {
+        this.decoratedDevice = decoratedDevice;
     }
 
+    @Override
     public void turnOn() {
-        device.turnOn();
+        decoratedDevice.turnOn();
     }
 
+    @Override
     public void turnOff() {
-        device.turnOff();
+        decoratedDevice.turnOff();
     }
 
+    @Override
     public void setVolume(int volume) {
-        device.setVolume(volume);
+        decoratedDevice.setVolume(volume);
     }
 }
 
-// RefinedAbstraction
-public class AdvancedRemote extends RemoteControl {
-    public AdvancedRemote(Device device) {
-        super(device);
+// Decorador concreto
+public class MuteDecorator extends DeviceDecorator {
+    public MuteDecorator(Device decoratedDevice) {
+        super(decoratedDevice);
     }
 
     public void mute() {
-        setVolume(0);
+        decoratedDevice.setVolume(0);
         System.out.println("Device is muted.");
     }
 }
 
-// Client code
-public class BridgePatternExample {
+// Cliente
+public class DecoratorPatternExample {
     public static void main(String[] args) {
         Device tv = new TV();
-        RemoteControl tvRemote = new RemoteControl(tv);
-        tvRemote.turnOn();
-        tvRemote.setVolume(10);
-        tvRemote.turnOff();
+        tv.turnOn();
+        tv.setVolume(10);
+        tv.turnOff();
 
         Device radio = new Radio();
-        AdvancedRemote radioRemote = new AdvancedRemote(radio);
-        radioRemote.turnOn();
-        radioRemote.setVolume(5);
-        radioRemote.mute();
-        radioRemote.turnOff();
+        MuteDecorator radioWithMute = new MuteDecorator(radio);
+        radioWithMute.turnOn();
+        radioWithMute.setVolume(5);
+        radioWithMute.mute();
+        radioWithMute.turnOff();
     }
 }
-
