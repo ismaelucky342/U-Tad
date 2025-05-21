@@ -1,5 +1,17 @@
 -- Ejercicios de álgebra relacional
 
+| Símbolo | Nombre | Descripción breve | Ejemplo sencillo |
+| --- | --- | --- | --- |
+| σ (sigma) | Selección | Filtrar filas según una condición | σDepartamentoID=10(Empleados) |
+| π (pi) | Proyección | Elegir columnas específicas | πNombreEmpleado(Empleados) |
+| ρ (rho) | Renombrado | Cambiar nombre de tabla o atributos | ρE(Empleados) |
+| × | Producto cartesiano | Todas las combinaciones posibles (filas) | Empleados × Proyectos |
+| ∪ | Unión | Filas que están en una tabla o en otra | EmpleadosA ∪ EmpleadosB |
+| ∩ | Intersección | Filas que están en ambas tablas | EmpleadosA ∩ EmpleadosB |
+| − | Diferencia | Filas en la primera tabla pero no en la segunda | EmpleadosA − EmpleadosB |
+| ⨝ (join) | Join (unión natural) | Combina filas relacionadas entre tablas | Empleados ⨝ Departamentos |
+
+
 -- Supongamos las siguientes relaciones:
 -- Estudiante(DNI, Nombre, Edad, Carrera)
 -- Curso(CodCurso, NombreCurso, Creditos)
