@@ -33,13 +33,13 @@ In the **second year** we acquire programming skills in algorithms, POO, data st
 
 ### Q1:
 - **[Object Oriented Programming](2nd_Course/Q1/POO)** (6 ECTS)
-- **[Mathematical_Analysis](2nd_Course/Q1/Mathematical_Analysis_l)** (6 ECTS)
+- **[Mathematical_Analysis I](2nd_Course/Q1/Mathematical_Analysis_l)** (6 ECTS)
 - **[Computer Networks](2nd_Course/Q1/Computer_networks)** (6 ECTS)
 - **[Operating Systems](2nd_Course/Q1/Operating_systems)** (6 ECTS)
 - **[Linear Algebra](2nd_Course/Q1/Linear_Algebra)** (9 ECTS)
 
 ### Q2:
-- **[Mathematical_Analysis](2nd_Course/Q2/Mathematical_Analysis_ll)** (6 ECTS)
+- **[Mathematical_Analysis II](2nd_Course/Q2/Mathematical_Analysis_ll)** (6 ECTS)
 - **[Linear_Geometry](2nd_Course/Q2/Linear_Geometry)** (9 ECTS)
 - **[Algorithm Analysis and Design](2nd_Course/Q2/Algorithms)** (6 ECTS)
 - **[Databases](2nd_Course/Q2/DataBases)** (6 ECTS)
