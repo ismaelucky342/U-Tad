@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Ahorcado | U-tad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Título principal -->
+        <h1 class="title">Juego del ahorcado | U-tad</h1>
+        
+        <!-- Apartado de progresión del muñeco del ahorcado -->
+        <div class="hangman-section">
+            <div class="hangman-display">
+                <svg id="hangman-svg" width="200" height="250">
+                    <defs>
+                        <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                            <feMerge> 
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                        <filter id="redNeonGlow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                            <feMerge> 
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    
+                    <!-- Base de la horca -->
+                    <line x1="10" y1="230" x2="150" y2="230" stroke="#00ffff" stroke-width="4" filter="url(#neonGlow)"/>
+                    <!-- Poste vertical -->
+                    <line x1="30" y1="230" x2="30" y2="20" stroke="#00ffff" stroke-width="4" filter="url(#neonGlow)"/>
+                    <!-- Poste horizontal -->
+                    <line x1="30" y1="20" x2="120" y2="20" stroke="#00ffff" stroke-width="4" filter="url(#neonGlow)"/>
+                    <!-- Cuerda -->
+                    <line x1="120" y1="20" x2="120" y2="50" stroke="#ffff00" stroke-width="3" filter="url(#neonGlow)"/>
+                    
+                    <!-- Partes del muñeco (inicialmente invisibles) -->
+                    <!-- Cabeza -->
+                    <circle id="head" cx="120" cy="70" r="20" stroke="#ff0080" stroke-width="3" fill="none" filter="url(#redNeonGlow)" style="display: none;"/>
+                    <!-- Cuerpo -->
+                    <line id="body" x1="120" y1="90" x2="120" y2="170" stroke="#ff0080" stroke-width="3" filter="url(#redNeonGlow)" style="display: none;"/>
+                    <!-- Brazo izquierdo -->
+                    <line id="left-arm" x1="120" y1="120" x2="90" y2="140" stroke="#ff0080" stroke-width="3" filter="url(#redNeonGlow)" style="display: none;"/>
+                    <!-- Brazo derecho -->
+                    <line id="right-arm" x1="120" y1="120" x2="150" y2="140" stroke="#ff0080" stroke-width="3" filter="url(#redNeonGlow)" style="display: none;"/>
+                    <!-- Pierna izquierda -->
+                    <line id="left-leg" x1="120" y1="170" x2="90" y2="200" stroke="#ff0080" stroke-width="3" filter="url(#redNeonGlow)" style="display: none;"/>
+                    <!-- Pierna derecha -->
+                    <line id="right-leg" x1="120" y1="170" x2="150" y2="200" stroke="#ff0080" stroke-width="3" filter="url(#redNeonGlow)" style="display: none;"/>
+                </svg>
+            </div>
+            <div class="attempts-info">
+                <p>Intentos restantes: <span id="attempts-left">6</span></p>
+            </div>
+        </div>
+
+        <!-- Apartado de la palabra a adivinar -->
+        <div class="word-section">
+            <div id="word-display" class="word-display">
+                <!-- Los huecos de la palabra se generarán aquí dinámicamente -->
+            </div>
+            <div class="guessed-letters">
+                <p>Letras utilizadas: <span id="used-letters"></span></p>
+            </div>
+        </div>
+
+        <!-- Apartado de inputs y botones -->
+        <div class="input-section">
+            <div class="input-group">
+                <input type="text" id="letter-input" class="letter-input" maxlength="1" placeholder="Introduce una letra">
+                <button id="guess-button" class="guess-button">Adivinar</button>
+            </div>
+            <button id="restart-button" class="restart-button" style="display: none;">Reiniciar Partida</button>
+        </div>
+
+        <!-- Mensajes de resultado -->
+        <div id="game-message" class="game-message"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
