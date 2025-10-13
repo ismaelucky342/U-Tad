@@ -1,0 +1,42 @@
+<!--Ejercicio 3: Formularios-->
+<!--Crea un formulario con <form> que contenga:-->
+<!--Un campo de texto (<input type="text">)-->
+<!--Un campo de correo (type="email")-->
+<!--Un campo de contraseña (type="password")-->
+<!--Un selector (<select>)-->
+<!--Un área de texto (<textarea>)-->
+<!--Un botón de envío (<button> o <input type="submit">)-->
+<!--Usa label para asociar los nombres de los campos.-->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Ejercicio 3: Formularios</title>
+</head>
+<body>
+	<form action="#" method="post">
+		<label for="nombre">Nombre:</label>
+		<input type="text" id="nombre" name="nombre" required>
+		<br><br>
+		<label for="email">Correo electrónico:</label>
+		<input type="email" id="email" name="email" required>
+		<br><br>
+		<label for="password">Contraseña:</label>
+		<input type="password" id="password" name="password" required>
+		<br><br>
+		<label for="opciones">Opciones:</label>
+		<select id="opciones" name="opciones">
+			<option value="opcion1">Opción 1</option>
+			<option value="opcion2">Opción 2</option>
+			<option value="opcion3">Opción 3</option>
+		</select>
+		<br><br>
+		<label for="comentarios">Comentarios:</label>
+		<br>
+		<textarea id="comentarios" name="comentarios" rows="4" cols="50"></textarea>
+		<br><br>
+		<button type="submit">Enviar</button>
+	</form>
+</body>
+</html>
