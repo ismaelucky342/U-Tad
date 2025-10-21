@@ -24,7 +24,7 @@ history = model.fit(x_train, y_train, epochs=50, batch_size=32, validation_split
 # Predicciones sobre test set
 y_pred = model.predict(x_test)
 
-# Gráfico de predicción vs real
+# Opcional: Gráfico de predicción vs real
 plt.scatter(y_test, y_pred)
 plt.xlabel("Valores reales")
 plt.ylabel("Predicciones")

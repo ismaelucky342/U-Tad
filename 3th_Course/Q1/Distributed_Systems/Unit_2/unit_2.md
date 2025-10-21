@@ -116,7 +116,6 @@ Los modelos “cliente-servidor” están pensados para aplicaciones con necesid
 - Un ordenador actúa de servidor.
 - Varios ordenadores se conectan al servidor para poderse sincronizar.
 
-![image.png](attachment:9680e8c3-c245-4123-a858-087ebf215dc5:image.png)
 
 Bajo estos esquemas el principal cuello de botella es la comunicación con el propio servidor, ya que con demasiados clientes conectados se corre el riesgo de saturar el servidor y que no de servicios. 
 
