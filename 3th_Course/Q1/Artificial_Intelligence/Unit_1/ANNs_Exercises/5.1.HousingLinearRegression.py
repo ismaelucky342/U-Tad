@@ -1,6 +1,7 @@
 from keras.datasets import california_housing
 from keras.models import Sequential
 from keras.layers import Dense
+import matplotlib.pyplot as plt
 import numpy as np
 
 # Cargar dataset
