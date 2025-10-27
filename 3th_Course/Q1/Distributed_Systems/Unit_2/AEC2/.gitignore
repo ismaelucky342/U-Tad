@@ -1,0 +1,36 @@
+# Directorios de compilación
+build/
+cmake-build-*/
+
+# Archivos objeto y ejecutables
+*.o
+*.so
+*.a
+*.exe
+server
+client
+
+# Archivos de CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de backup
+*.bak
+*.backup
+*~
+
+# Logs
+*.log
