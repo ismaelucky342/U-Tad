@@ -1,11 +1,17 @@
+# Unidad 2
+
+Creado: 21 de octubre de 2025 15:53
+
+![nosql databases.png](unit_2/nosql_databases.png)
+
 # **BBDD orientadas a documentos**
 
 Las bases de datos orientadas a documentos presentan un modelo de datos flexible y adaptable, caracterizado por las siguientes propiedades:
 
 - Modelado como en JSON: El formato de los datos en una base de datos orientada a documentos se asemeja a estructuras en JSON.
     
-    Su estructura es fácil de leer y escribir tanto para humanos como para máquinas, lo que lo hace muy popular en el desarrollo de aplicaciones. JSON se organiza en pares de clave-valor, donde cada clave es un texto y el valor puede ser de varios tipos, como números, cadenas, listas, o incluso objetos anidados.
-    
+    > Su estructura es fácil de leer y escribir tanto para humanos como para máquinas, lo que lo hace muy popular en el desarrollo de aplicaciones. JSON se organiza en pares de clave-valor, donde cada clave es un texto y el valor puede ser de varios tipos, como números, cadenas, listas, o incluso objetos anidados.
+    > 
 - Documento como unidad completa: posee todos los atributos relevantes de esa entidad y pueden contener tanto datos estructurados como semiestructurados.
 - Modelado accesible: con una estructura mas intuitiva que perminte la anidación de datos dentro del mismo documento (modelo agregado).
 - Fácil Acceso a documentos: mediante una clave primaria que permite su búsqueda rápida, además se permite la creación de indices en los atributos dentro del documento para facilitar las búsquedas mas complejas o en múltiples campos
@@ -23,14 +29,11 @@ Es recomendable crear índices en los campos que se consultan con frecuencia.
 
 ```jsx
 db.usuarios.createIndex({ edad: 1 })
-
 ```
 
 **Modelado de datos**
 
-Las operaciones como `$lookup` pueden ser costosas.
-
-Siempre que sea posible, conviene anidar documentos relacionados dentro de uno solo.
+Las operaciones como `$lookup` pueden ser costosas. Siempre que sea posible, conviene anidar documentos relacionados dentro de uno solo.
 
 Ejemplo: incluir los pedidos dentro del documento del usuario en lugar de usar una colección separada.
 
@@ -48,11 +51,7 @@ Esto mejora el rendimiento en búsquedas parciales o por palabras clave.
 
 **Diseño del esquema**
 
-Evitar un número excesivo de colecciones.
-
-Controlar el tamaño de los arrays y de los documentos.
-
-Limitar el número de índices, ya que cada uno añade carga en las operaciones de escritura.
+Evitar un número excesivo de colecciones. Controlar el tamaño de los arrays y de los documentos. Limitar el número de índices, ya que cada uno añade carga en las operaciones de escritura.
 
 **Optimización de consultas**
 
@@ -62,14 +61,11 @@ Ejemplo:
 
 ```jsx
 db.usuarios.find({ edad: { $gt: 25 } }).explain("executionStats")
-
 ```
 
 **Caché y memoria**
 
-MongoDB utiliza la memoria RAM como caché para almacenar los documentos e índices más accedidos.
-
-Asegurarse de disponer de suficiente memoria para evitar lecturas frecuentes desde disco.
+MongoDB utiliza la memoria RAM como caché para almacenar los documentos e índices más accedidos. Asegurarse de disponer de suficiente memoria para evitar lecturas frecuentes desde disco.
 
 **Sharding**
 
@@ -87,7 +83,6 @@ Ejemplo:
 
 ```jsx
 db.usuarios.createIndex({ edad: 1 })
-
 ```
 
 **Tipos de índices en MongoDB**
@@ -99,7 +94,6 @@ db.usuarios.createIndex({ edad: 1 })
 
 ```jsx
 db.clientes.createIndex({ apellido: 1 })
-
 ```
 
 **Índices de texto**
@@ -111,7 +105,6 @@ db.clientes.createIndex({ apellido: 1 })
 
 ```jsx
 db.productos.createIndex({ descripcion: "text", nombre: "text" })
-
 ```
 
 **Índices geoespaciales**
@@ -124,7 +117,6 @@ db.productos.createIndex({ descripcion: "text", nombre: "text" })
 
 ```jsx
 db.restaurantes.createIndex({ ubicacion: "2dsphere" })
-
 ```
 
 **Propiedades adicionales de los índices**
@@ -133,7 +125,6 @@ db.restaurantes.createIndex({ ubicacion: "2dsphere" })
 
 ```jsx
 db.students.createIndex({ name: 1 }, { unique: true })
-
 ```
 
 **Gestión de índices**
@@ -161,25 +152,19 @@ En este apartado, exploraremos el concepto CRUD, que es una de las bases fundame
 
 **Comando `find` en MongoDB**
 
-El comando `find` se utiliza para obtener documentos de una colección que cumplen ciertos criterios de búsqueda.
-
-Devuelve un **cursor** que permite iterar sobre los resultados.
-
-`findOne` devuelve solo el **primer documento** que cumple la condición.
+El comando `find` se utiliza para obtener documentos de una colección que cumplen ciertos criterios de búsqueda.Devuelve un **cursor** que permite iterar sobre los resultados. `findOne` devuelve solo el **primer documento** que cumple la condición.
 
 **Sintaxis básica:**
 
 ```jsx
 db.collection.find(<criteria>, <projection>)
 db.collection.findOne(<criteria>, <projection>)
-
 ```
 
 En **Python**, con el paquete **pymongo**, la sintaxis es similar:
 
 ```jsx
 collection.find(<criteria>, <projection>)
-
 ```
 
 **Operadores de búsqueda**
@@ -198,7 +183,6 @@ La proyección permite especificar qué campos se deben incluir o excluir en los
 
 ```jsx
 db.usuarios.find({}, { nombre: 1, email: 1, _id: 0 })
-
 ```
 
 **Proyección de arrays**
@@ -217,7 +201,6 @@ db.posts.find({}, { comentarios: { $slice: 3 } })
 
 // Proyectar elementos que cumplen una condición
 db.usuarios.find({}, { pedidos: { $elemMatch: { estado: "enviado" } } })
-
 ```
 
 ### **Escritura**
@@ -318,7 +301,6 @@ db.usuarios.deleteOne({ email: "usuario@example.com" })
 
 // Eliminar todos los usuarios inactivos
 db.usuarios.deleteMany({ activo: false })
-
 ```
 
 **Consideraciones:**
@@ -334,7 +316,7 @@ En el contexto de MongoDB, las **consultas agregadas** son una herramienta poder
 En una consulta agregada, cada documento pasa a través de una serie de etapas (o *stages*) en 
 las que se aplican diferentes transformaciones o filtros, y el resultado final es un listado de los documentos que resultan de estas operaciones.
 
-![image.png](attachment:0c2f0179-8d22-4ded-9573-d7a10c14fcd0:image.png)
+![image.png](unit_2/image.png)
 
 ### Operadores y etapas del pipeline de agregación en MongoDB
 

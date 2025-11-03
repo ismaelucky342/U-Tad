@@ -1,11 +1,16 @@
-# Unidad 1 
+# Unidad 1
+
+Creado: 29 de septiembre de 2025 12:06
+
+![nosql databases.png](unit_1/nosql_databases.png)
+
 En este bloque se aborda la evolución del manejo de datos desde el modelo relacional hasta las bases de datos NoSQL. Haciendo incapie en la importancia de las bases de datos relacionales y sus características, como la persistencia, concurrencia, integridad e integración. 
 
 Posteriormente, se introduce el concepto de *impedance mismatch* y el declive de las bases de datos relacionales ante el auge de nuevas tecnologías. 
 
 ## Tipos de Datos
 
-En el mundo de la gestión de datos se podemos clasificar los datos en tres categorías principales: no estructurados, semi-estructurados y estructurados. Cada tipo de datos tiene características y usos específicos que influyen en la elección de la base de datos adecuada para almacenarlos.
+En el mundo de la gestión de datos se pueden clasificar los datos en tres categorías principales: no estructurados, semi-estructurados y estructurados. Cada tipo de datos tiene características y usos específicos que influyen en la elección de la base de datos adecuada para almacenarlos.
 
 ### Datos No Estructurados
 
@@ -63,7 +68,7 @@ las bases de datos relacionales permiten acceder rápidamente a datos
 específicos. Las relaciones entre tablas facilitan la consulta de datos 
 relacionados de manera eficiente. Para llevar a cabo estas **consultas** y manipular los datos, las bases de datos relacionales utilizan el lenguaje SQL.
 
-![image.png](attachment:5e33b9ce-c398-4a74-ada6-1113cd92e707:image.png)
+![image.png](unit_1/image.png)
 
 ### Concepto de Concurrencia
 
@@ -86,7 +91,7 @@ Las bases de datos relacionales utilizan el concepto de **transacciones** para 
 
 Para garantizar la integridad y consistencia de los datos, las bases de datos relacionales implementan las propiedades **ACID** (Atomicidad, Consistencia, Aislamiento y Durabilidad) en sus transacciones. Estas propiedades son fundamentales para asegurar que las operaciones de la base de datos se realicen de manera fiable y segura.
 
-![image.png](attachment:91dea48d-dc78-465e-b492-e83df320858c:image.png)
+![image.png](unit_1/image%201.png)
 
 Todas estas características aseguran que las bases de datos relacionales puedan manejar múltiples operaciones concurrentes sin comprometer la integridad de los datos.
 
@@ -118,7 +123,7 @@ En el ámbito de la gestión de datos, es común enfrentar problemas similares e
 
 La normalización es un proceso clave en la estructura de las bases de datos relacionales que organiza los datos para reducir la redundancia y mejorar la integridad de los datos. A través de la normalización, las bases de datos se dividen en tablas más pequeñas y relacionadas que aseguran que cada pieza de datos se almacene solo una vez, lo que minimiza la redundancia. 
 
-![image.png](attachment:036cf455-ff04-4726-bf0c-01a5035bd2e1:image.png)
+![image.png](unit_1/image%202.png)
 
 ## Impedance Mismatch
 
@@ -145,7 +150,7 @@ Para manejar estas diferencias, el modelo relacional suele requerir la creación
 - Para el caso de las entradas anidadas, en lugar de tener una lista de objetos "Producto" anidados dentro de un “Pedido", se crea una tabla separada para los "Productos" y una tabla de relación que asocia cada "Pedido" con sus respectivos "Productos".
 - De manera similar, una lista de elementos se puede descomponer en una tabla adicional donde cada fila representa un elemento de la lista, y una clave ajena vincula estos elementos a la entidad principal.
 
-![INSD_ABDS_U1_Apartado01_Imagen09.png](attachment:daef0be5-1225-4295-bd03-7b0930299566:INSD_ABDS_U1_Apartado01_Imagen09.png)
+![INSD_ABDS_U1_Apartado01_Imagen09.png](unit_1/INSD_ABDS_U1_Apartado01_Imagen09.png)
 
 ## **Declive de las bases de datos relacionales**
 
@@ -567,3 +572,5 @@ STORE Empleado (id=1, nombre='Ana', depto=10);
 | **Multi-valor** | Campos con múltiples valores | Simplifican atributos repetidos | Inventarios, telecomunicaciones | UniData, Rocket U2 |
 | **Eventos** | Enfocadas en flujos de eventos | Procesamiento en tiempo real | IoT, logs, monitorización | EventStoreDB, Kafka |
 | **Red** | Modelo de red (registros + enlaces) | Buen rendimiento jerárquico | Sistemas heredados, manufactura | IDMS, IDS |
+
+---

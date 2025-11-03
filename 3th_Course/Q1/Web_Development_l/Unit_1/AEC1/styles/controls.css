@@ -1,0 +1,145 @@
+/*====================================================================================================*/
+/*                                                                                                    */
+/*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
+/*      AEC2 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
+/*      created:        29/10/2025  -  23:00:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
+/*      last change:    03/11/2025  -  01:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
+/*                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        */
+/*                                                                                                    */
+/*      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             */
+/*                                                                                                    */
+/*      Github:                                           https://github.com/ismaelucky342            */
+/*                                                                                                    */
+/*====================================================================================================*/
+
+.input-section {
+    margin: 20px 0;
+}
+
+.input-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+/* Input de letra */
+.letter-input {
+    width: 55px;
+    height: 45px;
+    font-size: 1.4rem;
+    text-align: center;
+    border: 2px solid #00ffff;
+    border-radius: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.6);
+    color: #00ffff;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.letter-input:focus {
+    outline: none;
+    border-color: #ff00ff;
+    color: #ff00ff;
+}
+
+/* Botón de adivinar */
+.guess-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #000;
+    background: #00ffff;
+    border: 2px solid #00ffff;
+    border-radius: 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.guess-button:hover {
+    background: #00ff7f;
+    border-color: #00ff7f;
+}
+
+.guess-button:disabled {
+    background: #555;
+    border-color: #555;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Botón de reiniciar */
+.restart-button {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #000;
+    background: #00ff7f;
+    border: 2px solid #00ff7f;
+    border-radius: 25px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.restart-button:hover {
+    background: #ffff00;
+    border-color: #ffff00;
+}
+
+/* Animación de error */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s ease;
+}
+
+/* Enlace GitHub */
+.github-link {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.github-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #00ffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.github-link a:hover {
+    color: #00ff7f;
+    transform: translateY(-2px);
+}
+
+.github-link svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container { padding: 20px; }
+    .title { font-size: 1.6rem; }
+    .letter-slot { width: 38px; height: 48px; font-size: 1.5rem; }
+    #hangman-svg { width: 150px; height: 200px; }
+}
+
+@media (max-width: 480px) {
+    .title { font-size: 1.3rem; }
+    .letter-slot { width: 32px; height: 42px; font-size: 1.3rem; }
+    .word-display { gap: 5px; }
+}

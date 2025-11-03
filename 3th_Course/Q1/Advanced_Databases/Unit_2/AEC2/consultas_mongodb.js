@@ -1,14 +1,24 @@
-// ============================================
-// ACTIVIDAD PRÁCTICA: Derivación Logarítmica
-// Consultas MongoDB - Restaurantes de Nueva York
-// ============================================
+//====================================================================================================#
+//                                                                                                    #
+//                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        #
+//      AEC2 - ABDS                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       #
+//                                                        ██║   ██║█████╗██║   ███████║██║  ██║       #
+//      created:        29/10/2025  -  23:00:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
+//      last change:    03/11/2025  -  02:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       #
+//                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        #
+//                                                                                                    #
+//      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             #
+//                                                                                                    #
+//      Github:                                           https://github.com/ismaelucky342            #
+//                                                                                                    #
+//====================================================================================================#
 
-// Usar la base de datos
+
+// Selecciono la base de datos 
 use restaurantsNY;
 
-// ============================================
-// 1. Restaurantes con puntuación > 80 y < 100
-// ============================================
+// Ejercicio 1: busco restaurantes con notas entre 80 y 100
+// Uso $gt y $lt para el rango, proyecto solo los campos que necesito
 db.restaurants.find({
   "grades.score": { $gt: 80, $lt: 100 }
 }, {
@@ -18,18 +28,16 @@ db.restaurants.find({
   "grades.score": 1
 });
 
-// Exportar: mongoexport --db=restaurantesNY --collection=restaurants --query='{"grades.score": {$gt: 80, $lt: 100}}' --out=ejercicio1.json
+// Para exportar: mongoexport --db=restaurantesNY --collection=restaurants --query='{"grades.score": {$gt: 80, $lt: 100}}' --out=ejercicio1.json
 
-// ============================================
-// 2. 5 restaurantes después de omitir los 5 primeros en el Bronx
-// ============================================
+// Ejercicio 2: necesito 5 restaurantes del Bronx pero saltando los 5 primeros
+// skip() me permite omitir documentos y limit() restringe el resultado
 db.restaurants.find({
   borough: "Bronx"
 }).skip(5).limit(5);
 
-// ============================================
-// 3. Restaurantes cuyo segundo elemento de coord esté entre 42 y 52
-// ============================================
+// Ejercicio 3: filtro por coordenadas, específicamente la segunda posición del array
+// coord.1 hace referencia al índice 1 del array (latitud/longitud)
 db.restaurants.find({
   "address.coord.1": { $gt: 42, $lt: 52 }
 }, {
@@ -39,9 +47,8 @@ db.restaurants.find({
   "address.coord": 1
 });
 
-// ============================================
-// 4. Restaurantes cuya puntuación % 7 = 0
-// ============================================
+// Ejercicio 4: busco puntuaciones divisibles entre 7
+// $mod hace el módulo, [7, 0] significa dividir entre 7 con resto 0
 db.restaurants.find({
   "grades.score": { $mod: [7, 0] }
 }, {
@@ -50,18 +57,16 @@ db.restaurants.find({
   grades: 1
 });
 
-// ============================================
-// 5. No cocina americana, nota 'A', no Brooklyn, orden descendente por cocina
-// ============================================
+// Ejercicio 5: query con múltiples condiciones
+// No americanos, con al menos una A, que no estén en Brooklyn, ordenados por cocina
 db.restaurants.find({
   cuisine: { $ne: "American" },
   "grades.grade": "A",
   borough: { $ne: "Brooklyn" }
 }).sort({ cuisine: -1 });
 
-// ============================================
-// 6. Al menos una 'A', sin 'B' ni 'C'
-// ============================================
+// Ejercicio 6: restaurantes que tienen A pero nunca B ni C
+// Aquí hay un truco: busco los que tienen A y excluyo los que tienen B o C
 db.restaurants.find({
   "grades.grade": "A",
   "grades.grade": { $nin: ["B", "C"] }
@@ -73,9 +78,8 @@ db.restaurants.find({
 
 // Exportar: mongoexport --db=restaurantesNY --collection=restaurants --query='{"grades.grade": "A", "grades.grade": {$nin: ["B", "C"]}}' --out=ejercicio6.json
 
-// ============================================
-// 7. No americanos ni chinos O nombre empieza por "Wil"
-// ============================================
+// Ejercicio 7: uso OR lógico
+// O no son americanos/chinos O el nombre empieza por "Wil"
 db.restaurants.find({
   $or: [
     { cuisine: { $nin: ["American", "Chinese"] } },
@@ -88,9 +92,8 @@ db.restaurants.find({
   cuisine: 1
 });
 
-// ============================================
-// 8. Calificación 'A' y puntuación 11 en fecha específica
-// ============================================
+// Ejercicio 8: aquí uso $elemMatch para buscar dentro de un array
+// Necesito que un mismo elemento del array cumpla todas las condiciones
 db.restaurants.find({
   "grades": {
     $elemMatch: {
@@ -105,9 +108,8 @@ db.restaurants.find({
   grades: 1
 });
 
-// ============================================
-// 9. Segundo elemento del array con 'A', puntuación 9 y fecha específica
-// ============================================
+// Ejercicio 9: acceso directo a la segunda posición del array grades
+// grades.1 es el segundo elemento (índice 1)
 db.restaurants.find({
   "grades.1.grade": "A",
   "grades.1.score": 9,
@@ -118,17 +120,15 @@ db.restaurants.find({
   grades: 1
 });
 
-// ============================================
-// 10. Calificaciones de 2 y 6 en Manhattan o Brooklyn
-// ============================================
+// Ejercicio 10: $all verifica que el array contenga todos los valores especificados
+// En este caso puntuaciones de 2 Y 6, en Manhattan o Brooklyn
 db.restaurants.find({
   "grades.score": { $all: [2, 6] },
   borough: { $in: ["Manhattan", "Brooklyn"] }
 });
 
-// ============================================
-// 11. Restaurantes con "coffee" en el nombre (case insensitive)
-// ============================================
+// Ejercicio 11: búsqueda con regex, case insensitive
+// /coffee/i busca "coffee" sin importar mayúsculas/minúsculas
 db.restaurants.find({
   name: /coffee/i
 }, {
@@ -136,18 +136,16 @@ db.restaurants.find({
   address: 1
 });
 
-// ============================================
-// 12. Al menos una nota < 5 en Manhattan/Brooklyn, no americana ni china
-// ============================================
+// Ejercicio 12: combinación de condiciones
+// Al menos una nota menor que 5, en ciertos distritos, excluyendo tipos de cocina
 db.restaurants.find({
   "grades.score": { $lt: 5 },
   borough: { $in: ["Manhattan", "Brooklyn"] },
   cuisine: { $nin: ["American", "Chinese"] }
 });
 
-// ============================================
-// 13. Todas las notas > 5 en Manhattan o Brooklyn
-// ============================================
+// Ejercicio 13: aquí el truco está en negar la condición
+// Quiero todos los que NO tengan ninguna nota <= 5
 db.restaurants.find({
   borough: { $in: ["Manhattan", "Brooklyn"] },
   "grades.score": { $not: { $lte: 5 } }
@@ -155,9 +153,7 @@ db.restaurants.find({
 
 // Exportar: mongoexport --db=restaurantesNY --collection=restaurants --query='{"borough": {$in: ["Manhattan", "Brooklyn"]}, "grades.score": {$not: {$lte: 5}}}' --out=ejercicio13.json
 
-// ============================================
-// 14. Calificación 'B' o 'C' en una fecha determinada
-// ============================================
+// Ejercicio 14: de nuevo $elemMatch para múltiples condiciones en un mismo elemento
 db.restaurants.find({
   "grades": {
     $elemMatch: {
@@ -170,9 +166,8 @@ db.restaurants.find({
   address: 1
 });
 
-// ============================================
-// 15. Puntuación media de cada restaurante
-// ============================================
+// Ejercicio 15: mi primera agregación
+// $avg calcula la media de todas las puntuaciones del array grades
 db.restaurants.aggregate([
   {
     $project: {
@@ -182,9 +177,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 16. Número de restaurantes por distrito
-// ============================================
+// Ejercicio 16: agrupación simple
+// Cuento cuántos restaurantes hay por distrito
 db.restaurants.aggregate([
   {
     $group: {
@@ -197,9 +191,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 17. Número de restaurantes por tipo de cocina y distrito
-// ============================================
+// Ejercicio 17: agrupación por dos campos
+// Agrupo por tipo de cocina Y distrito para ver la distribución
 db.restaurants.aggregate([
   {
     $group: {
@@ -215,9 +208,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 18. Restaurantes con calificación 'A' por tipo de cocina y distrito
-// ============================================
+// Ejercicio 18: filtro antes de agrupar
+// Primero selecciono los que tienen A, luego agrupo
 db.restaurants.aggregate([
   {
     $match: {
@@ -238,9 +230,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 19. Puntuación más baja por tipo de cocina
-// ============================================
+// Ejercicio 19: $unwind es clave aquí
+// Descompongo el array grades para poder trabajar con cada elemento individualmente
 db.restaurants.aggregate([
   {
     $unwind: "$grades"
@@ -256,9 +247,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 20. Restaurantes cuyo código postal empieza por "10"
-// ============================================
+// Ejercicio 20: regex para códigos postales
+// ^ indica inicio de cadena, busco los que empiezan por "10"
 db.restaurants.find({
   "address.zipcode": /^10/
 }, {
@@ -266,9 +256,8 @@ db.restaurants.find({
   address: 1
 });
 
-// ============================================
-// 21. Restaurantes con puntuación media más alta
-// ============================================
+// Ejercicio 21: ranking de mejores puntuaciones medias
+// Calculo la media y ordeno descendente para ver los top
 db.restaurants.aggregate([
   {
     $project: {
@@ -284,9 +273,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 22. Tipo de cocina con mayor probabilidad de recibir calificación 'C'
-// ============================================
+// Ejercicio 22: análisis de probabilidad
+// Para cada tipo de cocina calculo qué % de sus notas son C
 db.restaurants.aggregate([
   {
     $unwind: "$grades"
@@ -323,9 +311,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 23. Restaurante con la fecha de calificación más reciente
-// ============================================
+// Ejercicio 23: busco la evaluación más reciente
+// Descompongo grades y ordeno por fecha descendente
 db.restaurants.aggregate([
   {
     $unwind: "$grades"
@@ -338,9 +325,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 24. Restaurante turco con puntuación media más alta
-// ============================================
+// Ejercicio 24: filtro específico + agregación
+// Solo restaurantes turcos, luego busco el de mayor puntuación media
 db.restaurants.aggregate([
   {
     $match: {
@@ -362,9 +348,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 25. Número de restaurantes puntuados por mes del año
-// ============================================
+// Ejercicio 25: extracción temporal
+// $month saca el mes de una fecha, agrupo por eso para ver distribución mensual
 db.restaurants.aggregate([
   {
     $unwind: "$grades"
@@ -387,9 +372,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 26. Distrito con más restaurantes con calificación 'A' y puntuación >= 90
-// ============================================
+// Ejercicio 26: filtro complejo + agrupación
+// Busco los que tienen A con nota >= 90, luego cuento por distrito
 db.restaurants.aggregate([
   {
     $match: {
@@ -415,9 +399,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 27. Restaurantes con mayor número de calificaciones 'A'
-// ============================================
+// Ejercicio 27: uso $filter para contar dentro de un array
+// Cuento cuántas A tiene cada restaurante sin descomponer el array
 db.restaurants.aggregate([
   {
     $project: {
@@ -442,9 +425,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 28. Restaurantes con puntuación total más alta
-// ============================================
+// Ejercicio 28: suma total de puntuaciones
+// En lugar de media, sumo todas las puntuaciones del array
 db.restaurants.aggregate([
   {
     $project: {
@@ -462,9 +444,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 29. Top 5 restaurantes por tipo de cocina con puntuación media más alta
-// ============================================
+// Ejercicio 29: ranking por categoría
+// Para cada tipo de cocina, saco el top 5 de restaurantes por puntuación media
 db.restaurants.aggregate([
   {
     $project: {
@@ -498,9 +479,8 @@ db.restaurants.aggregate([
   }
 ]);
 
-// ============================================
-// 30. Top 5 restaurantes por distrito con mayor número de calificaciones 'A'
-// ============================================
+// Ejercicio 30: similar al 29 pero con número de A's por distrito
+// Para cada distrito, top 5 restaurantes con más calificaciones A
 db.restaurants.aggregate([
   {
     $project: {

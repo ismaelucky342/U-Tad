@@ -1,0 +1,54 @@
+/*====================================================================================================*/
+/*                                                                                                    */
+/*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
+/*      AEC2 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
+/*      created:        29/10/2025  -  23:00:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
+/*      last change:    03/11/2025  -  01:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
+/*                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        */
+/*                                                                                                    */
+/*      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             */
+/*                                                                                                    */
+/*      Github:                                           https://github.com/ismaelucky342            */
+/*                                                                                                    */
+/*====================================================================================================*/
+
+
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Contenedor principal */
+.container {
+    background: rgba(10, 10, 20, 0.9);
+    border: 2px solid #00ffff;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Título */
+.title {
+    color: #00ffff;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-shadow: 0 0 10px #00ffff;
+    text-transform: uppercase;
+}

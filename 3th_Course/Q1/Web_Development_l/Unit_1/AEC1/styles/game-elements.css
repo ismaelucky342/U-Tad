@@ -1,0 +1,113 @@
+/*====================================================================================================*/
+/*                                                                                                    */
+/*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
+/*      AEC2 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
+/*      created:        29/10/2025  -  23:00:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
+/*      last change:    03/11/2025  -  01:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
+/*                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        */
+/*                                                                                                    */
+/*      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             */
+/*                                                                                                    */
+/*      Github:                                           https://github.com/ismaelucky342            */
+/*                                                                                                    */
+/*====================================================================================================*/
+
+/* Sección del ahorcado */
+.hangman-section {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(0, 20, 40, 0.5);
+    border-radius: 10px;
+    border: 2px solid #ff00ff;
+}
+
+.hangman-display {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.attempts-info {
+    font-size: 1.1rem;
+    color: #00ff7f;
+    text-transform: uppercase;
+}
+
+#attempts-left {
+    color: #ff0080;
+    font-weight: 700;
+}
+
+/* Sección de la palabra */
+.word-section {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(20, 0, 40, 0.5);
+    border-radius: 10px;
+    border: 2px solid #00ff7f;
+}
+
+.word-display {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+/* Huecos de letras */
+.letter-slot {
+    width: 45px;
+    height: 55px;
+    border: 2px solid #00ffff;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #00ffff;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.letter-slot.revealed {
+    border-color: #00ff7f;
+    color: #00ff7f;
+    background: rgba(0, 255, 127, 0.1);
+}
+
+/* Letras utilizadas */
+.guessed-letters {
+    font-size: 0.9rem;
+    color: #ffff00;
+    margin-top: 10px;
+}
+
+#used-letters {
+    color: #ff00ff;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+/* Mensajes del juego */
+.game-message {
+    margin-top: 15px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding: 15px;
+    border-radius: 10px;
+    text-transform: uppercase;
+}
+
+.game-message.victory {
+    color: #00ff7f;
+    background: rgba(0, 255, 127, 0.1);
+    border: 2px solid #00ff7f;
+}
+
+.game-message.defeat {
+    color: #ff0080;
+    background: rgba(255, 0, 128, 0.1);
+    border: 2px solid #ff0080;
+}
