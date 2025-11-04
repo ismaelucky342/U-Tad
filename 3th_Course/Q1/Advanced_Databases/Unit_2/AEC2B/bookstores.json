@@ -1,0 +1,5567 @@
+[
+  {
+    "name": "Anticuaria - Cortes",
+    "borough": "Centro",
+    "neighborhood": "Cortes",
+    "address": {
+      "building": "174",
+      "street": "Calle de Atocha",
+      "zipcode": "28095",
+      "coord": [
+        -3.646828,
+        40.443323
+      ]
+    },
+    "categories": [
+      "comics"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1994,
+    "rating": {
+      "avg": 3.8,
+      "count": 66
+    },
+    "capacity": 43,
+    "area_sqm": 263,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "workshop",
+        "date": {
+          "$date": "2025-02-11T19:00:00Z"
+        },
+        "expected_attendance": 67
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "kids",
+        "date": {
+          "$date": "2025-07-23T11:00:00Z"
+        },
+        "expected_attendance": 53
+      }
+    ],
+    "chain": {
+      "name": "LibroMundo",
+      "branch_id": "LM-251"
+    }
+  },
+  {
+    "name": "Niños Lectores - Chueca",
+    "borough": "Centro",
+    "neighborhood": "Chueca",
+    "address": {
+      "building": "98",
+      "street": "Calle de Hortaleza",
+      "zipcode": "28013",
+      "coord": [
+        -3.727342,
+        40.443705
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1987,
+    "rating": {
+      "avg": 3.5,
+      "count": 93
+    },
+    "capacity": 137,
+    "area_sqm": 589,
+    "events": []
+  },
+  {
+    "name": "Savia de Tinta - Cortes",
+    "borough": "Centro",
+    "neighborhood": "Cortes",
+    "address": {
+      "building": "18",
+      "street": "Calle de General Perón",
+      "zipcode": "28006",
+      "coord": [
+        -3.695509,
+        40.373305
+      ]
+    },
+    "categories": [
+      "art"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1997,
+    "rating": {
+      "avg": 5.0,
+      "count": 481
+    },
+    "capacity": 45,
+    "area_sqm": 429,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "reading",
+        "date": {
+          "$date": "2026-01-17T12:00:00Z"
+        },
+        "expected_attendance": 36
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "workshop",
+        "date": {
+          "$date": "2025-06-30T11:00:00Z"
+        },
+        "expected_attendance": 78
+      }
+    ]
+  },
+  {
+    "name": "Cómic Central - Chueca",
+    "borough": "Centro",
+    "neighborhood": "Chueca",
+    "address": {
+      "building": "84",
+      "street": "Calle de Alcalá",
+      "zipcode": "28099",
+      "coord": [
+        -3.695638,
+        40.464005
+      ]
+    },
+    "categories": [
+      "second_hand"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1984,
+    "rating": {
+      "avg": 3.1,
+      "count": 651
+    },
+    "capacity": 122,
+    "area_sqm": 314,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "kids",
+        "date": {
+          "$date": "2025-10-06T12:00:00Z"
+        },
+        "expected_attendance": 60
+      },
+      {
+        "title": "Club de lectura",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-07-28T12:00:00Z"
+        },
+        "expected_attendance": 41
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-06-22T19:00:00Z"
+        },
+        "expected_attendance": 61
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-01-11T12:00:00Z"
+        },
+        "expected_attendance": 73
+      }
+    ]
+  },
+  {
+    "name": "Anticuaria - Malasaña",
+    "borough": "Centro",
+    "neighborhood": "Malasaña",
+    "address": {
+      "building": "99",
+      "street": "Calle de Recoletos",
+      "zipcode": "28049",
+      "coord": [
+        -3.757195,
+        40.42512
+      ]
+    },
+    "categories": [
+      "academic",
+      "art"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1987,
+    "rating": {
+      "avg": 3.5,
+      "count": 1138
+    },
+    "capacity": 22,
+    "area_sqm": 736,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "reading",
+        "date": {
+          "$date": "2025-06-30T17:00:00Z"
+        },
+        "expected_attendance": 65
+      },
+      {
+        "title": "Firma de autor",
+        "type": "reading",
+        "date": {
+          "$date": "2024-11-19T18:00:00Z"
+        },
+        "expected_attendance": 74
+      },
+      {
+        "title": "Firma de autor",
+        "type": "reading",
+        "date": {
+          "$date": "2024-12-31T19:00:00Z"
+        },
+        "expected_attendance": 117
+      }
+    ],
+    "chain": {
+      "name": "Paper&Co",
+      "branch_id": "PCO-812"
+    }
+  },
+  {
+    "name": "Savia de Tinta - Sol",
+    "borough": "Centro",
+    "neighborhood": "Sol",
+    "address": {
+      "building": "154",
+      "street": "Calle de Hortaleza",
+      "zipcode": "28042",
+      "coord": [
+        -3.666153,
+        40.441224
+      ]
+    },
+    "categories": [
+      "art"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1995,
+    "rating": {
+      "avg": 3.7,
+      "count": 634
+    },
+    "capacity": 81,
+    "area_sqm": 99,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "exhibition",
+        "date": {
+          "$date": "2024-06-24T18:00:00Z"
+        },
+        "expected_attendance": 108
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "kids",
+        "date": {
+          "$date": "2024-09-14T12:00:00Z"
+        },
+        "expected_attendance": 80
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "exhibition",
+        "date": {
+          "$date": "2024-12-04T17:00:00Z"
+        },
+        "expected_attendance": 64
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "workshop",
+        "date": {
+          "$date": "2025-03-09T19:00:00Z"
+        },
+        "expected_attendance": 101
+      }
+    ],
+    "chain": {
+      "name": "LibroMundo",
+      "branch_id": "LM-781"
+    }
+  },
+  {
+    "name": "Página Abierta - Atocha",
+    "borough": "Centro",
+    "neighborhood": "Atocha",
+    "address": {
+      "building": "17",
+      "street": "Gran Vía",
+      "zipcode": "28044",
+      "coord": [
+        -3.713456,
+        40.414194
+      ]
+    },
+    "categories": [
+      "academic",
+      "general"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 2020,
+    "rating": {
+      "avg": 4.2,
+      "count": 19
+    },
+    "capacity": 38,
+    "area_sqm": 764,
+    "events": []
+  },
+  {
+    "name": "Comicverse - Lavapiés",
+    "borough": "Centro",
+    "neighborhood": "Lavapiés",
+    "address": {
+      "building": "147",
+      "street": "Calle de Recoletos",
+      "zipcode": "28074",
+      "coord": [
+        -3.693327,
+        40.380513
+      ]
+    },
+    "categories": [
+      "second_hand"
+    ],
+    "languages": [
+      "de",
+      "en",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2022,
+    "rating": {
+      "avg": 4.6,
+      "count": 394
+    },
+    "capacity": 44,
+    "area_sqm": 139,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "signing",
+        "date": {
+          "$date": "2026-04-21T18:00:00Z"
+        },
+        "expected_attendance": 96
+      }
+    ]
+  },
+  {
+    "name": "Anticuaria - Cortes",
+    "borough": "Centro",
+    "neighborhood": "Cortes",
+    "address": {
+      "building": "138",
+      "street": "Paseo de la Castellana",
+      "zipcode": "28058",
+      "coord": [
+        -3.693074,
+        40.435297
+      ]
+    },
+    "categories": [
+      "comics"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1986,
+    "rating": {
+      "avg": 3.9,
+      "count": 159
+    },
+    "capacity": 133,
+    "area_sqm": 603,
+    "events": [
+      {
+        "title": "Taller de encuadernación",
+        "type": "workshop",
+        "date": {
+          "$date": "2024-01-31T11:00:00Z"
+        },
+        "expected_attendance": 62
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "kids",
+        "date": {
+          "$date": "2026-09-21T18:00:00Z"
+        },
+        "expected_attendance": 17
+      }
+    ],
+    "chain": {
+      "name": "LibroMundo",
+      "branch_id": "LM-820"
+    }
+  },
+  {
+    "name": "Luz de Papel - Atocha",
+    "borough": "Centro",
+    "neighborhood": "Atocha",
+    "address": {
+      "building": "179",
+      "street": "Calle de Ibiza",
+      "zipcode": "28094",
+      "coord": [
+        -3.769947,
+        40.398287
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$",
+    "year_opened": 1993,
+    "rating": {
+      "avg": 4.4,
+      "count": 322
+    },
+    "capacity": 68,
+    "area_sqm": 343,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "signing",
+        "date": {
+          "$date": "2024-05-04T17:00:00Z"
+        },
+        "expected_attendance": 84
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-09-03T19:00:00Z"
+        },
+        "expected_attendance": 17
+      }
+    ]
+  },
+  {
+    "name": "Cómic Central - Malasaña",
+    "borough": "Centro",
+    "neighborhood": "Malasaña",
+    "address": {
+      "building": "146",
+      "street": "Calle de Bravo Murillo",
+      "zipcode": "28032",
+      "coord": [
+        -3.651757,
+        40.426963
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2000,
+    "rating": {
+      "avg": 3.2,
+      "count": 1200
+    },
+    "capacity": 164,
+    "area_sqm": 575,
+    "events": [],
+    "chain": {
+      "name": "Lectores Unidos",
+      "branch_id": "LU-692"
+    }
+  },
+  {
+    "name": "Estudios y Manuales - Lavapiés",
+    "borough": "Centro",
+    "neighborhood": "Lavapiés",
+    "address": {
+      "building": "3",
+      "street": "Calle de General Perón",
+      "zipcode": "28059",
+      "coord": [
+        -3.755132,
+        40.400375
+      ]
+    },
+    "categories": [
+      "children",
+      "academic"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1996,
+    "rating": {
+      "avg": 3.2,
+      "count": 1106
+    },
+    "capacity": 74,
+    "area_sqm": 558,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "reading",
+        "date": {
+          "$date": "2024-05-20T12:00:00Z"
+        },
+        "expected_attendance": 30
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "reading",
+        "date": {
+          "$date": "2026-06-16T19:00:00Z"
+        },
+        "expected_attendance": 88
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-12-19T11:00:00Z"
+        },
+        "expected_attendance": 48
+      },
+      {
+        "title": "Club de lectura",
+        "type": "signing",
+        "date": {
+          "$date": "2024-07-31T12:00:00Z"
+        },
+        "expected_attendance": 23
+      }
+    ],
+    "chain": {
+      "name": "Paper&Co",
+      "branch_id": "PCO-688"
+    }
+  },
+  {
+    "name": "Recoletos Books - Sol",
+    "borough": "Centro",
+    "neighborhood": "Sol",
+    "address": {
+      "building": "126",
+      "street": "Calle de Moreto",
+      "zipcode": "28033",
+      "coord": [
+        -3.665664,
+        40.374463
+      ]
+    },
+    "categories": [
+      "children",
+      "comics"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1980,
+    "rating": {
+      "avg": 3.2,
+      "count": 872
+    },
+    "capacity": 90,
+    "area_sqm": 85,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "kids",
+        "date": {
+          "$date": "2025-06-20T12:00:00Z"
+        },
+        "expected_attendance": 80
+      },
+      {
+        "title": "Firma de autor",
+        "type": "signing",
+        "date": {
+          "$date": "2026-05-25T19:00:00Z"
+        },
+        "expected_attendance": 19
+      },
+      {
+        "title": "Firma de autor",
+        "type": "reading",
+        "date": {
+          "$date": "2024-11-01T19:00:00Z"
+        },
+        "expected_attendance": 84
+      }
+    ],
+    "chain": {
+      "name": "PageTurners",
+      "branch_id": "PT-216"
+    }
+  },
+  {
+    "name": "Arapiles Anticuaria - Chueca",
+    "borough": "Centro",
+    "neighborhood": "Chueca",
+    "address": {
+      "building": "64",
+      "street": "Calle de Hortaleza",
+      "zipcode": "28086",
+      "coord": [
+        -3.699543,
+        40.399779
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1995,
+    "rating": {
+      "avg": 4.8,
+      "count": 837
+    },
+    "capacity": 178,
+    "area_sqm": 198,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "workshop",
+        "date": {
+          "$date": "2024-12-28T18:00:00Z"
+        },
+        "expected_attendance": 104
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "workshop",
+        "date": {
+          "$date": "2025-11-11T18:00:00Z"
+        },
+        "expected_attendance": 44
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "signing",
+        "date": {
+          "$date": "2024-11-22T11:00:00Z"
+        },
+        "expected_attendance": 119
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "kids",
+        "date": {
+          "$date": "2026-08-21T12:00:00Z"
+        },
+        "expected_attendance": 54
+      }
+    ],
+    "chain": {
+      "name": "LibroMundo",
+      "branch_id": "LM-374"
+    }
+  },
+  {
+    "name": "Estudios y Manuales - Chueca",
+    "borough": "Centro",
+    "neighborhood": "Chueca",
+    "address": {
+      "building": "72",
+      "street": "Calle de Atocha",
+      "zipcode": "28045",
+      "coord": [
+        -3.749471,
+        40.442318
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1987,
+    "rating": {
+      "avg": 5.0,
+      "count": 1103
+    },
+    "capacity": 104,
+    "area_sqm": 68,
+    "events": [],
+    "chain": {
+      "name": "Paper&Co",
+      "branch_id": "PCO-409"
+    }
+  },
+  {
+    "name": "Anticuaria - Recoletos",
+    "borough": "Salamanca",
+    "neighborhood": "Recoletos",
+    "address": {
+      "building": "156",
+      "street": "Calle de Hortaleza",
+      "zipcode": "28066",
+      "coord": [
+        -3.684424,
+        40.405949
+      ]
+    },
+    "categories": [
+      "second_hand"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2013,
+    "rating": {
+      "avg": 3.4,
+      "count": 95
+    },
+    "capacity": 131,
+    "area_sqm": 41,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "signing",
+        "date": {
+          "$date": "2025-02-07T17:00:00Z"
+        },
+        "expected_attendance": 95
+      },
+      {
+        "title": "Club de lectura",
+        "type": "signing",
+        "date": {
+          "$date": "2025-11-07T19:00:00Z"
+        },
+        "expected_attendance": 102
+      }
+    ]
+  },
+  {
+    "name": "Arte y Ensayo - Guindalera",
+    "borough": "Salamanca",
+    "neighborhood": "Guindalera",
+    "address": {
+      "building": "33",
+      "street": "Calle de Fuencarral",
+      "zipcode": "28025",
+      "coord": [
+        -3.661205,
+        40.403972
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1999,
+    "rating": {
+      "avg": 4.4,
+      "count": 361
+    },
+    "capacity": 177,
+    "area_sqm": 622,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "workshop",
+        "date": {
+          "$date": "2024-01-01T17:00:00Z"
+        },
+        "expected_attendance": 65
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "kids",
+        "date": {
+          "$date": "2025-10-21T18:00:00Z"
+        },
+        "expected_attendance": 96
+      }
+    ]
+  },
+  {
+    "name": "Libromanía - Guindalera",
+    "borough": "Salamanca",
+    "neighborhood": "Guindalera",
+    "address": {
+      "building": "170",
+      "street": "Calle de Serrano",
+      "zipcode": "28082",
+      "coord": [
+        -3.657543,
+        40.440352
+      ]
+    },
+    "categories": [
+      "comics",
+      "general"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1992,
+    "rating": {
+      "avg": 4.9,
+      "count": 486
+    },
+    "capacity": 99,
+    "area_sqm": 270,
+    "events": []
+  },
+  {
+    "name": "Savia de Tinta - Lista",
+    "borough": "Salamanca",
+    "neighborhood": "Lista",
+    "address": {
+      "building": "179",
+      "street": "Calle de Toledo",
+      "zipcode": "28050",
+      "coord": [
+        -3.701925,
+        40.454779
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "de",
+      "en",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1994,
+    "rating": {
+      "avg": 4.3,
+      "count": 16
+    },
+    "capacity": 47,
+    "area_sqm": 475,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-11-26T18:00:00Z"
+        },
+        "expected_attendance": 41
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "kids",
+        "date": {
+          "$date": "2024-09-05T18:00:00Z"
+        },
+        "expected_attendance": 95
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "reading",
+        "date": {
+          "$date": "2026-12-23T19:00:00Z"
+        },
+        "expected_attendance": 106
+      }
+    ]
+  },
+  {
+    "name": "El Atril - Guindalera",
+    "borough": "Salamanca",
+    "neighborhood": "Guindalera",
+    "address": {
+      "building": "64",
+      "street": "Paseo del Prado",
+      "zipcode": "28082",
+      "coord": [
+        -3.697369,
+        40.388764
+      ]
+    },
+    "categories": [
+      "academic",
+      "comics"
+    ],
+    "languages": [
+      "de",
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1984,
+    "rating": {
+      "avg": 4.0,
+      "count": 494
+    },
+    "capacity": 90,
+    "area_sqm": 490,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-07-10T17:00:00Z"
+        },
+        "expected_attendance": 20
+      }
+    ]
+  },
+  {
+    "name": "Estudios y Manuales - Goya",
+    "borough": "Salamanca",
+    "neighborhood": "Goya",
+    "address": {
+      "building": "107",
+      "street": "Calle de Argumosa",
+      "zipcode": "28053",
+      "coord": [
+        -3.743477,
+        40.423406
+      ]
+    },
+    "categories": [
+      "second_hand"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 2024,
+    "rating": {
+      "avg": 3.1,
+      "count": 865
+    },
+    "capacity": 119,
+    "area_sqm": 638,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "reading",
+        "date": {
+          "$date": "2026-02-18T18:00:00Z"
+        },
+        "expected_attendance": 48
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-03-09T18:00:00Z"
+        },
+        "expected_attendance": 112
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "reading",
+        "date": {
+          "$date": "2025-03-27T18:00:00Z"
+        },
+        "expected_attendance": 65
+      }
+    ]
+  },
+  {
+    "name": "Vallehermoso Académica - Recoletos",
+    "borough": "Salamanca",
+    "neighborhood": "Recoletos",
+    "address": {
+      "building": "101",
+      "street": "Cuesta de Moyano",
+      "zipcode": "28076",
+      "coord": [
+        -3.651537,
+        40.423682
+      ]
+    },
+    "categories": [
+      "academic",
+      "comics"
+    ],
+    "languages": [
+      "de",
+      "en",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1983,
+    "rating": {
+      "avg": 4.3,
+      "count": 282
+    },
+    "capacity": 138,
+    "area_sqm": 226,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "reading",
+        "date": {
+          "$date": "2025-03-09T18:00:00Z"
+        },
+        "expected_attendance": 107
+      }
+    ]
+  },
+  {
+    "name": "Arapiles Anticuaria - Castellana",
+    "borough": "Salamanca",
+    "neighborhood": "Castellana",
+    "address": {
+      "building": "90",
+      "street": "Paseo del Prado",
+      "zipcode": "28029",
+      "coord": [
+        -3.692702,
+        40.374052
+      ]
+    },
+    "categories": [
+      "second_hand"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1981,
+    "rating": {
+      "avg": 4.3,
+      "count": 68
+    },
+    "capacity": 83,
+    "area_sqm": 244,
+    "events": [],
+    "chain": {
+      "name": "Lectores Unidos",
+      "branch_id": "LU-482"
+    }
+  },
+  {
+    "name": "Anticuaria - Lista",
+    "borough": "Salamanca",
+    "neighborhood": "Lista",
+    "address": {
+      "building": "43",
+      "street": "Calle de Galileo",
+      "zipcode": "28078",
+      "coord": [
+        -3.704517,
+        40.374681
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$",
+    "year_opened": 2017,
+    "rating": {
+      "avg": 3.2,
+      "count": 340
+    },
+    "capacity": 99,
+    "area_sqm": 150,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-02-07T18:00:00Z"
+        },
+        "expected_attendance": 19
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "reading",
+        "date": {
+          "$date": "2025-05-12T11:00:00Z"
+        },
+        "expected_attendance": 118
+      },
+      {
+        "title": "Firma de autor",
+        "type": "reading",
+        "date": {
+          "$date": "2024-09-04T19:00:00Z"
+        },
+        "expected_attendance": 78
+      },
+      {
+        "title": "Firma de autor",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-05-27T17:00:00Z"
+        },
+        "expected_attendance": 92
+      }
+    ]
+  },
+  {
+    "name": "Arapiles Anticuaria - Recoletos",
+    "borough": "Salamanca",
+    "neighborhood": "Recoletos",
+    "address": {
+      "building": "118",
+      "street": "Calle de Toledo",
+      "zipcode": "28091",
+      "coord": [
+        -3.691441,
+        40.435706
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2010,
+    "rating": {
+      "avg": 4.0,
+      "count": 558
+    },
+    "capacity": 177,
+    "area_sqm": 591,
+    "events": [
+      {
+        "title": "Taller de encuadernación",
+        "type": "signing",
+        "date": {
+          "$date": "2025-07-03T17:00:00Z"
+        },
+        "expected_attendance": 45
+      }
+    ]
+  },
+  {
+    "name": "Rincón del Lector - Goya",
+    "borough": "Salamanca",
+    "neighborhood": "Goya",
+    "address": {
+      "building": "127",
+      "street": "Calle de Argumosa",
+      "zipcode": "28042",
+      "coord": [
+        -3.696703,
+        40.4392
+      ]
+    },
+    "categories": [
+      "academic",
+      "children"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2024,
+    "rating": {
+      "avg": 4.6,
+      "count": 702
+    },
+    "capacity": 91,
+    "area_sqm": 650,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-11-24T12:00:00Z"
+        },
+        "expected_attendance": 102
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-04-12T18:00:00Z"
+        },
+        "expected_attendance": 98
+      }
+    ]
+  },
+  {
+    "name": "Rincón del Lector - Lista",
+    "borough": "Salamanca",
+    "neighborhood": "Lista",
+    "address": {
+      "building": "178",
+      "street": "Calle de Goya",
+      "zipcode": "28032",
+      "coord": [
+        -3.737844,
+        40.402135
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$$",
+    "year_opened": 2015,
+    "rating": {
+      "avg": 3.9,
+      "count": 1092
+    },
+    "capacity": 108,
+    "area_sqm": 475,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "reading",
+        "date": {
+          "$date": "2026-07-18T17:00:00Z"
+        },
+        "expected_attendance": 39
+      }
+    ]
+  },
+  {
+    "name": "Libros & Café - Goya",
+    "borough": "Salamanca",
+    "neighborhood": "Goya",
+    "address": {
+      "building": "124",
+      "street": "Calle de Atocha",
+      "zipcode": "28036",
+      "coord": [
+        -3.644361,
+        40.410061
+      ]
+    },
+    "categories": [
+      "comics",
+      "second_hand"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1998,
+    "rating": {
+      "avg": 4.0,
+      "count": 584
+    },
+    "capacity": 45,
+    "area_sqm": 238,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-09-11T11:00:00Z"
+        },
+        "expected_attendance": 26
+      }
+    ],
+    "chain": {
+      "name": "PageTurners",
+      "branch_id": "PT-974"
+    }
+  },
+  {
+    "name": "Lectores Unidos - Recoletos",
+    "borough": "Salamanca",
+    "neighborhood": "Recoletos",
+    "address": {
+      "building": "4",
+      "street": "Paseo del Prado",
+      "zipcode": "28074",
+      "coord": [
+        -3.741104,
+        40.420643
+      ]
+    },
+    "categories": [
+      "comics",
+      "academic"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1987,
+    "rating": {
+      "avg": 3.7,
+      "count": 110
+    },
+    "capacity": 84,
+    "area_sqm": 529,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "signing",
+        "date": {
+          "$date": "2024-05-31T19:00:00Z"
+        },
+        "expected_attendance": 29
+      }
+    ]
+  },
+  {
+    "name": "Arte y Ensayo - Guindalera",
+    "borough": "Salamanca",
+    "neighborhood": "Guindalera",
+    "address": {
+      "building": "98",
+      "street": "Calle de Alcalá",
+      "zipcode": "28058",
+      "coord": [
+        -3.723524,
+        40.466058
+      ]
+    },
+    "categories": [
+      "academic",
+      "art"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 2019,
+    "rating": {
+      "avg": 4.2,
+      "count": 883
+    },
+    "capacity": 98,
+    "area_sqm": 622,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "workshop",
+        "date": {
+          "$date": "2024-07-22T12:00:00Z"
+        },
+        "expected_attendance": 43
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "workshop",
+        "date": {
+          "$date": "2024-06-15T12:00:00Z"
+        },
+        "expected_attendance": 80
+      }
+    ],
+    "chain": {
+      "name": "Paper&Co",
+      "branch_id": "PCO-122"
+    }
+  },
+  {
+    "name": "Luz de Papel - Jerónimos",
+    "borough": "Retiro",
+    "neighborhood": "Jerónimos",
+    "address": {
+      "building": "60",
+      "street": "Calle de Toledo",
+      "zipcode": "28037",
+      "coord": [
+        -3.721078,
+        40.373319
+      ]
+    },
+    "categories": [
+      "art",
+      "academic"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2017,
+    "rating": {
+      "avg": 3.9,
+      "count": 483
+    },
+    "capacity": 87,
+    "area_sqm": 680,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-02-09T18:00:00Z"
+        },
+        "expected_attendance": 38
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "signing",
+        "date": {
+          "$date": "2024-11-01T17:00:00Z"
+        },
+        "expected_attendance": 17
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "exhibition",
+        "date": {
+          "$date": "2024-12-05T17:00:00Z"
+        },
+        "expected_attendance": 46
+      }
+    ]
+  },
+  {
+    "name": "Rincón del Lector - Ibiza",
+    "borough": "Retiro",
+    "neighborhood": "Ibiza",
+    "address": {
+      "building": "154",
+      "street": "Paseo de la Castellana",
+      "zipcode": "28006",
+      "coord": [
+        -3.710259,
+        40.366063
+      ]
+    },
+    "categories": [
+      "academic",
+      "children"
+    ],
+    "languages": [
+      "en",
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2023,
+    "rating": {
+      "avg": 4.2,
+      "count": 57
+    },
+    "capacity": 43,
+    "area_sqm": 274,
+    "events": [
+      {
+        "title": "Exposición de ilustración",
+        "type": "signing",
+        "date": {
+          "$date": "2024-02-12T17:00:00Z"
+        },
+        "expected_attendance": 107
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "kids",
+        "date": {
+          "$date": "2024-12-24T18:00:00Z"
+        },
+        "expected_attendance": 45
+      }
+    ]
+  },
+  {
+    "name": "Arapiles Anticuaria - Adelfas",
+    "borough": "Retiro",
+    "neighborhood": "Adelfas",
+    "address": {
+      "building": "86",
+      "street": "Calle de Alcalá",
+      "zipcode": "28042",
+      "coord": [
+        -3.667605,
+        40.382307
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "de",
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2005,
+    "rating": {
+      "avg": 3.7,
+      "count": 1019
+    },
+    "capacity": 93,
+    "area_sqm": 718,
+    "events": []
+  },
+  {
+    "name": "Clásicos de Moyano - Niño Jesús",
+    "borough": "Retiro",
+    "neighborhood": "Niño Jesús",
+    "address": {
+      "building": "49",
+      "street": "Calle de Bravo Murillo",
+      "zipcode": "28067",
+      "coord": [
+        -3.702082,
+        40.384314
+      ]
+    },
+    "categories": [
+      "general",
+      "art"
+    ],
+    "languages": [
+      "en",
+      "es",
+      "fr"
+    ],
+    "price_level": "$",
+    "year_opened": 2015,
+    "rating": {
+      "avg": 4.3,
+      "count": 110
+    },
+    "capacity": 72,
+    "area_sqm": 313,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "signing",
+        "date": {
+          "$date": "2026-06-16T18:00:00Z"
+        },
+        "expected_attendance": 90
+      },
+      {
+        "title": "Club de lectura",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-05-05T12:00:00Z"
+        },
+        "expected_attendance": 11
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "signing",
+        "date": {
+          "$date": "2026-04-15T11:00:00Z"
+        },
+        "expected_attendance": 69
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "reading",
+        "date": {
+          "$date": "2024-08-28T12:00:00Z"
+        },
+        "expected_attendance": 75
+      }
+    ],
+    "chain": {
+      "name": "La Estantería",
+      "branch_id": "LE-886"
+    }
+  },
+  {
+    "name": "Arapiles Anticuaria - Niño Jesús",
+    "borough": "Retiro",
+    "neighborhood": "Niño Jesús",
+    "address": {
+      "building": "99",
+      "street": "Calle de Pacífico",
+      "zipcode": "28025",
+      "coord": [
+        -3.771484,
+        40.414114
+      ]
+    },
+    "categories": [
+      "comics"
+    ],
+    "languages": [
+      "de",
+      "en",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2001,
+    "rating": {
+      "avg": 4.8,
+      "count": 147
+    },
+    "capacity": 90,
+    "area_sqm": 464,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "reading",
+        "date": {
+          "$date": "2024-01-06T17:00:00Z"
+        },
+        "expected_attendance": 117
+      }
+    ]
+  },
+  {
+    "name": "Libromanía - Adelfas",
+    "borough": "Retiro",
+    "neighborhood": "Adelfas",
+    "address": {
+      "building": "142",
+      "street": "Calle de Goya",
+      "zipcode": "28098",
+      "coord": [
+        -3.753801,
+        40.427834
+      ]
+    },
+    "categories": [
+      "art"
+    ],
+    "languages": [
+      "de",
+      "es",
+      "fr"
+    ],
+    "price_level": "$",
+    "year_opened": 2004,
+    "rating": {
+      "avg": 3.6,
+      "count": 391
+    },
+    "capacity": 81,
+    "area_sqm": 625,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "kids",
+        "date": {
+          "$date": "2026-04-21T11:00:00Z"
+        },
+        "expected_attendance": 100
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-02-19T18:00:00Z"
+        },
+        "expected_attendance": 73
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "exhibition",
+        "date": {
+          "$date": "2024-03-16T12:00:00Z"
+        },
+        "expected_attendance": 52
+      }
+    ]
+  },
+  {
+    "name": "Anticuaria - Pacífico",
+    "borough": "Retiro",
+    "neighborhood": "Pacífico",
+    "address": {
+      "building": "168",
+      "street": "Calle de Alcalá",
+      "zipcode": "28020",
+      "coord": [
+        -3.7,
+        40.402303
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2023,
+    "rating": {
+      "avg": 3.5,
+      "count": 819
+    },
+    "capacity": 40,
+    "area_sqm": 376,
+    "events": [
+      {
+        "title": "Exposición de ilustración",
+        "type": "signing",
+        "date": {
+          "$date": "2025-10-10T18:00:00Z"
+        },
+        "expected_attendance": 89
+      }
+    ]
+  },
+  {
+    "name": "Arte y Ensayo - Jerónimos",
+    "borough": "Retiro",
+    "neighborhood": "Jerónimos",
+    "address": {
+      "building": "163",
+      "street": "Calle de Pacífico",
+      "zipcode": "28091",
+      "coord": [
+        -3.765652,
+        40.434298
+      ]
+    },
+    "categories": [
+      "general",
+      "academic"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1983,
+    "rating": {
+      "avg": 4.4,
+      "count": 64
+    },
+    "capacity": 31,
+    "area_sqm": 372,
+    "events": [
+      {
+        "title": "Taller de encuadernación",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-06-01T12:00:00Z"
+        },
+        "expected_attendance": 62
+      }
+    ]
+  },
+  {
+    "name": "Cómic Central - Jerónimos",
+    "borough": "Retiro",
+    "neighborhood": "Jerónimos",
+    "address": {
+      "building": "150",
+      "street": "Calle de Toledo",
+      "zipcode": "28019",
+      "coord": [
+        -3.725824,
+        40.396951
+      ]
+    },
+    "categories": [
+      "art"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2023,
+    "rating": {
+      "avg": 3.9,
+      "count": 24
+    },
+    "capacity": 139,
+    "area_sqm": 334,
+    "events": [],
+    "chain": {
+      "name": "PageTurners",
+      "branch_id": "PT-892"
+    }
+  },
+  {
+    "name": "Book&Beans - Niño Jesús",
+    "borough": "Retiro",
+    "neighborhood": "Niño Jesús",
+    "address": {
+      "building": "99",
+      "street": "Calle de Hortaleza",
+      "zipcode": "28062",
+      "coord": [
+        -3.720739,
+        40.428773
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2022,
+    "rating": {
+      "avg": 3.7,
+      "count": 610
+    },
+    "capacity": 95,
+    "area_sqm": 62,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "kids",
+        "date": {
+          "$date": "2024-04-10T19:00:00Z"
+        },
+        "expected_attendance": 116
+      }
+    ],
+    "chain": {
+      "name": "La Estantería",
+      "branch_id": "LE-707"
+    }
+  },
+  {
+    "name": "Savia de Tinta - Jerónimos",
+    "borough": "Retiro",
+    "neighborhood": "Jerónimos",
+    "address": {
+      "building": "65",
+      "street": "Calle de Toledo",
+      "zipcode": "28087",
+      "coord": [
+        -3.697078,
+        40.370097
+      ]
+    },
+    "categories": [
+      "second_hand"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2020,
+    "rating": {
+      "avg": 4.4,
+      "count": 285
+    },
+    "capacity": 180,
+    "area_sqm": 139,
+    "events": []
+  },
+  {
+    "name": "Book&Beans - Ibiza",
+    "borough": "Retiro",
+    "neighborhood": "Ibiza",
+    "address": {
+      "building": "107",
+      "street": "Calle de Goya",
+      "zipcode": "28023",
+      "coord": [
+        -3.696607,
+        40.393213
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$",
+    "year_opened": 1997,
+    "rating": {
+      "avg": 4.8,
+      "count": 754
+    },
+    "capacity": 155,
+    "area_sqm": 553,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "reading",
+        "date": {
+          "$date": "2026-09-13T17:00:00Z"
+        },
+        "expected_attendance": 112
+      }
+    ]
+  },
+  {
+    "name": "Comicverse - Pacífico",
+    "borough": "Retiro",
+    "neighborhood": "Pacífico",
+    "address": {
+      "building": "102",
+      "street": "Calle de Serrano",
+      "zipcode": "28002",
+      "coord": [
+        -3.677905,
+        40.436281
+      ]
+    },
+    "categories": [
+      "second_hand",
+      "academic"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2020,
+    "rating": {
+      "avg": 3.7,
+      "count": 541
+    },
+    "capacity": 169,
+    "area_sqm": 430,
+    "events": [],
+    "chain": {
+      "name": "Paper&Co",
+      "branch_id": "PCO-881"
+    }
+  },
+  {
+    "name": "Luz de Papel - Pacífico",
+    "borough": "Retiro",
+    "neighborhood": "Pacífico",
+    "address": {
+      "building": "17",
+      "street": "Paseo del Prado",
+      "zipcode": "28082",
+      "coord": [
+        -3.649836,
+        40.390352
+      ]
+    },
+    "categories": [
+      "children",
+      "art"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1982,
+    "rating": {
+      "avg": 3.6,
+      "count": 841
+    },
+    "capacity": 49,
+    "area_sqm": 183,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-10-05T11:00:00Z"
+        },
+        "expected_attendance": 78
+      }
+    ]
+  },
+  {
+    "name": "Rincón del Lector - Pacífico",
+    "borough": "Retiro",
+    "neighborhood": "Pacífico",
+    "address": {
+      "building": "107",
+      "street": "Calle de Recoletos",
+      "zipcode": "28084",
+      "coord": [
+        -3.725963,
+        40.417938
+      ]
+    },
+    "categories": [
+      "second_hand",
+      "art"
+    ],
+    "languages": [
+      "de",
+      "en",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 2003,
+    "rating": {
+      "avg": 3.8,
+      "count": 577
+    },
+    "capacity": 28,
+    "area_sqm": 746,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "reading",
+        "date": {
+          "$date": "2025-04-28T17:00:00Z"
+        },
+        "expected_attendance": 79
+      }
+    ]
+  },
+  {
+    "name": "Lectores Unidos - Vallehermoso",
+    "borough": "Chamberí",
+    "neighborhood": "Vallehermoso",
+    "address": {
+      "building": "165",
+      "street": "Paseo de la Castellana",
+      "zipcode": "28082",
+      "coord": [
+        -3.649743,
+        40.422388
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "de",
+      "en",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1993,
+    "rating": {
+      "avg": 4.6,
+      "count": 503
+    },
+    "capacity": 52,
+    "area_sqm": 618,
+    "events": [
+      {
+        "title": "Taller de encuadernación",
+        "type": "workshop",
+        "date": {
+          "$date": "2025-02-28T19:00:00Z"
+        },
+        "expected_attendance": 52
+      },
+      {
+        "title": "Firma de autor",
+        "type": "reading",
+        "date": {
+          "$date": "2024-10-29T19:00:00Z"
+        },
+        "expected_attendance": 119
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "reading",
+        "date": {
+          "$date": "2024-10-23T12:00:00Z"
+        },
+        "expected_attendance": 112
+      }
+    ]
+  },
+  {
+    "name": "Luz de Papel - Trafalgar",
+    "borough": "Chamberí",
+    "neighborhood": "Trafalgar",
+    "address": {
+      "building": "45",
+      "street": "Calle de Argumosa",
+      "zipcode": "28034",
+      "coord": [
+        -3.70464,
+        40.404443
+      ]
+    },
+    "categories": [
+      "art"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2003,
+    "rating": {
+      "avg": 4.1,
+      "count": 135
+    },
+    "capacity": 141,
+    "area_sqm": 499,
+    "events": [
+      {
+        "title": "Taller de encuadernación",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-07-14T19:00:00Z"
+        },
+        "expected_attendance": 15
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "signing",
+        "date": {
+          "$date": "2026-12-03T17:00:00Z"
+        },
+        "expected_attendance": 17
+      }
+    ],
+    "chain": {
+      "name": "LibroMundo",
+      "branch_id": "LM-809"
+    }
+  },
+  {
+    "name": "Arapiles Anticuaria - Arapiles",
+    "borough": "Chamberí",
+    "neighborhood": "Arapiles",
+    "address": {
+      "building": "83",
+      "street": "Calle de Bravo Murillo",
+      "zipcode": "28078",
+      "coord": [
+        -3.684721,
+        40.431631
+      ]
+    },
+    "categories": [
+      "second_hand"
+    ],
+    "languages": [
+      "de",
+      "en",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2018,
+    "rating": {
+      "avg": 4.2,
+      "count": 1128
+    },
+    "capacity": 103,
+    "area_sqm": 430,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "signing",
+        "date": {
+          "$date": "2026-11-01T19:00:00Z"
+        },
+        "expected_attendance": 111
+      }
+    ]
+  },
+  {
+    "name": "El Lomo Verde - Trafalgar",
+    "borough": "Chamberí",
+    "neighborhood": "Trafalgar",
+    "address": {
+      "building": "87",
+      "street": "Calle de Vallehermoso",
+      "zipcode": "28059",
+      "coord": [
+        -3.709494,
+        40.382947
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "en",
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1989,
+    "rating": {
+      "avg": 3.6,
+      "count": 645
+    },
+    "capacity": 85,
+    "area_sqm": 423,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "signing",
+        "date": {
+          "$date": "2024-05-17T11:00:00Z"
+        },
+        "expected_attendance": 65
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "exhibition",
+        "date": {
+          "$date": "2024-07-16T17:00:00Z"
+        },
+        "expected_attendance": 17
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "reading",
+        "date": {
+          "$date": "2025-11-06T11:00:00Z"
+        },
+        "expected_attendance": 95
+      },
+      {
+        "title": "Club de lectura",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-05-16T11:00:00Z"
+        },
+        "expected_attendance": 49
+      }
+    ]
+  },
+  {
+    "name": "Book&Beans - Trafalgar",
+    "borough": "Chamberí",
+    "neighborhood": "Trafalgar",
+    "address": {
+      "building": "90",
+      "street": "Calle de Vallehermoso",
+      "zipcode": "28072",
+      "coord": [
+        -3.700414,
+        40.384131
+      ]
+    },
+    "categories": [
+      "second_hand"
+    ],
+    "languages": [
+      "de",
+      "en",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2019,
+    "rating": {
+      "avg": 4.1,
+      "count": 883
+    },
+    "capacity": 163,
+    "area_sqm": 676,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "reading",
+        "date": {
+          "$date": "2024-02-23T19:00:00Z"
+        },
+        "expected_attendance": 13
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "reading",
+        "date": {
+          "$date": "2025-01-04T17:00:00Z"
+        },
+        "expected_attendance": 53
+      }
+    ]
+  },
+  {
+    "name": "Cómic Central - Trafalgar",
+    "borough": "Chamberí",
+    "neighborhood": "Trafalgar",
+    "address": {
+      "building": "37",
+      "street": "Calle de Hortaleza",
+      "zipcode": "28095",
+      "coord": [
+        -3.64867,
+        40.425034
+      ]
+    },
+    "categories": [
+      "second_hand",
+      "academic"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2009,
+    "rating": {
+      "avg": 4.5,
+      "count": 445
+    },
+    "capacity": 116,
+    "area_sqm": 469,
+    "events": []
+  },
+  {
+    "name": "Book&Beans - Vallehermoso",
+    "borough": "Chamberí",
+    "neighborhood": "Vallehermoso",
+    "address": {
+      "building": "13",
+      "street": "Calle de Embajadores",
+      "zipcode": "28087",
+      "coord": [
+        -3.722687,
+        40.422202
+      ]
+    },
+    "categories": [
+      "comics"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1993,
+    "rating": {
+      "avg": 3.8,
+      "count": 910
+    },
+    "capacity": 126,
+    "area_sqm": 319,
+    "events": []
+  },
+  {
+    "name": "Arte y Ensayo - Trafalgar",
+    "borough": "Chamberí",
+    "neighborhood": "Trafalgar",
+    "address": {
+      "building": "57",
+      "street": "Calle de Argumosa",
+      "zipcode": "28051",
+      "coord": [
+        -3.637871,
+        40.434898
+      ]
+    },
+    "categories": [
+      "academic",
+      "art"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1998,
+    "rating": {
+      "avg": 3.4,
+      "count": 437
+    },
+    "capacity": 55,
+    "area_sqm": 301,
+    "events": []
+  },
+  {
+    "name": "Cómic Central - Arapiles",
+    "borough": "Chamberí",
+    "neighborhood": "Arapiles",
+    "address": {
+      "building": "102",
+      "street": "Calle de Bravo Murillo",
+      "zipcode": "28095",
+      "coord": [
+        -3.689382,
+        40.418106
+      ]
+    },
+    "categories": [
+      "art"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2016,
+    "rating": {
+      "avg": 4.8,
+      "count": 646
+    },
+    "capacity": 167,
+    "area_sqm": 479,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "kids",
+        "date": {
+          "$date": "2026-05-05T17:00:00Z"
+        },
+        "expected_attendance": 12
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "kids",
+        "date": {
+          "$date": "2025-10-27T12:00:00Z"
+        },
+        "expected_attendance": 116
+      }
+    ],
+    "chain": {
+      "name": "PageTurners",
+      "branch_id": "PT-721"
+    }
+  },
+  {
+    "name": "Comicverse - Vallehermoso",
+    "borough": "Chamberí",
+    "neighborhood": "Vallehermoso",
+    "address": {
+      "building": "135",
+      "street": "Calle de Ibiza",
+      "zipcode": "28011",
+      "coord": [
+        -3.720219,
+        40.448396
+      ]
+    },
+    "categories": [
+      "comics"
+    ],
+    "languages": [
+      "de",
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2012,
+    "rating": {
+      "avg": 3.7,
+      "count": 687
+    },
+    "capacity": 63,
+    "area_sqm": 118,
+    "events": []
+  },
+  {
+    "name": "Página Abierta - Gaztambide",
+    "borough": "Chamberí",
+    "neighborhood": "Gaztambide",
+    "address": {
+      "building": "38",
+      "street": "Calle de Vallehermoso",
+      "zipcode": "28033",
+      "coord": [
+        -3.728884,
+        40.402397
+      ]
+    },
+    "categories": [
+      "comics",
+      "second_hand"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2011,
+    "rating": {
+      "avg": 4.5,
+      "count": 159
+    },
+    "capacity": 65,
+    "area_sqm": 683,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-07-08T19:00:00Z"
+        },
+        "expected_attendance": 51
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "signing",
+        "date": {
+          "$date": "2025-10-09T12:00:00Z"
+        },
+        "expected_attendance": 70
+      },
+      {
+        "title": "Club de lectura",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-06-24T17:00:00Z"
+        },
+        "expected_attendance": 17
+      }
+    ]
+  },
+  {
+    "name": "Comicverse - Ríos Rosas",
+    "borough": "Chamberí",
+    "neighborhood": "Ríos Rosas",
+    "address": {
+      "building": "166",
+      "street": "Calle de Guzmán el Bueno",
+      "zipcode": "28012",
+      "coord": [
+        -3.759102,
+        40.414918
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2016,
+    "rating": {
+      "avg": 3.9,
+      "count": 1140
+    },
+    "capacity": 30,
+    "area_sqm": 500,
+    "events": [],
+    "chain": {
+      "name": "La Estantería",
+      "branch_id": "LE-039"
+    }
+  },
+  {
+    "name": "El Atril - Arapiles",
+    "borough": "Chamberí",
+    "neighborhood": "Arapiles",
+    "address": {
+      "building": "130",
+      "street": "Calle de Guzmán el Bueno",
+      "zipcode": "28083",
+      "coord": [
+        -3.703384,
+        40.439252
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 2019,
+    "rating": {
+      "avg": 3.9,
+      "count": 904
+    },
+    "capacity": 154,
+    "area_sqm": 575,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "reading",
+        "date": {
+          "$date": "2025-08-02T18:00:00Z"
+        },
+        "expected_attendance": 96
+      }
+    ],
+    "chain": {
+      "name": "Lectores Unidos",
+      "branch_id": "LU-462"
+    }
+  },
+  {
+    "name": "Libros & Café - Trafalgar",
+    "borough": "Chamberí",
+    "neighborhood": "Trafalgar",
+    "address": {
+      "building": "169",
+      "street": "Calle de Recoletos",
+      "zipcode": "28078",
+      "coord": [
+        -3.736792,
+        40.460541
+      ]
+    },
+    "categories": [
+      "academic",
+      "children"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2021,
+    "rating": {
+      "avg": 4.2,
+      "count": 294
+    },
+    "capacity": 109,
+    "area_sqm": 357,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "signing",
+        "date": {
+          "$date": "2024-09-21T19:00:00Z"
+        },
+        "expected_attendance": 49
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-02-10T17:00:00Z"
+        },
+        "expected_attendance": 21
+      }
+    ],
+    "chain": {
+      "name": "Lectores Unidos",
+      "branch_id": "LU-572"
+    }
+  },
+  {
+    "name": "El Atril - Arapiles",
+    "borough": "Chamberí",
+    "neighborhood": "Arapiles",
+    "address": {
+      "building": "88",
+      "street": "Calle de Embajadores",
+      "zipcode": "28099",
+      "coord": [
+        -3.696571,
+        40.454085
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2012,
+    "rating": {
+      "avg": 3.3,
+      "count": 163
+    },
+    "capacity": 95,
+    "area_sqm": 143,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "reading",
+        "date": {
+          "$date": "2026-12-14T11:00:00Z"
+        },
+        "expected_attendance": 108
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "workshop",
+        "date": {
+          "$date": "2024-09-25T19:00:00Z"
+        },
+        "expected_attendance": 30
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "kids",
+        "date": {
+          "$date": "2025-01-05T19:00:00Z"
+        },
+        "expected_attendance": 15
+      }
+    ]
+  },
+  {
+    "name": "Estudios y Manuales - Chopera",
+    "borough": "Arganzuela",
+    "neighborhood": "Chopera",
+    "address": {
+      "building": "62",
+      "street": "Paseo de la Castellana",
+      "zipcode": "28040",
+      "coord": [
+        -3.688937,
+        40.364918
+      ]
+    },
+    "categories": [
+      "children",
+      "academic"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2016,
+    "rating": {
+      "avg": 4.8,
+      "count": 402
+    },
+    "capacity": 114,
+    "area_sqm": 734,
+    "events": [
+      {
+        "title": "Exposición de ilustración",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-07-31T18:00:00Z"
+        },
+        "expected_attendance": 63
+      }
+    ]
+  },
+  {
+    "name": "Savia de Tinta - Imperial",
+    "borough": "Arganzuela",
+    "neighborhood": "Imperial",
+    "address": {
+      "building": "133",
+      "street": "Calle de Bravo Murillo",
+      "zipcode": "28016",
+      "coord": [
+        -3.700697,
+        40.388038
+      ]
+    },
+    "categories": [
+      "academic",
+      "children"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1985,
+    "rating": {
+      "avg": 3.5,
+      "count": 1056
+    },
+    "capacity": 57,
+    "area_sqm": 487,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "signing",
+        "date": {
+          "$date": "2025-12-16T11:00:00Z"
+        },
+        "expected_attendance": 60
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "kids",
+        "date": {
+          "$date": "2026-10-25T17:00:00Z"
+        },
+        "expected_attendance": 20
+      },
+      {
+        "title": "Firma de autor",
+        "type": "reading",
+        "date": {
+          "$date": "2026-02-06T12:00:00Z"
+        },
+        "expected_attendance": 22
+      }
+    ],
+    "chain": {
+      "name": "LibroMundo",
+      "branch_id": "LM-054"
+    }
+  },
+  {
+    "name": "Recoletos Books - Chopera",
+    "borough": "Arganzuela",
+    "neighborhood": "Chopera",
+    "address": {
+      "building": "121",
+      "street": "Calle de Serrano",
+      "zipcode": "28058",
+      "coord": [
+        -3.657836,
+        40.393156
+      ]
+    },
+    "categories": [
+      "second_hand"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2018,
+    "rating": {
+      "avg": 3.0,
+      "count": 446
+    },
+    "capacity": 58,
+    "area_sqm": 601,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "signing",
+        "date": {
+          "$date": "2025-08-13T12:00:00Z"
+        },
+        "expected_attendance": 16
+      }
+    ],
+    "chain": {
+      "name": "LibroMundo",
+      "branch_id": "LM-940"
+    }
+  },
+  {
+    "name": "Savia de Tinta - Delicias",
+    "borough": "Arganzuela",
+    "neighborhood": "Delicias",
+    "address": {
+      "building": "162",
+      "street": "Calle de Moreto",
+      "zipcode": "28066",
+      "coord": [
+        -3.714311,
+        40.376608
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1995,
+    "rating": {
+      "avg": 3.6,
+      "count": 8
+    },
+    "capacity": 177,
+    "area_sqm": 401,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "signing",
+        "date": {
+          "$date": "2024-06-24T19:00:00Z"
+        },
+        "expected_attendance": 77
+      }
+    ]
+  },
+  {
+    "name": "El Atril - Legazpi",
+    "borough": "Arganzuela",
+    "neighborhood": "Legazpi",
+    "address": {
+      "building": "163",
+      "street": "Calle de Pacífico",
+      "zipcode": "28050",
+      "coord": [
+        -3.705403,
+        40.470325
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2022,
+    "rating": {
+      "avg": 3.0,
+      "count": 143
+    },
+    "capacity": 108,
+    "area_sqm": 286,
+    "events": []
+  },
+  {
+    "name": "Recoletos Books - Chopera",
+    "borough": "Arganzuela",
+    "neighborhood": "Chopera",
+    "address": {
+      "building": "35",
+      "street": "Calle de Galileo",
+      "zipcode": "28009",
+      "coord": [
+        -3.647779,
+        40.400929
+      ]
+    },
+    "categories": [
+      "comics",
+      "academic"
+    ],
+    "languages": [
+      "de",
+      "en",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1982,
+    "rating": {
+      "avg": 3.1,
+      "count": 417
+    },
+    "capacity": 31,
+    "area_sqm": 244,
+    "events": [
+      {
+        "title": "Exposición de ilustración",
+        "type": "kids",
+        "date": {
+          "$date": "2026-11-21T18:00:00Z"
+        },
+        "expected_attendance": 42
+      },
+      {
+        "title": "Club de lectura",
+        "type": "reading",
+        "date": {
+          "$date": "2024-03-15T12:00:00Z"
+        },
+        "expected_attendance": 120
+      },
+      {
+        "title": "Club de lectura",
+        "type": "signing",
+        "date": {
+          "$date": "2024-04-07T17:00:00Z"
+        },
+        "expected_attendance": 112
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "kids",
+        "date": {
+          "$date": "2026-01-23T18:00:00Z"
+        },
+        "expected_attendance": 59
+      }
+    ],
+    "chain": {
+      "name": "PageTurners",
+      "branch_id": "PT-347"
+    }
+  },
+  {
+    "name": "Libromanía - Imperial",
+    "borough": "Arganzuela",
+    "neighborhood": "Imperial",
+    "address": {
+      "building": "109",
+      "street": "Calle de Vallehermoso",
+      "zipcode": "28011",
+      "coord": [
+        -3.657501,
+        40.415708
+      ]
+    },
+    "categories": [
+      "art"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1985,
+    "rating": {
+      "avg": 3.4,
+      "count": 606
+    },
+    "capacity": 102,
+    "area_sqm": 145,
+    "events": [
+      {
+        "title": "Exposición de ilustración",
+        "type": "kids",
+        "date": {
+          "$date": "2025-09-19T18:00:00Z"
+        },
+        "expected_attendance": 31
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "signing",
+        "date": {
+          "$date": "2026-06-28T17:00:00Z"
+        },
+        "expected_attendance": 103
+      }
+    ]
+  },
+  {
+    "name": "Arapiles Anticuaria - Legazpi",
+    "borough": "Arganzuela",
+    "neighborhood": "Legazpi",
+    "address": {
+      "building": "174",
+      "street": "Cuesta de Moyano",
+      "zipcode": "28021",
+      "coord": [
+        -3.660814,
+        40.458035
+      ]
+    },
+    "categories": [
+      "second_hand",
+      "academic"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1984,
+    "rating": {
+      "avg": 4.2,
+      "count": 902
+    },
+    "capacity": 28,
+    "area_sqm": 169,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-01-20T17:00:00Z"
+        },
+        "expected_attendance": 14
+      },
+      {
+        "title": "Club de lectura",
+        "type": "reading",
+        "date": {
+          "$date": "2024-11-10T18:00:00Z"
+        },
+        "expected_attendance": 66
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "exhibition",
+        "date": {
+          "$date": "2024-06-06T19:00:00Z"
+        },
+        "expected_attendance": 56
+      }
+    ],
+    "chain": {
+      "name": "Lectores Unidos",
+      "branch_id": "LU-077"
+    }
+  },
+  {
+    "name": "Clásicos de Moyano - Chopera",
+    "borough": "Arganzuela",
+    "neighborhood": "Chopera",
+    "address": {
+      "building": "68",
+      "street": "Calle de Vallehermoso",
+      "zipcode": "28034",
+      "coord": [
+        -3.690724,
+        40.461036
+      ]
+    },
+    "categories": [
+      "comics",
+      "academic"
+    ],
+    "languages": [
+      "de",
+      "en",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1988,
+    "rating": {
+      "avg": 4.2,
+      "count": 1010
+    },
+    "capacity": 71,
+    "area_sqm": 165,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "reading",
+        "date": {
+          "$date": "2026-06-30T11:00:00Z"
+        },
+        "expected_attendance": 95
+      }
+    ],
+    "chain": {
+      "name": "Lectores Unidos",
+      "branch_id": "LU-027"
+    }
+  },
+  {
+    "name": "El Lomo Verde - Acacias",
+    "borough": "Arganzuela",
+    "neighborhood": "Acacias",
+    "address": {
+      "building": "131",
+      "street": "Cuesta de Moyano",
+      "zipcode": "28029",
+      "coord": [
+        -3.696345,
+        40.434745
+      ]
+    },
+    "categories": [
+      "comics"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2015,
+    "rating": {
+      "avg": 3.3,
+      "count": 1016
+    },
+    "capacity": 26,
+    "area_sqm": 409,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "signing",
+        "date": {
+          "$date": "2024-09-22T19:00:00Z"
+        },
+        "expected_attendance": 49
+      }
+    ]
+  },
+  {
+    "name": "El Atril - Delicias",
+    "borough": "Arganzuela",
+    "neighborhood": "Delicias",
+    "address": {
+      "building": "33",
+      "street": "Paseo del Prado",
+      "zipcode": "28041",
+      "coord": [
+        -3.757602,
+        40.430194
+      ]
+    },
+    "categories": [
+      "art"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2020,
+    "rating": {
+      "avg": 4.4,
+      "count": 710
+    },
+    "capacity": 52,
+    "area_sqm": 604,
+    "events": []
+  },
+  {
+    "name": "El Atril - Delicias",
+    "borough": "Arganzuela",
+    "neighborhood": "Delicias",
+    "address": {
+      "building": "43",
+      "street": "Calle de Pacífico",
+      "zipcode": "28021",
+      "coord": [
+        -3.713934,
+        40.387092
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$",
+    "year_opened": 1996,
+    "rating": {
+      "avg": 3.7,
+      "count": 1067
+    },
+    "capacity": 92,
+    "area_sqm": 120,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "reading",
+        "date": {
+          "$date": "2025-07-16T12:00:00Z"
+        },
+        "expected_attendance": 88
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-12-28T11:00:00Z"
+        },
+        "expected_attendance": 85
+      }
+    ]
+  },
+  {
+    "name": "Cómic Central - Imperial",
+    "borough": "Arganzuela",
+    "neighborhood": "Imperial",
+    "address": {
+      "building": "8",
+      "street": "Calle de Recoletos",
+      "zipcode": "28011",
+      "coord": [
+        -3.713287,
+        40.407853
+      ]
+    },
+    "categories": [
+      "art",
+      "children"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2019,
+    "rating": {
+      "avg": 4.2,
+      "count": 436
+    },
+    "capacity": 166,
+    "area_sqm": 466,
+    "events": []
+  },
+  {
+    "name": "Arte y Ensayo - Legazpi",
+    "borough": "Arganzuela",
+    "neighborhood": "Legazpi",
+    "address": {
+      "building": "104",
+      "street": "Calle de Galileo",
+      "zipcode": "28039",
+      "coord": [
+        -3.721684,
+        40.383071
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1993,
+    "rating": {
+      "avg": 3.3,
+      "count": 856
+    },
+    "capacity": 143,
+    "area_sqm": 515,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "reading",
+        "date": {
+          "$date": "2025-10-02T17:00:00Z"
+        },
+        "expected_attendance": 61
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "exhibition",
+        "date": {
+          "$date": "2024-09-24T17:00:00Z"
+        },
+        "expected_attendance": 23
+      }
+    ]
+  },
+  {
+    "name": "Rincón del Lector - Imperial",
+    "borough": "Arganzuela",
+    "neighborhood": "Imperial",
+    "address": {
+      "building": "75",
+      "street": "Gran Vía",
+      "zipcode": "28050",
+      "coord": [
+        -3.760928,
+        40.441522
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 2000,
+    "rating": {
+      "avg": 4.9,
+      "count": 332
+    },
+    "capacity": 103,
+    "area_sqm": 631,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "kids",
+        "date": {
+          "$date": "2026-10-17T19:00:00Z"
+        },
+        "expected_attendance": 49
+      },
+      {
+        "title": "Firma de autor",
+        "type": "kids",
+        "date": {
+          "$date": "2026-10-15T11:00:00Z"
+        },
+        "expected_attendance": 74
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-07-25T12:00:00Z"
+        },
+        "expected_attendance": 55
+      }
+    ],
+    "chain": {
+      "name": "La Estantería",
+      "branch_id": "LE-254"
+    }
+  },
+  {
+    "name": "Arte y Ensayo - Argüelles",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Argüelles",
+    "address": {
+      "building": "3",
+      "street": "Calle de Guzmán el Bueno",
+      "zipcode": "28014",
+      "coord": [
+        -3.669536,
+        40.392912
+      ]
+    },
+    "categories": [
+      "second_hand",
+      "academic"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 2005,
+    "rating": {
+      "avg": 4.5,
+      "count": 830
+    },
+    "capacity": 113,
+    "area_sqm": 86,
+    "events": [
+      {
+        "title": "Exposición de ilustración",
+        "type": "reading",
+        "date": {
+          "$date": "2025-02-02T17:00:00Z"
+        },
+        "expected_attendance": 19
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-03-02T19:00:00Z"
+        },
+        "expected_attendance": 45
+      }
+    ]
+  },
+  {
+    "name": "Recoletos Books - Argüelles",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Argüelles",
+    "address": {
+      "building": "94",
+      "street": "Calle de Ibiza",
+      "zipcode": "28097",
+      "coord": [
+        -3.725244,
+        40.404477
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1988,
+    "rating": {
+      "avg": 3.8,
+      "count": 87
+    },
+    "capacity": 31,
+    "area_sqm": 79,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-08-28T19:00:00Z"
+        },
+        "expected_attendance": 87
+      }
+    ]
+  },
+  {
+    "name": "Libros & Café - Valdezarza",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Valdezarza",
+    "address": {
+      "building": "152",
+      "street": "Calle de General Perón",
+      "zipcode": "28044",
+      "coord": [
+        -3.753984,
+        40.414452
+      ]
+    },
+    "categories": [
+      "comics"
+    ],
+    "languages": [
+      "de",
+      "es",
+      "fr"
+    ],
+    "price_level": "$$",
+    "year_opened": 1981,
+    "rating": {
+      "avg": 4.0,
+      "count": 1157
+    },
+    "capacity": 96,
+    "area_sqm": 526,
+    "events": [
+      {
+        "title": "Exposición de ilustración",
+        "type": "reading",
+        "date": {
+          "$date": "2024-08-12T18:00:00Z"
+        },
+        "expected_attendance": 111
+      }
+    ]
+  },
+  {
+    "name": "Savia de Tinta - Argüelles",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Argüelles",
+    "address": {
+      "building": "14",
+      "street": "Calle de Ibiza",
+      "zipcode": "28075",
+      "coord": [
+        -3.752162,
+        40.411117
+      ]
+    },
+    "categories": [
+      "art",
+      "second_hand"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1995,
+    "rating": {
+      "avg": 4.4,
+      "count": 783
+    },
+    "capacity": 57,
+    "area_sqm": 737,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "kids",
+        "date": {
+          "$date": "2024-08-13T12:00:00Z"
+        },
+        "expected_attendance": 50
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-05-07T12:00:00Z"
+        },
+        "expected_attendance": 62
+      }
+    ]
+  },
+  {
+    "name": "Lectores Unidos - Casa de Campo",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Casa de Campo",
+    "address": {
+      "building": "123",
+      "street": "Calle de Argumosa",
+      "zipcode": "28068",
+      "coord": [
+        -3.662064,
+        40.407881
+      ]
+    },
+    "categories": [
+      "comics",
+      "art"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2002,
+    "rating": {
+      "avg": 3.9,
+      "count": 1096
+    },
+    "capacity": 107,
+    "area_sqm": 599,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "workshop",
+        "date": {
+          "$date": "2025-06-25T19:00:00Z"
+        },
+        "expected_attendance": 41
+      },
+      {
+        "title": "Club de lectura",
+        "type": "workshop",
+        "date": {
+          "$date": "2025-07-25T19:00:00Z"
+        },
+        "expected_attendance": 48
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "kids",
+        "date": {
+          "$date": "2025-08-14T12:00:00Z"
+        },
+        "expected_attendance": 50
+      }
+    ]
+  },
+  {
+    "name": "El Lomo Verde - Ciudad Universitaria",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Ciudad Universitaria",
+    "address": {
+      "building": "147",
+      "street": "Calle de Recoletos",
+      "zipcode": "28087",
+      "coord": [
+        -3.662541,
+        40.392533
+      ]
+    },
+    "categories": [
+      "children",
+      "second_hand"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1982,
+    "rating": {
+      "avg": 3.8,
+      "count": 711
+    },
+    "capacity": 57,
+    "area_sqm": 337,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "reading",
+        "date": {
+          "$date": "2024-06-10T17:00:00Z"
+        },
+        "expected_attendance": 105
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-09-08T12:00:00Z"
+        },
+        "expected_attendance": 44
+      },
+      {
+        "title": "Firma de autor",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-07-10T12:00:00Z"
+        },
+        "expected_attendance": 104
+      },
+      {
+        "title": "Firma de autor",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-05-05T12:00:00Z"
+        },
+        "expected_attendance": 38
+      }
+    ]
+  },
+  {
+    "name": "Lectores Unidos - Valdezarza",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Valdezarza",
+    "address": {
+      "building": "141",
+      "street": "Cuesta de Moyano",
+      "zipcode": "28021",
+      "coord": [
+        -3.662472,
+        40.403112
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2000,
+    "rating": {
+      "avg": 4.8,
+      "count": 982
+    },
+    "capacity": 71,
+    "area_sqm": 334,
+    "events": [
+      {
+        "title": "Taller de encuadernación",
+        "type": "exhibition",
+        "date": {
+          "$date": "2024-07-02T19:00:00Z"
+        },
+        "expected_attendance": 104
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "workshop",
+        "date": {
+          "$date": "2024-03-17T12:00:00Z"
+        },
+        "expected_attendance": 14
+      }
+    ],
+    "chain": {
+      "name": "LibroMundo",
+      "branch_id": "LM-735"
+    }
+  },
+  {
+    "name": "Cómic Central - Casa de Campo",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Casa de Campo",
+    "address": {
+      "building": "77",
+      "street": "Calle de Hortaleza",
+      "zipcode": "28073",
+      "coord": [
+        -3.654441,
+        40.398563
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 2011,
+    "rating": {
+      "avg": 3.7,
+      "count": 935
+    },
+    "capacity": 159,
+    "area_sqm": 576,
+    "events": [
+      {
+        "title": "Taller de encuadernación",
+        "type": "signing",
+        "date": {
+          "$date": "2026-08-16T17:00:00Z"
+        },
+        "expected_attendance": 52
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "reading",
+        "date": {
+          "$date": "2024-11-28T18:00:00Z"
+        },
+        "expected_attendance": 101
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "reading",
+        "date": {
+          "$date": "2025-01-16T11:00:00Z"
+        },
+        "expected_attendance": 111
+      }
+    ]
+  },
+  {
+    "name": "Cómic Central - Valdezarza",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Valdezarza",
+    "address": {
+      "building": "103",
+      "street": "Calle de Pacífico",
+      "zipcode": "28086",
+      "coord": [
+        -3.682143,
+        40.414883
+      ]
+    },
+    "categories": [
+      "academic",
+      "second_hand"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 2004,
+    "rating": {
+      "avg": 4.0,
+      "count": 513
+    },
+    "capacity": 21,
+    "area_sqm": 307,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-06-30T17:00:00Z"
+        },
+        "expected_attendance": 102
+      }
+    ]
+  },
+  {
+    "name": "Clásicos de Moyano - Argüelles",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Argüelles",
+    "address": {
+      "building": "120",
+      "street": "Calle de Moreto",
+      "zipcode": "28040",
+      "coord": [
+        -3.714829,
+        40.396917
+      ]
+    },
+    "categories": [
+      "comics",
+      "general"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1998,
+    "rating": {
+      "avg": 4.8,
+      "count": 641
+    },
+    "capacity": 50,
+    "area_sqm": 694,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "workshop",
+        "date": {
+          "$date": "2025-03-24T12:00:00Z"
+        },
+        "expected_attendance": 68
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-02-04T18:00:00Z"
+        },
+        "expected_attendance": 70
+      }
+    ]
+  },
+  {
+    "name": "Estudios y Manuales - Valdezarza",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Valdezarza",
+    "address": {
+      "building": "20",
+      "street": "Calle de Pacífico",
+      "zipcode": "28073",
+      "coord": [
+        -3.692569,
+        40.400866
+      ]
+    },
+    "categories": [
+      "general",
+      "art"
+    ],
+    "languages": [
+      "de",
+      "es",
+      "fr"
+    ],
+    "price_level": "$",
+    "year_opened": 1989,
+    "rating": {
+      "avg": 4.8,
+      "count": 419
+    },
+    "capacity": 166,
+    "area_sqm": 589,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-12-01T18:00:00Z"
+        },
+        "expected_attendance": 101
+      }
+    ]
+  },
+  {
+    "name": "Comicverse - Casa de Campo",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Casa de Campo",
+    "address": {
+      "building": "117",
+      "street": "Calle de Alcalá",
+      "zipcode": "28073",
+      "coord": [
+        -3.72029,
+        40.419842
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "en",
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1980,
+    "rating": {
+      "avg": 4.6,
+      "count": 49
+    },
+    "capacity": 121,
+    "area_sqm": 300,
+    "events": []
+  },
+  {
+    "name": "Arapiles Anticuaria - Argüelles",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Argüelles",
+    "address": {
+      "building": "18",
+      "street": "Cuesta de Moyano",
+      "zipcode": "28061",
+      "coord": [
+        -3.714369,
+        40.422017
+      ]
+    },
+    "categories": [
+      "art"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2008,
+    "rating": {
+      "avg": 4.5,
+      "count": 865
+    },
+    "capacity": 115,
+    "area_sqm": 431,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "workshop",
+        "date": {
+          "$date": "2024-09-29T17:00:00Z"
+        },
+        "expected_attendance": 78
+      }
+    ]
+  },
+  {
+    "name": "Estudios y Manuales - Valdezarza",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Valdezarza",
+    "address": {
+      "building": "137",
+      "street": "Calle de Toledo",
+      "zipcode": "28049",
+      "coord": [
+        -3.702799,
+        40.465842
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "de",
+      "es",
+      "fr"
+    ],
+    "price_level": "$",
+    "year_opened": 1987,
+    "rating": {
+      "avg": 3.7,
+      "count": 569
+    },
+    "capacity": 68,
+    "area_sqm": 782,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-05-08T19:00:00Z"
+        },
+        "expected_attendance": 36
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "signing",
+        "date": {
+          "$date": "2024-05-17T11:00:00Z"
+        },
+        "expected_attendance": 67
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "signing",
+        "date": {
+          "$date": "2024-04-09T12:00:00Z"
+        },
+        "expected_attendance": 61
+      }
+    ]
+  },
+  {
+    "name": "El Lomo Verde - Valdezarza",
+    "borough": "Moncloa-Aravaca",
+    "neighborhood": "Valdezarza",
+    "address": {
+      "building": "154",
+      "street": "Calle de Vallehermoso",
+      "zipcode": "28099",
+      "coord": [
+        -3.728666,
+        40.456831
+      ]
+    },
+    "categories": [
+      "children",
+      "comics"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2006,
+    "rating": {
+      "avg": 3.6,
+      "count": 298
+    },
+    "capacity": 153,
+    "area_sqm": 266,
+    "events": [
+      {
+        "title": "Exposición de ilustración",
+        "type": "kids",
+        "date": {
+          "$date": "2024-12-24T18:00:00Z"
+        },
+        "expected_attendance": 16
+      }
+    ],
+    "chain": {
+      "name": "Lectores Unidos",
+      "branch_id": "LU-144"
+    }
+  },
+  {
+    "name": "El Atril - Castillejos",
+    "borough": "Tetuán",
+    "neighborhood": "Castillejos",
+    "address": {
+      "building": "62",
+      "street": "Calle de General Perón",
+      "zipcode": "28029",
+      "coord": [
+        -3.713997,
+        40.388204
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "en",
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2006,
+    "rating": {
+      "avg": 4.6,
+      "count": 123
+    },
+    "capacity": 163,
+    "area_sqm": 462,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-03-06T12:00:00Z"
+        },
+        "expected_attendance": 52
+      },
+      {
+        "title": "Club de lectura",
+        "type": "signing",
+        "date": {
+          "$date": "2024-06-10T18:00:00Z"
+        },
+        "expected_attendance": 78
+      }
+    ],
+    "chain": {
+      "name": "La Estantería",
+      "branch_id": "LE-419"
+    }
+  },
+  {
+    "name": "Lectores Unidos - Bellas Vistas",
+    "borough": "Tetuán",
+    "neighborhood": "Bellas Vistas",
+    "address": {
+      "building": "172",
+      "street": "Calle de Argumosa",
+      "zipcode": "28072",
+      "coord": [
+        -3.6954,
+        40.441146
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1992,
+    "rating": {
+      "avg": 4.8,
+      "count": 625
+    },
+    "capacity": 23,
+    "area_sqm": 256,
+    "events": [],
+    "chain": {
+      "name": "PageTurners",
+      "branch_id": "PT-618"
+    }
+  },
+  {
+    "name": "Savia de Tinta - Bellas Vistas",
+    "borough": "Tetuán",
+    "neighborhood": "Bellas Vistas",
+    "address": {
+      "building": "98",
+      "street": "Gran Vía",
+      "zipcode": "28060",
+      "coord": [
+        -3.736484,
+        40.447342
+      ]
+    },
+    "categories": [
+      "comics"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1986,
+    "rating": {
+      "avg": 3.5,
+      "count": 1055
+    },
+    "capacity": 147,
+    "area_sqm": 517,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "reading",
+        "date": {
+          "$date": "2025-10-17T12:00:00Z"
+        },
+        "expected_attendance": 62
+      }
+    ]
+  },
+  {
+    "name": "Estudios y Manuales - Valdeacederas",
+    "borough": "Tetuán",
+    "neighborhood": "Valdeacederas",
+    "address": {
+      "building": "51",
+      "street": "Calle de Recoletos",
+      "zipcode": "28043",
+      "coord": [
+        -3.734451,
+        40.405793
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "en",
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2011,
+    "rating": {
+      "avg": 3.5,
+      "count": 1132
+    },
+    "capacity": 106,
+    "area_sqm": 303,
+    "events": [
+      {
+        "title": "Taller de encuadernación",
+        "type": "reading",
+        "date": {
+          "$date": "2026-10-01T18:00:00Z"
+        },
+        "expected_attendance": 31
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "workshop",
+        "date": {
+          "$date": "2024-10-13T19:00:00Z"
+        },
+        "expected_attendance": 79
+      }
+    ]
+  },
+  {
+    "name": "El Atril - Almenara",
+    "borough": "Tetuán",
+    "neighborhood": "Almenara",
+    "address": {
+      "building": "18",
+      "street": "Paseo del Prado",
+      "zipcode": "28091",
+      "coord": [
+        -3.698443,
+        40.437402
+      ]
+    },
+    "categories": [
+      "general",
+      "second_hand"
+    ],
+    "languages": [
+      "de",
+      "en",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2022,
+    "rating": {
+      "avg": 3.9,
+      "count": 128
+    },
+    "capacity": 178,
+    "area_sqm": 693,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-09-26T11:00:00Z"
+        },
+        "expected_attendance": 80
+      },
+      {
+        "title": "Firma de autor",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-04-22T11:00:00Z"
+        },
+        "expected_attendance": 102
+      },
+      {
+        "title": "Club de lectura",
+        "type": "signing",
+        "date": {
+          "$date": "2025-07-16T19:00:00Z"
+        },
+        "expected_attendance": 74
+      },
+      {
+        "title": "Firma de autor",
+        "type": "signing",
+        "date": {
+          "$date": "2026-05-31T12:00:00Z"
+        },
+        "expected_attendance": 77
+      }
+    ],
+    "chain": {
+      "name": "Lectores Unidos",
+      "branch_id": "LU-968"
+    }
+  },
+  {
+    "name": "Niños Lectores - Bellas Vistas",
+    "borough": "Tetuán",
+    "neighborhood": "Bellas Vistas",
+    "address": {
+      "building": "21",
+      "street": "Calle de Serrano",
+      "zipcode": "28048",
+      "coord": [
+        -3.770655,
+        40.430289
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1985,
+    "rating": {
+      "avg": 3.5,
+      "count": 467
+    },
+    "capacity": 96,
+    "area_sqm": 740,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "kids",
+        "date": {
+          "$date": "2024-03-05T11:00:00Z"
+        },
+        "expected_attendance": 58
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "signing",
+        "date": {
+          "$date": "2026-09-01T11:00:00Z"
+        },
+        "expected_attendance": 99
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "kids",
+        "date": {
+          "$date": "2024-12-16T11:00:00Z"
+        },
+        "expected_attendance": 92
+      },
+      {
+        "title": "Firma de autor",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-11-09T19:00:00Z"
+        },
+        "expected_attendance": 15
+      }
+    ]
+  },
+  {
+    "name": "Book&Beans - Bellas Vistas",
+    "borough": "Tetuán",
+    "neighborhood": "Bellas Vistas",
+    "address": {
+      "building": "145",
+      "street": "Calle de Guzmán el Bueno",
+      "zipcode": "28085",
+      "coord": [
+        -3.692257,
+        40.412557
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2025,
+    "rating": {
+      "avg": 3.6,
+      "count": 429
+    },
+    "capacity": 170,
+    "area_sqm": 187,
+    "events": [
+      {
+        "title": "Exposición de ilustración",
+        "type": "workshop",
+        "date": {
+          "$date": "2025-09-04T12:00:00Z"
+        },
+        "expected_attendance": 82
+      },
+      {
+        "title": "Club de lectura",
+        "type": "kids",
+        "date": {
+          "$date": "2026-03-07T19:00:00Z"
+        },
+        "expected_attendance": 106
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "reading",
+        "date": {
+          "$date": "2024-10-13T11:00:00Z"
+        },
+        "expected_attendance": 16
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "signing",
+        "date": {
+          "$date": "2024-07-19T18:00:00Z"
+        },
+        "expected_attendance": 53
+      }
+    ]
+  },
+  {
+    "name": "Savia de Tinta - Valdeacederas",
+    "borough": "Tetuán",
+    "neighborhood": "Valdeacederas",
+    "address": {
+      "building": "126",
+      "street": "Calle de Alcalá",
+      "zipcode": "28030",
+      "coord": [
+        -3.664541,
+        40.405146
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$",
+    "year_opened": 1998,
+    "rating": {
+      "avg": 3.9,
+      "count": 783
+    },
+    "capacity": 41,
+    "area_sqm": 673,
+    "events": [
+      {
+        "title": "Taller de encuadernación",
+        "type": "kids",
+        "date": {
+          "$date": "2024-06-17T17:00:00Z"
+        },
+        "expected_attendance": 101
+      },
+      {
+        "title": "Club de lectura",
+        "type": "reading",
+        "date": {
+          "$date": "2024-11-11T18:00:00Z"
+        },
+        "expected_attendance": 23
+      }
+    ]
+  },
+  {
+    "name": "Arte y Ensayo - Almenara",
+    "borough": "Tetuán",
+    "neighborhood": "Almenara",
+    "address": {
+      "building": "48",
+      "street": "Calle de Pacífico",
+      "zipcode": "28056",
+      "coord": [
+        -3.748321,
+        40.404589
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 2015,
+    "rating": {
+      "avg": 3.8,
+      "count": 58
+    },
+    "capacity": 42,
+    "area_sqm": 402,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "reading",
+        "date": {
+          "$date": "2025-10-26T18:00:00Z"
+        },
+        "expected_attendance": 62
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-03-05T11:00:00Z"
+        },
+        "expected_attendance": 41
+      }
+    ]
+  },
+  {
+    "name": "Cómic Central - Valdeacederas",
+    "borough": "Tetuán",
+    "neighborhood": "Valdeacederas",
+    "address": {
+      "building": "69",
+      "street": "Calle de Hortaleza",
+      "zipcode": "28064",
+      "coord": [
+        -3.690397,
+        40.434718
+      ]
+    },
+    "categories": [
+      "comics"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$$",
+    "year_opened": 2003,
+    "rating": {
+      "avg": 3.6,
+      "count": 618
+    },
+    "capacity": 143,
+    "area_sqm": 118,
+    "events": [
+      {
+        "title": "Exposición de ilustración",
+        "type": "workshop",
+        "date": {
+          "$date": "2026-10-12T19:00:00Z"
+        },
+        "expected_attendance": 68
+      },
+      {
+        "title": "Club de lectura",
+        "type": "signing",
+        "date": {
+          "$date": "2024-08-07T12:00:00Z"
+        },
+        "expected_attendance": 60
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "reading",
+        "date": {
+          "$date": "2025-11-11T19:00:00Z"
+        },
+        "expected_attendance": 66
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-11-16T18:00:00Z"
+        },
+        "expected_attendance": 27
+      }
+    ]
+  },
+  {
+    "name": "Savia de Tinta - Cuatro Caminos",
+    "borough": "Tetuán",
+    "neighborhood": "Cuatro Caminos",
+    "address": {
+      "building": "102",
+      "street": "Calle de Embajadores",
+      "zipcode": "28041",
+      "coord": [
+        -3.716718,
+        40.389346
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2004,
+    "rating": {
+      "avg": 4.0,
+      "count": 1184
+    },
+    "capacity": 82,
+    "area_sqm": 373,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-03-15T17:00:00Z"
+        },
+        "expected_attendance": 35
+      },
+      {
+        "title": "Firma de autor",
+        "type": "kids",
+        "date": {
+          "$date": "2025-01-03T19:00:00Z"
+        },
+        "expected_attendance": 100
+      },
+      {
+        "title": "Club de lectura",
+        "type": "signing",
+        "date": {
+          "$date": "2025-03-05T18:00:00Z"
+        },
+        "expected_attendance": 114
+      }
+    ]
+  },
+  {
+    "name": "Recoletos Books - Castillejos",
+    "borough": "Tetuán",
+    "neighborhood": "Castillejos",
+    "address": {
+      "building": "109",
+      "street": "Calle de Pacífico",
+      "zipcode": "28049",
+      "coord": [
+        -3.684635,
+        40.415942
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2024,
+    "rating": {
+      "avg": 4.0,
+      "count": 825
+    },
+    "capacity": 156,
+    "area_sqm": 558,
+    "events": [
+      {
+        "title": "Exposición de ilustración",
+        "type": "signing",
+        "date": {
+          "$date": "2026-01-06T19:00:00Z"
+        },
+        "expected_attendance": 23
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-05-23T17:00:00Z"
+        },
+        "expected_attendance": 15
+      }
+    ]
+  },
+  {
+    "name": "Libros & Café - Castillejos",
+    "borough": "Tetuán",
+    "neighborhood": "Castillejos",
+    "address": {
+      "building": "26",
+      "street": "Calle de Goya",
+      "zipcode": "28034",
+      "coord": [
+        -3.704458,
+        40.391336
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 2003,
+    "rating": {
+      "avg": 4.1,
+      "count": 1183
+    },
+    "capacity": 76,
+    "area_sqm": 496,
+    "events": [
+      {
+        "title": "Club de lectura",
+        "type": "signing",
+        "date": {
+          "$date": "2026-10-21T12:00:00Z"
+        },
+        "expected_attendance": 71
+      }
+    ]
+  },
+  {
+    "name": "Arapiles Anticuaria - Cuatro Caminos",
+    "borough": "Tetuán",
+    "neighborhood": "Cuatro Caminos",
+    "address": {
+      "building": "80",
+      "street": "Calle de Galileo",
+      "zipcode": "28044",
+      "coord": [
+        -3.691049,
+        40.451943
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$$",
+    "year_opened": 2024,
+    "rating": {
+      "avg": 4.0,
+      "count": 980
+    },
+    "capacity": 44,
+    "area_sqm": 488,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "signing",
+        "date": {
+          "$date": "2025-09-06T11:00:00Z"
+        },
+        "expected_attendance": 12
+      }
+    ]
+  },
+  {
+    "name": "Cómic Central - Almenara",
+    "borough": "Tetuán",
+    "neighborhood": "Almenara",
+    "address": {
+      "building": "41",
+      "street": "Calle de Embajadores",
+      "zipcode": "28043",
+      "coord": [
+        -3.652772,
+        40.406364
+      ]
+    },
+    "categories": [
+      "comics",
+      "art"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2020,
+    "rating": {
+      "avg": 3.5,
+      "count": 834
+    },
+    "capacity": 67,
+    "area_sqm": 230,
+    "events": [
+      {
+        "title": "Taller de encuadernación",
+        "type": "kids",
+        "date": {
+          "$date": "2024-02-29T19:00:00Z"
+        },
+        "expected_attendance": 85
+      }
+    ]
+  },
+  {
+    "name": "Luz de Papel - Valdefuentes",
+    "borough": "Hortaleza",
+    "neighborhood": "Valdefuentes",
+    "address": {
+      "building": "148",
+      "street": "Calle de Pacífico",
+      "zipcode": "28014",
+      "coord": [
+        -3.765229,
+        40.405698
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1996,
+    "rating": {
+      "avg": 3.7,
+      "count": 408
+    },
+    "capacity": 137,
+    "area_sqm": 156,
+    "events": [
+      {
+        "title": "Exposición de ilustración",
+        "type": "kids",
+        "date": {
+          "$date": "2026-12-16T17:00:00Z"
+        },
+        "expected_attendance": 88
+      },
+      {
+        "title": "Firma de autor",
+        "type": "reading",
+        "date": {
+          "$date": "2026-03-14T19:00:00Z"
+        },
+        "expected_attendance": 55
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "reading",
+        "date": {
+          "$date": "2026-07-26T19:00:00Z"
+        },
+        "expected_attendance": 88
+      }
+    ]
+  },
+  {
+    "name": "Recoletos Books - Canillas",
+    "borough": "Hortaleza",
+    "neighborhood": "Canillas",
+    "address": {
+      "building": "37",
+      "street": "Gran Vía",
+      "zipcode": "28066",
+      "coord": [
+        -3.739965,
+        40.397614
+      ]
+    },
+    "categories": [
+      "comics"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2020,
+    "rating": {
+      "avg": 4.1,
+      "count": 871
+    },
+    "capacity": 67,
+    "area_sqm": 538,
+    "events": [
+      {
+        "title": "Taller de encuadernación",
+        "type": "kids",
+        "date": {
+          "$date": "2024-12-20T19:00:00Z"
+        },
+        "expected_attendance": 46
+      },
+      {
+        "title": "Club de lectura",
+        "type": "kids",
+        "date": {
+          "$date": "2024-10-14T12:00:00Z"
+        },
+        "expected_attendance": 89
+      }
+    ],
+    "chain": {
+      "name": "Paper&Co",
+      "branch_id": "PCO-313"
+    }
+  },
+  {
+    "name": "Luz de Papel - Palomas",
+    "borough": "Hortaleza",
+    "neighborhood": "Palomas",
+    "address": {
+      "building": "107",
+      "street": "Calle de Hortaleza",
+      "zipcode": "28091",
+      "coord": [
+        -3.768328,
+        40.420314
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "de",
+      "es",
+      "fr"
+    ],
+    "price_level": "$$",
+    "year_opened": 1982,
+    "rating": {
+      "avg": 3.2,
+      "count": 68
+    },
+    "capacity": 76,
+    "area_sqm": 339,
+    "events": []
+  },
+  {
+    "name": "Rincón del Lector - Pinar del Rey",
+    "borough": "Hortaleza",
+    "neighborhood": "Pinar del Rey",
+    "address": {
+      "building": "147",
+      "street": "Calle de Embajadores",
+      "zipcode": "28015",
+      "coord": [
+        -3.739003,
+        40.409315
+      ]
+    },
+    "categories": [
+      "art"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2008,
+    "rating": {
+      "avg": 5.0,
+      "count": 1115
+    },
+    "capacity": 30,
+    "area_sqm": 776,
+    "events": []
+  },
+  {
+    "name": "Estudios y Manuales - Canillas",
+    "borough": "Hortaleza",
+    "neighborhood": "Canillas",
+    "address": {
+      "building": "113",
+      "street": "Calle de Galileo",
+      "zipcode": "28016",
+      "coord": [
+        -3.698707,
+        40.464245
+      ]
+    },
+    "categories": [
+      "children"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 2007,
+    "rating": {
+      "avg": 4.6,
+      "count": 723
+    },
+    "capacity": 176,
+    "area_sqm": 687,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "exhibition",
+        "date": {
+          "$date": "2025-02-27T12:00:00Z"
+        },
+        "expected_attendance": 54
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-12-26T17:00:00Z"
+        },
+        "expected_attendance": 31
+      }
+    ],
+    "chain": {
+      "name": "Lectores Unidos",
+      "branch_id": "LU-461"
+    }
+  },
+  {
+    "name": "Arte y Ensayo - Palomas",
+    "borough": "Hortaleza",
+    "neighborhood": "Palomas",
+    "address": {
+      "building": "16",
+      "street": "Calle de Vallehermoso",
+      "zipcode": "28036",
+      "coord": [
+        -3.657878,
+        40.45281
+      ]
+    },
+    "categories": [
+      "second_hand",
+      "general"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$",
+    "year_opened": 2000,
+    "rating": {
+      "avg": 4.7,
+      "count": 516
+    },
+    "capacity": 57,
+    "area_sqm": 768,
+    "events": [
+      {
+        "title": "Taller de encuadernación",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-03-15T18:00:00Z"
+        },
+        "expected_attendance": 90
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "kids",
+        "date": {
+          "$date": "2025-07-04T18:00:00Z"
+        },
+        "expected_attendance": 19
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "reading",
+        "date": {
+          "$date": "2024-07-09T18:00:00Z"
+        },
+        "expected_attendance": 98
+      }
+    ]
+  },
+  {
+    "name": "Libromanía - Valdefuentes",
+    "borough": "Hortaleza",
+    "neighborhood": "Valdefuentes",
+    "address": {
+      "building": "137",
+      "street": "Paseo de la Castellana",
+      "zipcode": "28051",
+      "coord": [
+        -3.733578,
+        40.427593
+      ]
+    },
+    "categories": [
+      "general",
+      "academic"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 2001,
+    "rating": {
+      "avg": 3.4,
+      "count": 554
+    },
+    "capacity": 102,
+    "area_sqm": 330,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "signing",
+        "date": {
+          "$date": "2026-09-20T17:00:00Z"
+        },
+        "expected_attendance": 15
+      },
+      {
+        "title": "Firma de autor",
+        "type": "signing",
+        "date": {
+          "$date": "2024-07-22T18:00:00Z"
+        },
+        "expected_attendance": 119
+      }
+    ],
+    "chain": {
+      "name": "Lectores Unidos",
+      "branch_id": "LU-890"
+    }
+  },
+  {
+    "name": "Rincón del Lector - Valdefuentes",
+    "borough": "Hortaleza",
+    "neighborhood": "Valdefuentes",
+    "address": {
+      "building": "24",
+      "street": "Paseo del Prado",
+      "zipcode": "28084",
+      "coord": [
+        -3.666978,
+        40.432865
+      ]
+    },
+    "categories": [
+      "comics",
+      "children"
+    ],
+    "languages": [
+      "es",
+      "fr"
+    ],
+    "price_level": "$$",
+    "year_opened": 2020,
+    "rating": {
+      "avg": 4.3,
+      "count": 343
+    },
+    "capacity": 33,
+    "area_sqm": 445,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "signing",
+        "date": {
+          "$date": "2025-04-24T18:00:00Z"
+        },
+        "expected_attendance": 100
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "kids",
+        "date": {
+          "$date": "2024-07-13T11:00:00Z"
+        },
+        "expected_attendance": 19
+      }
+    ],
+    "chain": {
+      "name": "La Estantería",
+      "branch_id": "LE-208"
+    }
+  },
+  {
+    "name": "Estudios y Manuales - Apóstol Santiago",
+    "borough": "Hortaleza",
+    "neighborhood": "Apóstol Santiago",
+    "address": {
+      "building": "179",
+      "street": "Calle de Goya",
+      "zipcode": "28044",
+      "coord": [
+        -3.640169,
+        40.413167
+      ]
+    },
+    "categories": [
+      "general"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1994,
+    "rating": {
+      "avg": 3.8,
+      "count": 275
+    },
+    "capacity": 142,
+    "area_sqm": 112,
+    "events": []
+  },
+  {
+    "name": "Libros & Café - Canillas",
+    "borough": "Hortaleza",
+    "neighborhood": "Canillas",
+    "address": {
+      "building": "18",
+      "street": "Calle de Embajadores",
+      "zipcode": "28068",
+      "coord": [
+        -3.744553,
+        40.390878
+      ]
+    },
+    "categories": [
+      "comics"
+    ],
+    "languages": [
+      "de",
+      "en",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1989,
+    "rating": {
+      "avg": 3.3,
+      "count": 724
+    },
+    "capacity": 74,
+    "area_sqm": 683,
+    "events": [
+      {
+        "title": "Firma de autor",
+        "type": "signing",
+        "date": {
+          "$date": "2026-06-25T12:00:00Z"
+        },
+        "expected_attendance": 27
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "kids",
+        "date": {
+          "$date": "2024-09-09T19:00:00Z"
+        },
+        "expected_attendance": 54
+      }
+    ]
+  },
+  {
+    "name": "Recoletos Books - Palomas",
+    "borough": "Hortaleza",
+    "neighborhood": "Palomas",
+    "address": {
+      "building": "7",
+      "street": "Calle de Pacífico",
+      "zipcode": "28085",
+      "coord": [
+        -3.685547,
+        40.465418
+      ]
+    },
+    "categories": [
+      "art",
+      "second_hand"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 2021,
+    "rating": {
+      "avg": 4.2,
+      "count": 391
+    },
+    "capacity": 120,
+    "area_sqm": 342,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "signing",
+        "date": {
+          "$date": "2025-05-05T18:00:00Z"
+        },
+        "expected_attendance": 40
+      },
+      {
+        "title": "Firma de autor",
+        "type": "exhibition",
+        "date": {
+          "$date": "2026-10-20T19:00:00Z"
+        },
+        "expected_attendance": 11
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "kids",
+        "date": {
+          "$date": "2026-01-09T17:00:00Z"
+        },
+        "expected_attendance": 120
+      }
+    ],
+    "chain": {
+      "name": "Lectores Unidos",
+      "branch_id": "LU-255"
+    }
+  },
+  {
+    "name": "Página Abierta - Valdefuentes",
+    "borough": "Hortaleza",
+    "neighborhood": "Valdefuentes",
+    "address": {
+      "building": "5",
+      "street": "Calle de Ibiza",
+      "zipcode": "28076",
+      "coord": [
+        -3.705203,
+        40.430806
+      ]
+    },
+    "categories": [
+      "academic"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$$",
+    "year_opened": 1998,
+    "rating": {
+      "avg": 3.1,
+      "count": 128
+    },
+    "capacity": 121,
+    "area_sqm": 558,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "kids",
+        "date": {
+          "$date": "2026-04-30T18:00:00Z"
+        },
+        "expected_attendance": 20
+      },
+      {
+        "title": "Firma de autor",
+        "type": "reading",
+        "date": {
+          "$date": "2024-11-08T17:00:00Z"
+        },
+        "expected_attendance": 20
+      }
+    ]
+  },
+  {
+    "name": "Recoletos Books - Pinar del Rey",
+    "borough": "Hortaleza",
+    "neighborhood": "Pinar del Rey",
+    "address": {
+      "building": "80",
+      "street": "Calle de Argumosa",
+      "zipcode": "28090",
+      "coord": [
+        -3.659096,
+        40.406487
+      ]
+    },
+    "categories": [
+      "art"
+    ],
+    "languages": [
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1987,
+    "rating": {
+      "avg": 3.5,
+      "count": 505
+    },
+    "capacity": 42,
+    "area_sqm": 484,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "workshop",
+        "date": {
+          "$date": "2024-04-22T17:00:00Z"
+        },
+        "expected_attendance": 25
+      },
+      {
+        "title": "Presentación de novela",
+        "type": "signing",
+        "date": {
+          "$date": "2024-01-26T12:00:00Z"
+        },
+        "expected_attendance": 30
+      }
+    ]
+  },
+  {
+    "name": "El Atril - Palomas",
+    "borough": "Hortaleza",
+    "neighborhood": "Palomas",
+    "address": {
+      "building": "69",
+      "street": "Paseo de la Castellana",
+      "zipcode": "28094",
+      "coord": [
+        -3.694878,
+        40.366369
+      ]
+    },
+    "categories": [
+      "children",
+      "comics"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "price_level": "$$",
+    "year_opened": 1984,
+    "rating": {
+      "avg": 3.1,
+      "count": 884
+    },
+    "capacity": 89,
+    "area_sqm": 576,
+    "events": [
+      {
+        "title": "Cuentacuentos",
+        "type": "exhibition",
+        "date": {
+          "$date": "2024-06-06T18:00:00Z"
+        },
+        "expected_attendance": 56
+      },
+      {
+        "title": "Exposición de ilustración",
+        "type": "workshop",
+        "date": {
+          "$date": "2024-04-23T18:00:00Z"
+        },
+        "expected_attendance": 57
+      }
+    ]
+  },
+  {
+    "name": "Anticuaria - Palomas",
+    "borough": "Hortaleza",
+    "neighborhood": "Palomas",
+    "address": {
+      "building": "131",
+      "street": "Cuesta de Moyano",
+      "zipcode": "28001",
+      "coord": [
+        -3.694149,
+        40.408194
+      ]
+    },
+    "categories": [
+      "second_hand",
+      "general"
+    ],
+    "languages": [
+      "de",
+      "es"
+    ],
+    "price_level": "$",
+    "year_opened": 1989,
+    "rating": {
+      "avg": 3.5,
+      "count": 971
+    },
+    "capacity": 113,
+    "area_sqm": 432,
+    "events": [
+      {
+        "title": "Presentación de novela",
+        "type": "kids",
+        "date": {
+          "$date": "2024-03-13T19:00:00Z"
+        },
+        "expected_attendance": 38
+      },
+      {
+        "title": "Cuentacuentos",
+        "type": "reading",
+        "date": {
+          "$date": "2025-10-21T12:00:00Z"
+        },
+        "expected_attendance": 44
+      },
+      {
+        "title": "Club de lectura",
+        "type": "signing",
+        "date": {
+          "$date": "2024-06-08T19:00:00Z"
+        },
+        "expected_attendance": 74
+      },
+      {
+        "title": "Taller de encuadernación",
+        "type": "exhibition",
+        "date": {
+          "$date": "2024-04-17T12:00:00Z"
+        },
+        "expected_attendance": 15
+      }
+    ]
+  }
+]

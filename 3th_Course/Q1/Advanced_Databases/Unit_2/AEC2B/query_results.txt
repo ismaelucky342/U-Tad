@@ -1,0 +1,1596 @@
+Current Mongosh Log ID:	690a290ab6994cbc679dc29c
+Connecting to:		mongodb://127.0.0.1:27017/bookstores_db?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.9
+Using MongoDB:		8.2.1
+Using Mongosh:		2.5.9
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+
+To help improve our products, anonymous usage data is collected and sent to MongoDB periodically (https://www.mongodb.com/legal/privacy-policy).
+You can opt-out by running the disableTelemetry() command.
+
+------
+   The server generated these startup warnings when booting
+   2025-11-04T16:41:24.423+01:00: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+   2025-11-04T16:41:24.674+01:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+   2025-11-04T16:41:24.674+01:00: For customers running the current memory allocator, we suggest changing the contents of the following sysfsFile
+   2025-11-04T16:41:24.674+01:00: We suggest setting the contents of sysfsFile to 0.
+   2025-11-04T16:41:24.674+01:00: We suggest setting swappiness to 0 or 1, as swapping can cause performance problems.
+------
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 1. Total de librerías:
+
+bookstores_db> 120
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+2. Librerías desde 2018 (más nuevas primero):
+
+bookstores_db> ... ... ... {
+  name: 'Book&Beans - Bellas Vistas',
+  year_opened: 2025
+}
+{
+  name: 'Estudios y Manuales - Goya',
+  year_opened: 2024
+}
+{
+  name: 'Arapiles Anticuaria - Cuatro Caminos',
+  year_opened: 2024
+}
+{
+  name: 'Recoletos Books - Castillejos',
+  year_opened: 2024
+}
+{
+  name: 'Rincón del Lector - Goya',
+  year_opened: 2024
+}
+{
+  name: 'Rincón del Lector - Ibiza',
+  year_opened: 2023
+}
+{
+  name: 'Cómic Central - Jerónimos',
+  year_opened: 2023
+}
+{
+  name: 'Anticuaria - Pacífico',
+  year_opened: 2023
+}
+{
+  name: 'El Atril - Legazpi',
+  year_opened: 2022
+}
+{
+  name: 'El Atril - Almenara',
+  year_opened: 2022
+}
+{
+  name: 'Comicverse - Lavapiés',
+  year_opened: 2022
+}
+{
+  name: 'Book&Beans - Niño Jesús',
+  year_opened: 2022
+}
+{
+  name: 'Libros & Café - Trafalgar',
+  year_opened: 2021
+}
+{
+  name: 'Recoletos Books - Palomas',
+  year_opened: 2021
+}
+{
+  name: 'El Atril - Delicias',
+  year_opened: 2020
+}
+{
+  name: 'Comicverse - Pacífico',
+  year_opened: 2020
+}
+{
+  name: 'Savia de Tinta - Jerónimos',
+  year_opened: 2020
+}
+{
+  name: 'Página Abierta - Atocha',
+  year_opened: 2020
+}
+{
+  name: 'Cómic Central - Almenara',
+  year_opened: 2020
+}
+{
+  name: 'Recoletos Books - Canillas',
+  year_opened: 2020
+}
+{
+  name: 'Rincón del Lector - Valdefuentes',
+  year_opened: 2020
+}
+{
+  name: 'Book&Beans - Trafalgar',
+  year_opened: 2019
+}
+{
+  name: 'El Atril - Arapiles',
+  year_opened: 2019
+}
+{
+  name: 'Cómic Central - Imperial',
+  year_opened: 2019
+}
+{
+  name: 'Arte y Ensayo - Guindalera',
+  year_opened: 2019
+}
+{
+  name: 'Recoletos Books - Chopera',
+  year_opened: 2018
+}
+{
+  name: 'Arapiles Anticuaria - Arapiles',
+  year_opened: 2018
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+3. Librerías con francés:
+
+bookstores_db> ... ... ... {
+  name: 'Anticuaria - Recoletos',
+  borough: 'Salamanca'
+}
+{
+  name: 'El Atril - Guindalera',
+  borough: 'Salamanca'
+}
+{
+  name: 'Anticuaria - Lista',
+  borough: 'Salamanca'
+}
+{
+  name: 'Rincón del Lector - Lista',
+  borough: 'Salamanca'
+}
+{
+  name: 'Arapiles Anticuaria - Adelfas',
+  borough: 'Retiro'
+}
+{
+  name: 'Rincón del Lector - Ibiza',
+  borough: 'Retiro'
+}
+{
+  name: 'Clásicos de Moyano - Niño Jesús',
+  borough: 'Retiro'
+}
+{
+  name: 'Libromanía - Adelfas',
+  borough: 'Retiro'
+}
+{
+  name: 'Cómic Central - Jerónimos',
+  borough: 'Retiro'
+}
+{
+  name: 'Anticuaria - Pacífico',
+  borough: 'Retiro'
+}
+{
+  name: 'Book&Beans - Ibiza',
+  borough: 'Retiro'
+}
+{
+  name: 'El Lomo Verde - Trafalgar',
+  borough: 'Chamberí'
+}
+{
+  name: 'Luz de Papel - Atocha',
+  borough: 'Centro'
+}
+{
+  name: 'El Lomo Verde - Acacias',
+  borough: 'Arganzuela'
+}
+{
+  name: 'Libros & Café - Valdezarza',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'El Atril - Delicias',
+  borough: 'Arganzuela'
+}
+{
+  name: 'Estudios y Manuales - Valdezarza',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Estudios y Manuales - Valdezarza',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Savia de Tinta - Bellas Vistas',
+  borough: 'Tetuán'
+}
+{
+  name: 'El Atril - Castillejos',
+  borough: 'Tetuán'
+}
+{
+  name: 'Estudios y Manuales - Valdeacederas',
+  borough: 'Tetuán'
+}
+{
+  name: 'Comicverse - Casa de Campo',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Savia de Tinta - Valdeacederas',
+  borough: 'Tetuán'
+}
+{
+  name: 'Niños Lectores - Bellas Vistas',
+  borough: 'Tetuán'
+}
+{
+  name: 'Cómic Central - Valdeacederas',
+  borough: 'Tetuán'
+}
+{
+  name: 'Arapiles Anticuaria - Cuatro Caminos',
+  borough: 'Tetuán'
+}
+{
+  name: 'Luz de Papel - Palomas',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Rincón del Lector - Valdefuentes',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Arte y Ensayo - Palomas',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Comicverse - Vallehermoso',
+  borough: 'Chamberí'
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+4. Librerías grandes (capacity>=80 y area>=200), top 10:
+
+bookstores_db> ... ... ... ... ... ... {
+  name: 'El Atril - Almenara',
+  capacity: 178,
+  area_sqm: 693
+}
+{
+  name: 'Arapiles Anticuaria - Recoletos',
+  capacity: 177,
+  area_sqm: 591
+}
+{
+  name: 'Savia de Tinta - Delicias',
+  capacity: 177,
+  area_sqm: 401
+}
+{
+  name: 'Arte y Ensayo - Guindalera',
+  capacity: 177,
+  area_sqm: 622
+}
+{
+  name: 'Estudios y Manuales - Canillas',
+  capacity: 176,
+  area_sqm: 687
+}
+{
+  name: 'Comicverse - Pacífico',
+  capacity: 169,
+  area_sqm: 430
+}
+{
+  name: 'Cómic Central - Arapiles',
+  capacity: 167,
+  area_sqm: 479
+}
+{
+  name: 'Cómic Central - Imperial',
+  capacity: 166,
+  area_sqm: 466
+}
+{
+  name: 'Estudios y Manuales - Valdezarza',
+  capacity: 166,
+  area_sqm: 589
+}
+{
+  name: 'Cómic Central - Malasaña',
+  capacity: 164,
+  area_sqm: 575
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+5. Librerías de cadena:
+
+bookstores_db> ... ... ... {
+  name: 'Recoletos Books - Sol',
+  chain: {
+    name: 'PageTurners',
+    branch_id: 'PT-216'
+  }
+}
+{
+  name: 'Anticuaria - Cortes',
+  chain: {
+    name: 'LibroMundo',
+    branch_id: 'LM-251'
+  }
+}
+{
+  name: 'Estudios y Manuales - Lavapiés',
+  chain: {
+    name: 'Paper&Co',
+    branch_id: 'PCO-688'
+  }
+}
+{
+  name: 'Arapiles Anticuaria - Chueca',
+  chain: {
+    name: 'LibroMundo',
+    branch_id: 'LM-374'
+  }
+}
+{
+  name: 'Estudios y Manuales - Chueca',
+  chain: {
+    name: 'Paper&Co',
+    branch_id: 'PCO-409'
+  }
+}
+{
+  name: 'Arapiles Anticuaria - Castellana',
+  chain: {
+    name: 'Lectores Unidos',
+    branch_id: 'LU-482'
+  }
+}
+{
+  name: 'Anticuaria - Malasaña',
+  chain: {
+    name: 'Paper&Co',
+    branch_id: 'PCO-812'
+  }
+}
+{
+  name: 'Libros & Café - Goya',
+  chain: {
+    name: 'PageTurners',
+    branch_id: 'PT-974'
+  }
+}
+{
+  name: 'Arte y Ensayo - Guindalera',
+  chain: {
+    name: 'Paper&Co',
+    branch_id: 'PCO-122'
+  }
+}
+{
+  name: 'Clásicos de Moyano - Niño Jesús',
+  chain: {
+    name: 'La Estantería',
+    branch_id: 'LE-886'
+  }
+}
+{
+  name: 'Cómic Central - Jerónimos',
+  chain: {
+    name: 'PageTurners',
+    branch_id: 'PT-892'
+  }
+}
+{
+  name: 'Savia de Tinta - Sol',
+  chain: {
+    name: 'LibroMundo',
+    branch_id: 'LM-781'
+  }
+}
+{
+  name: 'Comicverse - Pacífico',
+  chain: {
+    name: 'Paper&Co',
+    branch_id: 'PCO-881'
+  }
+}
+{
+  name: 'Book&Beans - Niño Jesús',
+  chain: {
+    name: 'La Estantería',
+    branch_id: 'LE-707'
+  }
+}
+{
+  name: 'Cómic Central - Malasaña',
+  chain: {
+    name: 'Lectores Unidos',
+    branch_id: 'LU-692'
+  }
+}
+{
+  name: 'Anticuaria - Cortes',
+  chain: {
+    name: 'LibroMundo',
+    branch_id: 'LM-820'
+  }
+}
+{
+  name: 'Luz de Papel - Trafalgar',
+  chain: {
+    name: 'LibroMundo',
+    branch_id: 'LM-809'
+  }
+}
+{
+  name: 'Recoletos Books - Chopera',
+  chain: {
+    name: 'LibroMundo',
+    branch_id: 'LM-940'
+  }
+}
+{
+  name: 'Savia de Tinta - Imperial',
+  chain: {
+    name: 'LibroMundo',
+    branch_id: 'LM-054'
+  }
+}
+{
+  name: 'El Atril - Arapiles',
+  chain: {
+    name: 'Lectores Unidos',
+    branch_id: 'LU-462'
+  }
+}
+{
+  name: 'Recoletos Books - Chopera',
+  chain: {
+    name: 'PageTurners',
+    branch_id: 'PT-347'
+  }
+}
+{
+  name: 'Libros & Café - Trafalgar',
+  chain: {
+    name: 'Lectores Unidos',
+    branch_id: 'LU-572'
+  }
+}
+{
+  name: 'Arapiles Anticuaria - Legazpi',
+  chain: {
+    name: 'Lectores Unidos',
+    branch_id: 'LU-077'
+  }
+}
+{
+  name: 'Rincón del Lector - Imperial',
+  chain: {
+    name: 'La Estantería',
+    branch_id: 'LE-254'
+  }
+}
+{
+  name: 'Lectores Unidos - Valdezarza',
+  chain: {
+    name: 'LibroMundo',
+    branch_id: 'LM-735'
+  }
+}
+{
+  name: 'Comicverse - Ríos Rosas',
+  chain: {
+    name: 'La Estantería',
+    branch_id: 'LE-039'
+  }
+}
+{
+  name: 'Lectores Unidos - Bellas Vistas',
+  chain: {
+    name: 'PageTurners',
+    branch_id: 'PT-618'
+  }
+}
+{
+  name: 'El Atril - Castillejos',
+  chain: {
+    name: 'La Estantería',
+    branch_id: 'LE-419'
+  }
+}
+{
+  name: 'El Lomo Verde - Valdezarza',
+  chain: {
+    name: 'Lectores Unidos',
+    branch_id: 'LU-144'
+  }
+}
+{
+  name: 'El Atril - Almenara',
+  chain: {
+    name: 'Lectores Unidos',
+    branch_id: 'LU-968'
+  }
+}
+{
+  name: 'Clásicos de Moyano - Chopera',
+  chain: {
+    name: 'Lectores Unidos',
+    branch_id: 'LU-027'
+  }
+}
+{
+  name: 'Recoletos Books - Canillas',
+  chain: {
+    name: 'Paper&Co',
+    branch_id: 'PCO-313'
+  }
+}
+{
+  name: 'Estudios y Manuales - Canillas',
+  chain: {
+    name: 'Lectores Unidos',
+    branch_id: 'LU-461'
+  }
+}
+{
+  name: 'Libromanía - Valdefuentes',
+  chain: {
+    name: 'Lectores Unidos',
+    branch_id: 'LU-890'
+  }
+}
+{
+  name: 'Rincón del Lector - Valdefuentes',
+  chain: {
+    name: 'La Estantería',
+    branch_id: 'LE-208'
+  }
+}
+{
+  name: 'Recoletos Books - Palomas',
+  chain: {
+    name: 'Lectores Unidos',
+    branch_id: 'LU-255'
+  }
+}
+{
+  name: 'Cómic Central - Arapiles',
+  chain: {
+    name: 'PageTurners',
+    branch_id: 'PT-721'
+  }
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+6. Chamberí con inglés:
+
+bookstores_db> ... ... ... ... ... ... {
+  name: 'Lectores Unidos - Vallehermoso',
+  languages: [
+    'de',
+    'en',
+    'es'
+  ]
+}
+{
+  name: 'El Lomo Verde - Trafalgar',
+  languages: [
+    'en',
+    'es',
+    'fr'
+  ]
+}
+{
+  name: 'Arte y Ensayo - Trafalgar',
+  languages: [
+    'en',
+    'es'
+  ]
+}
+{
+  name: 'Book&Beans - Trafalgar',
+  languages: [
+    'de',
+    'en',
+    'es'
+  ]
+}
+{
+  name: 'Luz de Papel - Trafalgar',
+  languages: [
+    'en',
+    'es'
+  ]
+}
+{
+  name: 'El Atril - Arapiles',
+  languages: [
+    'en',
+    'es'
+  ]
+}
+{
+  name: 'Comicverse - Ríos Rosas',
+  languages: [
+    'en',
+    'es'
+  ]
+}
+{
+  name: 'Cómic Central - Arapiles',
+  languages: [
+    'en',
+    'es'
+  ]
+}
+{
+  name: 'Arapiles Anticuaria - Arapiles',
+  languages: [
+    'de',
+    'en',
+    'es'
+  ]
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+7. Librerías academic + art:
+
+bookstores_db> ... ... ... ... ... {
+  name: 'Anticuaria - Malasaña',
+  borough: 'Centro',
+  neighborhood: 'Malasaña'
+}
+{
+  name: 'Arte y Ensayo - Guindalera',
+  borough: 'Salamanca',
+  neighborhood: 'Guindalera'
+}
+{
+  name: 'Luz de Papel - Jerónimos',
+  borough: 'Retiro',
+  neighborhood: 'Jerónimos'
+}
+{
+  name: 'Arte y Ensayo - Trafalgar',
+  borough: 'Chamberí',
+  neighborhood: 'Trafalgar'
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+8. Baratas pero buenas ($ y rating>=4.5):
+
+bookstores_db> ... ... ... ... ... ... {
+  name: 'Arapiles Anticuaria - Chueca',
+  neighborhood: 'Chueca',
+  rating: {
+    avg: 4.8
+  }
+}
+{
+  name: 'Libromanía - Guindalera',
+  neighborhood: 'Guindalera',
+  rating: {
+    avg: 4.9
+  }
+}
+{
+  name: 'Book&Beans - Ibiza',
+  neighborhood: 'Ibiza',
+  rating: {
+    avg: 4.8
+  }
+}
+{
+  name: 'Lectores Unidos - Vallehermoso',
+  neighborhood: 'Vallehermoso',
+  rating: {
+    avg: 4.6
+  }
+}
+{
+  name: 'Rincón del Lector - Imperial',
+  neighborhood: 'Imperial',
+  rating: {
+    avg: 4.9
+  }
+}
+{
+  name: 'Arte y Ensayo - Argüelles',
+  neighborhood: 'Argüelles',
+  rating: {
+    avg: 4.5
+  }
+}
+{
+  name: 'Estudios y Manuales - Valdezarza',
+  neighborhood: 'Valdezarza',
+  rating: {
+    avg: 4.8
+  }
+}
+{
+  name: 'Estudios y Manuales - Canillas',
+  neighborhood: 'Canillas',
+  rating: {
+    avg: 4.6
+  }
+}
+{
+  name: 'Arte y Ensayo - Palomas',
+  neighborhood: 'Palomas',
+  rating: {
+    avg: 4.7
+  }
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+9. Con eventos programados:
+
+bookstores_db> ... ... ... ... ... {
+  name: 'Recoletos Books - Sol',
+  borough: 'Centro'
+}
+{
+  name: 'Anticuaria - Cortes',
+  borough: 'Centro'
+}
+{
+  name: 'Estudios y Manuales - Lavapiés',
+  borough: 'Centro'
+}
+{
+  name: 'Arapiles Anticuaria - Chueca',
+  borough: 'Centro'
+}
+{
+  name: 'Anticuaria - Recoletos',
+  borough: 'Salamanca'
+}
+{
+  name: 'Comicverse - Lavapiés',
+  borough: 'Centro'
+}
+{
+  name: 'Arte y Ensayo - Guindalera',
+  borough: 'Salamanca'
+}
+{
+  name: 'Estudios y Manuales - Goya',
+  borough: 'Salamanca'
+}
+{
+  name: 'El Atril - Guindalera',
+  borough: 'Salamanca'
+}
+{
+  name: 'Savia de Tinta - Lista',
+  borough: 'Salamanca'
+}
+{
+  name: 'Vallehermoso Académica - Recoletos',
+  borough: 'Salamanca'
+}
+{
+  name: 'Arapiles Anticuaria - Recoletos',
+  borough: 'Salamanca'
+}
+{
+  name: 'Anticuaria - Malasaña',
+  borough: 'Centro'
+}
+{
+  name: 'Anticuaria - Lista',
+  borough: 'Salamanca'
+}
+{
+  name: 'Libros & Café - Goya',
+  borough: 'Salamanca'
+}
+{
+  name: 'Arte y Ensayo - Guindalera',
+  borough: 'Salamanca'
+}
+{
+  name: 'Lectores Unidos - Recoletos',
+  borough: 'Salamanca'
+}
+{
+  name: 'Luz de Papel - Jerónimos',
+  borough: 'Retiro'
+}
+{
+  name: 'Rincón del Lector - Lista',
+  borough: 'Salamanca'
+}
+{
+  name: 'Rincón del Lector - Goya',
+  borough: 'Salamanca'
+}
+{
+  name: 'Arapiles Anticuaria - Niño Jesús',
+  borough: 'Retiro'
+}
+{
+  name: 'Rincón del Lector - Ibiza',
+  borough: 'Retiro'
+}
+{
+  name: 'Clásicos de Moyano - Niño Jesús',
+  borough: 'Retiro'
+}
+{
+  name: 'Libromanía - Adelfas',
+  borough: 'Retiro'
+}
+{
+  name: 'Arte y Ensayo - Jerónimos',
+  borough: 'Retiro'
+}
+{
+  name: 'Anticuaria - Pacífico',
+  borough: 'Retiro'
+}
+{
+  name: 'Book&Beans - Ibiza',
+  borough: 'Retiro'
+}
+{
+  name: 'Savia de Tinta - Sol',
+  borough: 'Centro'
+}
+{
+  name: 'Luz de Papel - Pacífico',
+  borough: 'Retiro'
+}
+{
+  name: 'Book&Beans - Niño Jesús',
+  borough: 'Retiro'
+}
+{
+  name: 'Anticuaria - Cortes',
+  borough: 'Centro'
+}
+{
+  name: 'Cómic Central - Chueca',
+  borough: 'Centro'
+}
+{
+  name: 'Rincón del Lector - Pacífico',
+  borough: 'Retiro'
+}
+{
+  name: 'Savia de Tinta - Cortes',
+  borough: 'Centro'
+}
+{
+  name: 'Lectores Unidos - Vallehermoso',
+  borough: 'Chamberí'
+}
+{
+  name: 'El Lomo Verde - Trafalgar',
+  borough: 'Chamberí'
+}
+{
+  name: 'Luz de Papel - Atocha',
+  borough: 'Centro'
+}
+{
+  name: 'Book&Beans - Trafalgar',
+  borough: 'Chamberí'
+}
+{
+  name: 'Estudios y Manuales - Chopera',
+  borough: 'Arganzuela'
+}
+{
+  name: 'Luz de Papel - Trafalgar',
+  borough: 'Chamberí'
+}
+{
+  name: 'Savia de Tinta - Delicias',
+  borough: 'Arganzuela'
+}
+{
+  name: 'Recoletos Books - Chopera',
+  borough: 'Arganzuela'
+}
+{
+  name: 'Página Abierta - Gaztambide',
+  borough: 'Chamberí'
+}
+{
+  name: 'Savia de Tinta - Imperial',
+  borough: 'Arganzuela'
+}
+{
+  name: 'El Atril - Arapiles',
+  borough: 'Chamberí'
+}
+{
+  name: 'El Atril - Arapiles',
+  borough: 'Chamberí'
+}
+{
+  name: 'Libromanía - Imperial',
+  borough: 'Arganzuela'
+}
+{
+  name: 'Recoletos Books - Chopera',
+  borough: 'Arganzuela'
+}
+{
+  name: 'El Lomo Verde - Acacias',
+  borough: 'Arganzuela'
+}
+{
+  name: 'Libros & Café - Trafalgar',
+  borough: 'Chamberí'
+}
+{
+  name: 'Arapiles Anticuaria - Legazpi',
+  borough: 'Arganzuela'
+}
+{
+  name: 'Arte y Ensayo - Legazpi',
+  borough: 'Arganzuela'
+}
+{
+  name: 'Rincón del Lector - Imperial',
+  borough: 'Arganzuela'
+}
+{
+  name: 'Arte y Ensayo - Argüelles',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Libros & Café - Valdezarza',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Cómic Central - Casa de Campo',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Cómic Central - Valdezarza',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Recoletos Books - Argüelles',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Savia de Tinta - Argüelles',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Lectores Unidos - Casa de Campo',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'El Atril - Delicias',
+  borough: 'Arganzuela'
+}
+{
+  name: 'Lectores Unidos - Valdezarza',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Arapiles Anticuaria - Argüelles',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Estudios y Manuales - Valdezarza',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Clásicos de Moyano - Argüelles',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Estudios y Manuales - Valdezarza',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Savia de Tinta - Bellas Vistas',
+  borough: 'Tetuán'
+}
+{
+  name: 'El Atril - Castillejos',
+  borough: 'Tetuán'
+}
+{
+  name: 'El Lomo Verde - Valdezarza',
+  borough: 'Moncloa-Aravaca'
+}
+{
+  name: 'Estudios y Manuales - Valdeacederas',
+  borough: 'Tetuán'
+}
+{
+  name: 'Savia de Tinta - Valdeacederas',
+  borough: 'Tetuán'
+}
+{
+  name: 'Niños Lectores - Bellas Vistas',
+  borough: 'Tetuán'
+}
+{
+  name: 'Book&Beans - Bellas Vistas',
+  borough: 'Tetuán'
+}
+{
+  name: 'El Atril - Almenara',
+  borough: 'Tetuán'
+}
+{
+  name: 'Arte y Ensayo - Almenara',
+  borough: 'Tetuán'
+}
+{
+  name: 'Cómic Central - Valdeacederas',
+  borough: 'Tetuán'
+}
+{
+  name: 'Libros & Café - Castillejos',
+  borough: 'Tetuán'
+}
+{
+  name: 'Recoletos Books - Castillejos',
+  borough: 'Tetuán'
+}
+{
+  name: 'Arapiles Anticuaria - Cuatro Caminos',
+  borough: 'Tetuán'
+}
+{
+  name: 'Savia de Tinta - Cuatro Caminos',
+  borough: 'Tetuán'
+}
+{
+  name: 'Clásicos de Moyano - Chopera',
+  borough: 'Arganzuela'
+}
+{
+  name: 'Cómic Central - Almenara',
+  borough: 'Tetuán'
+}
+{
+  name: 'Recoletos Books - Canillas',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Luz de Papel - Valdefuentes',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Estudios y Manuales - Canillas',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Libromanía - Valdefuentes',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Rincón del Lector - Valdefuentes',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Libros & Café - Canillas',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Página Abierta - Valdefuentes',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Arte y Ensayo - Palomas',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Recoletos Books - Palomas',
+  borough: 'Hortaleza'
+}
+{
+  name: 'El Atril - Palomas',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Recoletos Books - Pinar del Rey',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Anticuaria - Palomas',
+  borough: 'Hortaleza'
+}
+{
+  name: 'Cómic Central - Arapiles',
+  borough: 'Chamberí'
+}
+{
+  name: 'Arapiles Anticuaria - Arapiles',
+  borough: 'Chamberí'
+}
+{
+  name: 'El Lomo Verde - Ciudad Universitaria',
+  borough: 'Moncloa-Aravaca'
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+10. Salamanca con workshops:
+
+bookstores_db> ... ... ... ... ... ... {
+  name: 'Arte y Ensayo - Guindalera'
+}
+{
+  name: 'Anticuaria - Lista'
+}
+{
+  name: 'Arte y Ensayo - Guindalera'
+}
+{
+  name: 'Rincón del Lector - Goya'
+}
+
+bookstores_db> 
+bookstores_db> 
+--- AGREGACIONES ---
+
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> Creando índice en events.date...
+
+bookstores_db> events.date_1
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+11. Librerías por distrito:
+
+bookstores_db> ... ... ... {
+  _id: 'Hortaleza',
+  count: 15
+}
+{
+  _id: 'Chamberí',
+  count: 15
+}
+{
+  _id: 'Salamanca',
+  count: 15
+}
+{
+  _id: 'Centro',
+  count: 15
+}
+{
+  _id: 'Retiro',
+  count: 15
+}
+{
+  _id: 'Arganzuela',
+  count: 15
+}
+{
+  _id: 'Moncloa-Aravaca',
+  count: 15
+}
+{
+  _id: 'Tetuán',
+  count: 15
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+12. Rating medio por distrito:
+
+bookstores_db> ... ... ... {
+  _id: 'Moncloa-Aravaca',
+  avg_rating: 4.193333333333333
+}
+{
+  _id: 'Chamberí',
+  avg_rating: 4.04
+}
+{
+  _id: 'Salamanca',
+  avg_rating: 4.02
+}
+{
+  _id: 'Retiro',
+  avg_rating: 4.02
+}
+{
+  _id: 'Centro',
+  avg_rating: 3.94
+}
+{
+  _id: 'Tetuán',
+  avg_rating: 3.8866666666666663
+}
+{
+  _id: 'Hortaleza',
+  avg_rating: 3.8333333333333335
+}
+{
+  _id: 'Arganzuela',
+  avg_rating: 3.7733333333333334
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+13. Top 5 barrios (min 3 librerías):
+
+bookstores_db> ... ... ... ... ... ... ... ... ... ... ... {
+  _id: 'Argüelles',
+  avg_rating: 4.4,
+  count: 5
+}
+{
+  _id: 'Guindalera',
+  avg_rating: 4.375,
+  count: 4
+}
+{
+  _id: 'Niño Jesús',
+  avg_rating: 4.266666666666667,
+  count: 3
+}
+{
+  _id: 'Cortes',
+  avg_rating: 4.233333333333333,
+  count: 3
+}
+{
+  _id: 'Castillejos',
+  avg_rating: 4.233333333333333,
+  count: 3
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+14. Count por categoría:
+
+bookstores_db> ... ... ... ... {
+  _id: 'academic',
+  count: 37
+}
+{
+  _id: 'children',
+  count: 27
+}
+{
+  _id: 'general',
+  count: 27
+}
+{
+  _id: 'comics',
+  count: 26
+}
+{
+  _id: 'art',
+  count: 24
+}
+{
+  _id: 'second_hand',
+  count: 23
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+15. Superficie y aforo medio por categoría:
+
+bookstores_db> ... ... ... ... ... ... ... ... ... ... {
+  _id: 'art',
+  avg_area: 477.0416666666667,
+  avg_capacity: 87.04166666666667
+}
+{
+  _id: 'general',
+  avg_area: 468.6666666666667,
+  avg_capacity: 91.37037037037037
+}
+{
+  _id: 'academic',
+  avg_area: 424.13513513513516,
+  avg_capacity: 91.91891891891892
+}
+{
+  _id: 'second_hand',
+  avg_area: 419.95652173913044,
+  avg_capacity: 94.34782608695652
+}
+{
+  _id: 'children',
+  avg_area: 412.74074074074076,
+  avg_capacity: 101
+}
+{
+  _id: 'comics',
+  avg_area: 396.0769230769231,
+  avg_capacity: 85.38461538461539
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+16. Densidad media por distrito:
+
+bookstores_db> ... ... ... ... {
+  _id: 'Salamanca',
+  avg_density: 0.47323746860282334
+}
+{
+  _id: 'Centro',
+  avg_density: 0.42851717412439877
+}
+{
+  _id: 'Retiro',
+  avg_density: 0.35864740954808105
+}
+{
+  _id: 'Tetuán',
+  avg_density: 0.31892443738039405
+}
+{
+  _id: 'Moncloa-Aravaca',
+  avg_density: 0.3038118978098344
+}
+{
+  _id: 'Hortaleza',
+  avg_density: 0.29506885861323134
+}
+{
+  _id: 'Arganzuela',
+  avg_density: 0.28852114993135874
+}
+{
+  _id: 'Chamberí',
+  avg_density: 0.27656994635016513
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+17. Eventos por mes en 2025:
+
+bookstores_db> ... ... ... ... ... ... ... ... ... ... ... ... ... {
+  count: 4,
+  month: 1
+}
+{
+  count: 6,
+  month: 2
+}
+{
+  count: 5,
+  month: 3
+}
+{
+  count: 2,
+  month: 4
+}
+{
+  count: 5,
+  month: 5
+}
+{
+  count: 6,
+  month: 6
+}
+{
+  count: 9,
+  month: 7
+}
+{
+  count: 3,
+  month: 8
+}
+{
+  count: 4,
+  month: 9
+}
+{
+  count: 9,
+  month: 10
+}
+{
+  count: 6,
+  month: 11
+}
+{
+  count: 1,
+  month: 12
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+18. % de librerías con inglés por distrito:
+
+bookstores_db> ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... {
+  _id: 'Chamberí',
+  total: 15,
+  with_english: 9,
+  proportion: 60
+}
+{
+  _id: 'Retiro',
+  total: 15,
+  with_english: 7,
+  proportion: 46.666666666666664
+}
+{
+  _id: 'Tetuán',
+  total: 15,
+  with_english: 5,
+  proportion: 33.33333333333333
+}
+{
+  _id: 'Centro',
+  total: 15,
+  with_english: 4,
+  proportion: 26.666666666666668
+}
+{
+  _id: 'Hortaleza',
+  total: 15,
+  with_english: 3,
+  proportion: 20
+}
+{
+  _id: 'Salamanca',
+  total: 15,
+  with_english: 3,
+  proportion: 20
+}
+{
+  _id: 'Arganzuela',
+  total: 15,
+  with_english: 3,
+  proportion: 20
+}
+{
+  _id: 'Moncloa-Aravaca',
+  total: 15,
+  with_english: 3,
+  proportion: 20
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+19. Top 5 librerías mejor valoradas:
+
+bookstores_db> ... ... ... ... {
+  name: 'Rincón del Lector - Pinar del Rey',
+  borough: 'Hortaleza',
+  rating: 5
+}
+{
+  name: 'Savia de Tinta - Cortes',
+  borough: 'Centro',
+  rating: 5
+}
+{
+  name: 'Estudios y Manuales - Chueca',
+  borough: 'Centro',
+  rating: 5
+}
+{
+  name: 'Rincón del Lector - Imperial',
+  borough: 'Arganzuela',
+  rating: 4.9
+}
+{
+  name: 'Libromanía - Guindalera',
+  borough: 'Salamanca',
+  rating: 4.9
+}
+
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+bookstores_db> 
+20. Asistencia total por tipo (Mar-Jun 2025):
+
+bookstores_db> ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... {
+  _id: 'reading',
+  total_attendance: 434
+}
+{
+  _id: 'workshop',
+  total_attendance: 288
+}
+{
+  _id: 'signing',
+  total_attendance: 254
+}
+{
+  _id: 'exhibition',
+  total_attendance: 227
+}
+{
+  _id: 'kids',
+  total_attendance: 80
+}
+
+bookstores_db> 
+bookstores_db> 
+✓ Consultas completadas
+
+
+bookstores_db> 

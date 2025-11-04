@@ -3,7 +3,7 @@
 #                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        #
 #      AEC2 - ABDS                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       #
 #                                                        ██║   ██║█████╗██║   ███████║██║  ██║       #
-#      created:        29/10/2025  -  23:00:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
+#      created:        23/10/2025  -  23:00:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
 #      last change:    03/11/2025  -  02:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       #
 #                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        #
 #                                                                                                    #
@@ -15,23 +15,27 @@
 
 #!/bin/bash
 
-echo "============================================"
-echo "Importando datos de restaurantes..."
-echo "============================================"
+echo "Exportando los resultados..."
 
-# hay que añdir--drop para evitar duplicados al ejecutar otra vez
-mongoimport --db restaurantesNY --collection restaurants --file restaurants.json --drop
+# Ejercicio 1
+mongoexport --db=restaurantesNY --collection=restaurants \
+  --query='{"grades.score": {"$gt": 80, "$lt": 100}}' \
+  --out=ejercicio1_resultados.json \
+  --jsonArray
 
-echo "============================================"
-echo "Datos importados exitosamente"
-echo "Total de documentos:"
-mongosh restaurantesNY --eval "db.restaurants.countDocuments()"
-echo "============================================"
+# Ejercicio 6
+mongoexport --db=restaurantesNY --collection=restaurants \
+  --query='{"grades.grade": "A", "grades.grade": {"$nin": ["B", "C"]}}' \
+  --out=ejercicio6_resultados.json \
+  --jsonArray
 
-echo "Creando índices..."
-mongosh restaurantesNY --eval "db.restaurants.createIndex({ borough: 1 })"
-mongosh restaurantesNY --eval "db.restaurants.createIndex({ cuisine: 1 })"
-mongosh restaurantesNY --eval "db.restaurants.createIndex({ 'grades.grade': 1 })"
-mongosh restaurantesNY --eval "db.restaurants.createIndex({ 'address.zipcode': 1 })"
+# Ejercicio 13
+mongoexport --db=restaurantesNY --collection=restaurants \
+  --query='{"borough": {"$in": ["Manhattan", "Brooklyn"]}, "grades.score": {"$not": {"$lte": 5}}}' \
+  --out=ejercicio13_resultados.json \
+  --jsonArray
 
-echo "¡DEBGU: todo OK!"
+echo "DEBUG: Exportación OK. Archivos generados:"
+echo "- ejercicio1_resultados.json"
+echo "- ejercicio6_resultados.json"
+echo "- ejercicio13_resultados.json"
