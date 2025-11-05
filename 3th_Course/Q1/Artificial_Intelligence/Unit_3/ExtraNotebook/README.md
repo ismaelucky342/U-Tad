@@ -1,8 +1,14 @@
-# Dogs vs. Cats 2025 - Competición Kaggle
+# Dogs vs. Cats 2025 - Variante descartada para la competición
 
-**Autor:** Ismael Hernandez Clemente  
-**Fecha:** 29-30 de octubre de 2025  
-**Trabajo realizado:** 29/10/2025 23:00 PM - 30/10/2025 02:55 AM
+Este notebook representa mi trabajo inicial para la competición de Kaggle, desarrollado completamente en PyTorch con técnicas avanzadas de deep learning. Sin embargo, **no se utilizará como entrega oficial** debido a una restricción técnica del enunciado: la competición solo permite el uso de Keras/TensorFlow, y esta implementación está basada en PyTorch.
+
+A pesar de no ser válida para la competición, he decidido mantener y documentar este desarrollo por varias razones:
+1. **Valor educativo**: Demuestra mi capacidad de implementar técnicas state-of-the-art desde cero
+2. **Resultados superiores**: Alcanza un 96% de accuracy frente al ~85-90% esperado con Keras básico
+3. **Experiencia práctica**: Aplica conocimientos adquiridos durante mi formación en 42 (École 42) con PyTorch
+4. **Material de referencia**: Sirve como guía para futuros proyectos sin restricciones de framework
+
+La solución oficial presentada a la competición estará basada en Keras/TensorFlow cumpliendo estrictamente las especificaciones, aunque con una arquitectura menos sofisticada.
 
 ---
 
