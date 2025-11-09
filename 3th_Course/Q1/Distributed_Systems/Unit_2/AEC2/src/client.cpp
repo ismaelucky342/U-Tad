@@ -1,87 +1,54 @@
-/**
- * @file client.cpp
- * @brief Cliente de Chat-Room con soporte para mensajes públicos y privados
- * 
- * Funcionalidades implementadas:
- * - Conexión al servidor en localhost:3000
- * - Hilo paralelo para recibir mensajes del servidor
- * - Envío de mensajes públicos (broadcast)
- * - Envío de mensajes privados con comando /privado (EXTENSIÓN)
- * - Cierre ordenado con comando exit()
- * - Manejo de desconexión sin error "lost connection" (EXTENSIÓN)
- */
+/*====================================================================================================*/
+/*                                                                                                    */
+/*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
+/*      AEC2 - Sistemas Distribuidos                      ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
+/*      created:        29/10/2025  -  03:00:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
+/*      last change:    09/11/2025  -  22:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
+/*                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        */
+/*                                                                                                    */
+/*      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             */
+/*                                                                                                    */
+/*      Github:                                           https://github.com/ismaelucky342            */
+/*                                                                                                    */
+/*====================================================================================================*/
 
-#include <iostream>
-#include <string>
-#include <thread>
-#include <atomic>
-#include <sstream>
-#include <cstring>
 #include "../include/protocol.h"
 
-// Declaraciones de funciones de libUtils
-extern "C" {
-    int initClient(const char* serverIP, int port);
-    void sendMSG(int socketID, const std::string& buffer);
-    void recvMSG(int socketID, std::string* buffer);
-    void closeConnection(int socketID);
-}
-
-// Pack y unpack para serialización
-std::string pack(const std::string& data);
-std::string unpack(const std::string& data);
-
-// Variables globales
+// globales
 std::atomic<bool> isRunning(true);
 int clientSocket = -1;
 std::string myUsername;
 
 /**
- * @brief Serializa datos con formato: [longitud][contenido]
- */
-std::string pack(const std::string& data) {
-    int length = data.length();
-    std::string packed;
-    packed.append(reinterpret_cast<char*>(&length), sizeof(int));
-    packed.append(data);
-    return packed;
-}
-
-/**
- * @brief Deserializa datos del formato [longitud][contenido]
- */
-std::string unpack(const std::string& data) {
-    if (data.length() < sizeof(int)) {
-        return "";
-    }
-    int length;
-    std::memcpy(&length, data.c_str(), sizeof(int));
-    
-    if (data.length() < sizeof(int) + length) {
-        return "";
-    }
-    
-    return data.substr(sizeof(int), length);
-}
-
-/**
- * @brief Envía un mensaje al servidor
+ * @brief Envía un mensaje al servidor empaquetando todos sus campos
+ * @param msg Estructura Message con tipo, usuario, contenido y destinatario (si aplica)
  */
 void sendMessage(const Message& msg) {
-    std::string buffer;
+    std::vector<unsigned char> buffer;
     
     // Empaquetar tipo de mensaje
-    buffer += pack(std::to_string(static_cast<int>(msg.type)));
+    int tipo = static_cast<int>(msg.type);
+    pack(buffer, tipo);
     
     // Empaquetar username
-    buffer += pack(msg.username);
+    for (char c : msg.username) {
+        pack(buffer, c);
+    }
+    pack(buffer, '\0'); // Null terminator
     
     // Empaquetar contenido
-    buffer += pack(msg.content);
+    for (char c : msg.content) {
+        pack(buffer, c);
+    }
+    pack(buffer, '\0');
     
-    // Si es mensaje privado, empaquetar destinatario
+    // Si es privado, empaquetar destinatario
     if (msg.type == MSG_PRIVATE) {
-        buffer += pack(msg.recipient);
+        for (char c : msg.recipient) {
+            pack(buffer, c);
+        }
+        pack(buffer, '\0');
     }
     
     sendMSG(clientSocket, buffer);
@@ -89,13 +56,16 @@ void sendMessage(const Message& msg) {
 
 /**
  * @brief Hilo para recibir mensajes del servidor continuamente
+ * @details Se ejecuta en paralelo al hilo principal. Recibe mensajes en bucle,
+ *          los desempaqueta y los muestra según su tipo. Termina cuando isRunning=false
+ *          o cuando el servidor cierra la conexión.
  */
 void receiveMessages() {
-    std::string buffer;
+    std::vector<unsigned char> buffer;
     
     while (isRunning) {
         buffer.clear();
-        recvMSG(clientSocket, &buffer);
+        recvMSG(clientSocket, buffer);
         
         if (buffer.empty()) {
             if (isRunning) {
@@ -106,21 +76,26 @@ void receiveMessages() {
         }
         
         try {
-            // Desempaquetar tipo de mensaje
-            std::string typeStr = unpack(buffer);
-            buffer = buffer.substr(sizeof(int) + typeStr.length());
-            
-            int msgType = std::stoi(typeStr);
+            // Desempaquetar tipo
+            int msgType = unpack<int>(buffer);
             
             // Desempaquetar username
-            std::string username = unpack(buffer);
-            buffer = buffer.substr(sizeof(int) + username.length());
+            std::string username;
+            while (!buffer.empty()) {
+                char c = unpack<char>(buffer);
+                if (c == '\0') break;
+                username += c;
+            }
             
             // Desempaquetar contenido
-            std::string content = unpack(buffer);
-            buffer = buffer.substr(sizeof(int) + content.length());
+            std::string content;
+            while (!buffer.empty()) {
+                char c = unpack<char>(buffer);
+                if (c == '\0') break;
+                content += c;
+            }
             
-            // Procesar según tipo de mensaje
+            // Procesar según tipo 
             if (msgType == MSG_DISCONNECT) {
                 // Mensaje de desconexión del servidor
                 std::cout << "\n[INFO] " << content << std::endl;
@@ -128,8 +103,13 @@ void receiveMessages() {
                 break;
                 
             } else if (msgType == MSG_PRIVATE) {
-                // Mensaje privado recibido
-                std::string recipient = unpack(buffer);
+                // Mensaje privado recibido - desempaquetar destinatario
+                std::string recipient;
+                while (!buffer.empty()) {
+                    char c = unpack<char>(buffer);
+                    if (c == '\0') break;
+                    recipient += c;
+                }
                 std::cout << "\n[PRIVADO] " << username << " te dice: " << content << std::endl;
                 std::cout << "> " << std::flush;
                 
@@ -150,7 +130,8 @@ void receiveMessages() {
 }
 
 /**
- * @brief Muestra la ayuda de comandos disponibles
+ * @brief Muestra la ayuda de comandos disponibles en la consola
+ * @details Lista todos los comandos que el usuario puede utilizar en el chat
  */
 void showHelp() {
     std::cout << "\n========== COMANDOS DISPONIBLES ==========" << std::endl;
@@ -162,8 +143,10 @@ void showHelp() {
 }
 
 /**
- * @brief Procesa comandos especiales del usuario
- * @return true si se procesó un comando especial, false en caso contrario
+ * @brief Procesa comandos especiales del usuario (/privado, /ayuda, etc.)
+ * @param input Cadena ingresada por el usuario
+ * @return true si se procesó un comando especial, false si es un mensaje normal
+ * @details Si el comando es inválido, muestra mensaje de error y retorna true
  */
 bool processCommand(const std::string& input) {
     if (input == "/ayuda" || input == "/help") {
@@ -208,13 +191,17 @@ bool processCommand(const std::string& input) {
 
 /**
  * @brief Función principal del cliente
+ * @return 0 si la ejecución fue exitosa, 1 si hubo error
+ * @details Solicita nombre de usuario, conecta al servidor en 127.0.0.1:3000,
+ *          crea hilo para recibir mensajes, y gestiona el bucle de envío de mensajes.
+ *          Maneja desconexión ordenada con exit() y limpia recursos al terminar.
  */
 int main() {
     const char* SERVER_IP = "127.0.0.1";
     const int PORT = 3000;
     
     std::cout << "========================================" << std::endl;
-    std::cout << "       CLIENTE CHAT-ROOM v2.0          " << std::endl;
+    std::cout << "            CLIENTE AEC2                " << std::endl;
     std::cout << "========================================" << std::endl;
     std::cout << std::endl;
     
@@ -229,7 +216,8 @@ int main() {
     std::cout << "\n[INFO] Conectando al servidor " << SERVER_IP << ":" << PORT << "..." << std::endl;
     
     // Inicializar conexión con el servidor
-    clientSocket = initClient(SERVER_IP, PORT);
+    connection_t conn = initClient(std::string(SERVER_IP), PORT);
+    clientSocket = conn.socket;
     
     if (clientSocket < 0) {
         std::cerr << "[ERROR] No se pudo conectar al servidor" << std::endl;

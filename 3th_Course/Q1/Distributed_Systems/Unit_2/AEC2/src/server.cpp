@@ -1,104 +1,64 @@
-/**
- * @file server.cpp
- * @brief Servidor de Chat-Room que gestiona múltiples clientes concurrentemente
- * 
- * Funcionalidades implementadas:
- * - Escucha en puerto 3000
- * - Gestión de múltiples clientes usando hilos
- * - Broadcast de mensajes públicos a todos los clientes
- * - Mensajes privados entre usuarios específicos (EXTENSIÓN)
- * - Cierre ordenado de conexiones para evitar "lost connection" (EXTENSIÓN)
- * - Lista de usuarios con pares {nombre, clientId}
- */
+/*====================================================================================================*/
+/*                                                                                                    */
+/*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
+/*      AEC2 - Sistemas Distribuidos                      ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
+/*      created:        29/10/2025  -  03:00:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
+/*      last change:    09/11/2025  -  22:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
+/*                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        */
+/*                                                                                                    */
+/*      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             */
+/*                                                                                                    */
+/*      Github:                                           https://github.com/ismaelucky342            */
+/*                                                                                                    */
+/*====================================================================================================*/
 
-#include <iostream>
-#include <string>
-#include <list>
-#include <thread>
-#include <mutex>
-#include <algorithm>
-#include <cstring>
 #include "../include/protocol.h"
 
-// Declaraciones de funciones de libUtils
-extern "C" {
-    int initServer(int port);
-    int checkClient();
-    int getLastClientID();
-    void recvMSG(int clientID, std::string* buffer);
-    void sendMSG(int clientID, const std::string& buffer);
-    void closeConnection(int clientID);
-}
-
-// Pack y unpack para serialización
-std::string pack(const std::string& data);
-std::string unpack(const std::string& data);
-
-// Estructura para almacenar información del cliente
-struct ClientInfo {
-    int clientId;
-    std::string username;
-    
-    ClientInfo(int id, const std::string& name) : clientId(id), username(name) {}
-};
-
-// Lista compartida de clientes conectados
 std::list<ClientInfo> connectedClients;
 std::mutex clientsMutex;
 
 /**
- * @brief Serializa datos con formato: [longitud][contenido]
- */
-std::string pack(const std::string& data) {
-    int length = data.length();
-    std::string packed;
-    packed.append(reinterpret_cast<char*>(&length), sizeof(int));
-    packed.append(data);
-    return packed;
-}
-
-/**
- * @brief Deserializa datos del formato [longitud][contenido]
- */
-std::string unpack(const std::string& data) {
-    if (data.length() < sizeof(int)) {
-        return "";
-    }
-    int length;
-    std::memcpy(&length, data.c_str(), sizeof(int));
-    
-    if (data.length() < sizeof(int) + length) {
-        return "";
-    }
-    
-    return data.substr(sizeof(int), length);
-}
-
-/**
  * @brief Envía un mensaje a un cliente específico
+ * @param clientId ID del socket del cliente destinatario
+ * @param msg Estructura Message con todos los campos del mensaje
+ * @details Empaqueta el tipo, username, contenido y (si es privado) destinatario
  */
 void sendToClient(int clientId, const Message& msg) {
-    std::string buffer;
+    std::vector<unsigned char> buffer;
     
     // Empaquetar tipo de mensaje
-    buffer += pack(std::to_string(static_cast<int>(msg.type)));
+    int tipo = static_cast<int>(msg.type);
+    pack(buffer, tipo);
     
     // Empaquetar username
-    buffer += pack(msg.username);
+    for (char c : msg.username) {
+        pack(buffer, c);
+    }
+    pack(buffer, '\0');
     
     // Empaquetar contenido
-    buffer += pack(msg.content);
+    for (char c : msg.content) {
+        pack(buffer, c);
+    }
+    pack(buffer, '\0');
     
-    // Si es mensaje privado, empaquetar destinatario
+    // empaquetar destinatario si esq es privado
     if (msg.type == MSG_PRIVATE) {
-        buffer += pack(msg.recipient);
+        for (char c : msg.recipient) {
+            pack(buffer, c);
+        }
+        pack(buffer, '\0');
     }
     
     sendMSG(clientId, buffer);
 }
 
 /**
- * @brief Busca un cliente por nombre de usuario
+ * @brief Busca un cliente por nombre de usuario en la lista compartida
+ * @param username Nombre de usuario a buscar
+ * @return ID del cliente si se encuentra, -1 si no existe
+ * @details Thread-safe: adquiere lock del mutex antes de buscar
  */
 int findClientByUsername(const std::string& username) {
     std::lock_guard<std::mutex> lock(clientsMutex);
@@ -115,7 +75,10 @@ int findClientByUsername(const std::string& username) {
 }
 
 /**
- * @brief Obtiene el nombre de usuario de un cliente
+ * @brief Obtiene el nombre de usuario asociado a un cliente
+ * @param clientId ID del socket del cliente
+ * @return Nombre de usuario si se encuentra, "Unknown" si no existe
+ * @details Thread-safe: adquiere lock del mutex antes de buscar
  */
 std::string getUsername(int clientId) {
     std::lock_guard<std::mutex> lock(clientsMutex);
@@ -133,6 +96,9 @@ std::string getUsername(int clientId) {
 
 /**
  * @brief Envía un mensaje a todos los clientes excepto al remitente
+ * @param senderId ID del cliente que envió el mensaje original
+ * @param msg Estructura Message a reenviar
+ * @details Thread-safe: adquiere lock del mutex antes de iterar la lista
  */
 void broadcastMessage(int senderId, const Message& msg) {
     std::lock_guard<std::mutex> lock(clientsMutex);
@@ -145,18 +111,22 @@ void broadcastMessage(int senderId, const Message& msg) {
 }
 
 /**
- * @brief Maneja la comunicación con un cliente individual
+ * @brief Maneja la comunicación con un cliente individual en un hilo separado
+ * @param clientId ID del socket del cliente a gestionar
+ * @details Recibe nombre de usuario, registra cliente, procesa mensajes en bucle,
+ *          maneja tipos de mensaje (público, privado, desconexión), y limpia
+ *          recursos al terminar. Se ejecuta en un hilo detached.
  */
 void handleClient(int clientId) {
-    std::string buffer;
+    std::vector<unsigned char> buffer;
     std::string username = "User_" + std::to_string(clientId);
     bool isConnected = true;
     
     std::cout << "[INFO] Cliente " << clientId << " conectado. Esperando nombre de usuario..." << std::endl;
     
     try {
-        // Esperar el nombre de usuario (primer mensaje)
-        recvMSG(clientId, &buffer);
+        // Esperar el nombre de usuario 
+        recvMSG(clientId, buffer);
         
         if (buffer.empty()) {
             std::cout << "[ERROR] No se recibió nombre de usuario del cliente " << clientId << std::endl;
@@ -164,12 +134,16 @@ void handleClient(int clientId) {
             return;
         }
         
-        // Desempaquetar el nombre de usuario
-        std::string typeStr = unpack(buffer);
-        buffer = buffer.substr(sizeof(int) + typeStr.length());
-        username = unpack(buffer);
+        // Desempaquetar el usuario
+        int msgType = unpack<int>(buffer);
+        username.clear();
+        while (!buffer.empty()) {
+            char c = unpack<char>(buffer);
+            if (c == '\0') break;
+            username += c;
+        }
         
-        // Registrar cliente en la lista
+        // Registrar cliente
         {
             std::lock_guard<std::mutex> lock(clientsMutex);
             connectedClients.emplace_back(clientId, username);
@@ -181,10 +155,10 @@ void handleClient(int clientId) {
         Message joinMsg(MSG_PUBLIC, "SERVIDOR", username + " se ha unido al chat");
         broadcastMessage(clientId, joinMsg);
         
-        // Bucle principal de recepción de mensajes
+        // recepción de mensajes
         while (isConnected) {
             buffer.clear();
-            recvMSG(clientId, &buffer);
+            recvMSG(clientId, buffer);
             
             if (buffer.empty()) {
                 // Conexión perdida o cerrada
@@ -193,19 +167,24 @@ void handleClient(int clientId) {
                 break;
             }
             
-            // Desempaquetar mensaje
-            std::string typeStr = unpack(buffer);
-            buffer = buffer.substr(sizeof(int) + typeStr.length());
+            // Desempaquetar
+            msgType = unpack<int>(buffer);
             
-            int msgType = std::stoi(typeStr);
+            std::string msgUsername;
+            while (!buffer.empty()) {
+                char c = unpack<char>(buffer);
+                if (c == '\0') break;
+                msgUsername += c;
+            }
             
-            std::string msgUsername = unpack(buffer);
-            buffer = buffer.substr(sizeof(int) + msgUsername.length());
+            std::string content;
+            while (!buffer.empty()) {
+                char c = unpack<char>(buffer);
+                if (c == '\0') break;
+                content += c;
+            }
             
-            std::string content = unpack(buffer);
-            buffer = buffer.substr(sizeof(int) + content.length());
-            
-            // Procesar según tipo de mensaje
+            // Procesar según tipo 
             if (msgType == MSG_DISCONNECT) {
                 std::cout << "[DESCONEXIÓN] Usuario '" << username << "' ha salido del chat" << std::endl;
                 
@@ -213,7 +192,7 @@ void handleClient(int clientId) {
                 Message leaveMsg(MSG_PUBLIC, "SERVIDOR", username + " ha salido del chat");
                 broadcastMessage(clientId, leaveMsg);
                 
-                // EXTENSIÓN 1: Enviar confirmación de desconexión antes de cerrar
+                // BONUS 1: Enviar confirmación de desconexión antes de cerrar
                 Message disconnectConfirm(MSG_DISCONNECT, "SERVIDOR", "Desconexión confirmada");
                 sendToClient(clientId, disconnectConfirm);
                 
@@ -221,8 +200,13 @@ void handleClient(int clientId) {
                 break;
                 
             } else if (msgType == MSG_PRIVATE) {
-                // EXTENSIÓN 2: Mensaje privado
-                std::string recipient = unpack(buffer);
+                // BONUS 2: Mensaje privado
+                std::string recipient;
+                while (!buffer.empty()) {
+                    char c = unpack<char>(buffer);
+                    if (c == '\0') break;
+                    recipient += c;
+                }
                 
                 std::cout << "[PRIVADO] De: " << username << " Para: " << recipient 
                           << " | Mensaje: " << content << std::endl;
@@ -245,7 +229,6 @@ void handleClient(int clientId) {
                 }
                 
             } else if (msgType == MSG_PUBLIC) {
-                // Mensaje público (broadcast)
                 std::cout << "[PÚBLICO] " << username << " dice: " << content << std::endl;
                 
                 Message publicMsg(MSG_PUBLIC, username, content);
@@ -270,12 +253,15 @@ void handleClient(int clientId) {
 
 /**
  * @brief Función principal del servidor
+ * @return 0 si la ejecución fue exitosa, 1 si hubo error al inicializar
+ * @details Inicializa servidor en puerto 3000, entra en bucle infinito
+ *          aceptando clientes, crea un hilo detached para cada cliente nuevo.
  */
 int main() {
     const int PORT = 3000;
     
     std::cout << "========================================" << std::endl;
-    std::cout << "    SERVIDOR CHAT-ROOM - PUERTO 3000   " << std::endl;
+    std::cout << "              SERVIDOR AEC2             " << std::endl;
     std::cout << "========================================" << std::endl;
     std::cout << std::endl;
     
@@ -292,13 +278,13 @@ int main() {
     
     std::list<std::thread> clientThreads;
     
-    // Bucle principal de aceptación de clientes
+    // Bucle principal de clientes
     while (true) {
-        // Comprobar si hay nuevos clientes
-        int result = checkClient();
+        // Comprobar si hay nuevos cli
+        bool result = checkClient();
         
-        if (result > 0) {
-            // Nuevo cliente conectado
+        if (result) {
+            // Nuevo cliente 
             int clientId = getLastClientID();
             
             // Crear un hilo para manejar este cliente
@@ -306,7 +292,7 @@ int main() {
             clientThreads.back().detach(); // Detach para ejecutar de forma independiente
         }
         
-        // Pequeña pausa para no saturar la CPU
+        // pausita o peta
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     
