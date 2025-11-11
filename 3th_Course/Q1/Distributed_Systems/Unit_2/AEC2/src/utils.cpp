@@ -171,9 +171,6 @@ bool checkPendingMessages(int clientID)
     return clientList[clientID].buffer->size()>0 ;
 }
 
-
-
-
 bool checkClient()
 {
     return waitingClients.size()>0;

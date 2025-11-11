@@ -217,9 +217,9 @@ int main() {
     
     // Inicializar conexión con el servidor
     connection_t conn = initClient(std::string(SERVER_IP), PORT);
-    clientSocket = conn.socket;
+    clientSocket = conn.serverId;  // Usar el ID del cliente, no el socket directo
     
-    if (clientSocket < 0) {
+    if (conn.socket < 0 || !conn.alive) {
         std::cerr << "[ERROR] No se pudo conectar al servidor" << std::endl;
         std::cerr << "[INFO] Asegúrate de que el servidor esté ejecutándose" << std::endl;
         return 1;

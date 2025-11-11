@@ -15,6 +15,14 @@
 
 #include "../include/protocol.h"
 
+// Estructura para almacenar información del cliente
+struct ClientInfo {
+    int clientId;
+    std::string username;
+    
+    ClientInfo(int id, const std::string& name) : clientId(id), username(name) {}
+};
+
 std::list<ClientInfo> connectedClients;
 std::mutex clientsMutex;
 

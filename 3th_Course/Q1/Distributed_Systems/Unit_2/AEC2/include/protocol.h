@@ -49,12 +49,5 @@ struct Message {
         : type(t), username(user), content(msg), recipient(recip) {}
 };
 
-// Estructura para almacenar información del cliente
-struct ClientInfo {
-    int clientId;
-    std::string username;
-    
-    ClientInfo(int id, const std::string& name) : clientId(id), username(name) {}
-};
 
 #endif 
