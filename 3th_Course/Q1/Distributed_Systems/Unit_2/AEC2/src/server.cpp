@@ -58,7 +58,6 @@ void sendToClient(int clientId, const Message& msg) {
         }
         pack(buffer, '\0');
     }
-    
     sendMSG(clientId, buffer);
 }
 
@@ -103,18 +102,16 @@ std::string getUsername(int clientId) {
 }
 
 /**
- * @brief Envía un mensaje a todos los clientes excepto al remitente
- * @param senderId ID del cliente que envió el mensaje original
+ * @brief Envía un mensaje a todos los clientes
+ * @param senderId ID del cliente que envió el mensaje original (para logging)
  * @param msg Estructura Message a reenviar
  * @details Thread-safe: adquiere lock del mutex antes de iterar la lista
  */
 void broadcastMessage(int senderId, const Message& msg) {
     std::lock_guard<std::mutex> lock(clientsMutex);
-    
+
     for (const auto& client : connectedClients) {
-        if (client.clientId != senderId) {
-            sendToClient(client.clientId, msg);
-        }
+        sendToClient(client.clientId, msg);
     }
 }
 
@@ -132,23 +129,50 @@ void handleClient(int clientId) {
     
     std::cout << "[INFO] Cliente " << clientId << " conectado. Esperando nombre de usuario..." << std::endl;
     
-    try {
-        // Esperar el nombre de usuario 
-        recvMSG(clientId, buffer);
-        
-        if (buffer.empty()) {
-            std::cout << "[ERROR] No se recibió nombre de usuario del cliente " << clientId << std::endl;
+        try {
+            // Esperar el mensaje de conexión - usar operaciones directas del socket
+            int bufferSize = 0;
+            int readData = read(clientList[clientId].socket, &bufferSize, sizeof(int));
+            if (readData <= 0) {
+                std::cout << "[ERROR] No se pudo leer el tamaño del mensaje de conexión del cliente " << clientId << std::endl;
+                closeConnection(clientId);
+                return;
+            }
+
+            buffer.resize(bufferSize);
+            int remaining = bufferSize;
+            while (remaining > 0) {
+                int bytesRead = read(clientList[clientId].socket, &buffer[bufferSize - remaining], remaining);
+                if (bytesRead <= 0) {
+                    std::cout << "[ERROR] Error al leer datos de conexión del cliente " << clientId << std::endl;
+                    closeConnection(clientId);
+                    return;
+                }
+                remaining -= bytesRead;
+            }
+
+        // Desempaquetar tipo de mensaje
+        int msgType = unpack<int>(buffer);
+        if (msgType != MSG_CONNECT) {
+            std::cout << "[ERROR] Se esperaba MSG_CONNECT, recibido tipo " << msgType << " del cliente " << clientId << std::endl;
             closeConnection(clientId);
             return;
         }
-        
-        // Desempaquetar el usuario
-        int msgType = unpack<int>(buffer);
+
+        // Desempaquetar el username
         username.clear();
         while (!buffer.empty()) {
             char c = unpack<char>(buffer);
             if (c == '\0') break;
             username += c;
+        }
+
+        // Desempaquetar contenido (debería estar vacío para MSG_CONNECT)
+        std::string content;
+        while (!buffer.empty()) {
+            char c = unpack<char>(buffer);
+            if (c == '\0') break;
+            content += c;
         }
         
         // Registrar cliente
@@ -166,14 +190,29 @@ void handleClient(int clientId) {
         // recepción de mensajes
         while (isConnected) {
             buffer.clear();
-            recvMSG(clientId, buffer);
-            
-            if (buffer.empty()) {
-                // Conexión perdida o cerrada
+
+            // Leer tamaño del mensaje
+            int bufferSize = 0;
+            int readData = read(clientList[clientId].socket, &bufferSize, sizeof(int));
+            if (readData <= 0) {
                 std::cout << "[DESCONEXIÓN] Cliente " << clientId << " (" << username << ") desconectado" << std::endl;
                 isConnected = false;
                 break;
             }
+
+            buffer.resize(bufferSize);
+            int remaining = bufferSize;
+            while (remaining > 0) {
+                int bytesRead = read(clientList[clientId].socket, &buffer[bufferSize - remaining], remaining);
+                if (bytesRead <= 0) {
+                    std::cout << "[DESCONEXIÓN] Cliente " << clientId << " (" << username << ") desconectado" << std::endl;
+                    isConnected = false;
+                    break;
+                }
+                remaining -= bytesRead;
+            }
+
+            if (!isConnected) break;
             
             // Desempaquetar
             msgType = unpack<int>(buffer);
@@ -290,16 +329,16 @@ int main() {
     while (true) {
         // Comprobar si hay nuevos cli
         bool result = checkClient();
-        
+
         if (result) {
-            // Nuevo cliente 
+            // Nuevo cliente
             int clientId = getLastClientID();
-            
+
             // Crear un hilo para manejar este cliente
             clientThreads.emplace_back(handleClient, clientId);
             clientThreads.back().detach(); // Detach para ejecutar de forma independiente
         }
-        
+
         // pausita o peta
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }

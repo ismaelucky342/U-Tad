@@ -90,6 +90,7 @@ connection_t initClient(std::string host, int port)
     connection.id=localID;
     connection.socket=sock_out;
     connection.buffer=new std::list<msg_t*>();
+    connection.alive=true;
     contador_mutex.lock();
       connection.serverId=contador;
       clientList[contador]=connection;

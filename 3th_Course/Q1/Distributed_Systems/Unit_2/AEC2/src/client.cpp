@@ -26,23 +26,23 @@ std::string myUsername;
  */
 void sendMessage(const Message& msg) {
     std::vector<unsigned char> buffer;
-    
+
     // Empaquetar tipo de mensaje
     int tipo = static_cast<int>(msg.type);
     pack(buffer, tipo);
-    
+
     // Empaquetar username
     for (char c : msg.username) {
         pack(buffer, c);
     }
     pack(buffer, '\0'); // Null terminator
-    
+
     // Empaquetar contenido
     for (char c : msg.content) {
         pack(buffer, c);
     }
     pack(buffer, '\0');
-    
+
     // Si es privado, empaquetar destinatario
     if (msg.type == MSG_PRIVATE) {
         for (char c : msg.recipient) {
@@ -50,8 +50,11 @@ void sendMessage(const Message& msg) {
         }
         pack(buffer, '\0');
     }
-    
-    sendMSG(clientSocket, buffer);
+
+    // Enviar directamente al socket del cliente
+    int dataLen = buffer.size();
+    write(clientSocket, &dataLen, sizeof(int));
+    write(clientSocket, buffer.data(), dataLen);
 }
 
 /**
@@ -62,23 +65,39 @@ void sendMessage(const Message& msg) {
  */
 void receiveMessages() {
     std::vector<unsigned char> buffer;
-    
+
     while (isRunning) {
         buffer.clear();
-        recvMSG(clientSocket, buffer);
-        
-        if (buffer.empty()) {
+
+        // Recibir directamente del socket
+        int bufferSize = 0;
+        int readData = read(clientSocket, &bufferSize, sizeof(int));
+        if (readData <= 0) {
             if (isRunning) {
                 std::cout << "\n[INFO] Conexión cerrada por el servidor" << std::endl;
                 isRunning = false;
             }
             break;
         }
-        
+
+        buffer.resize(bufferSize);
+        int remaining = bufferSize;
+        while (remaining > 0) {
+            int bytesRead = read(clientSocket, &buffer[bufferSize - remaining], remaining);
+            if (bytesRead <= 0) {
+                std::cout << "\n[ERROR] Error al leer datos del servidor" << std::endl;
+                isRunning = false;
+                break;
+            }
+            remaining -= bytesRead;
+        }
+
+        if (!isRunning) break;
+
         try {
             // Desempaquetar tipo
             int msgType = unpack<int>(buffer);
-            
+
             // Desempaquetar username
             std::string username;
             while (!buffer.empty()) {
@@ -86,7 +105,7 @@ void receiveMessages() {
                 if (c == '\0') break;
                 username += c;
             }
-            
+
             // Desempaquetar contenido
             std::string content;
             while (!buffer.empty()) {
@@ -94,14 +113,14 @@ void receiveMessages() {
                 if (c == '\0') break;
                 content += c;
             }
-            
-            // Procesar según tipo 
+
+            // Procesar según tipo
             if (msgType == MSG_DISCONNECT) {
                 // Mensaje de desconexión del servidor
                 std::cout << "\n[INFO] " << content << std::endl;
                 isRunning = false;
                 break;
-                
+
             } else if (msgType == MSG_PRIVATE) {
                 // Mensaje privado recibido - desempaquetar destinatario
                 std::string recipient;
@@ -112,7 +131,7 @@ void receiveMessages() {
                 }
                 std::cout << "\n[PRIVADO] " << username << " te dice: " << content << std::endl;
                 std::cout << "> " << std::flush;
-                
+
             } else if (msgType == MSG_PUBLIC) {
                 // Mensaje público
                 if (username == "SERVIDOR") {
@@ -122,7 +141,7 @@ void receiveMessages() {
                 }
                 std::cout << "> " << std::flush;
             }
-            
+
         } catch (const std::exception& e) {
             std::cerr << "\n[ERROR] Error al procesar mensaje: " << e.what() << std::endl;
         }
@@ -217,7 +236,8 @@ int main() {
     
     // Inicializar conexión con el servidor
     connection_t conn = initClient(std::string(SERVER_IP), PORT);
-    clientSocket = conn.serverId;  // Usar el ID del cliente, no el socket directo
+    clientSocket = conn.socket;  // Usar el socket fd para enviar mensajes
+    int clientId = conn.serverId;  // Guardar el ID del cliente para cerrar conexión
     
     if (conn.socket < 0 || !conn.alive) {
         std::cerr << "[ERROR] No se pudo conectar al servidor" << std::endl;
@@ -283,7 +303,7 @@ int main() {
     }
     
     // Cerrar conexión
-    closeConnection(clientSocket);
+    closeConnection(clientId);
     
     std::cout << "\n[INFO] Desconectado del servidor. ¡Hasta pronto!" << std::endl;
     
