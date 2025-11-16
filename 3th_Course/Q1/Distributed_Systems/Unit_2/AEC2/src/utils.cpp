@@ -4,7 +4,7 @@
 /*      AEC2 - Sistemas Distribuidos                      ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
 /*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
 /*      created:        29/10/2025  -  03:00:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
-/*      last change:    09/11/2025  -  22:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
+/*      last change:    15/11/2025  -  02:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
 /*                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        */
 /*                                                                                                    */
 /*      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             */
@@ -68,7 +68,7 @@ connection_t initClient(std::string host, int port)
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(port);
 
-    // Convert IPv4 and IPv6 addresses from text to binary form
+    /** Convierte direcciones IPv4 e IPv6 de texto a forma binaria */
     if(inet_pton(AF_INET, host.c_str(), &serv_addr.sin_addr)<=0)
     {
         printf("\nInvalid address/ Address not supported \n");
