@@ -1,0 +1,387 @@
+# ====================================================================================================#
+#                                                                                                     #
+#                                                         ██╗   ██╗   ████████╗ █████╗ ██████╗        #
+#       AEC3 - ABDS                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       #
+#                                                         ██║   ██║█████╗██║   ███████║██║  ██║       #
+#       created:        16/11/2025  -  03:00:11           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
+#       last change:    20/11/2025  -  22:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       #
+#                                                          ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        #
+#                                                                                                     #
+#       Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             #
+#                                                                                                     #
+#       Github:                                           https://github.com/ismaelucky342            #
+#                                                                                                     #
+# ====================================================================================================#
+
+# ========================================
+# 1. COLA DE MANTENIMIENTO RUTINARIO (FIFO)
+# ========================================
+# Los vehículos entran al final (RPUSH) y se procesan desde el principio (LPOP)
+
+# Añadir vehículos a la cola de mantenimiento
+RPUSH queue:mantenimiento:rutinario V001 V005 V007 V012
+
+# Ver toda la cola sin modificarla
+LRANGE queue:mantenimiento:rutinario 0 -1
+
+# Ver cuántos vehículos hay pendientes
+LLEN queue:mantenimiento:rutinario
+
+# Técnico toma el siguiente vehículo (FIFO)
+LPOP queue:mantenimiento:rutinario  # Devuelve V001
+
+# Ver los próximos 3 vehículos sin sacarlos
+LRANGE queue:mantenimiento:rutinario 0 2
+
+
+# ========================================
+# 2. COLA DE MANTENIMIENTO URGENTE (LIFO - PILA)
+# ========================================
+# Para averías que necesitan atención inmediata
+
+# Añadir avería urgente (al principio)
+LPUSH queue:mantenimiento:urgente V023 V019
+
+# Procesar la más reciente/urgente (LIFO)
+LPOP queue:mantenimiento:urgente  # Devuelve V019
+
+# Ver cola de urgentes
+LRANGE queue:mantenimiento:urgente 0 -1
+
+
+# ========================================
+# 3. MÚLTIPLES COLAS POR TIPO DE SERVICIO
+# ========================================
+
+# Cola de revisiones periódicas (ITV, seguros)
+RPUSH queue:revisiones V008 V015 V022
+# Cola de reparaciones
+RPUSH queue:reparaciones V011 V017
+# Cola de limpieza profunda
+RPUSH queue:limpieza V003 V009 V014 V020
+# Cola de cambio de neumáticos
+RPUSH queue:neumaticos V006 V018
+
+# Procesar cada tipo
+LPOP queue:revisiones      # V008
+LPOP queue:reparaciones    # V011
+LPOP queue:limpieza        # V003
+
+
+# ========================================
+# 4. INFORMACIÓN DETALLADA DE MANTENIMIENTO (HASHES)
+# ========================================
+
+# Detalles del mantenimiento de cada vehículo
+HSET mantenimiento:V001 vehiculo_id V001 tipo "revision_programada" fecha_entrada "2025-11-20T09:00:00" km_actuales 45150 descripcion "Revisión 45.000 km" prioridad "normal" mecanico_asignado "Juan Pérez" estado "en_proceso" coste_estimado 350.00
+
+HSET mantenimiento:V023 vehiculo_id V023 tipo "averia" fecha_entrada "2025-11-20T14:30:00" km_actuales 67890 descripcion "Motor hace ruido extraño" prioridad "urgente" mecanico_asignado "Laura Gómez" estado "diagnostico" coste_estimado 0
+
+HSET mantenimiento:V008 vehiculo_id V008 tipo "ITV" fecha_entrada "2025-11-20T08:00:00" km_actuales 32000 descripcion "ITV anual" prioridad "normal" mecanico_asignado "Carlos Ruiz" estado "pendiente" coste_estimado 45.00
+
+# Consultar información completa
+HGETALL mantenimiento:V001
+
+# Actualizar estado del mantenimiento
+HSET mantenimiento:V001 estado "completado" fecha_salida "2025-11-20T16:30:00" coste_real 385.50 observaciones "Todo OK. Cambiados filtros y aceite"
+
+
+# ========================================
+# 5. HISTORIAL DE MANTENIMIENTOS (LISTS)
+# ========================================
+
+# Cada vehículo mantiene un historial de mantenimientos
+LPUSH historial:V001:mantenimientos '{"fecha":"2025-11-20","tipo":"revision","km":45150,"coste":385.50}'
+LPUSH historial:V001:mantenimientos '{"fecha":"2025-09-15","tipo":"reparacion","km":42300,"coste":567.80}'
+LPUSH historial:V001:mantenimientos '{"fecha":"2025-07-10","tipo":"revision","km":40000,"coste":320.00}'
+
+# Ver últimos 5 mantenimientos
+LRANGE historial:V001:mantenimientos 0 4
+
+# Ver mantenimiento específico (el más reciente)
+LINDEX historial:V001:mantenimientos 0
+
+# Contar total de mantenimientos históricos
+LLEN historial:V001:mantenimientos
+
+# Mantener solo los últimos 20 mantenimientos (para no crecer infinitamente)
+LTRIM historial:V001:mantenimientos 0 19
+
+
+# ========================================
+# 6. VEHÍCULOS EN MANTENIMIENTO ACTIVO (SET)
+# ========================================
+
+# Añadir vehículos que están actualmente en mantenimiento
+SADD vehiculos:en_mantenimiento V001 V008 V023
+
+# Verificar si un vehículo está en mantenimiento
+SISMEMBER vehiculos:en_mantenimiento V001  # 1 (true)
+SISMEMBER vehiculos:en_mantenimiento V002  # 0 (false)
+
+# Ver todos los que están en mantenimiento
+SMEMBERS vehiculos:en_mantenimiento
+
+# Contar cuántos hay
+SCARD vehiculos:en_mantenimiento
+
+# Vehículo sale de mantenimiento
+SREM vehiculos:en_mantenimiento V001
+
+
+# ========================================
+# 7. CONTADOR DE DÍAS EN MANTENIMIENTO
+# ========================================
+
+# Contar días acumulados en mantenimiento este mes
+HSET stats:mantenimiento:dias V001 3 V008 1 V023 5 V011 2 V017 4
+
+# Total de días en mantenimiento de la flota este mes
+# (Suma manual o con script)
+HGETALL stats:mantenimiento:dias
+
+# Incrementar cuando un vehículo pasa un día más
+HINCRBY stats:mantenimiento:dias V023 1
+
+
+# ========================================
+# 8. COSTES DE MANTENIMIENTO
+# ========================================
+
+# Costes acumulados por vehículo
+HSET stats:mantenimiento:costes V001 1250.50 V008 890.30 V023 2567.80
+
+# Incrementar coste cuando se completa mantenimiento
+HINCRBYFLOAT stats:mantenimiento:costes V001 385.50
+
+# Coste total de mantenimiento del mes
+SET stats:mantenimiento:coste_mes:2025-11 0
+INCRBYFLOAT stats:mantenimiento:coste_mes:2025-11 385.50
+INCRBYFLOAT stats:mantenimiento:coste_mes:2025-11 567.80
+
+
+# ========================================
+# 9. ALERTAS DE MANTENIMIENTO PREVENTIVO
+# ========================================
+
+# Vehículos que necesitan revisión pronto (basado en km o fecha)
+ZADD alert:proxima_revision 46000 V001 33000 V008 51000 V012 48000 V015
+
+# Vehículos que ya pasaron el límite (más de 50000 km sin revisión)
+ZRANGEBYSCORE alert:proxima_revision 50000 +inf WITHSCORES
+
+# Vehículos que necesitan revisión en los próximos 2000 km
+ZRANGEBYSCORE alert:proxima_revision 45000 47000 WITHSCORES
+
+# Actualizar cuando se hace la revisión
+ZADD alert:proxima_revision 50000 V001  # Próxima revisión a los 50.000 km
+
+
+# ========================================
+# 10. PRIORIZACIÓN DE MANTENIMIENTO
+# ========================================
+# Sorted Set donde score = nivel de prioridad (mayor = más urgente)
+
+ZADD queue:mantenimiento:priorizado 10 V023 5 V008 3 V001 8 V011 2 V017
+
+# Procesar por prioridad (más urgente primero)
+ZREVRANGE queue:mantenimiento:priorizado 0 0  # V023
+ZPOPMAX queue:mantenimiento:priorizado  # Devuelve y elimina V023
+
+# Ver todos ordenados por prioridad
+ZREVRANGE queue:mantenimiento:priorizado 0 -1 WITHSCORES
+
+
+# ========================================
+# 11. BLOQUEO DE VEHÍCULOS EN MANTENIMIENTO
+# ========================================
+
+# Marcar vehículo como no disponible (en mantenimiento)
+SET bloqueo:vehiculo:V001:mantenimiento "true" EX 86400  # 24 horas
+
+# Verificar bloqueo
+GET bloqueo:vehiculo:V001:mantenimiento
+
+# Desbloquear cuando sale
+DEL bloqueo:vehiculo:V001:mantenimiento
+
+
+# ========================================
+# 12. MECÁNICOS Y SUS COLAS DE TRABAJO
+# ========================================
+
+# Cola de vehículos asignados a cada mecánico
+RPUSH mecanico:juanperez:cola V001 V015 V022
+RPUSH mecanico:lauragomez:cola V023 V011
+RPUSH mecanico:carlosruiz:cola V008
+
+# Mecánico toma su siguiente trabajo
+LPOP mecanico:juanperez:cola  # V001
+
+# Ver carga de trabajo de cada mecánico
+LLEN mecanico:juanperez:cola   # 2
+LLEN mecanico:lauragomez:cola  # 2
+LLEN mecanico:carlosruiz:cola  # 1
+
+# Balancear carga: mover trabajo de Laura a Carlos
+RPOPLPUSH mecanico:lauragomez:cola mecanico:carlosruiz:cola
+
+
+# ========================================
+# 13. TIEMPO ESTIMADO DE COMPLETACIÓN
+# ========================================
+
+# Tiempo estimado por tipo de mantenimiento (en horas)
+HSET tiempo:estimado:mantenimiento revision 4 reparacion 8 ITV 2 limpieza 3 neumaticos 1.5 diagnostico 2
+
+# Obtener tiempo estimado
+HGET tiempo:estimado:mantenimiento revision  # 4 horas
+
+# Calcular tiempo total de la cola
+# (Esto se haría con lógica en la aplicación)
+
+
+# ========================================
+# 14. ESTADÍSTICAS DE EFICIENCIA
+# ========================================
+
+# Tiempo promedio de mantenimiento por tipo
+HSET stats:tiempo_promedio:mantenimiento revision 4.2 reparacion 9.5 ITV 1.8 limpieza 2.9
+
+# Número de mantenimientos completados
+HSET stats:mantenimientos:completados revision 234 reparacion 89 ITV 156 limpieza 203
+
+# Incrementar al completar
+HINCRBY stats:mantenimientos:completados revision 1
+HINCRBYFLOAT stats:tiempo_promedio:mantenimiento revision 0.1
+
+
+# ========================================
+# 15. NOTIFICACIONES DE MANTENIMIENTO
+# ========================================
+
+# Lista de pendientes de notificar
+RPUSH notifications:mantenimiento:pendientes "V001:completado" "V023:diagnostico" "V008:en_proceso"
+
+# Procesar notificaciones
+LPOP notifications:mantenimiento:pendientes  # "V001:completado"
+
+# Enviar y marcar como enviada
+SADD notifications:mantenimiento:enviadas "V001:completado"
+
+
+# ========================================
+# 16. PIEZAS Y REPUESTOS NECESARIOS
+# ========================================
+
+# Lista de piezas necesarias para cada vehículo en mantenimiento
+RPUSH mantenimiento:V001:piezas "filtro_aceite" "aceite_5w30:5L" "filtro_aire" "pastillas_freno"
+RPUSH mantenimiento:V023:piezas "correa_distribucion" "bomba_agua" "rodamiento"
+
+# Ver piezas necesarias
+LRANGE mantenimiento:V001:piezas 0 -1
+
+# Marcar pieza como instalada (eliminar de la lista)
+LREM mantenimiento:V001:piezas 1 "filtro_aceite"
+
+
+# ========================================
+# 17. CALENDARIO DE MANTENIMIENTOS PROGRAMADOS
+# ========================================
+# Sorted Set donde score = timestamp de la fecha programada
+
+ZADD calendario:mantenimiento 1732147200 V001 1732233600 V008 1732320000 V015 1732406400 V022
+
+# Mantenimientos de esta semana
+ZRANGEBYSCORE calendario:mantenimiento 1732060800 1732665600 WITHSCORES
+
+# Mantenimientos de hoy
+# (Usar timestamps del día actual)
+ZRANGEBYSCORE calendario:mantenimiento 1732147200 1732233599
+
+# Vehículos con mantenimiento atrasado (antes de hoy)
+ZRANGEBYSCORE calendario:mantenimiento 0 1732060800
+
+
+# ========================================
+# 18. TRANSFER ENTRE COLAS
+# ========================================
+
+# Mover vehículo de una cola a otra (cambio de prioridad)
+# De rutinario a urgente
+LREM queue:mantenimiento:rutinario 1 V007
+LPUSH queue:mantenimiento:urgente V007
+
+# Usando RPOPLPUSH (atómico)
+RPOPLPUSH queue:mantenimiento:rutinario queue:mantenimiento:urgente
+
+
+# ========================================
+# 19. COLA BLOQUEANTE (Para Workers)
+# ========================================
+# Útil cuando tienes workers esperando trabajo
+
+# Worker esperando trabajo (bloqueante)
+# BLPOP queue:mantenimiento:rutinario 0  # Espera indefinidamente
+# BLPOP queue:mantenimiento:rutinario 30  # Espera máximo 30 segundos
+
+# Otro proceso añade trabajo
+RPUSH queue:mantenimiento:rutinario V025
+
+# El worker recibe V025 automáticamente
+
+
+# ========================================
+# 20. ORDEN DE ENTRADA (TIMESTAMP)
+# ========================================
+
+# Registrar cuándo entró cada vehículo
+ZADD registro:entrada:mantenimiento 1732099200 V001 1732102800 V008 1732106400 V023
+
+# Ver orden de entrada
+ZRANGE registro:entrada:mantenimiento 0 -1 WITHSCORES
+
+# Vehículos que llevan más de 24h en mantenimiento
+# (Timestamp actual - 86400)
+ZRANGEBYSCORE registro:entrada:mantenimiento 0 1732012800
+
+
+# ========================================
+# 21. CLEANUP: DATOS TEMPORALES
+# ========================================
+
+# Al completar mantenimiento, limpiar datos temporales
+DEL mantenimiento:V001
+DEL mantenimiento:V001:piezas
+SREM vehiculos:en_mantenimiento V001
+DEL bloqueo:vehiculo:V001:mantenimiento
+
+# Archivar en historial (ya hecho antes)
+LPUSH historial:V001:mantenimientos '{"fecha":"2025-11-20","tipo":"revision","coste":385.50}'
+
+
+# ========================================
+# RESUMEN DE COMANDOS UTILIZADOS:
+# ========================================
+# LISTS: RPUSH, LPUSH, LPOP, RPOP, LRANGE, LLEN, LINDEX,
+#        LREM, LTRIM, RPOPLPUSH, BLPOP
+# HASHES: HSET, HGET, HGETALL, HINCRBY, HINCRBYFLOAT
+# SETS: SADD, SMEMBERS, SISMEMBER, SCARD, SREM
+# SORTED SETS: ZADD, ZRANGE, ZRANGEBYSCORE, ZREVRANGE, ZPOPMAX
+# STRINGS: SET, GET, DEL, INCRBYFLOAT
+# ========================================
+
+# ========================================
+# NOTAS PERSONALES:
+# ========================================
+# - LISTS son perfectas para colas FIFO (RPUSH + LPOP)
+# - LPUSH + LPOP para LIFO (pilas) si necesito prioridad inversa
+# - Múltiples colas permiten organizar por tipo de servicio
+# - SORTED SETS para priorización o programación por fecha
+# - RPOPLPUSH permite mover elementos entre colas atómicamente
+# - BLPOP es ideal para workers que esperan trabajo (patrón productor-consumidor)
+# - LTRIM mantiene el historial acotado (no crece infinitamente)
+# - Los HASHES guardan detalles sin necesitar múltiples claves
+# - Combino structures: LIST para cola, HASH para detalles, SET para tracking
+# - Las colas por mecánico permiten balanceo de carga
+# ========================================

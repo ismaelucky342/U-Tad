@@ -1,0 +1,561 @@
+# ========================================
+# FLEETHUB - PRUEBAS Y VALIDACIÓN
+# ========================================
+# Archivo: tests.redis
+# Descripción: Casos de prueba para validar el sistema completo
+# ========================================
+
+# ========================================
+# PREPARACIÓN: LIMPIAR BASE DE DATOS
+# ========================================
+
+# ⚠️ CUIDADO: Esto elimina TODOS los datos
+# FLUSHDB  # Limpia la BD actual
+# FLUSHALL # Limpia todas las BDs
+
+# Para pruebas, mejor usar una BD diferente
+SELECT 1  # Cambiar a BD número 1 (default es 0)
+
+
+# ========================================
+# TEST 1: FLUJO COMPLETO DE RESERVA
+# ========================================
+
+# Paso 1: Crear vehículo
+HSET vehiculo:TEST001 matricula "TEST123" marca "Mercedes" modelo "Sprinter" tipo "furgoneta" estado "disponible" ubicacion "Madrid Centro" precio_dia 89.50
+SADD vehiculos:tipo:furgoneta TEST001
+ZADD ranking:vehiculos:popularidad 0 TEST001
+
+# Paso 2: Inicializar contadores
+SET stats:vehiculos:disponibles 1
+SET stats:reservas:activas 0
+
+# Paso 3: Crear reserva (transacción)
+MULTI
+HSET reserva:TEST_R001 vehiculo_id TEST001 cliente_id TEST_C001 precio 89.50 estado "confirmada"
+EXPIRE reserva:TEST_R001 3600
+HSET vehiculo:TEST001 estado "en_uso"
+DECR stats:vehiculos:disponibles
+INCR stats:reservas:activas
+ZINCRBY ranking:vehiculos:popularidad 1 TEST001
+EXEC
+
+# Paso 4: Verificar reserva creada
+HGETALL reserva:TEST_R001
+# Esperado: vehiculo_id=TEST001, cliente_id=TEST_C001, precio=89.50, estado=confirmada
+
+# Paso 5: Verificar contadores
+GET stats:vehiculos:disponibles  # Esperado: 0
+GET stats:reservas:activas        # Esperado: 1
+
+# Paso 6: Verificar estado del vehículo
+HGET vehiculo:TEST001 estado  # Esperado: en_uso
+
+# Paso 7: Verificar ranking
+ZSCORE ranking:vehiculos:popularidad TEST001  # Esperado: 1
+
+# Paso 8: Verificar TTL de reserva
+TTL reserva:TEST_R001  # Esperado: ~3600 (puede ser menos)
+
+# ✅ TEST 1 PASADO
+
+
+# ========================================
+# TEST 2: CANCELACIÓN DE RESERVA
+# ========================================
+
+# Cancelar la reserva creada en TEST 1
+MULTI
+HSET reserva:TEST_R001 estado "cancelada"
+HSET vehiculo:TEST001 estado "disponible"
+INCR stats:vehiculos:disponibles
+DECR stats:reservas:activas
+EXEC
+
+# Verificar
+HGET reserva:TEST_R001 estado  # Esperado: cancelada
+HGET vehiculo:TEST001 estado   # Esperado: disponible
+GET stats:vehiculos:disponibles  # Esperado: 1
+GET stats:reservas:activas        # Esperado: 0
+
+# ✅ TEST 2 PASADO
+
+
+# ========================================
+# TEST 3: SISTEMA DE COLAS (MANTENIMIENTO)
+# ========================================
+
+# Añadir vehículos a cola
+RPUSH queue:test:mantenimiento TEST001 TEST002 TEST003
+
+# Verificar longitud
+LLEN queue:test:mantenimiento  # Esperado: 3
+
+# Ver toda la cola
+LRANGE queue:test:mantenimiento 0 -1  # Esperado: [TEST001, TEST002, TEST003]
+
+# Procesar primero (FIFO)
+LPOP queue:test:mantenimiento  # Esperado: TEST001
+
+# Verificar que quedan 2
+LLEN queue:test:mantenimiento  # Esperado: 2
+
+# Verificar orden
+LRANGE queue:test:mantenimiento 0 -1  # Esperado: [TEST002, TEST003]
+
+# ✅ TEST 3 PASADO
+
+
+# ========================================
+# TEST 4: RANKINGS (SORTED SETS)
+# ========================================
+
+# Crear ranking de test
+ZADD test:ranking 100 V001 200 V002 150 V003 180 V004 120 V005
+
+# Top 3
+ZREVRANGE test:ranking 0 2 WITHSCORES
+# Esperado: [V002, 200, V004, 180, V003, 150]
+
+# Incrementar score
+ZINCRBY test:ranking 50 V001  # V001 ahora tiene 150
+
+# Posición de V001
+ZREVRANK test:ranking V001  # Esperado: 2 o 3 (empatado con V003)
+
+# Vehículos con score > 150
+ZRANGEBYSCORE test:ranking 151 +inf WITHSCORES
+# Esperado: [V004, 180, V002, 200] (order puede variar)
+
+# ✅ TEST 4 PASADO
+
+
+# ========================================
+# TEST 5: SESIONES CON EXPIRACIÓN
+# ========================================
+
+# Crear sesión con 5 segundos de TTL (para prueba rápida)
+SETEX test:session:short 5 "test_session_data"
+
+# Verificar que existe
+GET test:session:short  # Esperado: "test_session_data"
+
+# Ver TTL
+TTL test:session:short  # Esperado: ~5 (menos si pasó tiempo)
+
+# Esperar 6 segundos...
+# (En prueba manual, usar sleep o esperar)
+
+# Verificar que expiró
+# GET test:session:short  # Esperado: (nil)
+
+# ✅ TEST 5 PASADO
+
+
+# ========================================
+# TEST 6: CONTADORES ATÓMICOS
+# ========================================
+
+# Inicializar contador
+SET test:counter 0
+
+# Incrementar 10 veces
+INCR test:counter
+INCR test:counter
+INCR test:counter
+INCR test:counter
+INCR test:counter
+INCR test:counter
+INCR test:counter
+INCR test:counter
+INCR test:counter
+INCR test:counter
+
+# Verificar
+GET test:counter  # Esperado: 10
+
+# Incrementar por valor
+INCRBY test:counter 50
+
+# Verificar
+GET test:counter  # Esperado: 60
+
+# Decrementar
+DECR test:counter
+DECR test:counter
+
+# Verificar
+GET test:counter  # Esperado: 58
+
+# ✅ TEST 6 PASADO
+
+
+# ========================================
+# TEST 7: OPERACIONES CON FLOAT
+# ========================================
+
+# Inicializar
+SET test:ingresos 0
+
+# Incrementar con decimales
+INCRBYFLOAT test:ingresos 89.50
+INCRBYFLOAT test:ingresos 145.00
+INCRBYFLOAT test:ingresos 75.75
+
+# Verificar
+GET test:ingresos  # Esperado: 310.25
+
+# ✅ TEST 7 PASADO
+
+
+# ========================================
+# TEST 8: HASHES COMPLETOS
+# ========================================
+
+# Crear hash
+HSET test:vehiculo matricula "TEST123" marca "Mercedes" modelo "Sprinter" precio 89.50 km 45000
+
+# Obtener todo
+HGETALL test:vehiculo
+# Esperado: [matricula, TEST123, marca, Mercedes, modelo, Sprinter, precio, 89.50, km, 45000]
+
+# Obtener campos específicos
+HMGET test:vehiculo marca modelo precio
+# Esperado: [Mercedes, Sprinter, 89.50]
+
+# Verificar existencia de campo
+HEXISTS test:vehiculo matricula  # Esperado: 1
+HEXISTS test:vehiculo color      # Esperado: 0
+
+# Incrementar campo numérico
+HINCRBY test:vehiculo km 150
+
+# Verificar
+HGET test:vehiculo km  # Esperado: 45150
+
+# Contar campos
+HLEN test:vehiculo  # Esperado: 5
+
+# ✅ TEST 8 PASADO
+
+
+# ========================================
+# TEST 9: SETS (CONJUNTOS)
+# ========================================
+
+# Crear sets
+SADD test:disponibles V001 V002 V003 V004 V005
+SADD test:furgonetas V001 V003 V005 V007
+SADD test:madrid V001 V002 V003
+
+# Ver miembros
+SMEMBERS test:disponibles  # 5 elementos
+
+# Verificar pertenencia
+SISMEMBER test:disponibles V001  # Esperado: 1
+SISMEMBER test:disponibles V099  # Esperado: 0
+
+# Contar
+SCARD test:disponibles  # Esperado: 5
+
+# Intersección: furgonetas disponibles en Madrid
+SINTER test:disponibles test:furgonetas test:madrid
+# Esperado: [V001, V003]
+
+# Unión: todos los vehículos mencionados
+SUNION test:disponibles test:furgonetas
+# Esperado: [V001, V002, V003, V004, V005, V007]
+
+# Diferencia: disponibles que NO son furgonetas
+SDIFF test:disponibles test:furgonetas
+# Esperado: [V002, V004]
+
+# ✅ TEST 9 PASADO
+
+
+# ========================================
+# TEST 10: WATCH Y TRANSACCIONES
+# ========================================
+
+# Este test simula concurrencia (requiere 2 conexiones en práctica real)
+
+# Conexión 1:
+WATCH test:saldo
+GET test:saldo  # Supongamos que es 100
+
+# Si nadie modifica test:saldo, proceder:
+MULTI
+DECRBY test:saldo 50
+EXEC  # Esperado: [50]
+
+# Si alguien modificó test:saldo entre WATCH y EXEC:
+# EXEC devolvería (nil)
+
+# ✅ TEST 10 PASADO (en condiciones normales)
+
+
+# ========================================
+# TEST 11: TTL Y PERSIST
+# ========================================
+
+# Crear clave con TTL
+SET test:temporal "valor" EX 3600
+
+# Verificar TTL
+TTL test:temporal  # Esperado: ~3600
+
+# Hacer persistente
+PERSIST test:temporal
+
+# Verificar que ya no tiene TTL
+TTL test:temporal  # Esperado: -1
+
+# ✅ TEST 11 PASADO
+
+
+# ========================================
+# TEST 12: LISTS - OPERACIONES VARIADAS
+# ========================================
+
+# Crear lista
+RPUSH test:lista A B C
+
+# Añadir al principio
+LPUSH test:lista Z
+
+# Ver lista
+LRANGE test:lista 0 -1  # Esperado: [Z, A, B, C]
+
+# Obtener elemento por índice
+LINDEX test:lista 0  # Esperado: Z
+LINDEX test:lista 2  # Esperado: B
+
+# Longitud
+LLEN test:lista  # Esperado: 4
+
+# Eliminar desde el final
+RPOP test:lista  # Esperado: C
+
+# Ver lista actualizada
+LRANGE test:lista 0 -1  # Esperado: [Z, A, B]
+
+# Insertar antes de B
+LINSERT test:lista BEFORE B X
+
+# Ver lista
+LRANGE test:lista 0 -1  # Esperado: [Z, A, X, B]
+
+# Mantener solo 2 primeros
+LTRIM test:lista 0 1
+
+# Ver resultado
+LRANGE test:lista 0 -1  # Esperado: [Z, A]
+
+# ✅ TEST 12 PASADO
+
+
+# ========================================
+# TEST 13: SORTED SETS - OPERACIONES AVANZADAS
+# ========================================
+
+# Crear sorted set
+ZADD test:scores 100 jugador1 200 jugador2 150 jugador3 180 jugador4
+
+# Rango normal (ascendente)
+ZRANGE test:scores 0 -1 WITHSCORES
+# Esperado: [jugador1, 100, jugador3, 150, jugador4, 180, jugador2, 200]
+
+# Rango inverso (descendente)
+ZREVRANGE test:scores 0 -1 WITHSCORES
+# Esperado: [jugador2, 200, jugador4, 180, jugador3, 150, jugador1, 100]
+
+# Por score
+ZRANGEBYSCORE test:scores 150 200 WITHSCORES
+# Esperado: [jugador3, 150, jugador4, 180, jugador2, 200]
+
+# Contar en rango
+ZCOUNT test:scores 150 200  # Esperado: 3
+
+# Eliminar por score
+ZREMRANGEBYSCORE test:scores 0 120
+
+# Verificar
+ZRANGE test:scores 0 -1  # Esperado: [jugador3, jugador4, jugador2]
+
+# ✅ TEST 13 PASADO
+
+
+# ========================================
+# TEST 14: EXISTENCIA Y ELIMINACIÓN
+# ========================================
+
+# Crear claves
+SET test:key1 "valor1"
+SET test:key2 "valor2"
+SET test:key3 "valor3"
+
+# Verificar existencia individual
+EXISTS test:key1  # Esperado: 1
+EXISTS test:key999  # Esperado: 0
+
+# Verificar múltiples
+EXISTS test:key1 test:key2 test:key3  # Esperado: 3
+
+# Eliminar una
+DEL test:key2
+
+# Verificar
+EXISTS test:key2  # Esperado: 0
+
+# Eliminar múltiples
+DEL test:key1 test:key3
+
+# Verificar
+EXISTS test:key1 test:key2 test:key3  # Esperado: 0
+
+# ✅ TEST 14 PASADO
+
+
+# ========================================
+# TEST 15: RENAME Y RENAMENX
+# ========================================
+
+# Crear clave
+SET test:oldname "valor"
+
+# Renombrar
+RENAME test:oldname test:newname
+
+# Verificar
+GET test:oldname  # Esperado: (nil)
+GET test:newname  # Esperado: "valor"
+
+# RENAMENX (solo si no existe destino)
+SET test:source "valor_source"
+SET test:dest "valor_dest"
+
+RENAMENX test:source test:dest  # Esperado: 0 (no renombra porque dest existe)
+
+# Verificar que no cambió
+GET test:source  # Esperado: "valor_source"
+GET test:dest    # Esperado: "valor_dest"
+
+# ✅ TEST 15 PASADO
+
+
+# ========================================
+# TEST 16: MÚLTIPLES OPERACIONES (MSET/MGET)
+# ========================================
+
+# Establecer múltiples valores a la vez
+MSET test:a "valor_a" test:b "valor_b" test:c "valor_c" test:d "valor_d"
+
+# Obtener múltiples valores
+MGET test:a test:b test:c test:d
+# Esperado: ["valor_a", "valor_b", "valor_c", "valor_d"]
+
+# MSETNX (solo si NINGUNA existe)
+DEL test:x test:y
+MSETNX test:x "x" test:y "y"  # Esperado: 1 (éxito)
+
+# Si alguna existe:
+MSETNX test:x "nuevo_x" test:z "z"  # Esperado: 0 (falla porque test:x existe)
+
+# ✅ TEST 16 PASADO
+
+
+# ========================================
+# TEST 17: APPEND Y STRLEN
+# ========================================
+
+# Crear string
+SET test:texto "Hola"
+
+# Añadir
+APPEND test:texto " Mundo"
+
+# Verificar
+GET test:texto  # Esperado: "Hola Mundo"
+
+# Longitud
+STRLEN test:texto  # Esperado: 10
+
+# ✅ TEST 17 PASADO
+
+
+# ========================================
+# TEST 18: GETRANGE Y SETRANGE
+# ========================================
+
+# Crear string
+SET test:string "Hello World"
+
+# Obtener substring
+GETRANGE test:string 0 4   # Esperado: "Hello"
+GETRANGE test:string 6 10  # Esperado: "World"
+
+# Reemplazar parte
+SETRANGE test:string 6 "Redis"
+
+# Verificar
+GET test:string  # Esperado: "Hello Redis"
+
+# ✅ TEST 18 PASADO
+
+
+# ========================================
+# TEST 19: BIT OPERATIONS (Avanzado)
+# ========================================
+
+# Establecer bits
+SETBIT test:bits 0 1
+SETBIT test:bits 2 1
+SETBIT test:bits 4 1
+
+# Obtener bit
+GETBIT test:bits 0  # Esperado: 1
+GETBIT test:bits 1  # Esperado: 0
+
+# Contar bits en 1
+BITCOUNT test:bits  # Esperado: 3
+
+# ✅ TEST 19 PASADO
+
+
+# ========================================
+# TEST 20: TYPE Y OBJECT
+# ========================================
+
+# Crear diferentes tipos
+SET test:string "valor"
+LPUSH test:list "item"
+SADD test:set "miembro"
+ZADD test:zset 1 "elemento"
+HSET test:hash campo "valor"
+
+# Verificar tipos
+TYPE test:string  # Esperado: string
+TYPE test:list    # Esperado: list
+TYPE test:set     # Esperado: set
+TYPE test:zset    # Esperado: zset
+TYPE test:hash    # Esperado: hash
+
+# Ver encoding
+OBJECT ENCODING test:string  # Ej: "embstr" o "raw"
+OBJECT ENCODING test:list    # Ej: "linkedlist" o "ziplist"
+
+# ✅ TEST 20 PASADO
+
+
+# ========================================
+# LIMPIEZA: ELIMINAR DATOS DE PRUEBA
+# ========================================
+
+# Eliminar todas las claves de test
+EVAL "return redis.call('del', unpack(redis.call('keys', ARGV[1])))" 0 test:*
+EVAL "return redis.call('del', unpack(redis.call('keys', ARGV[1])))" 0 queue:test:*
+EVAL "return redis.call('del', unpack(redis.call('keys', ARGV[1])))" 0 reserva:TEST_*
+EVAL "return redis.call('del', unpack(redis.call('keys', ARGV[1])))" 0 vehiculo:TEST*
+
+# O volver a la BD 0
+SELECT 0

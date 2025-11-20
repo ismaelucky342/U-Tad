@@ -1,0 +1,406 @@
+# ====================================================================================================#
+#                                                                                                     #
+#                                                         ██╗   ██╗   ████████╗ █████╗ ██████╗        #
+#       AEC3 - ABDS                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       #
+#                                                         ██║   ██║█████╗██║   ███████║██║  ██║       #
+#       created:        16/11/2025  -  03:00:11           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
+#       last change:    20/11/2025  -  22:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       #
+#                                                          ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        #
+#                                                                                                     #
+#       Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             #
+#                                                                                                     #
+#       Github:                                           https://github.com/ismaelucky342            #
+#                                                                                                     #
+# ====================================================================================================#
+
+# ========================================
+# 1. RANKING POR POPULARIDAD (Más Reservados)
+# ========================================
+# Score = número total de reservas (histórico)
+
+ZADD ranking:vehiculos:reservas_total 156 V001 143 V002 189 V003 98 V004 167 V005 134 V006 201 V007 112 V008 145 V009 178 V010
+
+# Top 5 vehículos más reservados de todos los tiempos
+ZREVRANGE ranking:vehiculos:reservas_total 0 4 WITHSCORES
+
+# Resultado esperado:
+# 1. V007 - 201 reservas
+# 2. V003 - 189 reservas
+# 3. V010 - 178 reservas
+# 4. V005 - 167 reservas
+# 5. V001 - 156 reservas
+
+# ¿En qué posición está V004?
+ZREVRANK ranking:vehiculos:reservas_total V004  # Devuelve índice (0-based)
+
+# Incrementar cuando se hace nueva reserva
+ZINCRBY ranking:vehiculos:reservas_total 1 V004  # V004 ahora tiene 99
+
+# Obtener score (número de reservas) de un vehículo
+ZSCORE ranking:vehiculos:reservas_total V004
+
+
+# ========================================
+# 2. RANKING POR INGRESOS GENERADOS
+# ========================================
+# Score = ingresos totales generados por cada vehículo
+
+ZADD ranking:vehiculos:ingresos 23456.80 V001 19872.50 V002 28934.25 V003 15678.90 V004 24567.30 V005
+
+# Top 3 vehículos más rentables
+ZREVRANGE ranking:vehiculos:ingresos 0 2 WITHSCORES
+
+# Cuando V004 completa una reserva de 125.50€
+ZINCRBY ranking:vehiculos:ingresos 125.50 V004
+
+# Vehículos que han generado entre 20000€ y 30000€
+ZRANGEBYSCORE ranking:vehiculos:ingresos 20000 30000 WITHSCORES
+
+# Vehículos que han generado más de 25000€
+ZRANGEBYSCORE ranking:vehiculos:ingresos 25000 +inf WITHSCORES
+
+# Cuántos vehículos han generado más de 20000€
+ZCOUNT ranking:vehiculos:ingresos 20000 +inf
+
+
+# ========================================
+# 3. RANKING POR RATING/VALORACIÓN
+# ========================================
+# Score = rating promedio del vehículo (0-5)
+
+ZADD ranking:vehiculos:rating 4.8 V001 4.9 V002 4.6 V003 4.3 V004 4.7 V005 4.95 V006 4.4 V007 4.85 V008
+
+# Mejor valorados (Top 5)
+ZREVRANGE ranking:vehiculos:rating 0 4 WITHSCORES
+
+# Peor valorados (necesitan mejora)
+ZRANGE ranking:vehiculos:rating 0 2 WITHSCORES
+
+# Vehículos con rating superior a 4.5
+ZRANGEBYSCORE ranking:vehiculos:rating 4.5 5.0 WITHSCORES
+
+# Actualizar rating cuando llega nueva valoración
+# (En realidad se recalcularía el promedio)
+ZADD ranking:vehiculos:rating 4.85 V004  # Nuevo rating calculado
+
+
+# ========================================
+# 4. RANKING POR DISPONIBILIDAD (Días Activos)
+# ========================================
+# Score = días que el vehículo ha estado disponible este mes
+
+ZADD ranking:vehiculos:disponibilidad 28 V001 25 V002 30 V003 22 V004 27 V005 29 V006 24 V007
+
+# Vehículos más disponibles (menos en mantenimiento/uso)
+ZREVRANGE ranking:vehiculos:disponibilidad 0 4 WITHSCORES
+
+# Vehículos poco disponibles (pueden tener problemas)
+ZRANGE ranking:vehiculos:disponibilidad 0 2 WITHSCORES
+
+
+# ========================================
+# 5. RANKING DE CLIENTES POR FIDELIDAD
+# ========================================
+# Score = número de reservas realizadas
+
+ZADD ranking:clientes:reservas 23 C123 45 C456 12 C789 67 C012 34 C345 89 C678 19 C901
+
+# Clientes más fieles (Top 10)
+ZREVRANGE ranking:clientes:reservas 0 9 WITHSCORES
+
+# Cliente hace nueva reserva
+ZINCRBY ranking:clientes:reservas 1 C123
+
+# Clientes con más de 50 reservas (Tier VIP)
+ZRANGEBYSCORE ranking:clientes:reservas 50 +inf WITHSCORES
+
+# Nuevos clientes (menos de 5 reservas)
+ZRANGEBYSCORE ranking:clientes:reservas 0 5 WITHSCORES
+
+
+# ========================================
+# 6. RANKING DE CLIENTES POR GASTO TOTAL
+# ========================================
+
+ZADD ranking:clientes:gasto 2456.90 C123 5678.50 C456 1234.75 C789 8901.20 C012 3456.80 C345
+
+# Top 10 clientes que más han gastado
+ZREVRANGE ranking:clientes:gasto 0 9 WITHSCORES
+
+# Cliente añade una reserva de 189.50€
+ZINCRBY ranking:clientes:gasto 189.50 C123
+
+# Clientes que han gastado más de 5000€ (VIP Gold)
+ZRANGEBYSCORE ranking:clientes:gasto 5000 +inf WITHSCORES
+
+# Clientes que han gastado más de 10000€ (VIP Platinum)
+ZRANGEBYSCORE ranking:clientes:gasto 10000 +inf WITHSCORES
+
+
+# ========================================
+# 7. RANKING DE CONDUCTORES POR EFICIENCIA
+# ========================================
+# Score = km recorridos / consumo combustible (eficiencia)
+
+ZADD ranking:conductores:eficiencia 12.5 D456 11.8 D789 13.2 D012 10.9 D345 12.9 D678
+
+# Conductores más eficientes (menos consumo)
+ZREVRANGE ranking:conductores:eficiencia 0 4 WITHSCORES
+
+# Conductores que necesitan formación (baja eficiencia)
+ZRANGE ranking:conductores:eficiencia 0 2 WITHSCORES
+
+
+# ========================================
+# 8. RANKING DE CONDUCTORES POR VALORACIÓN
+# ========================================
+
+ZADD ranking:conductores:rating 4.9 D456 4.7 D789 4.95 D012 4.6 D345 4.85 D678
+
+# Mejores conductores
+ZREVRANGE ranking:conductores:rating 0 4 WITHSCORES
+
+# Conductores con rating inferior a 4.7 (revisar)
+ZRANGEBYSCORE ranking:conductores:rating 0 4.7 WITHSCORES
+
+
+# ========================================
+# 9. RANKING TEMPORAL: MÁS RESERVADOS HOY
+# ========================================
+# Score = reservas solo de hoy (se resetea diariamente)
+
+ZADD ranking:hoy:vehiculos:reservas 3 V001 5 V002 2 V003 4 V004 6 V005 1 V006
+
+# Más populares hoy
+ZREVRANGE ranking:hoy:vehiculos:reservas 0 4 WITHSCORES
+
+# Nueva reserva hoy
+ZINCRBY ranking:hoy:vehiculos:reservas 1 V003
+
+# Al final del día: archivar y resetear
+RENAME ranking:hoy:vehiculos:reservas ranking:historico:2025-11-20:vehiculos:reservas
+# Crear nuevo ranking para mañana
+ZADD ranking:hoy:vehiculos:reservas 0 V001 0 V002 0 V003
+
+
+# ========================================
+# 10. RANKING POR TIEMPO DE RESPUESTA
+# ========================================
+# Score = tiempo promedio de confirmación en segundos (menor es mejor)
+
+ZADD ranking:soporte:tiempo_respuesta 45 agente001 38 agente002 52 agente003 41 agente004 67 agente005
+
+# Agentes más rápidos (mejor)
+ZRANGE ranking:soporte:tiempo_respuesta 0 4 WITHSCORES
+
+# Agentes lentos (necesitan mejorar)
+ZREVRANGE ranking:soporte:tiempo_respuesta 0 2 WITHSCORES
+
+# Actualizar tiempo promedio de un agente
+ZADD ranking:soporte:tiempo_respuesta 40 agente001  # Mejoró
+
+
+# ========================================
+# 11. RANKING DE CIUDADES POR ACTIVIDAD
+# ========================================
+
+ZADD ranking:ciudades:reservas 234 Madrid 189 Barcelona 156 Valencia 98 Sevilla 123 Bilbao 87 Málaga
+
+# Ciudades con más reservas
+ZREVRANGE ranking:ciudades:reservas 0 4 WITHSCORES
+
+# Ciudades con menos de 100 reservas (expandir presencia)
+ZRANGEBYSCORE ranking:ciudades:reservas 0 100 WITHSCORES
+
+# Nueva reserva en Sevilla
+ZINCRBY ranking:ciudades:reservas 1 Sevilla
+
+
+# ========================================
+# 12. RANKING POR ANTIGÜEDAD DE REGISTRO
+# ========================================
+# Score = timestamp de registro (menor = más antiguo)
+
+ZADD ranking:clientes:antiguedad 1609459200 C123 1612137600 C456 1614556800 C789 1625097600 C012
+
+# Clientes más antiguos (primeros registros)
+ZRANGE ranking:clientes:antiguedad 0 9 WITHSCORES
+
+# Clientes registrados después de cierta fecha
+ZRANGEBYSCORE ranking:clientes:antiguedad 1620000000 +inf WITHSCORES
+
+
+# ========================================
+# 13. RANKING COMBINADO: SCORE PERSONALIZADO
+# ========================================
+# Score = (reservas * 0.3) + (rating * 20) + (ingresos / 1000)
+
+# Ejemplo: V001 tiene 156 reservas, rating 4.8, ingresos 23456.80
+# Score = (156 * 0.3) + (4.8 * 20) + (23456.80 / 1000)
+#       = 46.8 + 96 + 23.46
+#       = 166.26
+
+ZADD ranking:vehiculos:score_total 166.26 V001 154.32 V002 178.45 V003 132.67 V004
+
+# Mejores vehículos según score combinado
+ZREVRANGE ranking:vehiculos:score_total 0 9 WITHSCORES
+
+
+# ========================================
+# 14. OPERACIONES DE RANGO AVANZADAS
+# ========================================
+
+# Obtener vehículos en posiciones 5-10 del ranking de ingresos
+ZREVRANGE ranking:vehiculos:ingresos 5 10 WITHSCORES
+
+# Obtener todos los vehículos con sus scores
+ZRANGE ranking:vehiculos:ingresos 0 -1 WITHSCORES
+
+# Contar total de vehículos en el ranking
+ZCARD ranking:vehiculos:ingresos
+
+# Eliminar un vehículo del ranking (ej: vehículo vendido)
+ZREM ranking:vehiculos:ingresos V004
+
+# Eliminar vehículos con ingresos menores a 10000€
+ZREMRANGEBYSCORE ranking:vehiculos:ingresos 0 10000
+
+
+# ========================================
+# 15. INTERSECCIÓN DE RANKINGS
+# ========================================
+# Encontrar vehículos que están en top de múltiples rankings
+
+# Top 10 por popularidad
+ZREVRANGE ranking:vehiculos:reservas_total 0 9
+
+# Top 10 por ingresos
+ZREVRANGE ranking:vehiculos:ingresos 0 9
+
+# Para intersección, Redis tiene ZINTERSTORE
+# Crear nuevo ranking que combina reservas e ingresos
+
+# Peso 1 para reservas, peso 0.01 para ingresos (normalizados)
+ZINTERSTORE ranking:vehiculos:combinado 2 ranking:vehiculos:reservas_total ranking:vehiculos:ingresos WEIGHTS 1 0.01
+
+ZREVRANGE ranking:vehiculos:combinado 0 9 WITHSCORES
+
+
+# ========================================
+# 16. UNIÓN DE RANKINGS
+# ========================================
+# Combinar dos rankings diferentes
+
+ZADD ranking:mes_pasado:reservas 45 V001 38 V002 52 V003
+ZADD ranking:mes_actual:reservas 42 V001 50 V002 39 V003
+
+# Sumar ambos meses
+ZUNIONSTORE ranking:total:dos_meses 2 ranking:mes_pasado:reservas ranking:mes_actual:reservas
+
+ZREVRANGE ranking:total:dos_meses 0 -1 WITHSCORES
+# V001: 87, V002: 88, V003: 91
+
+
+# ========================================
+# 17. RANKING CON LÍMITE TEMPORAL (TTL)
+# ========================================
+# Rankings que expiran (ej: Top de la semana)
+
+ZADD ranking:semana:vehiculos:reservas 12 V001 15 V002 9 V003
+EXPIRE ranking:semana:vehiculos:reservas 604800  # 7 días
+
+# Al final de la semana expira automáticamente
+
+
+# ========================================
+# 18. RANKING POR INCREMENTOS FRACCIONARIOS
+# ========================================
+
+# Promedio de rating calculado dinámicamente
+# Cada nueva valoración incrementa proporcionalmente
+
+ZADD ranking:rating:dinamico 4.5 V001
+
+# Cliente valora con 5 estrellas
+# Nuevo promedio = (4.5 * n + 5) / (n + 1)
+# Si asumimos que ya tenía 10 valoraciones:
+# (4.5 * 10 + 5) / 11 = 50 / 11 = 4.545...
+
+ZINCRBY ranking:rating:dinamico 0.045 V001
+
+
+# ========================================
+# 19. BÚSQUEDAS POR PREFIJO (LEXICOGRÁFICO)
+# ========================================
+# Cuando score es 0 para todos, se ordenan alfabéticamente
+
+ZADD ranking:vehiculos:alfabetico 0 "Mercedes-Sprinter-V001" 0 "Ford-Transit-V003" 0 "Iveco-Daily-V002" 0 "Renault-Master-V004"
+
+# Vehículos que empiezan con "M"
+ZRANGEBYLEX ranking:vehiculos:alfabetico [M [N
+
+# Vehículos que empiezan con "Mercedes"
+ZRANGEBYLEX ranking:vehiculos:alfabetico [Mercedes [Mercedez  # Truco con Z
+
+
+# ========================================
+# 20. RANKING CON PAGINACIÓN
+# ========================================
+
+# Página 1 (primeros 10)
+ZREVRANGE ranking:vehiculos:ingresos 0 9 WITHSCORES
+
+# Página 2 (siguientes 10)
+ZREVRANGE ranking:vehiculos:ingresos 10 19 WITHSCORES
+
+# Página 3
+ZREVRANGE ranking:vehiculos:ingresos 20 29 WITHSCORES
+
+# Función genérica: página N, tamaño 10
+# start = (N - 1) * 10
+# end = N * 10 - 1
+
+
+# ========================================
+# 21. RANKING DE TENDENCIAS (VELOCIDAD DE CRECIMIENTO)
+# ========================================
+# Score = tasa de crecimiento en reservas
+
+# V001 pasó de 150 a 156 reservas (+4%)
+# V002 pasó de 140 a 143 reservas (+2.1%)
+# V003 pasó de 180 to 189 reservas (+5%)
+
+ZADD ranking:tendencias:crecimiento 4.0 V001 2.1 V002 5.0 V003 1.5 V004
+
+# Vehículos con tendencia al alza
+ZREVRANGE ranking:tendencias:crecimiento 0 4 WITHSCORES
+
+# Vehículos con crecimiento superior al 3%
+ZRANGEBYSCORE ranking:tendencias:crecimiento 3.0 +inf WITHSCORES
+
+
+# ========================================
+# RESUMEN DE COMANDOS UTILIZADOS:
+# ========================================
+# SORTED SETS: ZADD, ZRANGE, ZREVRANGE, ZRANGEBYSCORE, 
+#              ZREVRANGEBYSCORE, ZRANK, ZREVRANK, ZSCORE,
+#              ZINCRBY, ZCOUNT, ZCARD, ZREM, ZREMRANGEBYSCORE,
+#              ZINTERSTORE, ZUNIONSTORE, ZPOPMIN, ZPOPMAX,
+#              ZRANGEBYLEX
+# OTROS: EXPIRE, RENAME
+# ========================================
+
+# ========================================
+# NOTAS PERSONALES:
+# ========================================
+# - ZSET es increíblemente versátil: rankings, leaderboards, colas con prioridad
+# - El score se actualiza automáticamente al hacer ZINCRBY → rankings dinámicos
+# - ZREVRANGE para descendente (mejor primero), ZRANGE para ascendente
+# - ZRANGEBYSCORE permite filtrar por rangos de valores
+# - ZINTERSTORE y ZUNIONSTORE combinan múltiples rankings
+# - Puedo tener infinitos rankings del mismo conjunto de elementos
+# - Los rankings con TTL son perfectos para "Top de la semana/mes"
+# - ZCOUNT es O(log N) → super eficiente para estadísticas
+# - Perfecto para gamificación, leaderboards, y sistemas de recomendación
+# - El orden se mantiene automáticamente → no necesito re-ordenar manualmente
+# ========================================

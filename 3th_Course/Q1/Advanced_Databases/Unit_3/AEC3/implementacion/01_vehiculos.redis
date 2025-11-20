@@ -1,0 +1,242 @@
+# ====================================================================================================#
+#                                                                                                     #
+#                                                         ██╗   ██╗   ████████╗ █████╗ ██████╗        #
+#       AEC3 - ABDS                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       #
+#                                                         ██║   ██║█████╗██║   ███████║██║  ██║       #
+#       created:        16/11/2025  -  03:00:11           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
+#       last change:    20/11/2025  -  22:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       #
+#                                                          ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        #
+#                                                                                                     #
+#       Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             #
+#                                                                                                     #
+#       Github:                                           https://github.com/ismaelucky342            #
+#                                                                                                     #
+# ====================================================================================================#
+
+
+# ========================================
+# FLEETHUB - GESTIÓN DE VEHÍCULOS
+# ========================================
+# Archivo: 01_vehiculos.redis
+# Descripción: Sistema de caché y gestión de información de vehículos
+# Estructuras: STRINGS, HASHES
+# ========================================
+
+# ========================================
+# 1. REGISTRO DE VEHÍCULOS (HASHES)
+# ========================================
+# Los vehículos son el núcleo de mi sistema. Uso HASH porque cada vehículo
+# tiene múltiples atributos y necesito acceder a ellos de forma flexible.
+
+# Furgoneta Mercedes Sprinter
+HSET vehiculo:V001 matricula "1234ABC" marca "Mercedes" modelo "Sprinter" tipo "furgoneta" capacidad 12 estado "disponible" ubicacion "Madrid Centro" km_actuales 45000 año 2022 precio_dia 89.50 rating 4.7
+
+# Autobús Iveco Daily
+HSET vehiculo:V002 matricula "5678DEF" marca "Iveco" modelo "Daily" tipo "autobus" capacidad 25 estado "disponible" ubicacion "Barcelona" km_actuales 32000 año 2023 precio_dia 145.00 rating 4.9
+
+# Van Ford Transit
+HSET vehiculo:V003 matricula "9012GHI" marca "Ford" modelo "Transit" tipo "van" capacidad 8 estado "en_uso" ubicacion "Valencia" km_actuales 28500 año 2021 precio_dia 75.00 rating 4.5
+
+# Furgoneta Renault Master
+HSET vehiculo:V004 matricula "3456JKL" marca "Renault" modelo "Master" tipo "furgoneta" capacidad 14 estado "disponible" ubicacion "Sevilla" km_actuales 52000 año 2020 precio_dia 82.00 rating 4.3
+
+# Autobús Man Lion's City
+HSET vehiculo:V005 matricula "7890MNO" marca "MAN" modelo "Lion's City" tipo "autobus" capacidad 40 estado "mantenimiento" ubicacion "Madrid Taller" km_actuales 85000 año 2019 precio_dia 180.00 rating 4.6
+
+
+# ========================================
+# 2. CONSULTAS DE VEHÍCULOS
+# ========================================
+
+# Obtener información completa de un vehículo
+# Uso: Cuando un cliente quiere ver todos los detalles
+HGETALL vehiculo:V001
+
+# Obtener solo campos específicos (más eficiente)
+# Uso: Para la lista de búsqueda solo necesito marca, modelo, precio
+HMGET vehiculo:V001 marca modelo precio_dia estado ubicacion
+
+# Obtener un campo individual
+# Uso: Check rápido de disponibilidad
+HGET vehiculo:V001 estado
+
+# Verificar si existe un vehículo
+# Uso: Validación antes de operaciones
+HEXISTS vehiculo:V001 matricula
+
+
+# ========================================
+# 3. ACTUALIZACIÓN DE VEHÍCULOS
+# ========================================
+
+# Actualizar ubicación (cuando un vehículo se mueve)
+# Escenario: El conductor acaba de llegar a una nueva ubicación
+HSET vehiculo:V001 ubicacion "Madrid Norte"
+
+# Actualizar múltiples campos a la vez
+# Escenario: Después de un viaje, actualizo km y estado
+HSET vehiculo:V003 km_actuales 28750 estado "disponible" ubicacion "Valencia Centro"
+
+# Cambiar estado a mantenimiento
+# Escenario: El sistema detecta que necesita revisión
+HSET vehiculo:V001 estado "mantenimiento" ubicacion "Madrid Taller"
+
+# Actualizar rating (cuando un cliente deja una reseña)
+# Nota: En producción esto sería un cálculo más complejo
+HSET vehiculo:V001 rating 4.8
+
+
+# ========================================
+# 4. CONTADOR DE VEHÍCULOS POR ESTADO (STRINGS)
+# ========================================
+# Uso contadores separados para tener estadísticas rápidas
+
+# Inicializar contadores
+SET stats:vehiculos:total 5
+SET stats:vehiculos:disponibles 3
+SET stats:vehiculos:en_uso 1
+SET stats:vehiculos:mantenimiento 1
+
+# Cuando un vehículo sale (se alquila)
+# Escenario: Cliente acaba de reservar V004
+DECR stats:vehiculos:disponibles
+INCR stats:vehiculos:en_uso
+
+# Cuando un vehículo vuelve
+# Escenario: Cliente devuelve V003
+DECR stats:vehiculos:en_uso
+INCR stats:vehiculos:disponibles
+
+# Consultar estadísticas
+GET stats:vehiculos:disponibles
+GET stats:vehiculos:total
+
+
+# ========================================
+# 5. BÚSQUEDA POR TIPO (SETS)
+# ========================================
+# Mantengo conjuntos de IDs por tipo para búsquedas rápidas
+
+SADD vehiculos:tipo:furgoneta V001 V004
+SADD vehiculos:tipo:autobus V002 V005
+SADD vehiculos:tipo:van V003
+
+# Obtener todas las furgonetas
+SMEMBERS vehiculos:tipo:furgoneta
+
+# ¿Es V001 una furgoneta?
+SISMEMBER vehiculos:tipo:furgoneta V001
+
+# Contar cuántas furgonetas tengo
+SCARD vehiculos:tipo:furgoneta
+
+
+# ========================================
+# 6. ÍNDICE DE DISPONIBILIDAD POR CIUDAD
+# ========================================
+# Para búsquedas tipo "quiero una furgoneta en Madrid"
+
+SADD vehiculos:disponibles:madrid V001
+SADD vehiculos:disponibles:barcelona V002
+SADD vehiculos:disponibles:valencia V003
+SADD vehiculos:disponibles:sevilla V004
+
+# Búsqueda: vehículos disponibles en Madrid
+SMEMBERS vehiculos:disponibles:madrid
+
+# Intersección: furgonetas disponibles (de cualquier ciudad)
+# Primero creo un set de disponibles
+SADD vehiculos:estado:disponible V001 V002 V004
+SINTER vehiculos:tipo:furgoneta vehiculos:estado:disponible
+
+
+# ========================================
+# 7. CACHÉ DE VEHÍCULOS MÁS CONSULTADOS
+# ========================================
+# Los vehículos más vistos se cachean con expiración
+
+# Cachear vehículo popular (expira en 5 minutos)
+SET cache:vehiculo:V001 '{"id":"V001","marca":"Mercedes","modelo":"Sprinter","precio_dia":89.50,"disponible":true}' EX 300
+
+# Obtener del caché
+GET cache:vehiculo:V001
+
+# Verificar tiempo restante
+TTL cache:vehiculo:V001
+
+# Renovar el caché (persistir)
+PERSIST cache:vehiculo:V001
+
+# Actualizar expiración a 10 minutos
+EXPIRE cache:vehiculo:V001 600
+
+
+# ========================================
+# 8. OPERACIONES ÚTILES ADICIONALES
+# ========================================
+
+# Incrementar kilómetros después de un viaje
+# Escenario: Viaje de 150km
+HINCRBY vehiculo:V001 km_actuales 150
+
+# Actualizar precio (puede ser float)
+HINCRBYFLOAT vehiculo:V001 precio_dia 5.50
+
+# Listar todos los campos de un vehículo
+HKEYS vehiculo:V001
+
+# Listar todos los valores
+HVALS vehiculo:V001
+
+# Contar campos
+HLEN vehiculo:V001
+
+# Eliminar un campo (ej: campo temporal)
+HDEL vehiculo:V001 campo_temporal
+
+
+# ========================================
+# 9. INFORMACIÓN DE VEHÍCULO EXTENDIDA
+# ========================================
+# Para información adicional que no consulto tan frecuentemente
+
+HSET vehiculo:V001:detalles color "blanco" matriculacion "2022-03-15" seguro "Seguro123" revision_proxima "2025-12-01" propietario "FleetHub Madrid" contacto_taller "+34600123456"
+
+# Obtener detalles extendidos solo cuando se necesitan
+HGETALL vehiculo:V001:detalles
+
+
+# ========================================
+# 10. PATRÓN DE BÚSQUEDA Y LISTADO
+# ========================================
+
+# Obtener todos los vehículos (para panel de administración)
+# Nota: En producción usaría SCAN para grandes volúmenes
+KEYS vehiculo:V*
+
+# Para cada vehículo, obtengo su información básica
+# (En la práctica esto se haría en un loop)
+HMGET vehiculo:V001 matricula marca modelo estado ubicacion
+HMGET vehiculo:V002 matricula marca modelo estado ubicacion
+HMGET vehiculo:V003 matricula marca modelo estado ubicacion
+
+
+# ========================================
+# RESUMEN DE COMANDOS UTILIZADOS:
+# ========================================
+# HASHES: HSET, HGET, HGETALL, HMGET, HEXISTS, HINCRBY, 
+#         HINCRBYFLOAT, HKEYS, HVALS, HLEN, HDEL
+# STRINGS: SET, GET, INCR, DECR, EXPIRE, TTL, PERSIST
+# SETS: SADD, SMEMBERS, SISMEMBER, SCARD, SINTER
+# OTROS: KEYS
+# ========================================
+
+# ========================================
+# NOTAS PERSONALES:
+# ========================================
+# - Los HASH son perfectos para los vehículos porque tengo muchos atributos
+# - Uso prefijos claros: "vehiculo:", "cache:", "stats:" para organizarme
+# - Los contadores (stats:*) me dan métricas instantáneas sin queries pesadas
+# - Los SETS me permiten búsquedas por categorías súper rápidas
+# - El caché con TTL evita consultas repetidas a la BD principal
+# ========================================

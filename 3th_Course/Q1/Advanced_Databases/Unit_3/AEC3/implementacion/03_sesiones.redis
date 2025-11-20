@@ -1,0 +1,330 @@
+# ====================================================================================================#
+#                                                                                                     #
+#                                                         ██╗   ██╗   ████████╗ █████╗ ██████╗        #
+#       AEC3 - ABDS                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       #
+#                                                         ██║   ██║█████╗██║   ███████║██║  ██║       #
+#       created:        16/11/2025  -  03:00:11           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
+#       last change:    20/11/2025  -  22:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       #
+#                                                          ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        #
+#                                                                                                     #
+#       Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             #
+#                                                                                                     #
+#       Github:                                           https://github.com/ismaelucky342            #
+#                                                                                                     #
+# ====================================================================================================#
+
+# ========================================
+# 1. SESIONES DE USUARIOS (STRINGS)
+# ========================================
+# Cada sesión es un token único con datos serializados (JSON-like)
+# y expiración automática por inactividad
+
+# Sesión de cliente (expira en 30 minutos de inactividad)
+SETEX session:user:abc123def456 1800 '{"user_id":"C123","tipo":"cliente","nombre":"Juan García","email":"juan@email.com","login":"2025-11-20T10:00:00","ultima_actividad":"2025-11-20T10:15:00","permisos":["ver_vehiculos","hacer_reservas","ver_historial"]}'
+
+# Sesión de conductor (expira en 2 horas)
+SETEX session:driver:xyz789ghi012 7200 '{"user_id":"D456","tipo":"conductor","nombre":"Carlos Ruiz","vehiculo_asignado":"V001","estado":"activo","login":"2025-11-20T08:00:00","ubicacion":"Madrid Centro"}'
+
+# Sesión de administrador (expira en 1 hora por seguridad)
+SETEX session:admin:mno345pqr678 3600 '{"user_id":"A789","tipo":"admin","nombre":"Laura Martín","nivel":"super_admin","login":"2025-11-20T09:00:00","ip":"192.168.1.100"}'
+
+
+# ========================================
+# 2. VERIFICACIÓN Y VALIDACIÓN DE SESIONES
+# ========================================
+
+# Verificar si una sesión existe y está activa
+GET session:user:abc123def456
+
+# Si devuelve nil → sesión expirada o inválida
+# Si devuelve datos → sesión válida
+
+# Ver cuánto tiempo queda de sesión
+TTL session:user:abc123def456  # Segundos restantes
+
+# Renovar sesión (cada petición del usuario)
+# Opción 1: Actualizar con nuevo TTL
+SETEX session:user:abc123def456 1800 '{"user_id":"C123",...,"ultima_actividad":"2025-11-20T10:30:00"}'
+
+# Opción 2: Solo extender el TTL
+EXPIRE session:user:abc123def456 1800
+
+
+# ========================================
+# 3. LOGOUT / CIERRE DE SESIÓN
+# ========================================
+
+# Cerrar sesión manualmente (logout)
+DEL session:user:abc123def456
+
+# Verificar que se eliminó
+EXISTS session:user:abc123def456  # Devuelve 0
+
+
+# ========================================
+# 4. ÍNDICE DE SESIONES ACTIVAS POR USUARIO
+# ========================================
+# Controlo qué sesiones tiene abiertas cada usuario (multi-dispositivo)
+
+# Usuario C123 inicia sesión desde web
+SADD user:C123:sessions session:user:abc123def456
+
+# Mismo usuario desde móvil
+SADD user:C123:sessions session:user:mobile789xyz
+
+# Ver todas las sesiones activas de un usuario
+SMEMBERS user:C123:sessions
+
+# Cerrar todas las sesiones de un usuario (ej: robo de cuenta)
+SMEMBERS user:C123:sessions  # Obtengo todas
+DEL session:user:abc123def456 session:user:mobile789xyz  # Las elimino
+DEL user:C123:sessions  # Limpio el índice
+
+
+# ========================================
+# 5. CONTADOR DE SESIONES ACTIVAS
+# ========================================
+
+SET stats:sesiones:clientes:activas 0
+SET stats:sesiones:conductores:activas 0
+SET stats:sesiones:admins:activas 0
+
+# Cuando un usuario inicia sesión
+INCR stats:sesiones:clientes:activas
+
+# Cuando cierra sesión o expira
+DECR stats:sesiones:clientes:activas
+
+# Consultar
+GET stats:sesiones:clientes:activas
+
+
+# ========================================
+# 6. SESIONES CON INFORMACIÓN DETALLADA (HASHES)
+# ========================================
+# Para información más estructurada, uso HASH en lugar de JSON
+
+HSET session:detail:abc123def456 user_id C123 tipo cliente nombre "Juan García" email "juan@email.com" login "2025-11-20T10:00:00" ultima_actividad "2025-11-20T10:30:00" ip "192.168.1.50" dispositivo "Chrome/Windows" token_version 1
+
+EXPIRE session:detail:abc123def456 1800
+
+# Actualizar solo un campo (más eficiente que reescribir todo)
+HSET session:detail:abc123def456 ultima_actividad "2025-11-20T10:45:00"
+EXPIRE session:detail:abc123def456 1800  # Renovar TTL
+
+# Obtener campos específicos
+HMGET session:detail:abc123def456 user_id tipo ultima_actividad
+
+# Obtener todo
+HGETALL session:detail:abc123def456
+
+
+# ========================================
+# 7. BLOQUEO DE CUENTAS / SESIONES SUSPENDIDAS
+# ========================================
+
+# Marcar cuenta como bloqueada
+SET user:C123:blocked "true" EX 3600  # Bloqueado por 1 hora
+
+# Verificar antes de crear sesión
+GET user:C123:blocked
+
+# Si devuelve "true", no permitir login
+# Si devuelve nil, cuenta no está bloqueada
+
+# Bloqueo permanente (sin TTL)
+SET user:C999:blocked "permanent"
+
+# Desbloquear
+DEL user:C123:blocked
+
+
+# ========================================
+# 8. INTENTOS DE LOGIN FALLIDOS
+# ========================================
+# Prevenir ataques de fuerza bruta
+
+# Inicializar contador de intentos fallidos
+SET login:attempts:juan@email.com 0 EX 900  # Expira en 15 minutos
+
+# Cada intento fallido
+INCR login:attempts:juan@email.com
+
+# Verificar intentos
+GET login:attempts:juan@email.com
+
+# Si >= 5, bloquear temporalmente
+SET login:blocked:juan@email.com "true" EX 1800  # 30 minutos
+
+# Login exitoso: limpiar intentos
+DEL login:attempts:juan@email.com
+
+
+# ========================================
+# 9. TOKENS DE RECUPERACIÓN DE CONTRASEÑA
+# ========================================
+
+# Generar token de recuperación (válido 1 hora)
+SETEX reset:token:def456abc789 3600 '{"email":"juan@email.com","user_id":"C123","created":"2025-11-20T11:00:00"}'
+
+# Verificar y usar token
+GET reset:token:def456abc789
+
+# Si es válido, permitir cambio y eliminar token
+DEL reset:token:def456abc789
+
+
+# ========================================
+# 10. SESIONES DE CONDUCTORES CON ESTADO
+# ========================================
+
+# Conductor activo en servicio
+HSET driver:session:D456 driver_id D456 nombre "Carlos Ruiz" vehiculo V001 estado "en_servicio" reserva_actual R001 ubicacion "Madrid Norte" inicio_turno "2025-11-20T08:00:00" ultima_ubicacion_update "2025-11-20T12:30:00"
+
+EXPIRE driver:session:D456 28800  # 8 horas (turno completo)
+
+# Actualizar ubicación cada minuto
+HSET driver:session:D456 ubicacion "Madrid Centro" ultima_ubicacion_update "2025-11-20T12:31:00"
+EXPIRE driver:session:D456 28800  # Renovar
+
+# Cambiar estado
+HSET driver:session:D456 estado "en_pausa"
+
+# Finalizar turno
+DEL driver:session:D456
+
+
+# ========================================
+# 11. LISTA DE USUARIOS CONECTADOS EN TIEMPO REAL
+# ========================================
+
+# Añadir usuario a lista de conectados
+ZADD usuarios:online 1732099200 C123  # Score = timestamp de última actividad
+ZADD usuarios:online 1732099260 C456
+ZADD usuarios:online 1732099320 D789
+
+# Actualizar timestamp al hacer una acción
+ZADD usuarios:online 1732099400 C123
+
+# Ver usuarios conectados en los últimos 5 minutos
+# (Tiempo actual - 300 segundos)
+ZRANGEBYSCORE usuarios:online 1732099100 +inf
+
+# Limpiar usuarios inactivos (más de 5 minutos)
+ZREMRANGEBYSCORE usuarios:online -inf 1732099100
+
+
+# ========================================
+# 12. SESIONES PERSISTENTES "RECUÉRDAME"
+# ========================================
+
+# Token de sesión persistente (30 días)
+SETEX session:remember:long456token 2592000 '{"user_id":"C123","tipo":"cliente","created":"2025-11-20"}'
+
+# Verificar token persistente
+GET session:remember:long456token
+
+# Revocar token persistente
+DEL session:remember:long456token
+
+
+# ========================================
+# 13. AUDITORÍA DE SESIONES
+# ========================================
+
+# Registrar cada login
+LPUSH audit:logins:C123 '{"timestamp":"2025-11-20T10:00:00","ip":"192.168.1.50","dispositivo":"Chrome","resultado":"exitoso"}'
+
+# Mantener solo los últimos 50 logins
+LTRIM audit:logins:C123 0 49
+
+# Ver historial de logins
+LRANGE audit:logins:C123 0 9  # Últimos 10
+
+
+# ========================================
+# 14. CAMBIO DE VERSIÓN DE TOKEN (INVALIDACIÓN MASIVA)
+# ========================================
+
+# Versión actual de tokens del usuario
+SET user:C123:token_version 1
+
+# Al crear sesión, guardo la versión
+HSET session:detail:abc123 user_id C123 token_version 1
+EXPIRE session:detail:abc123 1800
+
+# Si quiero invalidar TODAS las sesiones (ej: cambio de contraseña)
+INCR user:C123:token_version  # Ahora es 2
+
+# En cada petición, verifico:
+# version_en_sesion == version_en_usuario
+HGET session:detail:abc123 token_version  # Devuelve 1
+GET user:C123:token_version  # Devuelve 2
+# No coinciden → sesión inválida
+
+
+# ========================================
+# 15. ESTADÍSTICAS DE SESIONES
+# ========================================
+
+# Logins por día
+SET stats:logins:2025-11-20 0
+INCR stats:logins:2025-11-20
+
+# Pico de usuarios concurrentes del día
+SET stats:peak:concurrent:2025-11-20 0
+
+# Actualizar si el actual es mayor
+GET stats:sesiones:clientes:activas  # Supongamos que devuelve 45
+GET stats:peak:concurrent:2025-11-20  # Devuelve 38
+# Si 45 > 38
+SET stats:peak:concurrent:2025-11-20 45
+
+# Duración promedio de sesión (acumulativo)
+SET stats:duracion:sesiones:total 0  # Segundos acumulados
+SET stats:duracion:sesiones:count 0  # Número de sesiones
+
+# Al cerrar sesión
+INCRBY stats:duracion:sesiones:total 1845  # Usuario estuvo 1845 segundos
+INCR stats:duracion:sesiones:count
+
+# Calcular promedio
+GET stats:duracion:sesiones:total  # 1845
+GET stats:duracion:sesiones:count  # 1
+# Promedio = 1845 / 1 = 1845 segundos (~31 minutos)
+
+
+# ========================================
+# 16. SESIONES CON DATOS DE GEOLOCALIZACIÓN
+# ========================================
+
+HSET session:geo:D456 driver_id D456 lat 40.4168 lon -3.7038 precision 50 timestamp "2025-11-20T12:45:00"
+EXPIRE session:geo:D456 300  # Se actualiza cada 5 minutos
+
+# Actualizar ubicación
+HSET session:geo:D456 lat 40.4200 lon -3.7100 timestamp "2025-11-20T12:50:00"
+EXPIRE session:geo:D456 300
+
+
+# ========================================
+# RESUMEN DE COMANDOS UTILIZADOS:
+# ========================================
+# STRINGS: SET, GET, SETEX, INCR, DECR, DEL, EXISTS, EXPIRE, TTL
+# HASHES: HSET, HGET, HGETALL, HMGET
+# SETS: SADD, SMEMBERS
+# LISTS: LPUSH, LTRIM, LRANGE
+# SORTED SETS: ZADD, ZRANGEBYSCORE, ZREMRANGEBYSCORE
+# OTROS: INCRBY
+# ========================================
+
+# ========================================
+# NOTAS PERSONALES:
+# ========================================
+# - SETEX es perfecto para sesiones: set + expire en un comando
+# - TTL cortos (30min) para clientes, largos (8h) para conductores en turno
+# - El índice de sesiones activas (SET) permite cerrar todas a la vez
+# - Contador de intentos fallidos previene fuerza bruta
+# - Tokens de versión permiten invalidar todas las sesiones sin borrarlas
+# - ZADD con timestamps para tracking de usuarios online en tiempo real
+# - La auditoría (LISTS) guarda historial sin crecer infinitamente (LTRIM)
+# ========================================

@@ -1,0 +1,359 @@
+# ====================================================================================================#
+#                                                                                                     #
+#                                                         ██╗   ██╗   ████████╗ █████╗ ██████╗        #
+#       AEC3 - ABDS                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       #
+#                                                         ██║   ██║█████╗██║   ███████║██║  ██║       #
+#       created:        16/11/2025  -  03:00:11           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
+#       last change:    20/11/2025  -  22:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       #
+#                                                          ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        #
+#                                                                                                     #
+#       Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             #
+#                                                                                                     #
+#       Github:                                           https://github.com/ismaelucky342            #
+#                                                                                                     #
+# ====================================================================================================#
+
+
+# ========================================
+# 1. CANALES BÁSICOS DE NOTIFICACIÓN
+# ========================================
+
+# En una terminal/conexión:
+# SUBSCRIBE notifications:drivers
+
+# En otra terminal/conexión:
+PUBLISH notifications:drivers "Nuevo servicio asignado: V001 → Madrid Centro"
+PUBLISH notifications:drivers "Recuerda revisar el combustible antes de salir"
+
+# Los conductores suscritos reciben estos mensajes inmediatamente
+
+
+# ========================================
+# 2. NOTIFICACIONES A ADMINISTRADORES
+# ========================================
+
+# Conexión 1:
+# SUBSCRIBE notifications:admins
+
+# Conexión 2:
+PUBLISH notifications:admins "ALERTA: Vehículo V023 requiere mantenimiento urgente"
+PUBLISH notifications:admins "INFO: Reserva R045 completada - Cliente muy satisfecho"
+PUBLISH notifications:admins "CRÍTICO: Solo quedan 5 vehículos disponibles en Madrid"
+
+
+# ========================================
+# 3. NOTIFICACIONES A CLIENTES ESPECÍFICOS
+# ========================================
+
+# Cliente C123 se suscribe a su canal personal:
+# SUBSCRIBE notifications:client:C123
+
+# Sistema envía notificación a ese cliente:
+PUBLISH notifications:client:C123 "Tu reserva R001 ha sido confirmada. Vehículo: Mercedes Sprinter"
+PUBLISH notifications:client:C123 "Recordatorio: Tu reserva empieza en 1 hora. Ubicación: Madrid Centro"
+PUBLISH notifications:client:C123 "Tu vehículo está listo para recoger. Puesto: P-15"
+
+
+# ========================================
+# 4. NOTIFICACIONES POR TIPO DE EVENTO
+# ========================================
+
+# Canal para nuevas reservas
+# SUBSCRIBE events:reservas:nueva
+PUBLISH events:reservas:nueva '{"reserva_id":"R045","vehiculo":"V001","cliente":"C123","precio":89.50}'
+
+# Canal para reservas completadas
+# SUBSCRIBE events:reservas:completada
+PUBLISH events:reservas:completada '{"reserva_id":"R001","vehiculo":"V001","cliente":"C123","rating":5}'
+
+# Canal para cancelaciones
+# SUBSCRIBE events:reservas:cancelada
+PUBLISH events:reservas:cancelada '{"reserva_id":"R023","vehiculo":"V005","razon":"Cliente enfermo"}'
+
+
+# ========================================
+# 5. NOTIFICACIONES DE MANTENIMIENTO
+# ========================================
+
+# Canal para el taller
+# SUBSCRIBE notifications:taller
+PUBLISH notifications:taller "Vehículo V001 entrando a mantenimiento - Revisión 45.000 km"
+PUBLISH notifications:taller "Vehículo V023 - URGENTE: Motor hace ruido extraño"
+PUBLISH notifications:taller "Vehículo V008 listo para salir del taller"
+
+
+# ========================================
+# 6. ALERTAS DE VEHÍCULOS EN TIEMPO REAL
+# ========================================
+
+# Canal para ubicación de vehículos
+# SUBSCRIBE tracking:vehicles
+PUBLISH tracking:vehicles '{"vehiculo":"V001","lat":40.4168,"lon":-3.7038,"velocidad":45,"timestamp":"2025-11-20T10:15:00"}'
+PUBLISH tracking:vehicles '{"vehiculo":"V001","lat":40.4200,"lon":-3.7100,"velocidad":50,"timestamp":"2025-11-20T10:20:00"}'
+
+
+# ========================================
+# 7. PATRONES (WILDCARD) CON PSUBSCRIBE
+# ========================================
+
+# Suscribirse a TODOS los canales de notificaciones de clientes
+# PSUBSCRIBE notifications:client:*
+
+# Esto recibirá mensajes de:
+# - notifications:client:C123
+# - notifications:client:C456
+# - notifications:client:C789
+# etc.
+
+PUBLISH notifications:client:C123 "Mensaje para C123"
+PUBLISH notifications:client:C456 "Mensaje para C456"
+# Ambos se reciben en la suscripción con pattern
+
+
+# ========================================
+# 8. NOTIFICACIONES POR CIUDAD
+# ========================================
+
+# Conductores de Madrid
+# SUBSCRIBE notifications:city:madrid
+PUBLISH notifications:city:madrid "ALERTA: Tráfico intenso en M-30"
+PUBLISH notifications:city:madrid "INFO: Nueva zona de carga disponible en Chamartín"
+
+# Conductores de Barcelona
+# SUBSCRIBE notifications:city:barcelona
+PUBLISH notifications:city:barcelona "ALERTA: Manifestación en Diagonal - Evitar zona"
+
+
+# ========================================
+# 9. SISTEMA DE BROADCAST (A TODOS)
+# ========================================
+
+# Todos los usuarios conectados
+# SUBSCRIBE notifications:broadcast
+PUBLISH notifications:broadcast "MANTENIMIENTO: El sistema estará en mantenimiento de 02:00 a 04:00"
+PUBLISH notifications:broadcast "OFERTA: 20% descuento en reservas de fin de semana"
+PUBLISH notifications:broadcast "NUEVO: Ahora disponibles vehículos eléctricos en Valencia"
+
+
+# ========================================
+# 10. NOTIFICACIONES DE EMERGENCIA
+# ========================================
+
+# Canal de emergencias (prioridad máxima)
+# SUBSCRIBE alerts:emergency
+PUBLISH alerts:emergency "EMERGENCIA: Vehículo V023 reporta accidente en A-2 km 45"
+PUBLISH alerts:emergency "URGENTE: Cliente C789 no responde - Reserva R067 activa"
+
+
+# ========================================
+# 11. CHAT EN TIEMPO REAL (SOPORTE)
+# ========================================
+
+# Cliente inicia chat
+# SUBSCRIBE chat:session:abc123
+
+# Agente de soporte responde
+PUBLISH chat:session:abc123 "Agente María: Hola, ¿en qué puedo ayudarte?"
+
+# Cliente responde (desde otro canal o el mismo)
+PUBLISH chat:session:abc123 "Cliente: Necesito cambiar mi reserva"
+
+# Agente
+PUBLISH chat:session:abc123 "Agente María: Claro, dime tu número de reserva"
+
+
+# ========================================
+# 12. NOTIFICACIONES DE MÉTRICAS EN TIEMPO REAL
+# ========================================
+
+# Dashboard subscribe a métricas
+# SUBSCRIBE metrics:realtime
+PUBLISH metrics:realtime '{"tipo":"nueva_reserva","total":235,"ingresos_dia":2456.80}'
+PUBLISH metrics:realtime '{"tipo":"vehiculo_devuelto","disponibles":39}'
+
+
+# ========================================
+# 13. LOGS EN TIEMPO REAL
+# ========================================
+
+# Sistema de logging distribuido
+# SUBSCRIBE logs:error
+PUBLISH logs:error '{"timestamp":"2025-11-20T10:30:00","service":"reservas","error":"Connection timeout","vehiculo":"V001"}'
+
+# SUBSCRIBE logs:info
+PUBLISH logs:info '{"timestamp":"2025-11-20T10:31:00","service":"reservas","message":"Reserva R045 creada exitosamente"}'
+
+
+# ========================================
+# 14. EVENTOS DE INTEGRACIÓN
+# ========================================
+
+# Para integrar con otros sistemas
+# SUBSCRIBE integration:payment
+PUBLISH integration:payment '{"event":"payment_received","reserva":"R045","amount":89.50,"method":"card"}'
+
+# SUBSCRIBE integration:gps
+PUBLISH integration:gps '{"vehiculo":"V001","lat":40.4168,"lon":-3.7038,"timestamp":"2025-11-20T10:15:00"}'
+
+
+# ========================================
+# 15. NOTIFICACIONES SEGMENTADAS POR ROL
+# ========================================
+
+# Conductores
+# SUBSCRIBE role:driver
+PUBLISH role:driver "Nuevas normas de seguridad vial en vigor desde hoy"
+
+# Administradores
+# SUBSCRIBE role:admin
+PUBLISH role:admin "Informe mensual disponible en el panel de control"
+
+# Clientes VIP
+# SUBSCRIBE role:vip_client
+PUBLISH role:vip_client "Acceso exclusivo: Reserva anticipada de vehículos premium"
+
+
+# ========================================
+# 16. MÚLTIPLES SUSCRIPCIONES SIMULTÁNEAS
+# ========================================
+
+# Un cliente puede suscribirse a múltiples canales:
+# SUBSCRIBE notifications:client:C123 notifications:broadcast events:reservas:nueva
+
+# Recibirá mensajes de todos estos canales
+
+
+# ========================================
+# 17. VERIFICAR SUSCRIPTORES ACTIVOS
+# ========================================
+
+# Ver cuántos suscriptores tiene un canal
+PUBSUB NUMSUB notifications:drivers
+# Resultado: ["notifications:drivers", "3"]  # 3 suscriptores
+
+# Ver todos los canales activos
+PUBSUB CHANNELS
+
+# Ver canales que coinciden con patrón
+PUBSUB CHANNELS notifications:*
+
+# Ver cuántos suscriptores hay con patterns
+PUBSUB NUMPAT
+
+
+# ========================================
+# 18. DESUSCRIPCIÓN
+# ========================================
+
+# Desuscribirse de un canal específico
+# UNSUBSCRIBE notifications:drivers
+
+# Desuscribirse de un patrón
+# PUNSUBSCRIBE notifications:client:*
+
+# Desuscribirse de todo
+# UNSUBSCRIBE
+# PUNSUBSCRIBE
+
+
+# ========================================
+# 19. EJEMPLO COMPLETO: FLUJO DE RESERVA
+# ========================================
+
+# Paso 1: Cliente hace reserva
+PUBLISH events:reservas:nueva '{"reserva_id":"R050","cliente":"C123","vehiculo":"V001"}'
+
+# Paso 2: Sistema notifica al cliente
+PUBLISH notifications:client:C123 "Tu reserva R050 está siendo procesada..."
+
+# Paso 3: Sistema notifica al conductor asignado
+PUBLISH notifications:driver:D456 "Nuevo servicio: Reserva R050 - Vehículo V001 - Inicio: 2025-11-21 09:00"
+
+# Paso 4: Sistema notifica a admins (para monitoreo)
+PUBLISH notifications:admins "Nueva reserva R050 confirmada - Cliente: C123 - Ingresos: +89.50€"
+
+# Paso 5: Sistema publica métrica
+PUBLISH metrics:realtime '{"evento":"nueva_reserva","total_dia":9}'
+
+
+# ========================================
+# 20. EJEMPLO: TRACKING DE VEHÍCULO EN VIVO
+# ========================================
+
+# Suscriptor (aplicación web/móvil del cliente):
+# SUBSCRIBE tracking:vehicle:V001
+
+# GPS del vehículo publica cada 30 segundos:
+PUBLISH tracking:vehicle:V001 '{"lat":40.4168,"lon":-3.7038,"velocidad":45,"gasolina":75,"timestamp":"2025-11-20T10:15:00"}'
+# Espera 30 segundos...
+PUBLISH tracking:vehicle:V001 '{"lat":40.4200,"lon":-3.7100,"velocidad":50,"gasolina":74,"timestamp":"2025-11-20T10:15:30"}'
+# Cliente ve el movimiento en tiempo real en su app
+
+
+# ========================================
+# 21. PATRÓN: NOTIFICAR Y ALMACENAR
+# ========================================
+
+# Pub/Sub NO almacena mensajes. Para persistencia:
+
+# 1. Publicar notificación (tiempo real)
+PUBLISH notifications:client:C123 "Tu reserva está confirmada"
+
+# 2. Almacenar en lista (histórico)
+LPUSH notifications:history:C123 '{"timestamp":"2025-11-20T10:00:00","mensaje":"Tu reserva está confirmada"}'
+LTRIM notifications:history:C123 0 99  # Mantener solo últimas 100
+
+# Así combino tiempo real (Pub/Sub) + persistencia (Lists)
+
+
+# ========================================
+# 22. USO PRÁCTICO: WORKER BACKGROUND
+# ========================================
+
+# Worker suscrito a eventos para procesamiento:
+# SUBSCRIBE events:reservas:nueva
+
+# Cada vez que llega un mensaje, el worker:
+# 1. Recibe evento
+# 2. Procesa (envía email, actualiza BD externa, etc.)
+# 3. Publica resultado
+PUBLISH events:reservas:procesada '{"reserva":"R050","estado":"email_enviado"}'
+
+
+# ========================================
+# COMANDOS PUB/SUB RESUMIDOS:
+# ========================================
+# PUBLISH <canal> <mensaje>         - Publicar mensaje
+# SUBSCRIBE <canal> [<canal>...]    - Suscribirse a canales
+# PSUBSCRIBE <pattern> [<pattern>...] - Suscribirse con patrón
+# UNSUBSCRIBE [<canal>...]          - Desuscribirse
+# PUNSUBSCRIBE [<pattern>...]       - Desuscribirse de patrones
+# PUBSUB CHANNELS [<pattern>]       - Listar canales activos
+# PUBSUB NUMSUB [<canal>...]        - Número de suscriptores por canal
+# PUBSUB NUMPAT                     - Número de suscripciones con patrón
+# ========================================
+
+
+# ========================================
+# NOTAS PERSONALES:
+# ========================================
+# - Pub/Sub es PERFECTO para notificaciones en tiempo real
+# - Los mensajes NO se almacenan → si nadie está suscrito, se pierden
+# - Fire-and-forget: publicar es instantáneo, no espera respuesta
+# - PSUBSCRIBE con * permite suscribirse a familias de canales
+# - Ideal para: chat, notificaciones push, dashboards en vivo, logs
+# - NO usar para: colas de trabajo (usar LISTS), datos que no pueden perderse
+# - Combinar con LISTS si necesitas persistencia + tiempo real
+# - Múltiples suscriptores pueden recibir el mismo mensaje (broadcast)
+# - Un suscriptor puede escuchar múltiples canales simultáneamente
+# - SUBSCRIBE es bloqueante: la conexión espera mensajes indefinidamente
+# 
+# CASOS DE USO EN MI SISTEMA:
+# - Notificar a conductores de nuevos servicios
+# - Alertar a admins de problemas urgentes
+# - Actualizar dashboards en tiempo real
+# - Chat de soporte cliente-agente
+# - Tracking GPS de vehículos en vivo
+# - Notificaciones push a app móvil
+# - Integración con otros microservicios
+# ========================================

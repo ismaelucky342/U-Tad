@@ -1,0 +1,486 @@
+# ====================================================================================================#
+#                                                                                                     #
+#                                                         ██╗   ██╗   ████████╗ █████╗ ██████╗        #
+#       AEC3 - ABDS                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       #
+#                                                         ██║   ██║█████╗██║   ███████║██║  ██║       #
+#       created:        16/11/2025  -  03:00:11           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
+#       last change:    20/11/2025  -  22:55:40           ╚██████╔╝      ██║   ██║  ██║██████╔╝       #
+#                                                          ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        #
+#                                                                                                     #
+#       Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             #
+#                                                                                                     #
+#       Github:                                           https://github.com/ismaelucky342            #
+#                                                                                                     #
+# ====================================================================================================#
+
+# ========================================
+# 1. TRANSACCIÓN BÁSICA: CREAR RESERVA
+# ========================================
+# Cuando un cliente hace una reserva, necesito varias operaciones atómicas:
+# - Crear la reserva
+# - Decrementar vehículos disponibles
+# - Incrementar reservas activas
+# - Actualizar ranking de popularidad
+# - Incrementar ingresos
+
+# TODO O NADA (atomicidad):
+MULTI
+HSET reserva:R100 vehiculo_id V001 cliente_id C123 precio 89.50 estado "confirmada"
+DECR stats:vehiculos:disponibles
+INCR stats:reservas:activas
+ZINCRBY ranking:vehiculos:popularidad 1 V001
+INCRBYFLOAT stats:ingresos:2025-11-20 89.50
+EXEC
+
+# Si algo falla en el EXEC, TODA la transacción se descarta
+# Si todo va bien, TODAS las operaciones se ejecutan
+
+# Resultado del EXEC: array con respuesta de cada comando
+# [OK, 37, 11, "157", "2545.50"]
+
+
+# ========================================
+# 2. CANCELAR TRANSACCIÓN (DISCARD)
+# ========================================
+
+MULTI
+HSET reserva:R101 vehiculo_id V002 cliente_id C456 precio 145.00
+DECR stats:vehiculos:disponibles
+INCR stats:reservas:activas
+DISCARD  # Cancela toda la transacción, ningún comando se ejecuta
+
+# Útil cuando detectas un error antes del EXEC
+
+
+# ========================================
+# 3. TRANSACCIÓN: COMPLETAR RESERVA
+# ========================================
+# Cliente devuelve el vehículo
+
+MULTI
+HSET reserva:R001 estado "completada" fecha_fin "2025-11-20T18:00:00"
+INCR stats:vehiculos:disponibles
+DECR stats:reservas:activas
+HINCRBY vehiculo:V001 km_actuales 150
+DEL bloqueo:vehiculo:V001
+EXEC
+
+
+# ========================================
+# 4. TRANSACCIÓN: VEHÍCULO A MANTENIMIENTO
+# ========================================
+
+MULTI
+HSET vehiculo:V005 estado "mantenimiento" ubicacion "Madrid Taller"
+DECR stats:vehiculos:disponibles
+INCR stats:vehiculos:mantenimiento
+RPUSH queue:mantenimiento:rutinario V005
+SADD vehiculos:en_mantenimiento V005
+EXEC
+
+
+# ========================================
+# 5. TRANSACCIÓN CON WATCH (Optimistic Locking)
+# ========================================
+# WATCH vigila una clave. Si cambia antes del EXEC, la transacción se aborta
+
+# Escenario: Dos clientes intentan reservar el mismo vehículo simultáneamente
+
+# Cliente 1:
+WATCH vehiculo:V001
+GET vehiculo:V001  # Verifico que esté disponible
+
+# Si está disponible, procedo:
+MULTI
+HSET reserva:R102 vehiculo_id V001 cliente_id C123 estado "confirmada"
+HSET vehiculo:V001 estado "en_uso"
+DECR stats:vehiculos:disponibles
+EXEC
+
+# Si Cliente 2 modificó vehiculo:V001 entre WATCH y EXEC:
+# → EXEC devuelve (nil) → transacción abortada → reintentamos
+
+# Si nadie modificó vehiculo:V001:
+# → EXEC ejecuta normalmente
+
+
+# ========================================
+# 6. TRANSACCIÓN: ACTUALIZAR MÚLTIPLES MÉTRICAS
+# ========================================
+
+MULTI
+INCR stats:reservas:dia:2025-11-20
+INCR stats:reservas:mes:2025-11
+INCR stats:reservas:total_historico
+HINCRBY stats:ciudad:madrid reservas_hoy 1
+HINCRBY stats:tipo:furgoneta reservas_mes 1
+EXEC
+
+
+# ========================================
+# 7. TRANSACCIÓN: CAMBIO DE ESTADO COMPLEJO
+# ========================================
+# Vehículo sale de mantenimiento y vuelve a estar disponible
+
+MULTI
+HSET vehiculo:V005 estado "disponible" ubicacion "Madrid Centro"
+INCR stats:vehiculos:disponibles
+DECR stats:vehiculos:mantenimiento
+LPOP queue:mantenimiento:rutinario  # Asumo que V005 era el primero
+SREM vehiculos:en_mantenimiento V005
+DEL mantenimiento:V005
+LPUSH historial:V005:mantenimientos '{"fecha":"2025-11-20","tipo":"revision","coste":385.50}'
+EXEC
+
+
+# ========================================
+# 8. PIPELINING (OPTIMIZACIÓN DE RED)
+# ========================================
+# Pipelining NO es una transacción, pero mejora rendimiento
+# Envía múltiples comandos sin esperar respuesta individual
+
+# SIN Pipelining (lento):
+# SET key1 value1   → Espera respuesta → RTT 1ms
+# SET key2 value2   → Espera respuesta → RTT 1ms
+# SET key3 value3   → Espera respuesta → RTT 1ms
+# Total: 3ms
+
+# CON Pipelining (rápido):
+# Envío todos de golpe → Recibo todas las respuestas juntas → RTT ~1ms
+# Total: 1ms
+
+# En redis-cli no hay sintaxis especial para pipeline,
+# pero en aplicaciones reales se hace así:
+
+# Ejemplo conceptual (no ejecutable en redis-cli así):
+# PIPELINE_START
+SET key1 value1
+SET key2 value2
+SET key3 value3
+INCR counter
+GET key1
+# PIPELINE_END
+
+
+# ========================================
+# 9. COMBINACIÓN: PIPELINE + TRANSACCIÓN
+# ========================================
+# Se pueden combinar para máxima eficiencia
+
+# PIPELINE_START
+MULTI
+HSET reserva:R103 vehiculo_id V002 cliente_id C789 precio 145.00
+DECR stats:vehiculos:disponibles
+INCR stats:reservas:activas
+EXEC
+# PIPELINE_END
+
+
+# ========================================
+# 10. TRANSACCIÓN: TRANSFERENCIA DE PUNTOS/CRÉDITOS
+# ========================================
+# Sistema de puntos de fidelidad
+
+WATCH user:C123:puntos user:C456:puntos
+
+GET user:C123:puntos  # Verifico que tenga suficientes
+
+MULTI
+DECRBY user:C123:puntos 50  # C123 da 50 puntos
+INCRBY user:C456:puntos 50  # C456 recibe 50 puntos
+LPUSH transacciones:puntos '{"de":"C123","a":"C456","cantidad":50,"fecha":"2025-11-20"}'
+EXEC
+
+# Si alguien modificó los puntos entre WATCH y EXEC → abortado
+
+
+# ========================================
+# 11. TRANSACCIÓN: CREAR SESIÓN Y ACTUALIZAR CONTADORES
+# ========================================
+
+MULTI
+SETEX session:user:xyz789 1800 '{"user_id":"C123","login":"2025-11-20T10:00:00"}'
+SADD user:C123:sessions session:user:xyz789
+INCR stats:sesiones:clientes:activas
+INCR stats:logins:2025-11-20
+LPUSH audit:logins:C123 '{"timestamp":"2025-11-20T10:00:00","ip":"192.168.1.50"}'
+EXEC
+
+
+# ========================================
+# 12. TRANSACCIÓN: CANCELAR RESERVA CON REEMBOLSO
+# ========================================
+
+MULTI
+HSET reserva:R050 estado "cancelada" motivo "Cliente cambió planes"
+INCR stats:vehiculos:disponibles
+DECR stats:reservas:activas
+INCR stats:reservas:canceladas
+HSET vehiculo:V003 estado "disponible"
+DEL bloqueo:vehiculo:V003
+INCRBYFLOAT user:C123:credito 89.50  # Reembolso
+EXEC
+
+
+# ========================================
+# 13. WATCH MÚLTIPLES CLAVES
+# ========================================
+
+WATCH vehiculo:V001 stats:vehiculos:disponibles reserva:R104
+
+# Si CUALQUIERA de estas claves cambia → transacción abortada
+
+MULTI
+# ... operaciones
+EXEC
+
+
+# ========================================
+# 14. PATRÓN: RETRY CON WATCH
+# ========================================
+# En una aplicación real, reintentaríamos así:
+
+# Pseudocódigo:
+# while True:
+#     WATCH vehiculo:V001
+#     estado = GET vehiculo:V001
+#     
+#     if estado != "disponible":
+#         UNWATCH
+#         return "Vehículo no disponible"
+#     
+#     MULTI
+#     HSET reserva:R105 ...
+#     HSET vehiculo:V001 estado "en_uso"
+#     EXEC
+#     
+#     if EXEC devolvió (nil):
+#         continue  # Reintentar
+#     else:
+#         break  # Éxito
+
+
+# ========================================
+# 15. TRANSACCIÓN: ACTUALIZAR RANKING MÚLTIPLE
+# ========================================
+
+MULTI
+ZINCRBY ranking:vehiculos:reservas_total 1 V001
+ZINCRBY ranking:vehiculos:ingresos 89.50 V001
+ZADD ranking:vehiculos:ultima_actividad 1732099200 V001
+ZINCRBY ranking:clientes:reservas 1 C123
+ZINCRBY ranking:clientes:gasto 89.50 C123
+EXEC
+
+
+# ========================================
+# 16. TRANSACCIÓN: BATCH UPDATE DE MÚLTIPLES VEHÍCULOS
+# ========================================
+
+MULTI
+HSET vehiculo:V001 precio_dia 95.00
+HSET vehiculo:V002 precio_dia 150.00
+HSET vehiculo:V003 precio_dia 80.00
+HSET vehiculo:V004 precio_dia 85.00
+HSET vehiculo:V005 precio_dia 190.00
+EXEC
+
+
+# ========================================
+# 17. ERRORES EN TRANSACCIONES
+# ========================================
+
+# Si hay ERROR DE SINTAXIS antes del EXEC:
+MULTI
+SET key value
+SET key  # ERROR: falta el valor
+INCR counter
+EXEC
+# → EXEC ni se ejecuta, todo se descarta
+
+# Si hay ERROR EN TIEMPO DE EJECUCIÓN:
+MULTI
+SET key "value"
+INCR key  # ERROR: key no es un número
+SET otro "valor"
+EXEC
+# → SET key se ejecuta, INCR falla pero devuelve error, SET otro se ejecuta
+# Redis NO hace rollback automático en errores de runtime
+
+
+# ========================================
+# 18. TRANSACCIÓN: LIMPIEZA DE DATOS TEMPORALES
+# ========================================
+
+MULTI
+DEL session:user:abc123
+DEL prereserva:PR001
+DEL cache:vehiculo:V001
+SREM user:C123:sessions session:user:abc123
+DECR stats:sesiones:clientes:activas
+EXEC
+
+
+# ========================================
+# 19. PIPELINING: CONSULTAS MASIVAS
+# ========================================
+# Obtener información de muchos vehículos a la vez
+
+# Sin pipeline: 10 comandos × 1ms RTT = 10ms
+# Con pipeline: 10 comandos × 1 RTT = ~1ms
+
+# PIPELINE_START (conceptual)
+HGETALL vehiculo:V001
+HGETALL vehiculo:V002
+HGETALL vehiculo:V003
+HGETALL vehiculo:V004
+HGETALL vehiculo:V005
+HGETALL vehiculo:V006
+HGETALL vehiculo:V007
+HGETALL vehiculo:V008
+HGETALL vehiculo:V009
+HGETALL vehiculo:V010
+# PIPELINE_END
+
+# Recibo todas las respuestas juntas
+
+
+# ========================================
+# 20. TRANSACCIÓN: OPERACIÓN IDEMPOTENTE
+# ========================================
+# Garantizar que una operación no se ejecute dos veces
+
+WATCH reserva:R106
+
+# Verifico si ya existe
+EXISTS reserva:R106
+
+MULTI
+HSET reserva:R106 vehiculo_id V001 cliente_id C123 precio 89.50
+# ... más operaciones
+EXEC
+
+# Si reserva:R106 ya existía entre WATCH y EXEC → abortado
+
+
+# ========================================
+# 21. TRANSACCIÓN COMPLEJA: FLUJO COMPLETO DE RESERVA
+# ========================================
+
+WATCH vehiculo:V001 stats:vehiculos:disponibles
+
+# Verificaciones...
+GET vehiculo:V001
+
+MULTI
+# 1. Crear reserva
+HSET reserva:R200 vehiculo_id V001 cliente_id C123 fecha_inicio "2025-11-21" fecha_fin "2025-11-23" precio 268.50 estado "confirmada"
+EXPIRE reserva:R200 259200
+
+# 2. Actualizar vehículo
+HSET vehiculo:V001 estado "en_uso"
+DECR stats:vehiculos:disponibles
+INCR stats:vehiculos:en_uso
+
+# 3. Actualizar reservas
+INCR stats:reservas:activas
+INCR stats:reservas:dia:2025-11-20
+INCR stats:reservas:mes:2025-11
+
+# 4. Actualizar índices
+SADD vehiculo:V001:reservas R200
+SADD cliente:C123:reservas R200
+
+# 5. Bloquear vehículo
+SET bloqueo:vehiculo:V001 R200 EX 259200
+
+# 6. Actualizar rankings
+ZINCRBY ranking:vehiculos:popularidad 1 V001
+ZINCRBY ranking:vehiculos:ingresos 268.50 V001
+ZINCRBY ranking:clientes:reservas 1 C123
+ZINCRBY ranking:clientes:gasto 268.50 C123
+
+# 7. Actualizar métricas financieras
+INCRBYFLOAT stats:ingresos:2025-11-20 268.50
+INCRBYFLOAT stats:ingresos:2025-11 268.50
+
+# 8. Registrar evento
+LPUSH events:reservas:log '{"reserva":"R200","cliente":"C123","vehiculo":"V001","timestamp":"2025-11-20T10:30:00"}'
+LTRIM events:reservas:log 0 999
+
+EXEC
+
+# Si EXEC devuelve array → éxito
+# Si devuelve (nil) → otra operación modificó datos → reintento
+
+
+# ========================================
+# RESUMEN DE COMANDOS:
+# ========================================
+# MULTI                - Iniciar transacción
+# EXEC                 - Ejecutar transacción
+# DISCARD              - Cancelar transacción
+# WATCH <key> [<key>...] - Vigilar claves (optimistic locking)
+# UNWATCH              - Dejar de vigilar todas las claves
+# ========================================
+
+
+# ========================================
+# DIFERENCIAS CLAVE:
+# ========================================
+# TRANSACCIÓN (MULTI/EXEC):
+# - Atomicidad: todo o nada (si EXEC falla)
+# - Aislamiento: nadie puede meter comandos en medio
+# - Útil cuando necesitas consistencia
+# - No hace rollback en errores de runtime
+# - Todos los comandos se ejecutan igual (no hay "IF")
+#
+# PIPELINING:
+# - Optimización de red: reduce RTT
+# - Velocidad: envía muchos comandos de golpe
+# - NO es atómico: cada comando se ejecuta independientemente
+# - Si uno falla, los demás se ejecutan igual
+# - Útil para consultas masivas o actualizaciones independientes
+#
+# WATCH:
+# - Optimistic locking: detecta cambios concurrentes
+# - Permite implementar "compare-and-set"
+# - Más eficiente que locks pesimistas
+# - Requiere lógica de retry en la aplicación
+# ========================================
+
+
+# ========================================
+# NOTAS PERSONALES:
+# ========================================
+# - MULTI/EXEC garantiza que nadie se "cuele" entre mis comandos
+# - Perfecto para operaciones que afectan múltiples claves relacionadas
+# - WATCH + MULTI es poderoso para resolver race conditions
+# - Pipelining acelera operaciones independientes (consultas, actualizaciones batch)
+# - Puedo combinar MULTI + Pipeline para velocidad + atomicidad
+# - En mi sistema uso transacciones para:
+#   → Crear/modificar/cancelar reservas
+#   → Cambios de estado de vehículos
+#   → Actualizar múltiples métricas simultáneamente
+#   → Operaciones financieras (créditos, puntos)
+# - WATCH es esencial cuando hay concurrencia alta (múltiples usuarios)
+# - Recordar: Redis NO hace rollback automático en errores de runtime
+# - Las transacciones Redis son más simples que SQL ACID, pero suficientes
+#   para la mayoría de casos de uso
+# ========================================
+
+
+# ========================================
+# CASOS DE USO EN FLEETHUB:
+# ========================================
+# 1. Crear reserva (transacción compleja de 10+ operaciones)
+# 2. Cancelar reserva (reversar estados, devolver crédito)
+# 3. Completar reserva (actualizar todo coherentemente)
+# 4. Vehículo a/desde mantenimiento (múltiples actualizaciones)
+# 5. Transferencias de puntos/créditos entre usuarios
+# 6. Actualizaciones batch de precios/configuración
+# 7. Sistema de doble reserva (WATCH para prevenir)
+# 8. Limpieza de datos temporales al cerrar sesión
+# 9. Consultas dashboard (pipeline para velocidad)
+# 10. Sincronización de métricas (atomicidad crítica)
+# ========================================
