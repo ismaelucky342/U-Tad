@@ -275,3 +275,19 @@ TTA no mejoró el score público, pero el score privado final de 0.98305 sugiere
 - [42 AI School - EfficientNetB3](https://github.com/42-AI/bootcamp_machine-learning/blob/master/day09/ex08/README.md)
 
 ---
+
+## Conclusión y modelo final
+
+El modelo final, EfficientNetB3 V2 (con TTA), representa el equilibrio óptimo entre precisión, eficiencia y control del overfitting alcanzado en esta actividad. A lo largo de las iteraciones, el proceso de experimentación demostró que el Transfer Learning era imprescindible para superar el overfitting de las arquitecturas CNN básicas, y que la clave estaba en encontrar una arquitectura moderna y eficiente, descartando modelos como VGG16 y EfficientNetB7 por ser demasiado lentos o sobredimensionados, así como técnicas innecesarias como el ensemble learning.
+
+EfficientNetB3 ha resultado ser el modelo más adecuado, logrando una alta precisión sin incurrir en un overfitting significativo, fácilmente controlable mediante técnicas como el Learning Rate Schedule, Label Smoothing y, finalmente, el Test-Time Augmentation (TTA) en la última iteración. El TTA, en particular, permitió que el modelo no solo fuera preciso en validación, sino que también generalizara de forma sobresaliente, como refleja el excelente score privado final de 0.98305 en Kaggle.
+
+En resumen, el éxito de este modelo se debe a:
+- La elección de una arquitectura eficiente y suficientemente expresiva (EfficientNetB3).
+- El uso de técnicas de regularización y ajuste fino (fine-tuning, LR schedule, label smoothing).
+- La aplicación de TTA para maximizar la robustez y la generalización.
+- Un proceso iterativo de experimentación y análisis crítico de resultados, documentado en cada paso.
+
+Este enfoque permitió alcanzar el mejor resultado posible en la competición, consolidando a EfficientNetB3 V2 con TTA como la solución definitiva de la actividad.
+
+_Ismael Hernández Clemente 21/11/2025 - 21:08_
