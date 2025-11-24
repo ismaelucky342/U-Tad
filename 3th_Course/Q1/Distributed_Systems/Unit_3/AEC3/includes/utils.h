@@ -1,4 +1,3 @@
-
 #ifndef  _UTILS_H_
 #define  _UTILS_H_
 
@@ -175,6 +174,19 @@ inline void unpackv(std::vector<unsigned char> &packet,T* data,int dataSize)
 	memcpy(data,packet.data(),dataSize);
 	memcpy(packet.data(),packet.data()+dataSize,packetSize-dataSize);
 	packet.resize(packetSize-dataSize);
+}
+
+inline void packString(std::vector<unsigned char> &packet, const std::string &s) {
+    int len = s.size();
+    pack(packet, len);
+    packv<unsigned char>(packet, (unsigned char*)s.c_str(), len);
+}
+
+inline std::string unpackString(std::vector<unsigned char> &packet) {
+    int len = unpack<int>(packet);
+    std::string s(len, '\0');
+    unpackv<unsigned char>(packet, (unsigned char*)s.data(), len);
+    return s;
 }
 
 #endif

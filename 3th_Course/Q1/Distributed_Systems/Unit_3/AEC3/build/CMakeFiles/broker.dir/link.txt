@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -Wl,--dependency-file=CMakeFiles/broker.dir/link.d CMakeFiles/broker.dir/src/utils.cpp.o CMakeFiles/broker.dir/src/broker.cpp.o -o broker  -lpthread -lstdc++fs

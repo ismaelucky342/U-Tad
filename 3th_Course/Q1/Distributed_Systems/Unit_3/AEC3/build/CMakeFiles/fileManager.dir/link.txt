@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -Wl,--dependency-file=CMakeFiles/fileManager.dir/link.d CMakeFiles/fileManager.dir/src/utils.cpp.o CMakeFiles/fileManager.dir/src/main_fm.cpp.o -o fileManager  -lpthread /home/nirmata/Documentos/University/U-Tad/3th_Course/Q1/Distributed_Systems/Unit_3/AEC3/src/libFileManager.a -lstdc++fs
