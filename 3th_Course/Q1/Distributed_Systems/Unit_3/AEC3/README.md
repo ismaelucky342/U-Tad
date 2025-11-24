@@ -1,6 +1,6 @@
-# Mi Solución para la Actividad Práctica de Objetos Remotos y RPC
+# AEC3 - Comunicación RPC
 
-## ¿Qué hace esta práctica?
+## Objetivos
 
 La práctica consiste en distribuir un objeto `FileManager` (que originalmente era monousuario) en un sistema cliente-servidor usando RPC. El cliente mantiene la misma interfaz de usuario (`main_fm.cpp`), pero ahora conecta remotamente a servidores que manejan instancias del `FileManager`. Para la máxima nota, añadí un Broker que registra servidores y balancea conexiones de clientes, permitiendo múltiples servidores en diferentes máquinas (ideal para AWS).
 
