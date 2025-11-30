@@ -67,8 +67,8 @@ int main(int argc, char** argv) {
         std::cout << "Debug: Connection established, socket=" << brokerConn.socket << ", id=" << brokerConn.id << std::endl;
         std::vector<unsigned char> msg;
         try {
-            pack(msg, std::string("SERVER"));
-            pack(msg, myPublicIP);
+            packString(msg, "SERVER");
+            packString(msg, myPublicIP);
             pack(msg, port);
             std::cout << "Debug: Packed message size: " << msg.size() << std::endl;
             sendMSG<unsigned char>(brokerConn.id, msg);

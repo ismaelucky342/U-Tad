@@ -68,49 +68,51 @@ extern std::map<unsigned int,connection_t> clientList;
 
 template<typename t>
 void recvMSG(int clientID, std::vector<t> &data){
-
-
-    connection_t connection=clientList[clientID];
-
-    int socket= connection.socket;
-
-    int bufferSize=0;
-    int readData=read(socket, &bufferSize, sizeof(int));
-    DEBUG_MSG("DatosLeidos : %d\n",bufferSize);
-	if(readData==0)
-    {
-       printf("ERROR: recvMSG -- line : %d lost connection\n", __LINE__);
+    if (clientList.find(clientID) == clientList.end()) {
+        data.resize(0);
+        return;
     }
-	
-    int numElements=bufferSize/sizeof(t);
+    connection_t connection = clientList[clientID];
+    int socket = connection.socket;
+    int bufferSize = 0;
+    int readData = read(socket, &bufferSize, sizeof(int));
+    DEBUG_MSG("DatosLeidos : %d\n", bufferSize);
+    if (readData == 0) {
+        printf("ERROR: recvMSG -- line : %d lost connection\n", __LINE__);
+        data.resize(0);
+        return;
+    }
+    int numElements = bufferSize / sizeof(t);
     data.resize(numElements);
-    int remaining=bufferSize;
-    int idxIn=0;
-    while(remaining>0)
-    {
-        int bufferSizeBlock=read(socket, &(data.data()[bufferSize-remaining]),remaining);
-        remaining-=bufferSizeBlock;        
+    int remaining = bufferSize;
+    int idxIn = 0;
+    while (remaining > 0) {
+        int bufferSizeBlock = read(socket, &(data.data()[bufferSize - remaining]), remaining);
+        if (bufferSizeBlock <= 0) break;
+        remaining -= bufferSizeBlock;
     }
-    
-    if(remaining!=0)
-    {
-       printf("ERROR: recvMSG -- line : %d error data not matching: %d read, %d espected\n", __LINE__,remaining,bufferSize);
+    if (remaining != 0) {
+        printf("ERROR: recvMSG -- line : %d error data not matching: %d read, %d expected\n", __LINE__, bufferSize - remaining, bufferSize);
+        data.resize(0);
     }
 }
 
 
 template<typename t>
 void sendMSG(int clientID, std::vector<t> &data){
+    if (clientList.find(clientID) == clientList.end()) return;
+    int dataLen = data.size() * sizeof(t);
+    connection_t connection = clientList[clientID];
+    int socket = connection.socket;
+    write(socket, &dataLen, sizeof(int));
+    write(socket, data.data(), dataLen);
+}
 
-    int dataLen=data.size()*sizeof(t);
-    connection_t connection=clientList[clientID];
-
-    int socket= connection.socket;
-
-    //enviar tamaño buffer
-    write(socket,&dataLen,sizeof(int));
-    //enviar buffer
-    write(socket,data.data(),dataLen);
+bool checkPendingMessages(int clientID) {
+    if (clientList.find(clientID) == clientList.end()) return false;
+    connection_t conn = clientList[clientID];
+    if (conn.buffer == nullptr) return false;
+    return !conn.buffer->empty();
 }
 
 template<typename t>

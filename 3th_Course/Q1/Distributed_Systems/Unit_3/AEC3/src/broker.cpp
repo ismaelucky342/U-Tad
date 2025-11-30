@@ -48,9 +48,9 @@ int main(int argc, char** argv) {
                 closeConnection(clientID);
                 continue;
             }
-            std::string type = unpack<std::string>(msg);
+             std::string type = unpackString(msg);
             if (type == "SERVER") {
-                std::string host = unpack<std::string>(msg);
+                std::string host = unpackString(msg);
                 int srv_port = unpack<int>(msg);
                 if (srv_port <= 0 || srv_port >= 65536) {
                     std::cerr << "WARNING: Invalid port " << srv_port << " from " << host << " (id=" << clientID << ")" << std::endl;
@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
                 std::lock_guard<std::mutex> lg(servers_mtx);
                 if (servers.empty()) {
                     std::vector<unsigned char> resp;
-                    pack(resp, std::string(""));
+                    packString(resp, "");
                     pack(resp, 0);
                     sendMSG<unsigned char>(clientID, resp);
                 } else {
@@ -72,8 +72,8 @@ int main(int argc, char** argv) {
                         if (servers[i].connections < servers[minIdx].connections) minIdx = i;
                     }
                     servers[minIdx].connections++;
-                    std::vector<unsigned char> resp;
-                    pack(resp, servers[minIdx].host);
+                     std::vector<unsigned char> resp;
+                    packString(resp, servers[minIdx].host);
                     pack(resp, servers[minIdx].port);
                     sendMSG<unsigned char>(clientID, resp);
                 }
