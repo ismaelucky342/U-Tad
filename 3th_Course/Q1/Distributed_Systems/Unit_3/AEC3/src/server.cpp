@@ -64,17 +64,12 @@ int main(int argc, char** argv) {
     // register with Broker
     connection_t brokerConn = initClient(brokerHost, BROKER_PORT);
     if (brokerConn.socket != -1 && brokerConn.id >= 0) {  // Añade check de id
+        std::cout << "Debug: Connection established, socket=" << brokerConn.socket << ", id=" << brokerConn.id << std::endl;
         std::vector<unsigned char> msg;
-        msg.reserve(100);  // Reserva espacio para evitar reallocs
-        msg.resize(0);     // Asegura tamaño inicial 0
         try {
             pack(msg, std::string("SERVER"));
             pack(msg, myPublicIP);
             pack(msg, port);
-            // Inicializa cualquier byte no usado a 0 para evitar datos no inicializados
-            if (msg.size() < msg.capacity()) {
-                msg.resize(msg.capacity(), 0);
-            }
             std::cout << "Debug: Packed message size: " << msg.size() << std::endl;
             sendMSG<unsigned char>(brokerConn.id, msg);
             closeConnection(brokerConn.id);

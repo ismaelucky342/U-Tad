@@ -4,12 +4,19 @@
 #include <thread>
 #include <vector>
 #include <chrono>
+#include <mutex>
+#include <atomic>
+#include <csignal>
+#include <cstdlib>
 
 struct ServerInfo {
     std::string host;
     int port;
     int connections;
 };
+
+static std::atomic<bool> running{true};
+static void handle_sigint(int) { running.store(false); }
 
 /**
  * @brief Main function for the Broker server.
@@ -23,28 +30,35 @@ int main(int argc, char** argv) {
     if (argc > 1) listenPort = atoi(argv[1]);
 
     int server_fd = initServer(listenPort);
+    if (server_fd == -1) {
+        std::cerr << "Failed to init server on port " << listenPort << std::endl;
+        return 1;
+    }
     std::vector<ServerInfo> servers;
     std::mutex servers_mtx;
+    std::signal(SIGINT, handle_sigint);
 
-    while (true) {
+    while (running.load()) {
         if (checkClient()) {
             int clientID = getLastClientID();
             std::vector<unsigned char> msg;
             recvMSG<unsigned char>(clientID, msg);
             if (msg.empty()) {
-                std::cerr << "ERROR: Client/Server closed connection (id=" << clientID << "). Cleaning up." << std::endl;
+                std::cerr << "ERROR: Empty message or lost connection (id=" << clientID << "). Cleaning up." << std::endl;
                 closeConnection(clientID);
                 continue;
             }
             std::string type = unpack<std::string>(msg);
             if (type == "SERVER") {
                 std::string host = unpack<std::string>(msg);
-                int srv_port = unpack<int>(msg); // renamed to avoid shadowing
-                {
+                int srv_port = unpack<int>(msg);
+                if (srv_port <= 0 || srv_port >= 65536) {
+                    std::cerr << "WARNING: Invalid port " << srv_port << " from " << host << " (id=" << clientID << ")" << std::endl;
+                } else {
                     std::lock_guard<std::mutex> lg(servers_mtx);
                     servers.push_back({host, srv_port, 0});
+                    std::cout << "Server registered: " << host << ":" << srv_port << " (id=" << clientID << ")" << std::endl;
                 }
-                std::cout << "Server registered: " << host << ":" << srv_port << " (id=" << clientID << ")" << std::endl;
             } else if (type == "CLIENT") {
                 std::lock_guard<std::mutex> lg(servers_mtx);
                 if (servers.empty()) {
@@ -64,12 +78,13 @@ int main(int argc, char** argv) {
                     sendMSG<unsigned char>(clientID, resp);
                 }
             } else {
-                std::cerr << "WARNING: Unknown type received: " << type << " (id=" << clientID << ")" << std::endl;
+                std::cerr << "WARNING: Unknown type: " << type << " (id=" << clientID << ")" << std::endl;
             }
-            // always close accepted connection after handling one message
             closeConnection(clientID);
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
+    std::cerr << "Shutting down broker..." << std::endl;
+    ::close(server_fd);
     return 0;
 }
