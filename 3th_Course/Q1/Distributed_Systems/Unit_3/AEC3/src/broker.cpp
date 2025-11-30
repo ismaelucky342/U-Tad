@@ -19,11 +19,12 @@ struct ServerInfo {
  * @return 0 on success.
  */
 int main(int argc, char** argv) {
-    int port = 8080;
-    if (argc > 1) port = atoi(argv[1]);
+    int listenPort = 8080;
+    if (argc > 1) listenPort = atoi(argv[1]);
 
-    int server_fd = initServer(port);
+    int server_fd = initServer(listenPort);
     std::vector<ServerInfo> servers;
+    std::mutex servers_mtx;
 
     while (true) {
         if (checkClient()) {
@@ -31,17 +32,21 @@ int main(int argc, char** argv) {
             std::vector<unsigned char> msg;
             recvMSG<unsigned char>(clientID, msg);
             if (msg.empty()) {
-                std::cerr << "ERROR: Client/Server closed connection. Cleaning up." << std::endl;
-                closeConnection(clientID); 
-                continue; 
+                std::cerr << "ERROR: Client/Server closed connection (id=" << clientID << "). Cleaning up." << std::endl;
+                closeConnection(clientID);
+                continue;
             }
             std::string type = unpack<std::string>(msg);
             if (type == "SERVER") {
                 std::string host = unpack<std::string>(msg);
-                int port = unpack<int>(msg);
-                servers.push_back({host, port, 0});
-                std::cout << "Server registered: " << host << ":" << port << std::endl;
+                int srv_port = unpack<int>(msg); // renamed to avoid shadowing
+                {
+                    std::lock_guard<std::mutex> lg(servers_mtx);
+                    servers.push_back({host, srv_port, 0});
+                }
+                std::cout << "Server registered: " << host << ":" << srv_port << " (id=" << clientID << ")" << std::endl;
             } else if (type == "CLIENT") {
+                std::lock_guard<std::mutex> lg(servers_mtx);
                 if (servers.empty()) {
                     std::vector<unsigned char> resp;
                     pack(resp, std::string(""));
@@ -58,7 +63,10 @@ int main(int argc, char** argv) {
                     pack(resp, servers[minIdx].port);
                     sendMSG<unsigned char>(clientID, resp);
                 }
+            } else {
+                std::cerr << "WARNING: Unknown type received: " << type << " (id=" << clientID << ")" << std::endl;
             }
+            // always close accepted connection after handling one message
             closeConnection(clientID);
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
