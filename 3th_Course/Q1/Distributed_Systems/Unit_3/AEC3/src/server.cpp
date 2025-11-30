@@ -9,23 +9,14 @@
 #include <atomic>
 #include <csignal>
 #include <cstdlib>
+#include <vector>
 
 #define BROKER_PORT 8080
 
 static std::atomic<bool> running{true};
 static void handle_sigint(int) { running.store(false); }
 
-/**
- * @brief Main function for the FileManager server.
- * Registers with Broker and handles client connections.
- * @param argc Number of command line arguments.
- * @param argv Command line arguments, argv[1] can be the port.
- * @return 0 on success.
- * Uso: ./Server <PUERTO_SERVER> <IP_BROKER> <IP_PUBLICA_DE_ESTE_SERVER>
- */
-int main(int argc, char** argv)
-{
-    // ...existing code...
+int main(int argc, char** argv) {
     int port = 8081;
     std::string brokerHost = "127.0.0.1";
     std::string myPublicIP = "127.0.0.1";
@@ -53,8 +44,9 @@ int main(int argc, char** argv)
         pack(msg, port);
         sendMSG<unsigned char>(brokerConn.id, msg);
         closeConnection(brokerConn.id);
+        std::cout << "Registered with Broker: " << brokerHost << ":" << BROKER_PORT << std::endl;
     } else {
-        std::cerr << "Failed to connect to Broker, continuing without registration" << std::endl;
+        std::cerr << "Failed to connect to Broker at " << brokerHost << ":" << BROKER_PORT << ", continuing..." << std::endl;
     }
 
     int server_fd = initServer(port);
@@ -63,16 +55,17 @@ int main(int argc, char** argv)
         return 1;
     }
     ClientManager cm;
+    std::vector<std::thread> threads;
     while (running.load()) {
         if (checkClient()) {
             int clientID = getLastClientID();
-            std::thread t(&ClientManager::attendClient, &cm, clientID);
-            t.detach();
+            threads.emplace_back(&ClientManager::attendClient, &cm, clientID);
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
     std::cerr << "Shutting down server..." << std::endl;
+    for (auto& t : threads) if (t.joinable()) t.join();
     ::close(server_fd);
     return 0;
 }
