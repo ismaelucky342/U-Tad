@@ -2,6 +2,7 @@
 #include "../includes/utils.h"
 #include <string>
 #include <vector>
+#include <cstdlib>
 #include <iostream>
 
 #define BROKER_HOST "127.0.0.1"
@@ -24,8 +25,10 @@ FileManager::FileManager() {
  */
 FileManager::FileManager(string path) {
     if (!connected) {
-        // connect to Broker
-        connection_t conn = initClient(BROKER_HOST, BROKER_PORT);
+        const char* env_broker_ip = std::getenv("BROKER_IP");
+        std::string broker_ip = (env_broker_ip) ? std::string(env_broker_ip) : "127.0.0.1";
+
+        connection_t conn = initClient(broker_ip, BROKER_PORT);
         if (conn.socket == -1) {
             std::cerr << "Failed to connect to Broker" << std::endl;
             ready = false;
@@ -58,12 +61,10 @@ FileManager::FileManager(string path) {
         clientID = conn.id;
         connected = true;
     }
-    // send CREATE
     std::vector<unsigned char> msg;
     pack(msg, std::string("CREATE"));
     pack(msg, path);
     sendMSG<unsigned char>(clientID, msg);
-    // recv instanceID
     std::vector<unsigned char> resp;
     recvMSG<unsigned char>(clientID, resp);
     instID = unpack<int>(resp);
