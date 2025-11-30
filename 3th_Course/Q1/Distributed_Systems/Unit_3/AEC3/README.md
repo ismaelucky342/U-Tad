@@ -61,3 +61,8 @@ Cambia las constantes en código si necesitas IPs específicas (ej. en `fileMana
 - **Documentación**: Comentarios `/** @param */` en funciones clave.
 - **Manejo de errores**: Conexiones fallidas, etc.
 - **Sin modificar lo prohibido**: `main_fm.cpp`, `filemanager.h`, `libFileManager.a` intactos.
+
+
+
+
+![alt text](image.png)
