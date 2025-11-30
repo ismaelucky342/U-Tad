@@ -30,6 +30,11 @@ int main(int argc, char** argv) {
             int clientID = getLastClientID();
             std::vector<unsigned char> msg;
             recvMSG<unsigned char>(clientID, msg);
+            if (msg.empty()) {
+                std::cerr << "ERROR: Client/Server closed connection. Cleaning up." << std::endl;
+                closeConnection(clientID); 
+                continue; 
+            }
             std::string type = unpack<std::string>(msg);
             if (type == "SERVER") {
                 std::string host = unpack<std::string>(msg);
