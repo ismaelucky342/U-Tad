@@ -1,1 +1,1 @@
-/usr/bin/c++ -g -Wl,--dependency-file=CMakeFiles/client.dir/link.d CMakeFiles/client.dir/src/utils.cpp.o CMakeFiles/client.dir/src/main_fm.cpp.o CMakeFiles/client.dir/src/fileManagerRemoto.cpp.o -o client  -lpthread -lstdc++fs
+/usr/bin/c++ -g CMakeFiles/client.dir/src/utils.cpp.o CMakeFiles/client.dir/src/main_fm.cpp.o CMakeFiles/client.dir/src/fileManagerRemoto.cpp.o -o client  -lpthread -lstdc++fs 

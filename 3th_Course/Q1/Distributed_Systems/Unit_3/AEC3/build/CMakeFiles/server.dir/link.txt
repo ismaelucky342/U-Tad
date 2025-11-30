@@ -1,1 +1,1 @@
-/usr/bin/c++ -g -Wl,--dependency-file=CMakeFiles/server.dir/link.d CMakeFiles/server.dir/src/utils.cpp.o CMakeFiles/server.dir/src/server.cpp.o CMakeFiles/server.dir/src/clientManager.cpp.o -o server  -lpthread /home/nirmata/Documentos/University/U-Tad/3th_Course/Q1/Distributed_Systems/Unit_3/AEC3/src/libFileManager.a -lstdc++fs
+/usr/bin/c++ -g CMakeFiles/server.dir/src/utils.cpp.o CMakeFiles/server.dir/src/server.cpp.o CMakeFiles/server.dir/src/clientManager.cpp.o -o server  -lpthread ../src/libFileManager.a -lstdc++fs 

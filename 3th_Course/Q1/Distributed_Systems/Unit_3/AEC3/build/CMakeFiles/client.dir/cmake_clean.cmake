@@ -1,5 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/client.dir/link.d"
   "CMakeFiles/client.dir/src/fileManagerRemoto.cpp.o"
   "CMakeFiles/client.dir/src/fileManagerRemoto.cpp.o.d"
   "CMakeFiles/client.dir/src/main_fm.cpp.o"

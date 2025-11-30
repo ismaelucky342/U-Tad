@@ -34,7 +34,7 @@ int main(int argc, char** argv)
         
         pack(msg, port);
         sendMSG<unsigned char>(brokerConn.id, msg);
-        closeConnection(brokerConn.id);
+        //closeConnection(brokerConn.id);
     } else {
         std::cerr << "Failed to connect to Broker, continuing without registration" << std::endl;
     }
