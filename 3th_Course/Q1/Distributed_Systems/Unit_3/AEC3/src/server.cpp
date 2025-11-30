@@ -63,22 +63,28 @@ int main(int argc, char** argv) {
 
     // register with Broker
     connection_t brokerConn = initClient(brokerHost, BROKER_PORT);
-    if (brokerConn.socket != -1) {
+    if (brokerConn.socket != -1 && brokerConn.id >= 0) {  // Añade check de id
         std::vector<unsigned char> msg;
+        msg.reserve(100);  // Reserva espacio para evitar reallocs
+        msg.resize(0);     // Asegura tamaño inicial 0
         try {
             pack(msg, std::string("SERVER"));
             pack(msg, myPublicIP);
             pack(msg, port);
-            std::cout << "Debug: Packed message size: " << msg.size() << std::endl;  // Debug
+            // Inicializa cualquier byte no usado a 0 para evitar datos no inicializados
+            if (msg.size() < msg.capacity()) {
+                msg.resize(msg.capacity(), 0);
+            }
+            std::cout << "Debug: Packed message size: " << msg.size() << std::endl;
             sendMSG<unsigned char>(brokerConn.id, msg);
             closeConnection(brokerConn.id);
             std::cout << "Registered with Broker: " << brokerHost << ":" << BROKER_PORT << std::endl;
         } catch (const std::exception& e) {
             std::cerr << "Error during registration: " << e.what() << std::endl;
-            closeConnection(brokerConn.id);
+            if (brokerConn.id >= 0) closeConnection(brokerConn.id);
         }
     } else {
-        std::cerr << "Failed to connect to Broker at " << brokerHost << ":" << BROKER_PORT << ", continuing..." << std::endl;
+        std::cerr << "Failed to connect to Broker at " << brokerHost << ":" << BROKER_PORT << " (socket=" << brokerConn.socket << ", id=" << brokerConn.id << "), continuing..." << std::endl;
     }
 
     int server_fd = initServer(port);
