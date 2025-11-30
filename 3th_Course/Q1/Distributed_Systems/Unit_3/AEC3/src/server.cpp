@@ -10,11 +10,25 @@
 #include <csignal>
 #include <cstdlib>
 #include <vector>
+#include <regex>  // Para validación de IP
 
 #define BROKER_PORT 8080
 
 static std::atomic<bool> running{true};
 static void handle_sigint(int) { running.store(false); }
+
+// Función simple para validar IP (IPv4 básica)
+bool isValidIP(const std::string& ip) {
+    std::regex ipRegex(R"(^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$)");
+    if (!std::regex_match(ip, ipRegex)) return false;
+    std::stringstream ss(ip);
+    std::string token;
+    while (std::getline(ss, token, '.')) {
+        int num = std::stoi(token);
+        if (num < 0 || num > 255) return false;
+    }
+    return true;
+}
 
 int main(int argc, char** argv) {
     int port = 8081;
@@ -30,8 +44,20 @@ int main(int argc, char** argv) {
             std::cerr << "Puerto inválido, usando " << port << std::endl;
         }
     }
-    if (argc > 2) brokerHost = argv[2];
-    if (argc > 3) myPublicIP = argv[3];
+    if (argc > 2) {
+        brokerHost = argv[2];
+        if (!isValidIP(brokerHost)) {
+            std::cerr << "IP del Broker inválida: " << brokerHost << ", usando 127.0.0.1" << std::endl;
+            brokerHost = "127.0.0.1";
+        }
+    }
+    if (argc > 3) {
+        myPublicIP = argv[3];
+        if (!isValidIP(myPublicIP)) {
+            std::cerr << "IP pública inválida: " << myPublicIP << ", usando 127.0.0.1" << std::endl;
+            myPublicIP = "127.0.0.1";
+        }
+    }
 
     std::signal(SIGINT, handle_sigint);
 
@@ -39,12 +65,18 @@ int main(int argc, char** argv) {
     connection_t brokerConn = initClient(brokerHost, BROKER_PORT);
     if (brokerConn.socket != -1) {
         std::vector<unsigned char> msg;
-        pack(msg, std::string("SERVER"));
-        pack(msg, myPublicIP);
-        pack(msg, port);
-        sendMSG<unsigned char>(brokerConn.id, msg);
-        closeConnection(brokerConn.id);
-        std::cout << "Registered with Broker: " << brokerHost << ":" << BROKER_PORT << std::endl;
+        try {
+            pack(msg, std::string("SERVER"));
+            pack(msg, myPublicIP);
+            pack(msg, port);
+            std::cout << "Debug: Packed message size: " << msg.size() << std::endl;  // Debug
+            sendMSG<unsigned char>(brokerConn.id, msg);
+            closeConnection(brokerConn.id);
+            std::cout << "Registered with Broker: " << brokerHost << ":" << BROKER_PORT << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "Error during registration: " << e.what() << std::endl;
+            closeConnection(brokerConn.id);
+        }
     } else {
         std::cerr << "Failed to connect to Broker at " << brokerHost << ":" << BROKER_PORT << ", continuing..." << std::endl;
     }
