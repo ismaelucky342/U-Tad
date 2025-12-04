@@ -1,0 +1,22 @@
+/*====================================================================================================*/
+/*                                                                                                    */
+/*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
+/*      AEC2 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
+/*      created:        01/12/2025  -  21:45:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
+/*      last change:    05/12/2025  -  00:55:42           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
+/*                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        */
+/*                                                                                                    */
+/*      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             */
+/*                                                                                                    */
+/*      Github:                                           https://github.com/ismaelucky342            */
+/*                                                                                                    */
+/*====================================================================================================*/
+
+/* Archivo intermediario porque separé los estilos en varios módulos CSS */
+@import url('css/variables.css');
+@import url('css/navbar.css');
+@import url('css/layout.css');
+@import url('css/gallery.css');
+@import url('css/forms.css');
+@import url('css/responsive.css');

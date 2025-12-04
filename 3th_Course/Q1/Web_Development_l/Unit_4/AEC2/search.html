@@ -1,0 +1,102 @@
+<!--====================================================================================================-->
+<!--                                                                                                    -->
+<!--                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        -->
+<!--      AEC2 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       -->
+<!--                                                        ██║   ██║█████╗██║   ███████║██║  ██║       -->
+<!--      created:        01/12/2025  -  21:45:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       -->
+<!--      last change:    05/12/2025  -  00:55:42           ╚██████╔╝      ██║   ██║  ██║██████╔╝       -->
+<!--                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        -->
+<!--                                                                                                    -->
+<!--      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             -->
+<!--                                                                                                    -->
+<!--      Github:                                           https://github.com/ismaelucky342            -->
+<!--                                                                                                    -->
+<!--====================================================================================================-->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Perros - U-tad</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="image.png" alt="U-tad Logo" class="logo">
+                <h2>Galería de Perros</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="search.html" class="nav-link active">Búsqueda</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="search-section">
+            <h1>Buscar Perros por Raza</h1>
+            <p>Selecciona una raza y obtén las imágenes que desees</p>
+
+            <!-- Error Message -->
+            <div id="error-message" class="error-message" style="display: none;"></div>
+
+            <!-- Success Message -->
+            <div id="success-message" class="success-message" style="display: none;"></div>
+
+            <!-- Search Form -->
+            <form id="search-form" class="search-form">
+                <div class="form-group">
+                    <label for="breed-select">Raza de Perro:</label>
+                    <select id="breed-select" name="breed" required>
+                        <option value="">Cargando razas...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="subbreed-select">Sub-raza (si aplica):</label>
+                    <select id="subbreed-select" name="subbreed" disabled>
+                        <option value="">Selecciona primero una raza</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="image-count">Cantidad de imágenes:</label>
+                    <input 
+                        type="number" 
+                        id="image-count" 
+                        name="count" 
+                        min="1" 
+                        max="50" 
+                        value="5" 
+                        required
+                    >
+                    <small>Mínimo 1, máximo 50 imágenes</small>
+                </div>
+
+                <button type="submit" class="btn-search">Buscar Imágenes</button>
+            </form>
+
+            <!-- Results Container -->
+            <div id="results-container" class="results-container">
+                <h2 id="results-title" style="display: none;">Resultados de la Búsqueda</h2>
+                <div id="search-gallery" class="dog-gallery">
+                    <!-- Images will be loaded here dynamically -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Ismael Hernández Clemente - U-tad  - 2025</p>
+    </footer>
+
+    <script src="search.js"></script>
+</body>
+</html>

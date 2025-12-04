@@ -1,0 +1,156 @@
+<!--====================================================================================================-->
+<!--                                                                                                    -->
+<!--                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        -->
+<!--      AEC2 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       -->
+<!--                                                        ██║   ██║█████╗██║   ███████║██║  ██║       -->
+<!--      created:        01/12/2025  -  21:45:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       -->
+<!--      last change:    05/12/2025  -  00:55:42           ╚██████╔╝      ██║   ██║  ██║██████╔╝       -->
+<!--                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        -->
+<!--                                                                                                    -->
+<!--      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             -->
+<!--                                                                                                    -->
+<!--      Github:                                           https://github.com/ismaelucky342            -->
+<!--                                                                                                    -->
+<!--====================================================================================================-->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API - Dog Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #004999;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Test de API - Dog Gallery</h1>
+    <p>Este archivo te permite probar que la API de Dog CEO funciona correctamente.</p>
+
+    <div class="test-section">
+        <h2>Test 1: Obtener razas</h2>
+        <button onclick="testBreeds()">Probar</button>
+        <div id="breeds-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Obtener 5 imágenes aleatorias</h2>
+        <button onclick="testRandomImages()">Probar</button>
+        <div id="random-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Obtener imágenes de una raza (Husky)</h2>
+        <button onclick="testBreedImages()">Probar</button>
+        <div id="breed-result" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://dog.ceo/api';
+
+        function testBreeds() {
+            const resultDiv = $('#breeds-result');
+            resultDiv.html('⏳ Cargando...');
+
+            $.ajax({
+                url: `${API_BASE_URL}/breeds/list/all`,
+                method: 'GET',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        const breedCount = Object.keys(response.message).length;
+                        resultDiv.html(`<span class="success">Éxito</span><br>Se encontraron ${breedCount} razas.<br><pre>${JSON.stringify(response.message, null, 2).substring(0, 500)}...</pre>`);
+                    } else {
+                        resultDiv.html(`<span class="error">Error en la respuesta</span>`);
+                    }
+                },
+                error: function(error) {
+                    resultDiv.html(`<span class="error">Error: ${error.statusText}</span>`);
+                }
+            });
+        }
+
+        function testRandomImages() {
+            const resultDiv = $('#random-result');
+            resultDiv.html('⏳ Cargando...');
+
+            $.ajax({
+                url: `${API_BASE_URL}/breeds/image/random/5`,
+                method: 'GET',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        const images = response.message.map(url => `<img src="${url}" style="width: 100px; height: 100px; object-fit: cover; margin: 5px; border-radius: 4px;">`).join('');
+                        resultDiv.html(`<span class="success">Éxito</span><br>Se cargaron 5 imágenes:<br>${images}`);
+                    } else {
+                        resultDiv.html(`<span class="error">Error en la respuesta</span>`);
+                    }
+                },
+                error: function(error) {
+                    resultDiv.html(`<span class="error">Error: ${error.statusText}</span>`);
+                }
+            });
+        }
+
+        function testBreedImages() {
+            const resultDiv = $('#breed-result');
+            resultDiv.html('⏳ Cargando...');
+
+            $.ajax({
+                url: `${API_BASE_URL}/breed/husky/images`,
+                method: 'GET',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        const imageCount = response.message.length;
+                        const images = response.message.slice(0, 5).map(url => `<img src="${url}" style="width: 100px; height: 100px; object-fit: cover; margin: 5px; border-radius: 4px;">`).join('');
+                        resultDiv.html(`<span class="success">Éxito</span><br>Se encontraron ${imageCount} imágenes de Husky. Mostrando 5:<br>${images}`);
+                    } else {
+                        resultDiv.html(`<span class="error">Error en la respuesta</span>`);
+                    }
+                },
+                error: function(error) {
+                    resultDiv.html(`<span class="error">Error: ${error.statusText}</span>`);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

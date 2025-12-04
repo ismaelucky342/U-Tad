@@ -1,0 +1,67 @@
+<!--====================================================================================================-->
+<!--                                                                                                    -->
+<!--                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        -->
+<!--      AEC2 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       -->
+<!--                                                        ██║   ██║█████╗██║   ███████║██║  ██║       -->
+<!--      created:        01/12/2025  -  21:45:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       -->
+<!--      last change:    05/12/2025  -  00:55:42           ╚██████╔╝      ██║   ██║  ██║██████╔╝       -->
+<!--                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        -->
+<!--                                                                                                    -->
+<!--      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             -->
+<!--                                                                                                    -->
+<!--      Github:                                           https://github.com/ismaelucky342            -->
+<!--                                                                                                    -->
+<!--====================================================================================================-->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Perros - U-tad</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="image.png" alt="U-tad Logo" class="logo">
+                <h2>AEC2 - Galería de Perros</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">Inicio</a></li>
+                <li><a href="search.html" class="nav-link">Búsqueda</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="hero">
+            <h1>Bienvenido a la Galería de Perros</h1>
+            <p>Exploremos juntos estas fantásticas imagenes aleatorias de perretes</p>
+        </section>
+
+        <!-- Error Message -->
+        <div id="error-message" class="error-message" style="display: none;"></div>
+
+        <!-- Image Container -->
+        <section class="image-container">
+            <h2>Perros Aleatorios del Día</h2>
+            <div id="dog-gallery" class="dog-gallery">
+                <!-- Loading spinner -->
+                <div class="loading">Cargando imágenes...</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Ismael Hernández Clemente - U-tad  - 2025</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
