@@ -1,0 +1,29 @@
+# Ejecutables
+docker/broker/brokerFileManager
+docker/server/serverFileManager
+client/clienteFileManager
+
+# Archivos de prueba
+tests/*
+!tests/.gitkeep
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Configuraciones locales
+*.pem
+*.key
+.env
+
+# Directorios de datos
+FileManagerDir/
+nfs-storage/
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db

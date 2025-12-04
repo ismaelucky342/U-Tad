@@ -1,0 +1,69 @@
+# Deployment avanzado 1 para serverFileManager
+# Configuración con múltiples réplicas en un mismo nodo usando hostPath (+2 puntos)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment-advanced1
+  labels:
+    app: filemanager-server
+spec:
+  # Múltiples réplicas en el mismo nodo
+  replicas: 3
+  selector:
+    matchLabels:
+      app: filemanager-server
+  template:
+    metadata:
+      labels:
+        app: filemanager-server
+    spec:
+      containers:
+      - name: server
+        image: <tu-usuario>/server-filemanager:latest
+        args: ["broker-service"]
+        ports:
+        - containerPort: 32001
+          name: server-port
+        # Montar volumen compartido
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /app/FileManagerDir
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+      volumes:
+      - name: shared-storage
+        hostPath:
+          # Carpeta en el host que será compartida por todos los pods
+          path: /mnt/filemanager-shared
+          type: DirectoryOrCreate
+      # Opcional: Asegurar que todos los pods estén en el mismo nodo
+      # affinity:
+      #   podAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #     - labelSelector:
+      #         matchExpressions:
+      #         - key: app
+      #           operator: In
+      #           values:
+      #           - filemanager-server
+      #       topologyKey: "kubernetes.io/hostname"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-service
+spec:
+  type: LoadBalancer  # Para balancear carga entre réplicas
+  selector:
+    app: filemanager-server
+  ports:
+  - port: 32001
+    targetPort: 32001
+    protocol: TCP
+    name: server-port

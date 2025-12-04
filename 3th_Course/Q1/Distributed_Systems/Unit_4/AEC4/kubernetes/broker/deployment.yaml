@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broker-deployment
+  labels:
+    app: broker
+spec:
+  # Solo 1 réplica del broker
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broker
+  template:
+    metadata:
+      labels:
+        app: broker
+    spec:
+      containers:
+      - name: broker
+        # Cambia esto por tu imagen en Docker Hub o ECR
+        image: <tu-usuario>/broker-filemanager:latest
+        ports:
+        - containerPort: 32002
+          name: broker-port
+        # Recursos opcionales
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+---
+# Service para exponer el broker
+apiVersion: v1
+kind: Service
+metadata:
+  name: broker-service
+spec:
+  type: NodePort
+  selector:
+    app: broker
+  ports:
+  - port: 32002
+    targetPort: 32002
+    nodePort: 32002  # Puerto externo en el nodo
+    protocol: TCP
+    name: broker-port

@@ -1,0 +1,69 @@
+# Deployment avanzado 2 para serverFileManager
+# Configuración con múltiples nodos usando NFS (+5 puntos)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment-advanced2
+  labels:
+    app: filemanager-server
+spec:
+  # Múltiples réplicas distribuidas en varios nodos
+  replicas: 3
+  selector:
+    matchLabels:
+      app: filemanager-server
+  template:
+    metadata:
+      labels:
+        app: filemanager-server
+    spec:
+      containers:
+      - name: server
+        image: <tu-usuario>/server-filemanager:latest
+        args: ["broker-service"]
+        ports:
+        - containerPort: 32001
+          name: server-port
+        # Montar PVC con almacenamiento NFS
+        volumeMounts:
+        - name: nfs-storage
+          mountPath: /app/FileManagerDir
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+      volumes:
+      - name: nfs-storage
+        persistentVolumeClaim:
+          claimName: nfs-pvc
+      # Anti-affinity para distribuir pods en diferentes nodos
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - filemanager-server
+              topologyKey: "kubernetes.io/hostname"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: filemanager-server
+  ports:
+  - port: 32001
+    targetPort: 32001
+    protocol: TCP
+    name: server-port
