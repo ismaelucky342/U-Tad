@@ -1,303 +1,116 @@
-#  GUIÓN DE PRESENTACIÓN - AEC4
-## Sistemas Distribuidos - Kubernetes Deployment
+# GUION DE PRESENTACION AEC4
+## Video 15-20 minutos - CONFIGURACION AVANZADA 2: NFS (10 PUNTOS)
 
 ---
 
-##  INFORMACIÓN GENERAL
+## PASO 1 - INTRODUCCION (2 min)
 
-**Duración:** 15-20 minutos  
-**Formato:** Video demostrativo  
-**Configuración implementada:** [MARCA LA TUYA]
-- [ ]  Básica (5 puntos)
-- [ ]  Avanzada 1 - hostPath (7 puntos)
-- [ ]  Avanzada 2 - NFS (10 puntos)
+Bueno, hola a todos. Soy Ismael y voy a presentar la AEC4 de Sistemas Distribuidos.
 
----
+Para esta practica he montado una aplicacion de gestion de archivos distribuida usando Docker para containerizar, Kubernetes para orquestar todo, y AWS EC2 como infraestructura base.
 
-## ⏱ ESTRUCTURA TEMPORAL
+La aplicacion basicamente tiene tres componentes principales:
+- Un BROKER que se ejecuta en el puerto 32002 y que coordina todas las conexiones entre clientes y servidores
+- Varios SERVIDORES que corren en el puerto 32001 y que son los que realmente gestionan los archivos
+- Y los CLIENTES que se conectan para subir y descargar archivos
 
-| Parte | Contenido | Duración |
-|-------|-----------|----------|
-| 1 | Introducción y Arquitectura | 2 min |
-| 2 | Mostrar Configuración del Cluster | 3 min |
-| 3 | Explicar Dockerfiles | 2 min |
-| 4 | Explicar YAMLs de Kubernetes | 3 min |
-| 5 | Estado del Cluster | 2 min |
-| 6 | Demostración Práctica | 6-8 min |
-| 7 | Conclusiones | 1 min |
+He implementado la configuracion mas avanzada, que es la Avanzada 2, que vale 10 puntos. Esta configuracion incluye un cluster con 1 master y 3 workers, con 3 replicas del servidor distribuidas en diferentes nodos fisicos. He montado un servidor NFS para tener almacenamiento compartido en red, y he configurado PersistentVolume y PersistentVolumeClaim para que todo funcione. Esto me da alta disponibilidad, tolerancia a fallos, y balanceo de carga automatico entre las replicas.
+
+Basicamente es la configuracion mas compleja que se podia hacer, asi que vamos a ver como funciona todo.
 
 ---
 
-##  PARTE 1: INTRODUCCIÓN (2 minutos)
+## PASO 2 - MOSTRAR EL CLUSTER (3 min)
 
-### Qué Mostrar en Pantalla
-- Diapositiva con título del proyecto
-- Tu nombre y asignatura
-- Diagrama de arquitectura
+Primero voy a conectarme al nodo master para mostrar el cluster:
 
-### Qué Decir (Script)
-```
-"Buenos días/tardes. Mi nombre es [TU NOMBRE] y en este video voy a presentar 
-la Actividad Evaluable Continua 4 de Sistemas Distribuidos.
-
-En esta práctica he implementado el despliegue de una aplicación distribuida 
-de gestión de archivos utilizando:
-- Docker para containerización
-- Kubernetes para orquestación
-- AWS EC2 como infraestructura
-
-La aplicación consta de tres componentes:
-1. Un BROKER que coordina las conexiones (puerto 32002)
-2. Uno o más SERVIDORES que gestionan archivos (puerto 32001)
-3. CLIENTES que interactúan con los servidores
-
-He implementado la configuración [BÁSICA / AVANZADA 1 / AVANZADA 2], 
-que incluye:
-
-[PARA BÁSICA]:
-- 1 nodo master con control-plane
-- 1 nodo worker con el broker
-- 1 nodo worker con el servidor
-- Servicios NodePort para acceso externo
-
-[PARA AVANZADA 1]:
-- Todo lo anterior MÁS:
-- Múltiples réplicas del servidor en un mismo nodo
-- Almacenamiento compartido con hostPath
-- Balanceo de carga entre réplicas
-
-[PARA AVANZADA 2]:
-- Todo lo anterior MÁS:
-- Réplicas distribuidas en múltiples nodos
-- Servidor NFS para almacenamiento compartido en red
-- PersistentVolume y PersistentVolumeClaim
-- Alta disponibilidad y persistencia real
-
-Vamos a ver cómo funciona todo el sistema."
-```
-
----
-
-##  PARTE 2: CONFIGURACIÓN DEL CLUSTER (3 minutos)
-
-### Terminal - Conectar al Master
 ```bash
-ssh -i "tu-clave.pem" ubuntu@<MASTER_IP>
+ssh -i "tu-clave.pem" ubuntu@<IP_MASTER>
 ```
 
-### Comando 1: Mostrar Nodos
+Y ahora voy a ver los nodos que tengo:
+
 ```bash
 kubectl get nodes -o wide
 ```
 
-#### Qué Decir
-```
-"Primero voy a mostrar la configuración del cluster. Como pueden ver, tengo 
-[X] nodos en total:
+Vale, aqui podeis ver mi cluster completo. Tengo 4 nodos en total: 1 master que ejecuta el control-plane de Kubernetes, y 3 workers donde corren las aplicaciones. Todos estan en estado Ready, lo cual significa que estan operativos y listos para ejecutar pods.
 
-- 1 nodo MASTER que actúa como control-plane, ejecutando:
-  - El API Server de Kubernetes
-  - El Scheduler
-  - El Controller Manager
-  - etcd para almacenar el estado del cluster
+Lo importante aqui es que las 3 replicas del servidor estan repartidas entre estos 3 workers. Esto me da alta disponibilidad real, porque si uno de los nodos se cae o falla, los otros dos siguen funcionando sin problema.
 
-- [X-1] nodos WORKER donde corren las aplicaciones
+Si quereis ver mas detalles, puedo ejecutar:
 
-[PARA AVANZADA 2]:
-- Las réplicas del servidor están distribuidas entre estos workers
-- Esto proporciona alta disponibilidad: si un nodo falla, los otros continúan
-
-Todos los nodos están en estado 'Ready', lo que significa que están 
-operativos y pueden ejecutar pods."
-```
-
-### Comando 2: Información Detallada
 ```bash
 kubectl describe nodes | grep -E "Name:|Roles:|Internal IP:"
 ```
 
-#### Qué Decir
-```
-"Aquí podemos ver más detalles de cada nodo, incluyendo sus IPs internas 
-que Kubernetes usa para la comunicación entre pods."
-```
+Aqui vemos las IPs internas que Kubernetes usa para que los pods se comuniquen entre si. Esto es la red overlay que monta Kubernetes internamente.
 
 ---
 
-##  PARTE 3: DOCKERFILES (2-3 minutos)
+## PASO 3 - DOCKERFILES (2 min)
 
-### Mostrar Dockerfile del Broker
+Ahora os voy a ensenar como he containerizado las aplicaciones. Empiezo con el Dockerfile del broker:
+
 ```bash
 cat docker/broker/Dockerfile
 ```
 
-#### Qué Decir
-```
-"Ahora voy a mostrar cómo he containerizado las aplicaciones. Empezando por 
-el Dockerfile del BROKER:
+El Dockerfile del broker es bastante sencillo. He usado Ubuntu 20.04 como imagen base porque es la que mejor compatibilidad tiene con los binarios que me dieron. Instalo libstdc++6 que es una dependencia necesaria para que el ejecutable funcione, copio el binario del broker al contenedor, expongo el puerto 32002, y ejecuto el broker. Es una imagen bastante ligera, solo con lo necesario.
 
-1. Uso Ubuntu 20.04 como imagen base por compatibilidad
-2. Instalo libstdc++6, necesaria para ejecutar el binario
-3. Copio el ejecutable brokerFileManager al contenedor
-4. Expongo el puerto 32002, que es donde el broker escucha conexiones
-5. El CMD ejecuta el broker sin parámetros adicionales
+Ahora el del servidor:
 
-Este contenedor es muy ligero, solo con lo necesario para ejecutar el broker."
-```
-
-### Mostrar Dockerfile del Servidor
 ```bash
 cat docker/server/Dockerfile
 ```
 
-#### Qué Decir
-```
-"El Dockerfile del SERVIDOR es similar pero con algunas diferencias:
+El Dockerfile del servidor es muy similar, con la diferencia de que aqui creo el directorio /app/FileManagerDir donde se van a almacenar los archivos. El puerto es el 32001 en este caso. Una cosa importante es que uso ENTRYPOINT en lugar de CMD porque el servidor necesita recibir la IP del broker como parametro cuando arranca.
 
-1. También usa Ubuntu 20.04 y libstdc++6
-2. Crea el directorio /app/FileManagerDir donde se almacenarán los archivos
-3. Copia el ejecutable serverFileManager
-4. Expone el puerto 32001
-5. Usa ENTRYPOINT en lugar de CMD porque el servidor necesita recibir la 
-   IP del broker como parámetro de línea de comandos
-
-Cuando Kubernetes ejecute este contenedor, pasará automáticamente el nombre 
-del servicio del broker como argumento."
-```
-
-### Mostrar Imágenes en Docker Hub (Opcional)
-```
-"Estas imágenes las he construido localmente y subido a Docker Hub bajo 
-el usuario [TU-USUARIO]:
-- [tu-usuario]/broker-filemanager:latest
-- [tu-usuario]/server-filemanager:latest
-
-De esta forma, Kubernetes puede descargarlas desde cualquier nodo del cluster."
-```
+Estas imagenes las he construido localmente y las he subido a Docker Hub bajo mi usuario, para que Kubernetes pueda descargarlas desde cualquier nodo del cluster.
 
 ---
 
-##  PARTE 4: DEPLOYMENTS DE KUBERNETES (3-5 minutos)
+## PASO 4 - YAMLS DE KUBERNETES (4 min)
 
 ### Deployment del Broker
+
+Vale, ahora vamos con los archivos YAML que definen como se despliega todo en Kubernetes:
+
 ```bash
 cat kubernetes/broker/deployment.yaml
 ```
 
-#### Qué Decir - Deployment
-```
-"Ahora voy a explicar los archivos YAML de Kubernetes. Empezando por el 
-deployment del BROKER:
+El deployment del broker es relativamente simple. Solo necesito 1 replica porque no tiene sentido tener varios brokers. Uso mi imagen de Docker Hub, expongo el puerto 32002, y le he puesto algunos limites de recursos para que el scheduler de Kubernetes sepa cuantos recursos necesita.
 
-DEPLOYMENT:
-- Tipo: Deployment de Kubernetes
-- Nombre: broker-deployment
-- Réplicas: 1 (solo necesitamos un broker)
-- Selector: identifica pods con label 'app=broker'
+El service del broker es de tipo NodePort, lo que significa que puedo acceder a el desde fuera del cluster usando la IP de cualquier nodo y el puerto 32002.
 
-TEMPLATE:
-- Define cómo serán los pods
-- Usa la imagen de Docker Hub
-- Expone el puerto 32002
-- Limits y requests de recursos para el scheduler
+### Configuracion NFS del Servidor
 
-Este deployment garantiza que siempre haya 1 instancia del broker corriendo. 
-Si el pod falla, Kubernetes lo reinicia automáticamente."
-```
+Ahora viene la parte mas interesante, que es toda la configuracion del almacenamiento compartido con NFS:
 
-#### Qué Decir - Service
-```
-"El SERVICE del broker:
-- Tipo: NodePort - permite acceso desde fuera del cluster
-- Puerto: 32002 tanto interno como externo
-- Selector: dirige tráfico a pods con label 'app=broker'
-
-Esto significa que puedo acceder al broker desde cualquier nodo del cluster 
-usando <IP_NODO>:32002"
-```
-
-### Deployment del Servidor
-
-#### PARA CONFIGURACIÓN BÁSICA:
-```bash
-cat kubernetes/server/deployment-basic.yaml
-```
-
-```
-"El deployment del SERVIDOR básico:
-
-DEPLOYMENT:
-- 1 réplica del servidor
-- Args: ['broker-service'] - usa el DNS interno de Kubernetes para encontrar 
-  el broker
-- Puerto 32001 expuesto
-
-VOLUMEN:
-- emptyDir: volumen temporal dentro del pod
-- Se pierde cuando el pod se reinicia
-- Suficiente para la funcionalidad básica
-
-SERVICE:
-- También NodePort en puerto 32001
-- Permite que clientes externos se conecten
-"
-```
-
-#### PARA CONFIGURACIÓN AVANZADA 1:
-```bash
-cat kubernetes/server/deployment-advanced1.yaml
-```
-
-```
-"Para la configuración avanzada 1 he hecho modificaciones importantes:
-
-RÉPLICAS:
-- 3 réplicas del servidor en lugar de 1
-- Todas deben estar en el MISMO nodo
-
-AFFINITY:
-- He configurado podAffinity para forzar que todos los pods del servidor 
-  estén en el mismo nodo
-- Esto es necesario para poder usar hostPath
-
-VOLUMEN - hostPath:
-- Monta /data/FileManagerDir del host en todos los pods
-- Como están en el mismo nodo, todos acceden al mismo directorio físico
-- Los archivos persisten incluso si los pods se reinician
-- Preparé el nodo creando el directorio y dando permisos 777
-
-SERVICE:
-- Kubernetes balancea automáticamente las peticiones entre las 3 réplicas
-- Proporciona distribución de carga
-"
-```
-
-#### PARA CONFIGURACIÓN AVANZADA 2:
 ```bash
 cat kubernetes/nfs/nfs-pv-pvc.yaml
+```
+
+Aqui es donde esta todo el tema del almacenamiento distribuido. He montado un servidor NFS independiente que exporta el directorio /mnt/nfs-share.
+
+El PersistentVolume, que es el nfs-pv, es basicamente la definicion del volumen que conecta con el servidor NFS usando su IP. Tiene 5Gi de capacidad y lo mas importante: ReadWriteMany, que significa que multiples pods pueden leer y escribir en el simultaneamente. Esto es lo que me permite tener las replicas compartiendo datos.
+
+El PersistentVolumeClaim, el nfs-pvc, es la solicitud de acceso a ese volumen. Los pods no montan el PV directamente, sino que montan el PVC, lo cual abstrae un poco los detalles de implementacion.
+
+Ahora el deployment del servidor:
+
+```bash
 cat kubernetes/server/deployment-advanced2.yaml
 ```
 
-```
-"Para la configuración avanzada 2 he implementado almacenamiento en red con NFS:
+Este es el deployment avanzado 2. Aqui tengo 3 replicas del servidor, y Kubernetes las distribuye automaticamente en diferentes nodos. No necesito configurar affinity ni nada porque por defecto Kubernetes intenta repartirlas.
 
-SERVIDOR NFS:
-- He configurado un servidor NFS independiente
-- Exporta el directorio /mnt/nfs-share
-- Instalé nfs-common en todos los workers
+Cada replica monta el PVC nfs-pvc en /app/FileManagerDir, entonces las 3 replicas acceden exactamente al mismo almacenamiento NFS. Los archivos son accesibles desde cualquier pod en cualquier nodo.
 
-PERSISTENTVOLUME:
-- Define un volumen conectado al servidor NFS
-- Capacidad: 5Gi
-- AccessMode: ReadWriteMany - múltiples pods pueden leer/escribir 
-  simultáneamente
+Las ventajas de esto son enormes: tengo alta disponibilidad porque si un nodo falla los otros continuan, persistencia real porque los datos estan en red y sobreviven a cualquier reinicio, y escalabilidad porque puedo anadir mas replicas facilmente.
 
-PERSISTENTVOLUMECLAIM:
-- Solicita acceso al PersistentVolume
-- Los pods montan el PVC en lugar del volumen directamente
-
-DEPLOYMENT:
-- 3 réplicas distribuidas en DIFERENTES nodos
+El service es NodePort en el puerto 32001 y Kubernetes automaticamente balancea las peticiones entre las 3 replicas.
 - Sin affinity, Kubernetes las distribuye automáticamente
 - Todas montan el mismo PVC
 - Todas acceden al mismo almacenamiento NFS
@@ -378,307 +191,164 @@ PERSISTENTVOLUME:
 - Nombre: nfs-pv
 - Capacidad: 5Gi
 - Estado: Bound (vinculado)
-- AccessMode: RWX (ReadWriteMany)
+---
 
-PERSISTENTVOLUMECLAIM:
-- Nombre: nfs-pvc
-- Estado: Bound al PV
-- Montado por [X] pods
+## PASO 5 - ESTADO DEL CLUSTER (2 min)
 
-Esto confirma que el almacenamiento NFS está funcionando correctamente."
+Ahora voy a mostrar el estado actual de todo lo que tengo desplegado:
+
+```bash
+kubectl get deployments
+kubectl get pods -o wide
+kubectl get services
 ```
 
-### Comando 5: Logs
+Vale, aqui podeis ver que los deployments estan listos. El broker-deployment tiene 1/1 ready, y el server-deployment tiene 3/3 ready, las tres replicas funcionando.
+
+Si miramos los pods con detalle, vemos que el pod del broker esta corriendo en uno de los workers, y lo mas importante: las 3 replicas del servidor estan repartidas en los 3 workers diferentes. Cada replica esta en un nodo distinto, lo cual me da la maxima disponibilidad posible. Si cualquier nodo se cae, siempre tengo al menos 2 replicas funcionando.
+
+Los services que tengo expuestos son el broker-service en el puerto 32002 y el server-service en el puerto 32001. El server-service automaticamente balancea las peticiones entre las 3 replicas.
+
+Ahora voy a verificar el almacenamiento NFS:
+
 ```bash
-# Obtener nombre del pod
+kubectl get pv,pvc
+```
+
+Perfecto. El PersistentVolume nfs-pv esta en estado Bound, vinculado al PVC. Tiene 5Gi disponibles y el modo ReadWriteMany activo. El PersistentVolumeClaim nfs-pvc tambien esta Bound, conectado al PV, y esta montado por los 3 pods del servidor. Todos acceden al mismo almacenamiento compartido.
+
+Si quereis, puedo ver los logs del broker para verificar que todo esta funcionando:
+
+```bash
 BROKER_POD=$(kubectl get pods -l app=broker -o jsonpath='{.items[0].metadata.name}')
-echo "Logs del broker:"
 kubectl logs $BROKER_POD --tail=20
 ```
 
-#### Qué Decir
-```
-"Voy a ver los logs del broker para verificar que está funcionando 
-correctamente...
-
-[Interpretar los logs]:
-- El broker se ha iniciado correctamente
-- Está escuchando en el puerto 32002
-- [Si hay registros de servidores]: Los servidores se han registrado 
-  correctamente
-"
-```
+En los logs se ve que el broker se inicio correctamente, esta escuchando en el puerto 32002, y los 3 servidores se han registrado correctamente con el.
 
 ---
 
-##  PARTE 6: DEMOSTRACIÓN PRÁCTICA (6-8 minutos)
+## PASO 6 - DEMOSTRACION PRACTICA (6-8 min)
 
-### Preparación (NO grabar esta parte, hazla antes)
-```bash
-cd client/
-echo "Este es el archivo de prueba 1" > test1.txt
-echo "Este es el archivo de prueba 2" > test2.txt
-echo "Contenido de demostración" > demo.txt
-echo "Archivo adicional" > extra.txt
-```
+Vale, ahora viene la parte practica donde voy a demostrar que todo funciona. Primero necesito obtener la IP de uno de los nodos:
 
-### Obtener IP para Conectar
 ```bash
 kubectl get nodes -o wide
-# O usa la IP pública de AWS
 ```
 
----
+Y ahora voy a ejecutar el cliente:
 
-###  CLIENTE 1 - Primera Conexión
-
-#### Conectar
 ```bash
 ./clienteFileManager <IP_DEL_NODO>
 ```
 
-#### Qué Decir
-```
-"Ahora voy a demostrar el funcionamiento de la aplicación. Ejecuto el cliente 
-pasándole la IP del nodo master...
+Perfecto, el cliente se ha conectado correctamente.
 
-[Esperar conexión]
+### Primera conexion de cliente
 
-Perfecto, el cliente se ha conectado correctamente. Primero obtuvo la 
-información del broker y luego se conectó a uno de los servidores."
-```
+Voy a empezar listando los archivos locales:
 
-#### Comando: ls
 ```
 > ls
 ```
 
-#### Qué Decir
-```
-"El comando 'ls' lista los archivos locales en el directorio del cliente.
-Como pueden ver, tengo varios archivos de prueba:
-- test1.txt
-- test2.txt
-- demo.txt
-- extra.txt
-"
-```
+Aqui tengo los archivos de prueba que prepare: test1.txt, test2.txt, y demo.txt.
 
-#### Comando: lls
+Ahora voy a ver que hay en el servidor remoto:
+
 ```
 > lls
 ```
 
-#### Qué Decir
-```
-"Ahora con 'lls' listo los archivos en el servidor remoto...
+[Si esta vacio] El directorio remoto esta vacio porque es la primera vez que ejecuto esto.
+[Si hay archivos] Ya hay algunos archivos de ejecuciones anteriores.
 
-[SI ESTÁ VACÍO]:
-Como esta es la primera vez que ejecutamos la aplicación, el directorio 
-remoto está vacío. No hay ningún archivo todavía.
+Voy a subir el primer archivo:
 
-[SI HAY ARCHIVOS]:
-Podemos ver que ya hay algunos archivos de ejecuciones anteriores.
-"
-```
-
-#### Comando: upload test1.txt
 ```
 > upload test1.txt
 ```
 
-#### Qué Decir
-```
-"Voy a subir el primer archivo al servidor con el comando 'upload test1.txt'...
+Vale, archivo subido correctamente. Voy a verificar que esta en el servidor:
 
-[Esperar confirmación]
-
-Excelente, el archivo se ha subido correctamente. El cliente lo ha enviado 
-al servidor y este lo ha guardado en su directorio FileManagerDir."
-```
-
-#### Comando: lls (verificar)
 ```
 > lls
 ```
 
-#### Qué Decir
-```
-"Verifico con 'lls' nuevamente...
+Perfecto, ahora aparece test1.txt en el listado remoto. El archivo se ha transferido correctamente al servidor.
 
-Perfecto, ahora aparece test1.txt en el listado del servidor. El archivo 
-se ha transferido correctamente."
-```
+Voy a subir un par de archivos mas para tener varios en el servidor:
 
-#### Comando: upload más archivos
 ```
 > upload test2.txt
 > upload demo.txt
-```
-
-#### Qué Decir
-```
-"Voy a subir algunos archivos más para tener varios en el servidor...
-
-[Esperar confirmaciones]
-"
-```
-
-#### Comando: lls (verificar todos)
-```
 > lls
 ```
 
-#### Qué Decir
-```
-"Listando nuevamente los archivos remotos...
+Excelente, ahora tengo 3 archivos en el servidor. Lo importante aqui es que estos archivos estan en el almacenamiento NFS compartido. Los 3 pods del servidor, que estan en 3 nodos diferentes, pueden acceder a estos mismos archivos. Si un cliente se conecta a cualquier replica, vera exactamente estos archivos.
 
-Ahora tenemos tres archivos en el servidor:
-- test1.txt
-- test2.txt
-- demo.txt
+### Verificacion del NFS
 
-[PARA CONFIGURACIÓN AVANZADA 1 o 2]:
-Estos archivos están almacenados en el [volumen hostPath / almacenamiento NFS] 
-que es compartido entre [todas las réplicas en el nodo / todos los pods en 
-todos los nodos]."
-```
+Ahora voy a conectarme al servidor NFS para verificar que los archivos estan alli fisicamente:
 
----
-
-###  VERIFICACIÓN INTERMEDIA (Solo Avanzada 1 o 2)
-
-#### Para Avanzada 1 - Verificar hostPath
 ```bash
-# En otra terminal, conectar al nodo worker
-ssh -i "tu-clave.pem" ubuntu@<WORKER_IP>
-
-ls -la /data/FileManagerDir
-```
-
-#### Qué Decir
-```
-"Para demostrar que el almacenamiento compartido funciona, voy a conectarme 
-directamente al nodo worker y listar el contenido del directorio hostPath...
-
-Como pueden ver, los archivos que subió el cliente están físicamente en 
-/data/FileManagerDir del nodo. Todos los pods en este nodo acceden a este 
-mismo directorio."
-```
-
-#### Para Avanzada 2 - Verificar NFS
-```bash
-# Conectar al servidor NFS o cualquier nodo
-ssh -i "tu-clave.pem" ubuntu@<NFS_SERVER_IP>
-
+ssh ubuntu@<NFS_IP>
 ls -la /mnt/nfs-share/FileManagerDir
 ```
 
-#### Qué Decir
-```
-"Ahora me conecto al servidor NFS para verificar que los archivos están 
-allí...
+Aqui estan los archivos, fisicamente almacenados en /mnt/nfs-share/FileManagerDir del servidor NFS. Desde aqui son accesibles por todos los pods en todos los nodos del cluster. Si un nodo falla, los datos siguen disponibles desde los otros nodos. Esto es persistencia real en un sistema distribuido.
 
-Perfecto, los archivos están en el almacenamiento NFS. Desde aquí son 
-accesibles por todos los pods en todos los nodos del cluster. Esto 
-proporciona persistencia real y compartición de datos."
-```
+### Segunda conexion de cliente
 
----
+Voy a cerrar este cliente:
 
-###  CLIENTE 1 - Cerrar Conexión
-
-#### Comando: exit
 ```
 > exit
 ```
 
-#### Qué Decir
-```
-"Ahora voy a cerrar este cliente con el comando 'exit'...
+Y ahora voy a iniciar un segundo cliente para demostrar la persistencia de datos:
 
-El cliente se ha desconectado del servidor y del broker correctamente."
-```
-
----
-
-###  CLIENTE 2 - Segunda Conexión
-
-#### Conectar
 ```bash
 ./clienteFileManager <IP_DEL_NODO>
 ```
 
-#### Qué Decir
-```
-"Voy a iniciar un SEGUNDO cliente para demostrar la persistencia de datos...
+Conectado. Este segundo cliente puede haberse conectado a una replica diferente del servidor gracias al balanceo de carga de Kubernetes. Voy a comprobar que ve los mismos archivos:
 
-[Esperar conexión]
-
-El nuevo cliente se ha conectado. 
-
-[PARA AVANZADA 1/2]:
-Es posible que este cliente se haya conectado a una réplica diferente del 
-servidor gracias al balanceo de carga de Kubernetes."
-```
-
-#### Comando: lls
 ```
 > lls
 ```
 
-#### Qué Decir
-```
-"Listo los archivos remotos con el nuevo cliente...
+Perfecto! Este segundo cliente puede ver todos los archivos que subio el primer cliente: test1.txt, test2.txt, y demo.txt.
 
-¡Excelente! Puedo ver todos los archivos que subió el cliente anterior:
-- test1.txt
-- test2.txt  
-- demo.txt
+Esto demuestra varias cosas importantes:
+1. El almacenamiento NFS funciona correctamente
+2. Los datos estan disponibles desde cualquier pod en cualquier nodo
+3. Hay persistencia real - los datos sobreviven entre diferentes conexiones
+4. El balanceo de carga esta distribuyendo clientes entre las replicas
+5. Todas las replicas acceden al mismo almacenamiento compartido
 
-Esto demuestra que:
+Es un sistema distribuido real con alta disponibilidad.
 
-[PARA BÁSICA]:
-- Los archivos persisten en el servidor entre diferentes conexiones de clientes
-- El sistema mantiene el estado correctamente
+Ahora voy a descargar uno de los archivos:
 
-[PARA AVANZADA 1]:
-- El almacenamiento hostPath funciona correctamente
-- Todos los pods acceden al mismo directorio compartido
-- Los datos persisten entre conexiones y réplicas
-
-[PARA AVANZADA 2]:
-- El almacenamiento NFS funciona correctamente
-- Los datos están disponibles desde cualquier pod en cualquier nodo
-- Hay persistencia real incluso si los pods se reinician o mueven de nodo
-"
-```
-
-#### Comando: download test1.txt
 ```
 > download test1.txt
 ```
 
-#### Qué Decir
-```
-"Ahora voy a descargar uno de los archivos del servidor usando el comando 
-'download test1.txt'...
+Archivo descargado correctamente. Cierro el cliente:
 
-[Esperar confirmación]
-
-El archivo se ha descargado correctamente del servidor a mi directorio local."
-```
-
-#### Comando: exit
 ```
 > exit
 ```
 
----
-
-### Verificar Descarga
+Y verifico que el archivo se descargo bien:
 
 ```bash
+ls -la client/
+cat client/test1.txt
+```
+
+Aqui esta el archivo con su contenido correcto. Todo el ciclo funciona perfectamente.
 ls -la test1.txt
 cat test1.txt
 ```
@@ -709,270 +379,271 @@ El ciclo completo funciona correctamente:
 kubectl logs <server-pod-1> --tail=10
 kubectl logs <server-pod-2> --tail=10
 kubectl logs <server-pod-3> --tail=10
-```
+---
 
-#### Qué Decir
-```
-"Para demostrar el balanceo de carga, voy a ver los logs de las diferentes 
-réplicas del servidor...
+## PASO 7 - DEMOSTRACION DE ALTA DISPONIBILIDAD (2 min)
 
-Como pueden ver, las peticiones se están distribuyendo entre las diferentes 
-réplicas. Cada pod ha procesado algunas conexiones de clientes."
-```
+Para terminar la demo, voy a mostrar dos cosas importantes: el balanceo de carga y la tolerancia a fallos.
 
-#### Demostrar Alta Disponibilidad (Solo Avanzada 2)
+### Balanceo de carga entre replicas
+
+Primero voy a ver los logs de las 3 replicas para demostrar que las peticiones se distribuyen:
+
 ```bash
-# Eliminar un pod
+kubectl get pods -l app=server
+kubectl logs <server-pod-1> --tail=10
+kubectl logs <server-pod-2> --tail=10
+kubectl logs <server-pod-3> --tail=10
+```
+
+Como podeis ver en los logs, las peticiones se han distribuido entre los diferentes pods. Cada replica ha procesado conexiones de clientes. El balanceo de carga de Kubernetes esta funcionando perfectamente.
+
+### Tolerancia a fallos de hardware
+
+Ahora voy a hacer algo mas interesante. Voy a eliminar un pod para simular que un nodo se cae o tiene un problema:
+
+```bash
 kubectl delete pod <server-pod-name>
+```
 
-# Ver que se crea uno nuevo
+Y ahora observad lo que pasa:
+
+```bash
 kubectl get pods -w
 ```
 
-#### Qué Decir
-```
-"Para demostrar la alta disponibilidad, voy a eliminar uno de los pods...
+Kubernetes detecta inmediatamente que falta un pod y empieza a crear uno nuevo automaticamente para mantener las 3 replicas que especifique en el deployment.
 
-[Esperar]
+Mientras esto pasa, las otras 2 replicas siguen funcionando con total normalidad. Los clientes pueden seguir conectandose sin ningun problema. El servicio nunca se interrumpe.
 
-Como pueden ver, Kubernetes detecta que falta un pod y automáticamente crea 
-uno nuevo para mantener las 3 réplicas deseadas. Durante este proceso, el 
-servicio sigue disponible porque las otras 2 réplicas continúan funcionando.
+Cuando el nuevo pod termina de arrancar, se monta automaticamente al volumen NFS, tiene acceso inmediato a todos los archivos que ya existian, y empieza a recibir peticiones del balanceador.
 
-Cuando el nuevo pod se inicia, se monta automáticamente al volumen NFS y 
-tiene acceso inmediato a todos los archivos existentes."
-```
+Esto es alta disponibilidad real. Tolerancia a fallos de hardware en un sistema distribuido de produccion.
 
 ---
 
-##  PARTE 7: CONCLUSIONES (1-2 minutos)
+## PASO 8 - CONCLUSION (1 min)
 
-#### Qué Decir
+Bueno, para ir terminando, voy a hacer un resumen rapido de todo lo que he implementado.
 
-```
-"Para concluir, en esta práctica he implementado exitosamente:
+He completado la configuracion Avanzada 2 con NFS, que es la mas compleja de toda la practica y vale 10 puntos.
 
- CONTAINERIZACIÓN:
-- Creé Dockerfiles para el broker y servidor
-- Las imágenes son ligeras y contienen solo lo necesario
-- Están publicadas en Docker Hub para fácil acceso
+En cuanto a containerizacion, he creado Dockerfiles optimizados tanto para el broker como para el servidor, y las imagenes estan publicadas en Docker Hub para que Kubernetes pueda descargarlas.
 
- INFRAESTRUCTURA:
-- Cluster de Kubernetes en AWS EC2 con [X] nodos
-- 1 nodo master con el control-plane
-- [X-1] nodos worker para las aplicaciones
-- Configuración de red con Flannel
+Para la infraestructura, he montado un cluster de Kubernetes en AWS EC2 con 4 nodos: 1 master y 3 workers. La red overlay esta gestionada con Flannel.
 
- ORQUESTACIÓN:
-- Deployments de Kubernetes para gestionar los pods
-- Services de tipo NodePort para acceso externo
-- [Para avanzada]: Múltiples réplicas con balanceo de carga automático
+En orquestacion, tengo deployments con replicas distribuidas, services con NodePort y balanceo de carga, y las 3 replicas del servidor estan repartidas en nodos fisicos diferentes.
 
- ALMACENAMIENTO:
-[PARA BÁSICA]:
-- Volúmenes emptyDir para almacenamiento temporal
+El almacenamiento distribuido es probablemente la parte mas compleja. He configurado un servidor NFS independiente, un PersistentVolume de 5Gi con modo ReadWriteMany, y un PersistentVolumeClaim que montan las 3 replicas. Los datos estan compartidos entre todos los nodos y tengo persistencia real en red.
 
-[PARA AVANZADA 1]:
-- Volúmenes hostPath para almacenamiento compartido en un nodo
-- Affinity para colocar pods en el mismo nodo
-- Persistencia de datos entre reinicios de pods
+Las funcionalidades avanzadas que esto me proporciona son: alta disponibilidad con tolerancia a fallos de nodos, balanceo de carga con peticiones distribuidas entre replicas, persistencia distribuida con datos en almacenamiento compartido en red, escalabilidad para anadir mas replicas facilmente, y basicamente un sistema distribuido real con multiples puntos de fallo cubiertos.
 
-[PARA AVANZADA 2]:
-- Servidor NFS para almacenamiento en red
-- PersistentVolume y PersistentVolumeClaim
-- Acceso ReadWriteMany desde múltiples nodos
-- Alta disponibilidad y persistencia real
-- Distribución de pods en diferentes nodos físicos
+La demostracion que acabais de ver ha mostrado que puedo subir y descargar archivos sin problemas, que hay persistencia entre diferentes conexiones de clientes, que los datos son accesibles desde cualquier replica, que hay tolerancia a fallos con recreacion automatica de pods, y que el balanceo de carga esta distribuyendo las peticiones correctamente.
 
- FUNCIONALIDAD:
-- Los clientes se conectan correctamente al broker
-- El broker coordina las conexiones con los servidores
-- Los clientes pueden listar, subir y descargar archivos
-- Los datos persisten entre diferentes conexiones
-- [Para avanzada]: El balanceo de carga distribuye las peticiones
-- [Para avanzada 2]: El sistema es tolerante a fallos
+Todo funciona como un sistema distribuido de produccion real.
 
-APRENDIZAJES CLAVE:
-- Comprensión profunda de contenedores Docker
-- Uso práctico de Kubernetes en producción
-- Configuración de redes y servicios
-- Gestión de almacenamiento persistente
-- [Para avanzada 2]: Implementación de sistemas distribuidos reales
-
-Todos los archivos de configuración (Dockerfiles, YAMLs) están documentados 
-y disponibles en el repositorio de la práctica.
-
-Muchas gracias por su atención."
-```
+Y bueno, esto es todo. Gracias por la atencion.
 
 ---
 
-##  CHECKLIST ANTES DE GRABAR
+## NOTAS Y PREPARACION
 
-### Preparación Técnica
-- [ ] Cluster de Kubernetes funcionando correctamente
+### Antes de grabar - Checklist tecnico
+
+Asegurate de que todo esto funciona ANTES de empezar a grabar:
+
+**Cluster y nodos:**
+- [ ] Cluster funcionando: 1 master + 3 workers
 - [ ] Todos los pods en estado Running
-- [ ] Servicios creados y accesibles
-- [ ] Imágenes Docker en Docker Hub
+- [ ] Las 3 replicas del servidor estan en nodos DIFERENTES (verifica con `kubectl get pods -o wide`)
+
+**Almacenamiento NFS:**
+- [ ] Servidor NFS funcionando y exportando /mnt/nfs-share
+- [ ] nfs-common instalado en todos los workers
+- [ ] PV y PVC en estado Bound
+- [ ] Puedes verificar el montaje desde dentro de un pod: `kubectl exec -it <server-pod> -- df -h`
+
+**Servicios y cliente:**
+- [ ] Servicios broker y server accesibles
 - [ ] Cliente compilado y funcional
-- [ ] Archivos de prueba creados
-- [ ] [Si avanzada 1]: Directorio hostPath creado con permisos
-- [ ] [Si avanzada 2]: Servidor NFS funcionando y montable
+- [ ] Archivos de prueba creados (test1.txt, test2.txt, demo.txt)
 
-### Preparación del Entorno
-- [ ] Todos los archivos necesarios en ubicaciones correctas
-- [ ] Conexiones SSH probadas y funcionando
-- [ ] IPs de los nodos anotadas
-- [ ] Nombres de pods anotados
-- [ ] Comandos preparados y probados
-- [ ] Terminal con fuente legible (tamaño 14-16pt)
-- [ ] Editor de texto listo para mostrar archivos
+**Acceso y conectividad:**
+- [ ] Tienes las IPs anotadas: master, workers, NFS
+- [ ] SSH funciona al master y al NFS
+- [ ] Security groups tienen abiertos los puertos: 32001, 32002, 2049 (NFS)
+- [ ] Has probado todos los comandos kubectl
 
-### Preparación de la Grabación
-- [ ] Resolución de pantalla: 1920x1080 mínimo
-- [ ] Micrófono configurado y probado
-- [ ] Software de grabación listo
-- [ ] Navegador cerrado (distracciones minimizadas)
-- [ ] Notificaciones desactivadas
-- [ ] Guión impreso o en segunda pantalla
-- [ ] Agua a mano
+**Entorno de grabacion:**
+- [ ] Terminal con letra grande (14-16pt minimo para que se lea bien)
+- [ ] Notificaciones del sistema desactivadas
+- [ ] Ambiente silencioso para grabar
 
-### Prueba Final (¡IMPORTANTE!)
-- [ ] Ejecutar TODA la demo de principio a fin
-- [ ] Verificar que cada comando funciona
-- [ ] Medir el tiempo (debe ser 15-20 min)
-- [ ] Probar audio y claridad de voz
-- [ ] Verificar que la pantalla se ve clara
-- [ ] Revisar que no hay errores inesperados
+### Equipo de grabacion
 
----
+- [ ] Resolucion 1920x1080 minimo (mejor si es mas)
+- [ ] Microfono configurado y probado (prueba de audio antes)
+- [ ] Software de grabacion listo (OBS, Zoom, QuickTime, lo que uses)
+- [ ] Guion impreso o en segunda pantalla donde puedas verlo
+- [ ] Agua cerca por si te secas la boca
 
-##  CONSEJOS DE GRABACIÓN
+### Prueba completa OBLIGATORIA
 
-### Técnicos
-1. **Resolución:** 1920x1080 (1080p) o superior
-2. **FPS:** 30 fps mínimo
-3. **Audio:** Bitrate 192 kbps o superior
-4. **Formato:** MP4 (H.264)
-5. **Tamaño:** Máximo según Blackboard (verificar límite)
-
-### De Presentación
-1. **Voz Clara:** Habla despacio y pronuncia bien
-2. **Pausas:** Respira entre secciones
-3. **Sin Muletillas:** Evita "ehh", "umm", etc.
-4. **Explicaciones:** Asume que la audiencia no sabe nada
-5. **Errores:** Si cometes uno pequeño, continúa; si es grave, edita
-
-### De Edición
-1. **Cortar Esperas:** Acelera partes donde se ejecutan comandos largos
-2. **Zoom:** Si algo es pequeño, haz zoom en la edición
-3. **Transiciones:** Suaves entre secciones
-4. **Texto:** Añade títulos para cada parte (opcional)
-5. **Música:** Opcional, pero no debe distraer
+Antes de grabar la version final:
+- [ ] Ejecuta la demo COMPLETA de principio a fin al menos 2-3 veces
+- [ ] Mide el tiempo (debe estar entre 15-20 minutos)
+- [ ] Verifica que el audio se escucha claro
+- [ ] Comprueba que la pantalla se ve legible
+- [ ] Asegurate de que el acceso NFS funciona desde los pods
+- [ ] Confirma que no hay errores inesperados
 
 ---
 
-##  ERRORES COMUNES A EVITAR
+## Consejos para grabar
 
-### En la Configuración
--  No tener los pods en Running antes de grabar
--  Security groups sin los puertos correctos abiertos
--  Olvidar crear el directorio hostPath
--  NFS sin exportar correctamente
--  Usar IPs incorrectas para conectar
+### Antes de empezar:
+1. Verifica que el NFS esta funcionando: `showmount -e <NFS_IP>` debe mostrar /mnt/nfs-share
+2. Verifica que los pods montan el NFS: `kubectl exec -it <server-pod> -- df -h` debe mostrar el NFS montado
+3. Verifica la distribucion: `kubectl get pods -o wide` debe mostrar las 3 replicas en nodos diferentes
+4. Ensaya 3-4 veces completas - esta config es compleja y necesitas dominar el flujo
 
-### En la Presentación
--  Ir demasiado rápido
--  No explicar QUÉ haces, solo mostrarlo
--  Asumir conocimiento previo de la audiencia
--  No verificar que algo funcionó antes de continuar
--  Saltarse la demostración práctica con clientes
+### Durante la grabacion:
+1. **Habla despacio y claro** - tienes mucho contenido tecnico que explicar
+2. **Enfatiza que es la configuracion avanzada de 10 puntos** - que se note que es la mas compleja
+3. **Muestra bien la distribucion de pods** - resalta que estan en nodos fisicos diferentes
+4. **La demostracion de tolerancia a fallos es clave** - la parte de eliminar el pod y ver como se recrea
+5. **Explica el POR QUE de cada cosa** - no solo muestres que funciona, explica por que lo haces asi
 
-### En el Video
--  Audio inaudible o con ruido
--  Pantalla ilegible (letra muy pequeña)
--  Video demasiado largo (>25 min) o corto (<12 min)
--  No mostrar los Dockerfiles y YAMLs
--  No demostrar persistencia de datos
+### Puntos importantes que destacar:
+- "Sistema distribuido REAL con alta disponibilidad"
+- "Almacenamiento compartido en RED, no es almacenamiento local"
+- "Tolerancia a fallos de HARDWARE, no solo de pods"
+- "Configuracion de PRODUCCION, no solo una demo academica"
 
 ---
 
-##  PLAN B (Si algo falla durante la grabación)
+## Si algo falla durante la grabacion
 
-### Si un pod no inicia:
+### Si un pod no arranca:
 ```bash
-kubectl delete pod <pod-name>
-# Esperar a que se recree
-kubectl get pods -w
+kubectl describe pod <pod-name>  # Ver que error tiene
+kubectl logs <pod-name>  # Ver los logs del pod
+kubectl delete pod <pod-name>  # Forzar que se recree
 ```
 
-### Si el cliente no conecta:
+### Si el NFS no monta correctamente:
 ```bash
-# Verificar servicios
-kubectl get services
-
-# Ver logs del broker
-kubectl logs <broker-pod>
-
-# Probar con IP diferente
-kubectl get nodes -o wide
+# Verificar desde dentro de un pod
+kubectl exec -it <server-pod> -- mount | grep nfs
+# Si falla, verifica los exports en el servidor NFS
+showmount -e <NFS_IP>
+# Verifica que nfs-common esta instalado en los workers
 ```
 
-### Si falla la descarga/subida:
+### Si el cliente no puede conectar:
 ```bash
-# Reintentar el comando
-# Ver logs del servidor
-kubectl logs <server-pod>
-
-# Verificar permisos del directorio
-kubectl exec -it <server-pod> -- ls -la /app/FileManagerDir
+kubectl get services  # Verifica que los puertos esten bien
+kubectl logs <broker-pod>  # Ver si hay errores en el broker
+# Prueba con la IP de un nodo diferente
 ```
 
-### Si algo sale muy mal:
-- Pausa la grabación
-- Arregla el problema
-- Resume desde el último punto estable
-- Edita el video para eliminar la pausa
-
----
-
-##  LISTA FINAL DE ARCHIVOS A ENTREGAR
-
-```
-AEC4_[TuNombre].zip
- docker/
-    broker/
-       Dockerfile
-    server/
-        Dockerfile
- kubernetes/
-    broker/
-       deployment.yaml
-    server/
-       deployment-[basic|advanced1|advanced2].yaml
-    nfs/ (si aplica)
-        nfs-server.yaml
-        nfs-pv-pvc.yaml
- README.md (opcional pero recomendado)
- video/
-     AEC4_Demo_[TuNombre].mp4
+### Si PV/PVC no se conectan:
+```bash
+kubectl describe pv nfs-pv
+kubectl describe pvc nfs-pvc
+# Verifica que la IP del NFS en el YAML sea correcta
+# Verifica que el servidor NFS esta exportando el directorio
 ```
 
 ---
 
-##  ÚLTIMA REVISIÓN
+## Archivos que tienes que entregar
 
-Antes de entregar, verifica:
-- [ ] Todos los archivos YAML están incluidos
-- [ ] Los Dockerfiles están incluidos
+Estructura del ZIP:
+```
+AEC4_TuNombre_Avanzada2.zip
+├── docker/
+│   ├── broker/
+│   │   └── Dockerfile
+│   └── server/
+│       └── Dockerfile
+├── kubernetes/
+│   ├── broker/
+│   │   ├── deployment.yaml
+│   │   └── service.yaml
+│   ├── server/
+│   │   ├── deployment-advanced2.yaml
+│   │   └── service.yaml
+│   └── nfs/
+│       ├── nfs-server.yaml (si tienes el YAML del servidor NFS)
+│       └── nfs-pv-pvc.yaml
+├── scripts/ (opcional pero queda bien)
+│   ├── build-images.sh
+│   └── update-yamls.sh
+├── README.md (explicando brevemente la config)
+└── video/
+    └── AEC4_Demo_TuNombre.mp4
+```
+
+### Checklist final antes de subir:
+- [ ] Todos los YAML de NFS estan incluidos
+- [ ] Has incluido el deployment-advanced2, NO el basic ni el advanced1
+- [ ] Los Dockerfiles estan incluidos
 - [ ] El video se reproduce correctamente
-- [ ] El video tiene audio claro
-- [ ] El video muestra TODA la demo requerida
-- [ ] El tamaño del ZIP es aceptable para Blackboard
-- [ ] Has guardado copia de seguridad
+- [ ] El audio se escucha claro durante TODO el video
+- [ ] La demo COMPLETA esta mostrada (incluyendo la parte de alta disponibilidad)
+- [ ] Mencionas claramente que es la configuracion Avanzada 2 de 10 puntos
+- [ ] El tamano del ZIP es aceptable para subirlo a Blackboard
+- [ ] Tienes una COPIA DE SEGURIDAD guardada en otro sitio
 
 ---
 
-**¡Mucha suerte con tu presentación!** 
+## Estructura temporal del video
 
-Recuerda: La práctica hace al maestro. Ensaya varias veces antes de grabar la versión final.
+Intenta seguir mas o menos estos tiempos:
+
+```
+00:00 - 02:00  Introduccion (enfatiza que es config Avanzada 2)
+02:00 - 05:00  Mostrar cluster y nodos (deja claro que tienes 4 nodos)
+05:00 - 09:00  Explicar Dockerfiles y YAMLs (detalla bien NFS, PV, PVC)
+09:00 - 11:00  Estado del cluster (muestra como estan distribuidos los pods)
+11:00 - 17:00  Demo practica (upload, download, verificacion en NFS)
+17:00 - 19:00  Alta disponibilidad (eliminar pod, ver recreacion)
+19:00 - 20:00  Conclusion (resumen de todo lo implementado)
+```
+
+---
+
+## Revision final antes de entregar
+
+**El dia antes de entregar:**
+1. Reproduce el video COMPLETO de principio a fin
+2. Verifica que el audio sea claro SIEMPRE, sin cortes
+3. Verifica que se vea TODO claramente, que el texto es legible
+4. Comprueba que dura entre 15-20 minutos (ni muy corto ni muy largo)
+5. Asegurate de que mencionas "Configuracion Avanzada 2" y "NFS" claramente
+6. Confirma que se ven los 3 pods en nodos diferentes
+7. Confirma que demuestras la alta disponibilidad eliminando un pod
+
+**El dia de la entrega:**
+- Sube el video ANTES de la hora limite, deja margen por si hay problemas de red
+- Verifica que el ZIP no esta corrupto (abrelo y comprueba que todos los archivos estan)
+- Guarda el email o confirmacion de entrega
+
+---
+
+## Recuerda
+
+Esta es la configuracion MAS COMPLEJA y vale 10 puntos.
+
+Con esto estas demostrando que dominas:
+- Kubernetes a nivel avanzado
+- Almacenamiento distribuido en sistemas reales
+- Alta disponibilidad y tolerancia a fallos
+- Configuraciones de sistemas en produccion
+
+Ensaya varias veces, habla claro, explica bien lo que haces, y todo saldra perfecto.
+
+¡Mucha suerte!
+
+=== FIN DEL GUION ===
