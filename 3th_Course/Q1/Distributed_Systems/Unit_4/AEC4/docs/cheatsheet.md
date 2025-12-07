@@ -1,6 +1,6 @@
 # Comandos Rápidos - Cheat Sheet
 
-## 🚀 Setup Inicial
+##  Setup Inicial
 
 ### Instalar Docker
 ```bash
@@ -31,7 +31,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
 
-## 🐳 Docker
+##  Docker
 
 ### Construir y Subir Imágenes
 ```bash
@@ -57,7 +57,7 @@ docker rm <container-id>         # Eliminar contenedor
 docker rmi <image-id>           # Eliminar imagen
 ```
 
-## ☸️ Kubernetes
+##  Kubernetes
 
 ### Desplegar Aplicaciones
 ```bash
@@ -120,10 +120,10 @@ kubectl delete -f <archivo.yaml>               # Eliminar recursos de un archivo
 kubectl delete pod <pod-name>                  # Eliminar pod
 kubectl delete service <service-name>          # Eliminar servicio
 kubectl delete deployment <deployment-name>    # Eliminar deployment
-kubectl delete all --all                       # ⚠️ Eliminar TODO
+kubectl delete all --all                       #  Eliminar TODO
 ```
 
-## 🌐 NFS
+##  NFS
 
 ### Instalar Servidor NFS
 ```bash
@@ -149,7 +149,7 @@ ls -la /mnt/test
 sudo umount /mnt/test
 ```
 
-## 💻 Cliente FileManager
+##  Cliente FileManager
 
 ### Ejecutar Cliente
 ```bash
@@ -165,7 +165,7 @@ download archivo.txt  # Descargar archivo
 exit                  # Salir
 ```
 
-## 🔧 AWS EC2
+##  AWS EC2
 
 ### Conectar a Instancia
 ```bash
@@ -191,7 +191,7 @@ scp -i "clave.pem" ubuntu@<EC2_IP>:~/archivo .
 2049    - NFS (si aplica)
 ```
 
-## 🔍 Troubleshooting
+##  Troubleshooting
 
 ### Pod no inicia
 ```bash
@@ -225,7 +225,7 @@ sudo systemctl status kubelet
 sudo systemctl restart kubelet
 ```
 
-## 📊 Monitoreo
+##  Monitoreo
 
 ### Ver Estado General
 ```bash
@@ -242,7 +242,7 @@ kubectl top pods
 kubectl top pods --containers
 ```
 
-## 🎯 Flujo de Trabajo Típico
+##  Flujo de Trabajo Típico
 
 ### 1. Preparar Entorno
 ```bash
@@ -295,7 +295,7 @@ kubectl delete -f kubernetes/server/deployment-basic.yaml
 kubectl delete -f kubernetes/broker/deployment.yaml
 ```
 
-## 🎬 Para el Video
+##  Para el Video
 
 ### Comandos Esenciales a Mostrar
 ```bash
@@ -326,11 +326,11 @@ kubectl get pods -w
 # Reconectar cliente y verificar archivos
 ```
 
-## 📝 Notas Importantes
+##  Notas Importantes
 
-- ⚠️ Siempre ejecutar `kubectl apply` desde el nodo master
-- ⚠️ Los puertos 32001 y 32002 deben estar abiertos en security groups
-- ⚠️ Para NFS, todos los nodos necesitan nfs-common instalado
-- ⚠️ Las imágenes Docker deben estar en un registry accesible (Docker Hub)
-- ⚠️ Verificar que swap esté deshabilitado en todos los nodos
-- ⚠️ Guardar el token de kubeadm para unir nodos posteriormente
+-  Siempre ejecutar `kubectl apply` desde el nodo master
+-  Los puertos 32001 y 32002 deben estar abiertos en security groups
+-  Para NFS, todos los nodos necesitan nfs-common instalado
+-  Las imágenes Docker deben estar en un registry accesible (Docker Hub)
+-  Verificar que swap esté deshabilitado en todos los nodos
+-  Guardar el token de kubeadm para unir nodos posteriormente

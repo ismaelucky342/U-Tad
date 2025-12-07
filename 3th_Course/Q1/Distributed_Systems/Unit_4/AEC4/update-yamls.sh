@@ -20,12 +20,12 @@ echo "======================================"
 find kubernetes/ -name "*.yaml" -type f -exec sed -i "s|<tu-usuario>|${DOCKER_USER}|g" {} +
 
 echo ""
-echo "✅ Archivos actualizados:"
+echo "[OK] Archivos actualizados:"
 grep -r "image:" kubernetes/ | grep "$DOCKER_USER"
 
 echo ""
 echo "======================================"
-echo "✅ Proceso completado"
+echo "[OK] Proceso completado"
 echo "======================================"
 echo ""
 echo "Ahora puedes desplegar con:"

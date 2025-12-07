@@ -277,13 +277,13 @@ kubectl get pods -w
 ### 10. Conclusión (1-2 min)
 
 - Resumir lo demostrado:
-  - ✅ Cluster de Kubernetes funcional
-  - ✅ Aplicaciones contenerizadas con Docker
-  - ✅ Broker y servidores desplegados
-  - ✅ Cliente puede subir/bajar archivos
-  - ✅ Persistencia de datos (si aplica)
-  - ✅ Balanceo de carga (si aplica)
-  - ✅ Múltiples nodos (si aplica)
+  -  Cluster de Kubernetes funcional
+  -  Aplicaciones contenerizadas con Docker
+  -  Broker y servidores desplegados
+  -  Cliente puede subir/bajar archivos
+  -  Persistencia de datos (si aplica)
+  -  Balanceo de carga (si aplica)
+  -  Múltiples nodos (si aplica)
 
 - Mencionar dificultades encontradas y cómo se resolvieron
 - Agradecimientos
@@ -314,10 +314,10 @@ kubectl get pods -w
 
 ## Errores Comunes a Evitar
 
-- ❌ No mostrar que los pods están corriendo
-- ❌ No explicar los archivos YAML
-- ❌ No demostrar todos los comandos del cliente
-- ❌ No verificar la persistencia de datos
-- ❌ Ir demasiado rápido sin explicar
-- ❌ No mostrar la arquitectura visual
-- ❌ No probar con múltiples archivos
+-  No mostrar que los pods están corriendo
+-  No explicar los archivos YAML
+-  No demostrar todos los comandos del cliente
+-  No verificar la persistencia de datos
+-  Ir demasiado rápido sin explicar
+-  No mostrar la arquitectura visual
+-  No probar con múltiples archivos

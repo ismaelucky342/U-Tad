@@ -22,18 +22,18 @@ echo "======================================"
 echo ""
 echo "Verificando archivos..."
 if [ ! -f "docker/broker/brokerFileManager" ]; then
-    echo "❌ Error: No se encuentra docker/broker/brokerFileManager"
-    echo "   Copia el ejecutable a docker/broker/"
+    echo "[ERROR] No se encuentra docker/broker/brokerFileManager"
+    echo "Copia el ejecutable a docker/broker/"
     exit 1
 fi
 
 if [ ! -f "docker/server/serverFileManager" ]; then
-    echo "❌ Error: No se encuentra docker/server/serverFileManager"
-    echo "   Copia el ejecutable a docker/server/"
+    echo "[ERROR] No se encuentra docker/server/serverFileManager"
+    echo "Copia el ejecutable a docker/server/"
     exit 1
 fi
 
-echo "✅ Archivos encontrados"
+echo "[OK] Archivos encontrados"
 
 # Construir imagen del broker
 echo ""
@@ -43,10 +43,10 @@ echo "======================================"
 cd docker/broker/ || exit
 docker build -t "$BROKER_IMAGE" .
 if [ $? -ne 0 ]; then
-    echo "❌ Error al construir imagen del broker"
+    echo "[ERROR] Error al construir imagen del broker"
     exit 1
 fi
-echo "✅ Imagen del broker construida: $BROKER_IMAGE"
+echo "[OK] Imagen del broker construida: $BROKER_IMAGE"
 cd ../..
 
 # Construir imagen del servidor
@@ -57,10 +57,10 @@ echo "======================================"
 cd docker/server/ || exit
 docker build -t "$SERVER_IMAGE" .
 if [ $? -ne 0 ]; then
-    echo "❌ Error al construir imagen del servidor"
+    echo "[ERROR] Error al construir imagen del servidor"
     exit 1
 fi
-echo "✅ Imagen del servidor construida: $SERVER_IMAGE"
+echo "[OK] Imagen del servidor construida: $SERVER_IMAGE"
 cd ../..
 
 # Mostrar imágenes construidas
@@ -91,13 +91,13 @@ if [ "$PUSH_IMAGES" = "y" ] || [ "$PUSH_IMAGES" = "Y" ]; then
         docker push "$SERVER_IMAGE"
         
         echo ""
-        echo "✅ ¡Imágenes subidas correctamente!"
+        echo "[OK] Imagenes subidas correctamente!"
         echo ""
         echo "Actualiza los archivos YAML con:"
         echo "  image: $BROKER_IMAGE"
         echo "  image: $SERVER_IMAGE"
     else
-        echo "❌ Error al iniciar sesión en Docker Hub"
+        echo "[ERROR] Error al iniciar sesion en Docker Hub"
         exit 1
     fi
 else
@@ -110,5 +110,5 @@ fi
 
 echo ""
 echo "======================================"
-echo "✅ Proceso completado"
+echo "[OK] Proceso completado"
 echo "======================================"
