@@ -1,232 +1,119 @@
-#  GUÍA DE CONFIGURACIÓN Y PRESENTACIÓN
-## AEC4 - Sistemas Distribuidos - Despliegue con Kubernetes
+# COMANDOS COPY-PASTE - CONFIGURACIÓN DESDE CERO
+## Setup Completo AWS EC2 → Kubernetes → Aplicación Desplegada
 
 ---
 
-##  TABLA DE CONTENIDOS
+## 📋 ÍNDICE
 
-1. [Descripción del Proyecto](#descripcion)
-2. [Arquitectura del Sistema](#arquitectura)
-3. [Guía de Configuración Paso a Paso](#configuracion)
-4. [Guión para la Presentación](#presentacion)
-5. [Scripts de Ayuda](#scripts)
-6. [Solución de Problemas](#troubleshooting)
+### PARTE A: CONFIGURACIÓN INICIAL (Hacer antes de la grabación)
+1. [Preparación de Instancias AWS](#paso1)
+2. [Instalación de Docker](#paso2)
+3. [Instalación de Kubernetes](#paso3)
+4. [Inicialización del Cluster](#paso4)
+5. [Construcción y Despliegue de Aplicaciones](#paso5)
+6. [Configuración NFS (Avanzada 2)](#paso6)
 
----
-
-##  DESCRIPCIÓN DEL PROYECTO <a name="descripcion"></a>
-
-### Objetivo
-Desplegar una aplicación distribuida de gestión de archivos en un cluster de Kubernetes con instancias EC2, implementando:
-- **Contenedores Docker** para broker y servidores
-- **Orquestación con Kubernetes** (deployments, services, réplicas)
-- **Balanceo de carga** entre múltiples instancias
-- **Almacenamiento compartido** (opcional: hostPath o NFS)
-
-### Componentes del Sistema
-1. **brokerFileManager** (Puerto 32002)
-   - Coordina conexiones entre clientes y servidores
-   - Proporciona información de conexión a los clientes
-   - Debe iniciarse primero
-
-2. **serverFileManager** (Puerto 32001)
-   - Gestiona archivos en carpeta `FileManagerDir`
-   - Se registra con el broker al iniciar
-   - Recibe IP del broker como parámetro
-
-3. **clienteFileManager**
-   - Interfaz de usuario para gestionar archivos
-   - Comandos: `ls`, `lls`, `upload`, `download`, `exit`
-
-### Configuraciones Disponibles
-
-####  Configuración Básica (5 puntos)
-- 1 nodo master (control-plane)
-- 1 nodo worker con broker
-- 1 nodo worker con servidor
-- 1 réplica de cada servicio
-
-####  Configuración Avanzada 1 (+2 puntos)
-- Múltiples réplicas del servidor en UN SOLO nodo
-- Carpeta compartida usando **hostPath**
-- Todos los pods ven los mismos archivos
-
-####  Configuración Avanzada 2 (+5 puntos)
-- Múltiples réplicas en VARIOS nodos
-- Carpeta compartida usando **NFS** (Network File System)
-- Persistencia de datos entre nodos
+### PARTE B: COMANDOS PARA LA DEMOSTRACIÓN (Durante el video)
+7. [Comandos para Mostrar Nodos y Servicios](#demo1)
+8. [Comandos para Mostrar Dockerfiles y YAMLs](#demo2)
+9. [Comandos para la Demostración Práctica](#demo3)
+10. [Comandos Extra (Opcional)](#demo4)
 
 ---
 
-##  ARQUITECTURA DEL SISTEMA <a name="arquitectura"></a>
-
-```
-
-                      NODO MASTER                             
-                   (Control Plane)                            
-    
-    • Kubernetes API Server                               
-    • etcd                                                 
-    • Scheduler                                            
-    • Controller Manager                                  
-    
-
-                            
-        
-                                               
-                    
-  NODO WORKER 1                       NODO WORKER 2  
-                                                     
-                            
-    BROKER                            SERVER 1   
-    POD                               POD        
-   :32002                             :32001     
-                            
-                                        
-  NodePort                              SERVER 2   
-  Service                               POD        
-                                        :32001     
-                        
-                                                       
-                                        NodePort       
-                                        Service +      
-                                        LoadBalancer   
-                                      
-                                               
-                                      
-                                         Volumen NFS   
-                                        (Opcional)     
-                                       FileManagerDir  
-                                      
-```
+# PARTE A: CONFIGURACIÓN INICIAL
+## (Ejecutar TODO esto ANTES de grabar el video)
 
 ---
 
-##  GUÍA DE CONFIGURACIÓN PASO A PASO <a name="configuracion"></a>
+## PASO 1: PREPARACIÓN DE INSTANCIAS AWS <a name="paso1"></a>
 
-### FASE 1: PREPARACIÓN INICIAL
+### 1.1. Crear Security Group
 
-#### 1.1. Obtener Ejecutables
-```bash
-# Descargar P3FileManager.zip del Blackboard
-cd /home/nirmata/Documentos/University/U-Tad/3th_Course/Q1/Distributed_Systems/Unit_4/AEC4
+**Ir a AWS Console → EC2 → Security Groups → Create Security Group**
 
-# Copiar ejecutables a sus ubicaciones
-cp /ruta/descarga/brokerFileManager docker/broker/
-cp /ruta/descarga/serverFileManager docker/server/
-cp /ruta/descarga/clienteFileManager client/
+1. **Nombre:** kubernetes-cluster-sg
+2. **Descripción:** Security group para cluster Kubernetes
+3. **VPC:** Dejar el default (no necesitas crear uno nuevo)
+
+**Agregar Inbound Rules (click en "Add Rule" para cada puerto):**
+
+| Tipo | Protocolo | Puerto | Origen | Descripción |
+|------|-----------|---------|---------|-------------|
+| SSH | TCP | 22 | 0.0.0.0/0 | SSH desde cualquier lugar |
+| Custom TCP | TCP | 6443 | `sg-XXXXX` (mismo SG) | Kubernetes API |
+| Custom TCP | TCP | 2379-2380 | `sg-XXXXX` (mismo SG) | etcd |
+| Custom TCP | TCP | 10250-10252 | `sg-XXXXX` (mismo SG) | Kubelet |
+| Custom TCP | TCP | 32001 | 0.0.0.0/0 | Aplicación Server |
+| Custom TCP | TCP | 32002 | 0.0.0.0/0 | Aplicación Broker |
+| NFS | TCP | 2049 | `sg-XXXXX` (mismo SG) | NFS (Avanzada 2) |
+| Custom TCP | TCP | 8472 | `sg-XXXXX` (mismo SG) | Flannel VXLAN |
+
+**IMPORTANTE:** 
+- Para las reglas que dicen `sg-XXXXX (mismo SG)`, en "Source" selecciona el **mismo Security Group** que estás creando (aparecerá en el dropdown)
+- Esto permite que las instancias del cluster se comuniquen entre sí
+- Solo SSH y los puertos 32001-32002 necesitan estar abiertos al mundo (0.0.0.0/0)
+
+### 1.2. Crear Instancias EC2
+
+**Ir a AWS Console → EC2 → Launch Instance**
+
+**Configuración de cada instancia:**
+
+1. **Name:** 
+   - Primera: `kubernetes-master`
+   - Siguientes: `kubernetes-worker1`, `kubernetes-worker2`, `kubernetes-worker3`
+
+2. **AMI:** Ubuntu Server 20.04 LTS
+
+3. **Instance type:** 
+   - **RECOMENDADO:** t2.medium (2 vCPUs, 4 GB RAM)
+   - **MÍNIMO:** t2.small (1 vCPU, 2 GB RAM) - Funcionará pero con limitaciones
+   - **NO USAR:** t2.micro (1 GB RAM) - Kubernetes requiere mínimo 2GB
+
+4. **Key pair:** 
+   - Crear o seleccionar una existente
+   - Descargar el archivo .pem si es nueva
+
+5. **Network settings:**
+   - VPC: Default
+   - **Security Group:** Seleccionar `kubernetes-cluster-sg` (el que creaste)
+
+6. **Storage:** 20 GB gp2
+
+7. **Number of instances:** 4 (o créalas una por una)
+
+8. **Launch Instance**
+
+**IPs públicas de las instancias:**
+```
+MASTER:   13.216.1.120
+WORKER1:  100.31.103.79
+WORKER2:  98.92.25.236
+WORKER3:  18.207.255.64
 ```
 
-#### 1.2. Verificar Estructura del Proyecto
-```bash
-tree -L 2
-# Deberías ver:
-#  docker/
-#     broker/
-#        Dockerfile
-#        brokerFileManager
-#     server/
-#         Dockerfile
-#         serverFileManager
-#  kubernetes/
-#     broker/
-#     server/
-#     nfs/
-#  client/
-#      clienteFileManager
-```
+### 1.3. Conectar a las Instancias
 
----
-
-### FASE 2: CREACIÓN DE IMÁGENES DOCKER
-
-#### 2.1. Construir Imagen del Broker
-```bash
-cd docker/broker/
-
-# Revisar Dockerfile
-cat Dockerfile
-
-# Construir imagen (reemplaza <tu-usuario> con tu Docker Hub username)
-docker build -t <tu-usuario>/broker-filemanager:latest .
-
-# Verificar
-docker images | grep broker
-```
-
-#### 2.2. Construir Imagen del Servidor
-```bash
-cd ../server/
-
-# Revisar Dockerfile
-cat Dockerfile
-
-# Construir imagen
-docker build -t <tu-usuario>/server-filemanager:latest .
-
-# Verificar
-docker images | grep server
-```
-
-#### 2.3. Subir Imágenes a Docker Hub
-```bash
-# Iniciar sesión en Docker Hub
-docker login
-# Ingresar usuario y contraseña
-
-# Subir imágenes
-docker push <tu-usuario>/broker-filemanager:latest
-docker push <tu-usuario>/server-filemanager:latest
-
-# Verificar en https://hub.docker.com/
-```
-
-** Script Automático:**
-```bash
-./build-images.sh <tu-usuario>
-```
-
----
-
-### FASE 3: CONFIGURACIÓN DE AWS EC2
-
-#### 3.1. Crear Instancias EC2
-
-**Especificaciones mínimas:**
-- **AMI:** Ubuntu Server 20.04 LTS
-- **Tipo:** t2.medium (2 vCPUs, 4 GB RAM)
-- **Cantidad:** Mínimo 2 instancias (1 master + 1 worker)
-
-**Configuración de Security Group:**
-```
-PUERTO      PROTOCOLO    ORIGEN          DESCRIPCIÓN
-22          TCP          0.0.0.0/0       SSH
-6443        TCP          VPC             Kubernetes API
-2379-2380   TCP          VPC             etcd
-10250       TCP          VPC             Kubelet API
-10251       TCP          VPC             kube-scheduler
-10252       TCP          VPC             kube-controller
-32001-32002 TCP          0.0.0.0/0       Aplicación
-2049        TCP          VPC             NFS (opcional)
-```
-
-#### 3.2. Conectar a las Instancias
 ```bash
 # Dar permisos a la clave
-chmod 400 tu-clave.pem
+chmod 400 /home/nirmata/Descargas/Ismael.pem
 
-# Conectar al master
-ssh -i "tu-clave.pem" ubuntu@<MASTER_IP>
+# Conectar al MASTER
+ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@13.216.1.120
 
-# Conectar a cada worker (en otra terminal)
-ssh -i "tu-clave.pem" ubuntu@<WORKER_IP>
+# Conectar a cada WORKER (abrir 3 terminales adicionales)
+ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@100.31.103.79
+ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@98.92.25.236
+ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@18.207.255.64
 ```
 
 ---
 
-### FASE 4: INSTALACIÓN DE DEPENDENCIAS
+## PASO 2: INSTALACIÓN DE DOCKER <a name="paso2"></a>
 
-#### 4.1. Instalar Docker (EN TODAS LAS INSTANCIAS)
+### ⚠️ EJECUTAR EN TODAS LAS INSTANCIAS (Master + 3 Workers)
+
 ```bash
 # Actualizar sistema
 sudo apt-get update && sudo apt-get upgrade -y
@@ -234,9 +121,10 @@ sudo apt-get update && sudo apt-get upgrade -y
 # Instalar dependencias
 sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
 
-# Añadir repositorio de Docker
+# Añadir clave GPG de Docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
+# Añadir repositorio de Docker
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Instalar Docker
@@ -247,21 +135,28 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 sudo usermod -aG docker $USER
 newgrp docker
 
-# Verificar
+# Verificar instalación
 docker --version
 ```
 
-#### 4.2. Instalar Kubernetes (EN TODAS LAS INSTANCIAS)
+**Salida esperada:** `Docker version 24.0.x, build ...`
+
+---
+
+## PASO 3: INSTALACIÓN DE KUBERNETES <a name="paso3"></a>
+
+### ⚠️ EJECUTAR EN TODAS LAS INSTANCIAS (Master + 3 Workers)
+
 ```bash
-# Deshabilitar swap
+# Deshabilitar swap (requisito de Kubernetes)
 sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-# Cargar módulos del kernel
+# Cargar módulos del kernel necesarios
 sudo modprobe overlay
 sudo modprobe br_netfilter
 
-# Configurar parámetros del sistema
+# Configurar parámetros del sistema para Kubernetes
 cat <<EOF | sudo tee /etc/sysctl.d/kubernetes.conf
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
@@ -270,43 +165,58 @@ EOF
 
 sudo sysctl --system
 
-# Añadir repositorio de Kubernetes
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+# Añadir clave GPG de Kubernetes (nuevo repositorio)
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
-# Instalar componentes
+# Añadir repositorio de Kubernetes (nuevo)
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+# Instalar componentes de Kubernetes
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
+
+# Evitar actualizaciones automáticas
 sudo apt-mark hold kubelet kubeadm kubectl
 
-# Verificar
+# Verificar instalación
 kubeadm version
+kubectl version --client
 ```
 
-#### 4.3. Configurar Containerd (EN TODAS LAS INSTANCIAS)
+**Salida esperada:** Versiones de kubeadm y kubectl
+
+### Configurar Containerd
+
 ```bash
-# Crear configuración
+# Crear directorio de configuración
 sudo mkdir -p /etc/containerd
+
+# Generar configuración por defecto
 sudo containerd config default | sudo tee /etc/containerd/config.toml
 
-# Habilitar systemd cgroup
+# Habilitar systemd cgroup (necesario para Kubernetes)
 sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
 
-# Reiniciar servicio
+# Reiniciar containerd
 sudo systemctl restart containerd
 sudo systemctl enable containerd
+
+# Verificar que está corriendo
+sudo systemctl status containerd
 ```
 
 ---
 
-### FASE 5: INICIALIZACIÓN DEL CLUSTER
+## PASO 4: INICIALIZACIÓN DEL CLUSTER <a name="paso4"></a>
 
-#### 5.1. Inicializar Master (SOLO EN NODO MASTER)
+### 4.1. Inicializar Master (SOLO EN EL NODO MASTER)
+
 ```bash
-# Inicializar cluster
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+# Inicializar cluster de Kubernetes (ignorando check de RAM para instancias pequeñas)
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=Mem
 
-# Configurar kubectl
+# Configurar kubectl para el usuario actual
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
@@ -314,310 +224,148 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 # Instalar red de pods (Flannel)
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
-# Verificar
+# Verificar nodos (debe aparecer el master como Ready)
 kubectl get nodes
+
+# Verificar pods del sistema (todos deben estar Running)
 kubectl get pods -A
 ```
 
-** IMPORTANTE:** Guardar el comando de join que aparece, similar a:
+**⚠️ IMPORTANTE:** Al final de `kubeadm init` aparecerá un comando como este:
+
 ```bash
-kubeadm join <master-ip>:6443 --token <token> \
-  --discovery-token-ca-cert-hash sha256:<hash>
+kubeadm join 172.31.68.189:6443 --token 0gb4ki.qjyrtze6s9wsvu71 \
+  --discovery-token-ca-cert-hash sha256:1331a86ef9a174c79144eff4d86d3b203986be1d0c55ec38bddee109b5bad51f
 ```
 
-#### 5.2. Unir Workers al Cluster (EN CADA NODO WORKER)
+**COPIA Y GUARDA este comando**, lo necesitarás para unir los workers.
+
+⚠️ **NOTA:** Si el token expira (válido por 24 horas), genera uno nuevo con:
 ```bash
-# Ejecutar el comando de join guardado
-sudo kubeadm join <master-ip>:6443 --token <token> \
-  --discovery-token-ca-cert-hash sha256:<hash>
+# En el master
+kubeadm token create --print-join-command
 ```
 
-#### 5.3. Verificar Cluster (EN NODO MASTER)
+### 4.2. Unir Workers al Cluster (EN CADA WORKER)
+
 ```bash
+# Ejecutar el comando de join que guardaste del master
+# IMPORTANTE: Añadir --ignore-preflight-errors=Mem también en los workers
+sudo kubeadm join 172.31.68.189:6443 --token 0gb4ki.qjyrtze6s9wsvu71 \
+  --discovery-token-ca-cert-hash sha256:1331a86ef9a174c79144eff4d86d3b203986be1d0c55ec38bddee109b5bad51f \
+  --ignore-preflight-errors=Mem
+```
+
+### 4.3. Verificar Cluster (EN EL MASTER)
+
+```bash
+# Ver todos los nodos (deben aparecer 4 nodos en Ready)
 kubectl get nodes
-# Todos los nodos deben aparecer como "Ready"
 
-kubectl get pods -A
-# Todos los pods del sistema deben estar "Running"
+# Ver con más detalle
+kubectl get nodes -o wide
+
+# Esperar hasta que todos los nodos estén "Ready"
+# Puede tardar 1-2 minutos
+```
+
+**Salida esperada:**
+```
+NAME        STATUS   ROLES           AGE   VERSION
+master      Ready    control-plane   5m    v1.28.x
+worker1     Ready    <none>          2m    v1.28.x
+worker2     Ready    <none>          2m    v1.28.x
+worker3     Ready    <none>          2m    v1.28.x
 ```
 
 ---
 
-### FASE 6: DESPLIEGUE DE APLICACIONES
+## PASO 5: CONSTRUCCIÓN Y DESPLIEGUE DE APLICACIONES <a name="paso5"></a>
 
-#### 6.1. Actualizar Archivos YAML
+### 5.1. Preparar Imágenes Docker (EN TU MÁQUINA LOCAL)
+
 ```bash
-# En tu máquina local o master
-./update-yamls.sh <tu-usuario>
+# Ir al directorio del proyecto
+cd /home/nirmata/Documentos/University/U-Tad/3th_Course/Q1/Distributed_Systems/Unit_4/AEC4
 
-# O manualmente:
-# Editar kubernetes/broker/deployment.yaml
-# Editar kubernetes/server/deployment-basic.yaml
-# Reemplazar <tu-usuario> con tu Docker Hub username
+# Copiar ejecutables (ya descargados de Blackboard)
+cp ~/Descargas/P3FileManager/brokerFileManager docker/broker/
+cp ~/Descargas/P3FileManager/serverFileManager docker/server/
+cp ~/Descargas/P3FileManager/clientFileManager client/
+
+# Dar permisos de ejecución
+chmod +x docker/broker/brokerFileManager
+chmod +x docker/server/serverFileManager
+chmod +x client/clientFileManager
+
+# REEMPLAZA <tu-usuario> con tu username de Docker Hub
+export DOCKER_USER="<tu-usuario>"
+
+# Construir imagen del broker
+cd docker/broker/
+docker build -t $DOCKER_USER/broker-filemanager:latest .
+
+# Construir imagen del servidor
+cd ../server/
+docker build -t $DOCKER_USER/server-filemanager:latest .
+
+cd ../../
+
+# Iniciar sesión en Docker Hub
+docker login
+
+# Subir imágenes
+docker push $DOCKER_USER/broker-filemanager:latest
+docker push $DOCKER_USER/server-filemanager:latest
+
+# Verificar que se subieron
+echo "Verifica en: https://hub.docker.com/u/$DOCKER_USER"
 ```
 
-#### 6.2. Copiar Archivos al Master
+### 5.2. Actualizar Archivos YAML
+
+```bash
+# Actualizar YAMLs con tu usuario de Docker Hub
+./update-yamls.sh $DOCKER_USER
+
+# Verificar que se actualizaron
+grep "image:" kubernetes/broker/deployment.yaml
+grep "image:" kubernetes/server/deployment-advanced2.yaml
+```
+
+### 5.3. Copiar Archivos al Master
+
 ```bash
 # Desde tu máquina local
-scp -i "tu-clave.pem" -r kubernetes/ ubuntu@<MASTER_IP>:~/
+scp -i "/home/nirmata/Descargas/Ismael.pem" -r kubernetes/ ubuntu@13.216.1.120:~/
 ```
 
-#### 6.3. Desplegar Broker
+### 5.4. Desplegar Broker (EN EL MASTER)
+
 ```bash
-# En el nodo master
+# Aplicar deployment del broker
 kubectl apply -f kubernetes/broker/deployment.yaml
 
-# Verificar
+# Verificar que se creó
 kubectl get deployments
 kubectl get pods -l app=broker
 kubectl get services
-```
 
-#### 6.4. Desplegar Servidor
-
-**Opción A: Configuración Básica (5 puntos)**
-```bash
-kubectl apply -f kubernetes/server/deployment-basic.yaml
-
-# Verificar
-kubectl get deployments
-kubectl get pods -l app=filemanager-server
-kubectl get services
-```
-
-**Opción B: Configuración Avanzada 1 (+2 puntos - hostPath)**
-```bash
-kubectl apply -f kubernetes/server/deployment-advanced1.yaml
-
-# Verificar réplicas
-kubectl get pods -o wide -l app=filemanager-server
-# Deben estar en el mismo nodo
-
-# Verificar volumen
-kubectl describe pod <server-pod-name>
-```
-
-**Opción C: Configuración Avanzada 2 (+5 puntos - NFS)**
-```bash
-# Primero configurar NFS (ver sección siguiente)
-# Luego desplegar
-kubectl apply -f kubernetes/nfs/nfs-pv-pvc.yaml
-kubectl apply -f kubernetes/server/deployment-advanced2.yaml
-
-# Verificar
-kubectl get pv
-kubectl get pvc
-kubectl get pods -o wide -l app=filemanager-server
-# Deben estar en diferentes nodos
+# Esperar a que el pod esté Running
+kubectl get pods -w
+# Ctrl+C para salir cuando esté Running
 ```
 
 ---
 
-### FASE 7: PRUEBAS Y VALIDACIÓN
+## PASO 6: CONFIGURACIÓN NFS (SOLO AVANZADA 2) <a name="paso6"></a>
 
-#### 7.1. Verificar Estado del Cluster
+### 6.1. Configurar Servidor NFS (EN UNA INSTANCIA SEPARADA O EN EL MASTER)
+
+**Opción A: Usar el Master como servidor NFS**
+
 ```bash
-# Ver todos los recursos
-kubectl get all
-
-# Ver pods en detalle
-kubectl get pods -o wide
-
-# Ver logs del broker
-kubectl logs <broker-pod-name>
-
-# Ver logs de un servidor
-kubectl logs <server-pod-name>
-```
-
-#### 7.2. Probar con el Cliente
-
-**Preparar archivos de prueba:**
-```bash
-cd client/
-echo "Archivo de prueba 1" > test1.txt
-echo "Archivo de prueba 2" > test2.txt
-echo "Contenido demo" > demo.txt
-```
-
-**Ejecutar cliente:**
-```bash
-# Obtener IP del nodo master o worker
-kubectl get nodes -o wide
-
-# Ejecutar cliente
-./clienteFileManager <IP_DEL_NODO>
-```
-
-**Comandos de prueba:**
-```
-ls              # Listar archivos locales
-lls             # Listar archivos remotos (vacío inicialmente)
-upload test1.txt # Subir archivo
-lls             # Verificar que aparece test1.txt
-upload test2.txt
-upload demo.txt
-lls             # Ver todos los archivos
-download test1.txt  # Descargar archivo
-exit            # Salir
-```
-
----
-
-##  GUIÓN PARA LA PRESENTACIÓN <a name="presentacion"></a>
-
-### ESTRUCTURA DEL VIDEO (15-20 minutos)
-
----
-
-####  PARTE 1: INTRODUCCIÓN (2 minutos)
-
-**Qué mostrar:**
-```
-- Diapositiva con tu nombre y asignatura
-- Título: "AEC4 - Despliegue de Aplicación Distribuida con Kubernetes"
-- Diagrama de arquitectura del sistema
-```
-
-**Qué decir:**
-```
-"Buenos días/tardes. En este video voy a presentar la práctica AEC4 de Sistemas 
-Distribuidos, donde he implementado el despliegue de una aplicación de gestión 
-de archivos distribuida utilizando Kubernetes en AWS EC2.
-
-La aplicación consta de tres componentes principales:
-1. Un broker que coordina las conexiones
-2. Servidores que gestionan archivos
-3. Clientes que interactúan con los servidores
-
-He implementado la [CONFIGURACIÓN BÁSICA / AVANZADA 1 / AVANZADA 2], que incluye
-[describir características específicas]."
-```
-
----
-
-####  PARTE 2: ARQUITECTURA DEL CLUSTER (3 minutos)
-
-**Qué mostrar:
-
-##  Niveles de Configuración
-
-### Básico (5 puntos) 
-- [x] 1 nodo master
-- [x] 1 pod broker
-- [x] 1 pod servidor
-- [x] Servicios funcionando
-
-**Archivo a usar:** `kubernetes/server/deployment-basic.yaml`
-
-### Avanzado 1 (+2 puntos) 
-- [x] Todo lo básico
-- [x] Múltiples réplicas del servidor en UN nodo
-- [x] Volumen compartido con `hostPath`
-- [x] Datos persistentes
-
-**Archivo a usar:** `kubernetes/server/deployment-advanced1.yaml`
-
-**Preparación adicional:**
-```bash
-# En el nodo worker, crear carpeta compartida
-ssh ubuntu@WORKER_IP
-sudo mkdir -p /mnt/filemanager-shared
-sudo chmod 777 /mnt/filemanager-shared
-```
-
-### Avanzado 2 (+5 puntos) 
-- [x] Todo lo básico
-- [x] Múltiples réplicas en MÚLTIPLES nodos
-- [x] Volumen NFS compartido entre nodos
-- [x] Datos persistentes y sincronizados
-
-**Archivos a usar:**
-- `kubernetes/nfs/nfs-pv-pvc.yaml`
-- `kubernetes/server/deployment-advanced2.yaml`
-
-**Preparación adicional:**
-```bash
-# Configurar servidor NFS (ver docs/setup.md sección 11)
-# O usar el servidor NFS interno del cluster
-kubectl apply -f kubernetes/nfs/nfs-server-setup.yaml
-```
-
----
-
-##  Para el Video Demostrativo
-
-
-### Configuración Avanzada 1: HostPath (Múltiples réplicas, un nodo)
-
-**Requisito:**
-- Varios pods/réplicas en UN MISMO nodo
-- Carpeta compartida usando `hostPath`
-
-**Deployment:**
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: server-deployment
-spec:
-  replicas: 3  # Múltiples réplicas
-  selector:
-    matchLabels:
-      app: filemanager-server
-  template:
-    metadata:
-      labels:
-        app: filemanager-server
-    spec:
-      # Forzar que todos los pods estén en el mismo nodo
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - filemanager-server
-            topologyKey: kubernetes.io/hostname
-      containers:
-      - name: server
-        image: <tu-usuario>/server-filemanager:latest
-        args: ["broker-service"]
-        ports:
-        - containerPort: 32001
-        volumeMounts:
-        - name: file-storage
-          mountPath: /app/FileManagerDir
-      volumes:
-      - name: file-storage
-        hostPath:
-          path: /data/FileManagerDir  # Carpeta en el nodo host
-          type: DirectoryOrCreate
-```
-
-**Preparación del nodo:**
-```bash
-# En el nodo worker donde correrán los pods
-sudo mkdir -p /data/FileManagerDir
-sudo chmod 777 /data/FileManagerDir
-```
-
----
-
-### Configuración Avanzada 2: NFS (Múltiples réplicas, múltiples nodos)
-
-**Requisito:**
-- Varios nodos esclavos
-- Múltiples réplicas distribuidas
-- Almacenamiento compartido en red (NFS)
-
-#### Paso 1: Configurar Servidor NFS
-
-**En un nodo o instancia separada:**
-```bash
-# Instalar servidor NFS
+# En el MASTER
 sudo apt-get update
 sudo apt-get install -y nfs-kernel-server
 
@@ -628,7 +376,7 @@ sudo chmod 777 /mnt/nfs-share
 # Configurar exports
 echo "/mnt/nfs-share *(rw,sync,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports
 
-# Reiniciar NFS
+# Aplicar cambios
 sudo exportfs -a
 sudo systemctl restart nfs-kernel-server
 
@@ -636,580 +384,420 @@ sudo systemctl restart nfs-kernel-server
 showmount -e localhost
 ```
 
-#### Paso 2: Instalar Cliente NFS en Workers
+**Salida esperada:**
+```
+Export list for localhost:
+/mnt/nfs-share *
+```
 
-**En TODOS los nodos worker:**
+### 6.2. Instalar Cliente NFS (EN TODOS LOS WORKERS)
+
 ```bash
+# En cada WORKER
+sudo apt-get update
 sudo apt-get install -y nfs-common
-```
 
-#### Paso 3: Crear PersistentVolume y PersistentVolumeClaim
-
-**Archivo: kubernetes/nfs/nfs-pv-pvc.yaml**
-```yaml
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: nfs-pv
-spec:
-  capacity:
-    storage: 5Gi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: <IP_SERVIDOR_NFS>  # IP del servidor NFS
-    path: "/mnt/nfs-share"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: nfs-pvc
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 5Gi
-```
-
-#### Paso 4: Deployment con NFS
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: server-deployment
-spec:
-  replicas: 3  # Distribuidas en múltiples nodos
-  selector:
-    matchLabels:
-      app: filemanager-server
-  template:
-    metadata:
-      labels:
-        app: filemanager-server
-    spec:
-      containers:
-      - name: server
-        image: <tu-usuario>/server-filemanager:latest
-        args: ["broker-service"]
-        ports:
-        - containerPort: 32001
-        volumeMounts:
-        - name: nfs-storage
-          mountPath: /app/FileManagerDir
-      volumes:
-      - name: nfs-storage
-        persistentVolumeClaim:
-          claimName: nfs-pvc
-```
-
----
-
-##  SCRIPTS DE AYUDA <a name="scripts"></a>
-
-### Script: build-images.sh
-
-```bash
-#!/bin/bash
-
-# Script para construir y subir imágenes Docker
-
-if [ -z "$1" ]; then
-    echo " Error: Debes proporcionar tu usuario de Docker Hub"
-    echo "Uso: ./build-images.sh <tu-usuario>"
-    exit 1
-fi
-
-DOCKER_USER=$1
-
-echo " Construyendo imágenes para usuario: $DOCKER_USER"
-
-# Construir broker
-echo " Construyendo broker-filemanager..."
-cd docker/broker/
-docker build -t $DOCKER_USER/broker-filemanager:latest .
-
-# Construir servidor
-echo " Construyendo server-filemanager..."
-cd ../server/
-docker build -t $DOCKER_USER/server-filemanager:latest .
-
-cd ../../
-
-echo " Imágenes construidas exitosamente"
-echo ""
-echo " Subiendo imágenes a Docker Hub..."
-
-docker push $DOCKER_USER/broker-filemanager:latest
-docker push $DOCKER_USER/server-filemanager:latest
-
-echo " Proceso completado"
-echo ""
-echo " Verifica tus imágenes en: https://hub.docker.com/u/$DOCKER_USER"
-```
-
-### Script: update-yamls.sh
-
-```bash
-#!/bin/bash
-
-# Script para actualizar archivos YAML con usuario de Docker Hub
-
-if [ -z "$1" ]; then
-    echo " Error: Debes proporcionar tu usuario de Docker Hub"
-    echo "Uso: ./update-yamls.sh <tu-usuario>"
-    exit 1
-fi
-
-DOCKER_USER=$1
-
-echo " Actualizando archivos YAML con usuario: $DOCKER_USER"
-
-# Actualizar deployment del broker
-sed -i "s/<tu-usuario>/$DOCKER_USER/g" kubernetes/broker/deployment.yaml
-echo " kubernetes/broker/deployment.yaml"
-
-# Actualizar deployments del servidor
-sed -i "s/<tu-usuario>/$DOCKER_USER/g" kubernetes/server/deployment-basic.yaml
-echo " kubernetes/server/deployment-basic.yaml"
-
-sed -i "s/<tu-usuario>/$DOCKER_USER/g" kubernetes/server/deployment-advanced1.yaml
-echo " kubernetes/server/deployment-advanced1.yaml"
-
-sed -i "s/<tu-usuario>/$DOCKER_USER/g" kubernetes/server/deployment-advanced2.yaml
-echo " kubernetes/server/deployment-advanced2.yaml"
-
-echo ""
-echo " Todos los archivos YAML han sido actualizados"
-echo " Ya puedes desplegarlos con: kubectl apply -f <archivo.yaml>"
-```
-
-### Script: cleanup.sh
-
-```bash
-#!/bin/bash
-
-# Script para limpiar recursos de Kubernetes
-
-echo " Limpiando recursos de Kubernetes..."
-
-# Eliminar deployments
-kubectl delete deployment broker-deployment 2>/dev/null
-kubectl delete deployment server-deployment 2>/dev/null
-
-# Eliminar services
-kubectl delete service broker-service 2>/dev/null
-kubectl delete service server-service 2>/dev/null
-
-# Eliminar PVC y PV (si existen)
-kubectl delete pvc nfs-pvc 2>/dev/null
-kubectl delete pv nfs-pv 2>/dev/null
-
-echo ""
-echo " Limpieza completada"
-echo " Estado actual:"
-kubectl get all
-```
-
-### Script: status.sh
-
-```bash
-#!/bin/bash
-
-# Script para ver estado del cluster
-
-echo ""
-echo " ESTADO DEL CLUSTER KUBERNETES"
-echo ""
-echo ""
-
-echo "  NODOS:"
-kubectl get nodes -o wide
-echo ""
-
-echo " PODS:"
-kubectl get pods -o wide
-echo ""
-
-echo " SERVICES:"
-kubectl get services
-echo ""
-
-echo " DEPLOYMENTS:"
-kubectl get deployments
-echo ""
-
-echo " PERSISTENT VOLUMES:"
-kubectl get pv
-kubectl get pvc
-echo ""
-
-echo " LOGS RECIENTES DEL BROKER:"
-BROKER_POD=$(kubectl get pods -l app=broker -o jsonpath='{.items[0].metadata.name}')
-if [ ! -z "$BROKER_POD" ]; then
-    kubectl logs $BROKER_POD --tail=10
-else
-    echo "No se encontró pod del broker"
-fi
-echo ""
-
-echo ""
-```
-
----
-
-##  SOLUCIÓN DE PROBLEMAS <a name="troubleshooting"></a>
-
-### Problema 1: Pod en estado Pending
-
-**Síntoma:**
-```bash
-kubectl get pods
-# NAME                               READY   STATUS    RESTARTS   AGE
-# server-deployment-xxx              0/1     Pending   0          5m
-```
-
-**Soluciones:**
-```bash
-# Ver detalles del problema
-kubectl describe pod <pod-name>
-
-# Causas comunes:
-# 1. Recursos insuficientes
-kubectl top nodes
-
-# 2. Volumen no disponible
-kubectl get pv
-kubectl get pvc
-
-# 3. Imagen no encontrada
-kubectl describe pod <pod-name> | grep -i image
-```
-
-### Problema 2: Service no accesible desde fuera
-
-**Síntoma:**
-```bash
-# No puedo conectar el cliente a la IP del nodo
-./clienteFileManager <IP_NODO>
-# Connection refused
-```
-
-**Soluciones:**
-```bash
-# 1. Verificar que el service está creado
-kubectl get services
-
-# 2. Verificar que el puerto está expuesto
-kubectl describe service broker-service
-
-# 3. Verificar security group en AWS
-# Debe permitir tráfico en puertos 32001-32002
-
-# 4. Verificar que el pod está corriendo
-kubectl get pods
-
-# 5. Probar desde dentro del cluster
-kubectl run -it --rm debug --image=busybox --restart=Never -- sh
-# Dentro del pod:
-# wget -O- http://broker-service:32002
-```
-
-### Problema 3: Pods no pueden ver archivos compartidos
-
-**Síntoma (Avanzada 1):**
-```bash
-# Los pods no ven los mismos archivos
-```
-
-**Soluciones:**
-```bash
-# 1. Verificar que los pods están en el mismo nodo
-kubectl get pods -o wide
-
-# 2. Verificar montaje del volumen
-kubectl describe pod <pod-name> | grep -A 10 Mounts
-
-# 3. Verificar que el directorio hostPath existe
-ssh al-nodo
-ls -la /data/FileManagerDir
-
-# 4. Verificar permisos
-sudo chmod 777 /data/FileManagerDir
-```
-
-**Síntoma (Avanzada 2):**
-```bash
-# Error montando volumen NFS
-```
-
-**Soluciones:**
-```bash
-# 1. Verificar que el servidor NFS está corriendo
-systemctl status nfs-server
-
-# 2. Verificar exports
-cat /etc/exports
-showmount -e localhost
-
-# 3. Probar montaje manual desde un nodo
-sudo mount -t nfs <NFS_SERVER_IP>:/mnt/nfs-share /mnt/test
+# Probar montaje manual (opcional)
+sudo mkdir -p /mnt/test
+sudo mount -t nfs 13.216.1.120:/mnt/nfs-share /mnt/test
 ls -la /mnt/test
-
-# 4. Verificar firewall/security groups
-# Puerto 2049 debe estar abierto
+sudo umount /mnt/test
 ```
 
-### Problema 4: Cliente no encuentra broker
+### 6.3. Actualizar YAML de NFS
 
-**Síntoma:**
 ```bash
-./clienteFileManager <IP>
-# No se puede conectar al broker
+# EN TU MÁQUINA LOCAL
+# Editar kubernetes/nfs/nfs-pv-pvc.yaml
+# Reemplazar <IP_SERVIDOR_NFS> con la IP del master
+
+# O con sed:
+sed -i "s/<IP_SERVIDOR_NFS>/13.216.1.120/g" kubernetes/nfs/nfs-pv-pvc.yaml
+
+# Copiar al master
+scp -i "/home/nirmata/Descargas/Ismael.pem" kubernetes/nfs/nfs-pv-pvc.yaml ubuntu@13.216.1.120:~/kubernetes/nfs/
 ```
 
-**Soluciones:**
+### 6.4. Desplegar NFS y Servidor (EN EL MASTER)
+
 ```bash
-# 1. Obtener la IP correcta
+# Aplicar PersistentVolume y PersistentVolumeClaim
+kubectl apply -f kubernetes/nfs/nfs-pv-pvc.yaml
+
+# Verificar que se crearon y están Bound
+kubectl get pv
+kubectl get pvc
+
+# Aplicar deployment del servidor (Avanzada 2)
+kubectl apply -f kubernetes/server/deployment-advanced2.yaml
+
+# Verificar deployments
+kubectl get deployments
+kubectl get pods -o wide
+
+# Esperar a que los 3 pods estén Running
+kubectl get pods -w
+# Ctrl+C para salir
+```
+
+**Verificar que los pods están en nodos diferentes:**
+
+```bash
+kubectl get pods -l app=filemanager-server -o wide
+```
+
+**Salida esperada:**
+```
+NAME                          READY   STATUS    NODE
+server-deployment-xxx-yyy     1/1     Running   worker1
+server-deployment-xxx-zzz     1/1     Running   worker2
+server-deployment-xxx-www     1/1     Running   worker3
+```
+
+### 6.5. Preparar Archivos de Prueba para el Cliente
+
+```bash
+# EN TU MÁQUINA LOCAL
+cd client/
+
+# Crear archivos de prueba
+echo "Este es el archivo de prueba 1" > test1.txt
+echo "Este es el archivo de prueba 2" > test2.txt
+echo "Contenido de demostración para el video" > demo.txt
+
+# Verificar
+ls -la *.txt
+```
+
+---
+
+# ✅ CHECKPOINT: TODO LISTO PARA GRABAR
+
+Antes de continuar, verifica que:
+
+- [ ] Cluster tiene 4 nodos (1 master + 3 workers) todos en Ready
+- [ ] Broker está desplegado y Running
+- [ ] 3 réplicas del servidor están Running en nodos diferentes
+- [ ] PV y PVC están en estado Bound
+- [ ] Servicios broker-service y server-service están creados
+- [ ] Archivos de prueba (test1.txt, test2.txt, demo.txt) están creados
+- [ ] Cliente funciona: `./client/clientFileManager 13.216.1.120` conecta correctamente
+
+**Si todo está ✅, estás listo para grabar el video**
+
+---
+---
+
+# PARTE B: COMANDOS PARA LA DEMOSTRACIÓN
+## ═══════════════════════════════════════════════════════
+## 🎬 INICIA LA GRABACIÓN AQUÍ
+## ═══════════════════════════════════════════════════════
+
+---
+
+## DEMO 1: MOSTRAR NODOS Y SERVICIOS <a name="demo1"></a>
+
+### Comando 1: Conectar al Master
+
+```bash
+ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@13.216.1.120
+```
+
+### Comando 2: Mostrar Nodos del Cluster
+
+```bash
 kubectl get nodes -o wide
-# Usar IP EXTERNAL
-
-# 2. Verificar que el broker está corriendo
-kubectl get pods -l app=broker
-
-# 3. Ver logs del broker
-kubectl logs <broker-pod-name>
-
-# 4. Verificar puerto NodePort
-kubectl get service broker-service
-# Debe mostrar 32002:32002/TCP
-
-# 5. Probar conexión con netcat
-nc -zv <IP_NODO> 32002
 ```
 
-### Problema 5: Imágenes no se descargan
+**Qué decir:** "Aquí podéis ver mi cluster completo. Tengo 4 nodos: 1 master que ejecuta el control-plane de Kubernetes y 3 workers donde corren las aplicaciones. Todos están en estado Ready."
 
-**Síntoma:**
-```bash
-kubectl describe pod <pod-name>
-# Failed to pull image...  ErrImagePull
-```
-
-**Soluciones:**
-```bash
-# 1. Verificar que la imagen existe en Docker Hub
-docker pull <tu-usuario>/broker-filemanager:latest
-
-# 2. Crear secret para Docker Hub (si es privado)
-kubectl create secret docker-registry dockerhub-secret \
-  --docker-server=https://index.docker.io/v1/ \
-  --docker-username=<tu-usuario> \
-  --docker-password=<tu-password> \
-  --docker-email=<tu-email>
-
-# 3. Añadir secret al deployment
-# En el YAML, bajo spec.template.spec:
-# imagePullSecrets:
-# - name: dockerhub-secret
-
-# 4. Verificar nombre de la imagen en el YAML
-grep image kubernetes/*/deployment*.yaml
-```
-
-### Problema 6: Nodo no se une al cluster
-
-**Síntoma:**
-```bash
-# En el worker:
-sudo kubeadm join...
-# Error de token o certificado
-```
-
-**Soluciones:**
-```bash
-# 1. Generar nuevo token en el master
-kubeadm token create --print-join-command
-
-# 2. Verificar conectividad
-ping <MASTER_IP>
-telnet <MASTER_IP> 6443
-
-# 3. Verificar que containerd está corriendo
-systemctl status containerd
-
-# 4. Resetear kubeadm en el worker y reintentar
-sudo kubeadm reset
-# Luego volver a ejecutar el join
-```
-
-### Comandos Útiles de Diagnóstico
+### Comando 3: Mostrar Deployments
 
 ```bash
-# Ver todos los eventos del cluster
-kubectl get events --sort-by='.lastTimestamp'
+kubectl get deployments
+```
 
-# Ver estado detallado de un recurso
-kubectl describe <tipo> <nombre>
+**Qué decir:** "Aquí vemos los deployments. El broker-deployment tiene 1/1 ready, y el server-deployment tiene 3/3 ready, las tres réplicas funcionando correctamente."
 
-# Ver logs en tiempo real
-kubectl logs -f <pod-name>
+### Comando 4: Mostrar Pods en Detalle
 
-# Ejecutar shell dentro de un pod
-kubectl exec -it <pod-name> -- /bin/bash
+```bash
+kubectl get pods -o wide
+```
 
-# Ver uso de recursos
-kubectl top nodes
-kubectl top pods
+**Qué decir:** "En los pods con detalle, vemos que el broker está corriendo en uno de los workers, y lo más importante: las 3 réplicas del servidor están repartidas en los 3 workers diferentes. Cada réplica está en un nodo distinto, lo cual maximiza la disponibilidad."
 
-# Ver configuración de un recurso
-kubectl get <tipo> <nombre> -o yaml
+### Comando 5: Mostrar Servicios
 
-# Ver todos los recursos en todos los namespaces
-kubectl get all -A
+```bash
+kubectl get services
+```
 
-# Forzar eliminación de un pod
-kubectl delete pod <pod-name> --force --grace-period=0
+**Qué decir:** "Los servicios expuestos son el broker-service en el puerto 32002 y el server-service en el puerto 32001. El server-service automáticamente balancea las peticiones entre las 3 réplicas."
+
+### Comando 6: Mostrar Volúmenes NFS
+
+```bash
+kubectl get pv,pvc
+```
+
+**Qué decir:** "El PersistentVolume nfs-pv está en estado Bound, vinculado al PVC. Tiene 5Gi disponibles y el modo ReadWriteMany activo, lo que permite que múltiples pods lean y escriban simultáneamente."
+
+---
+
+## DEMO 2: MOSTRAR DOCKERFILES Y YAMLS <a name="demo2"></a>
+
+### Comando 7: Mostrar Dockerfile del Broker
+
+```bash
+cat docker/broker/Dockerfile
+```
+
+**Qué decir:** "El Dockerfile del broker es sencillo. He usado Ubuntu 20.04 como imagen base por compatibilidad con los binarios. Instalo libstdc++6 como dependencia necesaria, copio el binario del broker, expongo el puerto 32002 y ejecuto el broker."
+
+### Comando 8: Mostrar Dockerfile del Servidor
+
+```bash
+cat docker/server/Dockerfile
+```
+
+**Qué decir:** "El Dockerfile del servidor es similar, pero aquí creo el directorio /app/FileManagerDir para almacenar archivos. El puerto es el 32001. Uso ENTRYPOINT porque el servidor necesita recibir la IP del broker como parámetro al arrancar."
+
+### Comando 9: Mostrar Deployment del Broker
+
+```bash
+cat kubernetes/broker/deployment.yaml
+```
+
+**Qué decir:** "El deployment del broker es simple. Solo necesito 1 réplica. Uso mi imagen de Docker Hub, expongo el puerto 32002, y le pongo límites de recursos para el scheduler de Kubernetes. El service es de tipo NodePort, accesible desde fuera del cluster."
+
+### Comando 10: Mostrar Configuración NFS
+
+```bash
+cat kubernetes/nfs/nfs-pv-pvc.yaml
+```
+
+**Qué decir:** "Aquí está toda la configuración del almacenamiento distribuido. El PersistentVolume nfs-pv conecta con el servidor NFS usando su IP. Tiene 5Gi de capacidad y ReadWriteMany, que permite que múltiples pods lean y escriban simultáneamente."
+
+### Comando 11: Mostrar Deployment Avanzado 2
+
+```bash
+cat kubernetes/server/deployment-advanced2.yaml
+```
+
+**Qué decir:** "Este es el deployment avanzado 2. Tengo 3 réplicas del servidor, y Kubernetes las distribuye automáticamente en diferentes nodos. Cada réplica monta el PVC nfs-pvc en /app/FileManagerDir, entonces las 3 réplicas acceden al mismo almacenamiento NFS."
+
+---
+
+## DEMO 3: DEMOSTRACIÓN PRÁCTICA CON CLIENTES <a name="demo3"></a>
+
+### Comando 12: Obtener IP del Nodo
+
+```bash
+kubectl get nodes -o wide | grep -E "NAME|master"
+```
+
+**IP del master para conectar desde cliente: 13.216.1.120**
+
+### Comando 13: Preparar Archivos de Prueba (EN TU MÁQUINA LOCAL)
+
+```bash
+cd /home/nirmata/Documentos/University/U-Tad/3th_Course/Q1/Distributed_Systems/Unit_4/AEC4/client
+
+# Verificar archivos
+ls -la *.txt
+```
+
+### Comando 14: Ejecutar Primer Cliente
+
+```bash
+./clientFileManager 13.216.1.120
+```
+
+**Qué decir:** "Voy a ejecutar el primer cliente. El cliente se ha conectado correctamente."
+
+### Comando 15: Listar Archivos Locales
+
+```bash
+ls
+```
+
+**Qué decir:** "Aquí tengo los archivos de prueba locales: test1.txt, test2.txt y demo.txt."
+
+### Comando 16: Listar Archivos Remotos
+
+```bash
+lls
+```
+
+**Qué decir:** "El directorio remoto está vacío porque es la primera ejecución."
+
+### Comando 17: Subir Primer Archivo
+
+```bash
+upload test1.txt
+```
+
+**Qué decir:** "Archivo subido correctamente. Voy a verificar."
+
+### Comando 18: Verificar con lls
+
+```bash
+lls
+```
+
+**Qué decir:** "Perfecto, ahora aparece test1.txt en el listado remoto."
+
+### Comando 19: Subir Más Archivos
+
+```bash
+upload test2.txt
+upload demo.txt
+lls
+```
+
+**Qué decir:** "Ahora tengo 3 archivos en el servidor. Lo importante es que estos archivos están en el almacenamiento NFS compartido. Los 3 pods del servidor, en 3 nodos diferentes, pueden acceder a estos mismos archivos."
+
+### Comando 20: Verificar en el Servidor NFS (Abrir otra terminal)
+
+```bash
+# En otra terminal, conectar al master (donde está el NFS)
+ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@13.216.1.120
+
+# Listar archivos en el NFS
+ls -la /mnt/nfs-share/FileManagerDir/
+```
+
+**Qué decir:** "Voy a conectarme al servidor NFS para verificar que los archivos están ahí físicamente. Aquí están los archivos, almacenados en /mnt/nfs-share/FileManagerDir del servidor NFS. Esto es persistencia real en un sistema distribuido."
+
+### Comando 21: Cerrar Primer Cliente
+
+```bash
+exit
+```
+
+**Qué decir:** "Cierro este cliente."
+
+### Comando 22: Ejecutar Segundo Cliente
+
+```bash
+./clientFileManager 13.216.1.120
+```
+
+**Qué decir:** "Ahora inicio un segundo cliente para demostrar la persistencia de datos. Conectado. Este segundo cliente puede haberse conectado a una réplica diferente gracias al balanceo de carga de Kubernetes."
+
+### Comando 23: Listar Archivos Remotos (Cliente 2)
+
+```bash
+lls
+```
+
+**Qué decir:** "Perfecto! Este segundo cliente ve todos los archivos que subió el primer cliente: test1.txt, test2.txt y demo.txt. Esto demuestra que el almacenamiento NFS funciona correctamente, hay persistencia real entre diferentes conexiones, y el balanceo de carga distribuye clientes entre réplicas."
+
+### Comando 24: Descargar Archivo
+
+```bash
+download test1.txt
+```
+
+**Qué decir:** "Voy a descargar uno de los archivos. Archivo descargado correctamente."
+
+### Comando 25: Cerrar Segundo Cliente
+
+```bash
+exit
+```
+
+### Comando 26: Verificar Archivo Descargado
+
+```bash
+ls -la test1.txt
+cat test1.txt
+```
+
+**Qué decir:** "Cierro el cliente y verifico que el archivo se descargó bien. Aquí está el archivo con su contenido correcto. Todo el ciclo funciona perfectamente."
+
+---
+
+## DEMO 4: COMANDOS EXTRA (OPCIONAL) <a name="demo4"></a>
+
+### Comando 27: Ver Logs de las Réplicas
+
+```bash
+# Volver al master
+ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@13.216.1.120
+
+# Listar pods del servidor
+kubectl get pods -l app=filemanager-server
+
+# Ver logs de cada réplica
+kubectl logs <server-pod-1> --tail=10
+kubectl logs <server-pod-2> --tail=10
+kubectl logs <server-pod-3> --tail=10
+```
+
+**Qué decir:** "Voy a ver los logs de las 3 réplicas para demostrar que las peticiones se distribuyen. Como podéis ver, las peticiones se han distribuido entre los diferentes pods. El balanceo de carga de Kubernetes funciona perfectamente."
+
+### Comando 28: Demostrar Alta Disponibilidad
+
+```bash
+# Eliminar un pod
+kubectl delete pod <server-pod-name>
+
+# Ver cómo se recrea automáticamente
+kubectl get pods -w
+```
+
+**Qué decir:** "Ahora voy a eliminar un pod para simular que un nodo falla. Kubernetes detecta inmediatamente que falta un pod y empieza a crear uno nuevo automáticamente para mantener las 3 réplicas. Mientras esto pasa, las otras 2 réplicas siguen funcionando con normalidad. Esto es alta disponibilidad real."
+
+---
+
+## 🎬 FIN DE LA DEMOSTRACIÓN
+
+### Comando 29: Conclusión
+
+```bash
+# Mostrar estado final
+kubectl get all
+kubectl get pv,pvc
+```
+
+**Qué decir:** "Para terminar, he completado la Configuración Avanzada 2 con NFS, la más compleja de la práctica, que vale 10 puntos. He creado Dockerfiles optimizados, montado un cluster de Kubernetes con 4 nodos, configurado almacenamiento distribuido NFS, y demostrado alta disponibilidad, persistencia y balanceo de carga. Todo funciona como un sistema distribuido de producción real. Gracias por la atención."
+
+---
+
+## ═══════════════════════════════════════════════════════
+## 🛑 FIN DE LA GRABACIÓN
+## ═══════════════════════════════════════════════════════
+
+---
+
+## 📌 NOTAS FINALES
+
+### Antes de Grabar:
+- [ ] Ejecuta TODA la Parte A (Configuración Inicial)
+- [ ] Verifica que todo funciona con el Checkpoint
+- [ ] Practica la Parte B al menos 2-3 veces
+- [ ] Ten las IPs anotadas para copiar/pegar rápido
+- [ ] Configura tu terminal con letra grande (16pt mínimo)
+
+### Durante la Grabación:
+- Sigue el orden de comandos de la Parte B
+- Lee el "Qué decir" mientras ejecutas los comandos
+- No corras, habla despacio y claro
+- Si un comando tarda, explica qué está pasando
+- Muestra confianza, conoces lo que has montado
+
+### Estructura del Video:
+```
+00:00-02:00  Introducción
+02:00-05:00  DEMO 1 (Nodos y Servicios)
+05:00-09:00  DEMO 2 (Dockerfiles y YAMLs)
+09:00-16:00  DEMO 3 (Demostración Práctica)
+16:00-18:00  DEMO 4 (Opcional - Alta Disponibilidad)
+18:00-20:00  Conclusión
 ```
 
 ---
 
-##  RECURSOS ADICIONALES
-
-### Documentación Oficial
-- [Kubernetes Documentation](https://kubernetes.io/docs/)
-- [Docker Documentation](https://docs.docker.com/)
-- [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
-
-### Archivos del Proyecto
-- `docs/setup.md` - Guía detallada de instalación
-- `docs/demo-script.md` - Script completo para demostración
-- `docs/cheatsheet.md` - Comandos rápidos de referencia
-
-### Configuraciones del Proyecto
-```
-kubernetes/
- broker/
-    deployment.yaml          # Deployment del broker
- server/
-    deployment-basic.yaml    # Configuración básica (5 pts)
-    deployment-advanced1.yaml # hostPath (7 pts)
-    deployment-advanced2.yaml # NFS (10 pts)
- nfs/
-     nfs-server.yaml          # Servidor NFS
-     nfs-pv-pvc.yaml          # Volúmenes persistentes
-```
-
----
-
-##  CHECKLIST DE ENTREGA
-
-### Archivos a Entregar (archivo ZIP)
-
-- [ ] **Dockerfiles**
-  - [ ] `docker/broker/Dockerfile`
-  - [ ] `docker/server/Dockerfile`
-
-- [ ] **Archivos YAML de Kubernetes**
-  - [ ] `kubernetes/broker/deployment.yaml`
-  - [ ] `kubernetes/server/deployment-[basic|advanced1|advanced2].yaml`
-  - [ ] `kubernetes/nfs/*.yaml` (si aplica)
-
-- [ ] **Video de Demostración** (15-20 min)
-  - [ ] Introducción y descripción de la configuración
-  - [ ] Mostrar nodos del cluster
-  - [ ] Explicar Dockerfiles
-  - [ ] Explicar archivos YAML
-  - [ ] Mostrar pods, services y deployments activos
-  - [ ] Demostración con cliente 1:
-    - [ ] Comando `ls`
-    - [ ] Comando `lls`
-    - [ ] Comando `upload`
-    - [ ] Verificar con `lls`
-  - [ ] Cerrar cliente 1
-  - [ ] Demostración con cliente 2:
-    - [ ] Comando `lls` (ver archivos del cliente 1)
-    - [ ] Comando `download`
-    - [ ] Verificar descarga
-  - [ ] Conclusiones
-
-- [ ] **Documentación adicional** (opcional)
-  - [ ] README con instrucciones
-  - [ ] Capturas de pantalla
-  - [ ] Diagrama de arquitectura
-
----
-
-##  CRITERIOS DE EVALUACIÓN
-
-### Configuración Básica (5 puntos)
--  Cluster con al menos 2 nodos (master + worker)
--  Dockerfile funcional para broker
--  Dockerfile funcional para servidor  
--  Deployment del broker con service NodePort
--  Deployment del servidor con service NodePort
--  Cliente puede conectarse y realizar operaciones
-
-### Configuración Avanzada 1 (+2 puntos)
--  Múltiples réplicas del servidor en un nodo
--  Volumen compartido con hostPath
--  Todos los pods acceden a los mismos archivos
--  Persistencia entre conexiones de clientes
-
-### Configuración Avanzada 2 (+5 puntos)
--  Múltiples nodos worker
--  Réplicas distribuidas en diferentes nodos
--  Servidor NFS configurado
--  PersistentVolume y PersistentVolumeClaim
--  Almacenamiento compartido en red funcional
--  Persistencia entre reinicios de pods
-
----
-
-##  CONSEJOS FINALES
-
-### Para la Configuración
-1. **Empieza Simple:** Consigue que funcione la configuración básica primero
-2. **Prueba Local:** Verifica los ejecutables en EC2 antes de containerizar
-3. **Security Groups:** No olvides abrir los puertos necesarios en AWS
-4. **Documenta:** Anota cada paso y problema que encuentres
-5. **Backup:** Guarda copia de tus archivos YAML y configuraciones
-
-### Para el Video
-1. **Planificación:** Escribe un guión detallado antes de grabar
-2. **Práctica:** Prueba la demo completa 2-3 veces antes de grabar
-3. **Calidad:** Usa resolución mínima 1080p, audio claro
-4. **Edición:** Corta partes largas de espera o errores
-5. **Duración:** Mantén el video entre 15-20 minutos
-6. **Claridad:** Explica cada paso, no asumas conocimiento previo
-
-### Para la Presentación
-1. **Introducción Clara:** Explica qué configuración implementaste
-2. **Arquitectura Visual:** Muestra diagrama del cluster
-3. **Código Comentado:** Explica partes importantes de Dockerfiles y YAMLs
-4. **Demo Fluida:** Practica hasta que salga natural
-5. **Persistencia:** Demuestra que los datos persisten
-6. **Balanceo:** Si aplica, muestra cómo se distribuyen las peticiones
-7. **Conclusión:** Resume logros y aprendizajes
-
----
-
-##  CONTACTO Y SOPORTE
-
-Si tienes dudas adicionales:
-1. Revisa la documentación en `docs/`
-2. Consulta los ejemplos en el repositorio
-3. Contacta al profesor durante las horas de tutoría
-4. Revisa el foro de la asignatura en Blackboard
-
----
-
-**Última actualización:** Diciembre 2025  
-**Versión:** 2.0  
-**Asignatura:** Sistemas Distribuidos - U-TAD  
-**Práctica:** AEC4 - Despliegue con Kubernetes
-
----
-
-**¡Éxito con tu presentación!** 
+**¡Éxito con la práctica y el video!**

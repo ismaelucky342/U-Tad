@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: <tu-usuario>/server-filemanager:latest
+        image: ismaelucky342/server-filemanager:latest
         args: ["broker-service"]
         ports:
         - containerPort: 32001

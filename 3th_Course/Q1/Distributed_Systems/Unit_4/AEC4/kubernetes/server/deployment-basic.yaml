@@ -21,7 +21,7 @@ spec:
       containers:
       - name: server
         # Cambia esto por tu imagen en Docker Hub o ECR
-        image: <tu-usuario>/server-filemanager:latest
+        image: ismaelucky342/server-filemanager:latest
         # Pasar la IP del broker como argumento
         # La IP del servicio del broker se obtiene del DNS de Kubernetes
         args: ["broker-service"]

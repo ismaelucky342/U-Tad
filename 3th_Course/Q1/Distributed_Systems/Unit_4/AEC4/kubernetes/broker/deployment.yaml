@@ -18,7 +18,7 @@ spec:
       containers:
       - name: broker
         # Cambia esto por tu imagen en Docker Hub o ECR
-        image: <tu-usuario>/broker-filemanager:latest
+        image: ismaelucky342/broker-filemanager:latest
         ports:
         - containerPort: 32002
           name: broker-port
