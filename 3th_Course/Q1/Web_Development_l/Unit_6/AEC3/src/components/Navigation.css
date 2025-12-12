@@ -1,0 +1,15 @@
+.navbar-custom {
+  background: linear-gradient(135deg, #1f1f1f 0%, #2d2d2d 100%) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+  color: #fff !important;
+  margin-left: 20px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-item:hover {
+  color: #ffc107 !important;
+}

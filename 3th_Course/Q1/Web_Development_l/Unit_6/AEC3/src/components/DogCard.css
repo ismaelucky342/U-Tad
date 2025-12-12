@@ -1,0 +1,27 @@
+.dog-card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.dog-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dog-image {
+  height: 300px;
+  object-fit: cover;
+}
+
+.dog-card .card-body {
+  background-color: #f8f9fa;
+}
+
+.dog-card .card-title {
+  color: #333;
+  font-weight: 600;
+}
