@@ -1,0 +1,19 @@
+[Cliente Query: SELECT * FROM users WHERE pk = 'pk3' AND ck = 'ck3']
+
+1-4. Memtable, Row Cache, Bloom Filter: Miss/Hit como arriba, caches disabled
+
+5. Partition Summary:
+   - Contenido: {pk3: offset_start=2000, offset_end=2500}
+   - Resultado: Resumen encontrado
+
+6. Partition Index:
+   - Contenido: {pk3: {ck3: disk_offset=2200}}
+   - Resultado: Offset localizado
+
+7. Compression Offset Map:
+   - Contenido: {2200: uncompressed_pos=8000}
+   - Resultado: Posición descomprimida
+
+8. SSTable Read:
+   - Contenido: {pk3: {ck3: {city: 'Madrid'}}}
+   - Resultado: Datos leídos del disco

@@ -1,0 +1,25 @@
+[Cliente Query: SELECT * FROM users WHERE pk = 'pk2' AND ck = 'ck2']
+
+1-2. Memtable & Row Cache: Miss (similar a Esc1, pero fila no cached)
+
+3. Bloom Filter:
+   - Contenido: Bitmap probabilístico indicando presencia de pk2
+   - Resultado: Possible hit
+
+4. Partition Key Cache: Disabled
+
+5. Partition Summary:
+   - Contenido: {pk2: offset_start=1000, offset_end=1500}
+   - Resultado: Encuentra resumen
+
+6. Partition Index:
+   - Contenido: {pk2: {ck2: disk_offset=1200}}
+   - Resultado: Offset localizado
+
+7. Compression Offset Map:
+   - Contenido: {1200: uncompressed_pos=5000}
+   - Resultado: Posición descomprimida
+
+8. SSTable Read:
+   - Contenido: {pk2: {ck2: {email: 'john@example.com'}}}
+   - Resultado: Datos leídos del disco
