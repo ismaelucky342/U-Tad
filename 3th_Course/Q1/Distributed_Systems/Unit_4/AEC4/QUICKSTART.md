@@ -87,25 +87,25 @@
 
 **IPs públicas de las instancias:**
 ```
-MASTER:   13.216.1.120
-WORKER1:  100.31.103.79
-WORKER2:  98.92.25.236
-WORKER3:  18.207.255.64
+MASTER:   44.210.109.96
+WORKER1:  44.211.31.66
+WORKER2:  98.92.124.197
+WORKER3:  3.238.235.150
 ```
 
 ### 1.3. Conectar a las Instancias
 
 ```bash
 # Dar permisos a la clave
-chmod 400 /home/nirmata/Descargas/Ismael.pem
+chmod 400 /home/nirmata/Descargas/Kubernetes.pem
 
 # Conectar al MASTER
-ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@13.216.1.120
+ssh -i "/home/nirmata/Descargas/Kubernetes.pem" ubuntu@44.210.109.96
 
 # Conectar a cada WORKER (abrir 3 terminales adicionales)
-ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@100.31.103.79
-ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@98.92.25.236
-ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@18.207.255.64
+ssh -i "/home/nirmata/Descargas/Kubernetes.pem" ubuntu@44.211.31.66
+ssh -i "/home/nirmata/Descargas/Kubernetes.pem" ubuntu@98.92.124.197
+ssh -i "/home/nirmata/Descargas/Kubernetes.pem" ubuntu@3.238.235.150
 ```
 
 ---
@@ -234,11 +234,11 @@ kubectl get pods -A
 **⚠️ IMPORTANTE:** Al final de `kubeadm init` aparecerá un comando como este:
 
 ```bash
-kubeadm join 172.31.68.189:6443 --token 0gb4ki.qjyrtze6s9wsvu71 \
-  --discovery-token-ca-cert-hash sha256:1331a86ef9a174c79144eff4d86d3b203986be1d0c55ec38bddee109b5bad51f
+kubeadm join 172.31.76.253:6443 --token fn83zx.t6b3zlpk0ov0dyv4 \
+  --discovery-token-ca-cert-hash sha256:3f8735efb9667c93cd4c0c2334c9ed42a2efc27c1faad40de8354f5771a97302
 ```
 
-**COPIA Y GUARDA este comando**, lo necesitarás para unir los workers.
+**COPIA Y GUARDA este comando**, lo necesitarás para unir los workers. La IP privada del master será diferente a la pública.
 
 ⚠️ **NOTA:** Si el token expira (válido por 24 horas), genera uno nuevo con:
 ```bash
@@ -251,8 +251,8 @@ kubeadm token create --print-join-command
 ```bash
 # Ejecutar el comando de join que guardaste del master
 # IMPORTANTE: Añadir --ignore-preflight-errors=Mem también en los workers
-sudo kubeadm join 172.31.68.189:6443 --token 0gb4ki.qjyrtze6s9wsvu71 \
-  --discovery-token-ca-cert-hash sha256:1331a86ef9a174c79144eff4d86d3b203986be1d0c55ec38bddee109b5bad51f \
+sudo kubeadm join 172.31.76.253:6443 --token fn83zx.t6b3zlpk0ov0dyv4 \
+  --discovery-token-ca-cert-hash sha256:3f8735efb9667c93cd4c0c2334c9ed42a2efc27c1faad40de8354f5771a97302 \
   --ignore-preflight-errors=Mem
 ```
 
@@ -337,7 +337,7 @@ grep "image:" kubernetes/server/deployment-advanced2.yaml
 
 ```bash
 # Desde tu máquina local
-scp -i "/home/nirmata/Descargas/Ismael.pem" -r kubernetes/ ubuntu@13.216.1.120:~/
+scp -i "/home/nirmata/Descargas/Kubernetes.pem" -r kubernetes/ ubuntu@44.210.109.96:~/
 ```
 
 ### 5.4. Desplegar Broker (EN EL MASTER)
@@ -365,22 +365,30 @@ kubectl get pods -w
 **Opción A: Usar el Master como servidor NFS**
 
 ```bash
-# En el MASTER
+# En el MASTER - Instalar NFS Server (puede tardar un poco)
 sudo apt-get update
-sudo apt-get install -y nfs-kernel-server
+sudo apt-get install -y nfs-kernel-server nfs-common
 
 # Crear directorio compartido
 sudo mkdir -p /mnt/nfs-share/FileManagerDir
 sudo chmod 777 /mnt/nfs-share
+sudo chmod 777 /mnt/nfs-share/FileManagerDir
 
-# Configurar exports
-echo "/mnt/nfs-share *(rw,sync,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports
+# Configurar exports (permitir acceso desde cualquier IP del cluster)
+echo "/mnt/nfs-share *(rw,sync,no_subtree_check,no_root_squash)" | sudo tee /etc/exports
 
-# Aplicar cambios
+# Aplicar cambios en exports
 sudo exportfs -a
-sudo systemctl restart nfs-kernel-server
 
-# Verificar
+# Reiniciar servicio NFS
+sudo systemctl restart nfs-kernel-server
+sudo systemctl enable nfs-kernel-server
+
+# Verificar que el servicio está corriendo
+sudo systemctl status nfs-kernel-server
+
+# Verificar exports
+sudo exportfs -v
 showmount -e localhost
 ```
 
@@ -388,6 +396,15 @@ showmount -e localhost
 ```
 Export list for localhost:
 /mnt/nfs-share *
+```
+
+**Si se congela en la instalación:**
+```bash
+# Cancelar con Ctrl+C y probar instalación alternativa
+sudo apt-get install -y --no-install-recommends nfs-kernel-server
+# O si sigue fallando:
+sudo dpkg --configure -a
+sudo apt-get install -f
 ```
 
 ### 6.2. Instalar Cliente NFS (EN TODOS LOS WORKERS)
@@ -399,7 +416,7 @@ sudo apt-get install -y nfs-common
 
 # Probar montaje manual (opcional)
 sudo mkdir -p /mnt/test
-sudo mount -t nfs 13.216.1.120:/mnt/nfs-share /mnt/test
+sudo mount -t nfs 172.31.76.253:/mnt/nfs-share /mnt/test
 ls -la /mnt/test
 sudo umount /mnt/test
 ```
@@ -412,10 +429,10 @@ sudo umount /mnt/test
 # Reemplazar <IP_SERVIDOR_NFS> con la IP del master
 
 # O con sed:
-sed -i "s/<IP_SERVIDOR_NFS>/13.216.1.120/g" kubernetes/nfs/nfs-pv-pvc.yaml
+sed -i "s/<IP_SERVIDOR_NFS>/172.31.76.253/g" kubernetes/nfs/nfs-pv-pvc.yaml
 
 # Copiar al master
-scp -i "/home/nirmata/Descargas/Ismael.pem" kubernetes/nfs/nfs-pv-pvc.yaml ubuntu@13.216.1.120:~/kubernetes/nfs/
+scp -i "/home/nirmata/Descargas/Kubernetes.pem" kubernetes/nfs/nfs-pv-pvc.yaml ubuntu@44.210.109.96:~/kubernetes/nfs/
 ```
 
 ### 6.4. Desplegar NFS y Servidor (EN EL MASTER)
@@ -481,7 +498,7 @@ Antes de continuar, verifica que:
 - [ ] PV y PVC están en estado Bound
 - [ ] Servicios broker-service y server-service están creados
 - [ ] Archivos de prueba (test1.txt, test2.txt, demo.txt) están creados
-- [ ] Cliente funciona: `./client/clientFileManager 13.216.1.120` conecta correctamente
+- [ ] Cliente funciona: `./client/clientFileManager 44.210.109.96 32002` conecta correctamente
 
 **Si todo está ✅, estás listo para grabar el video**
 
@@ -500,7 +517,7 @@ Antes de continuar, verifica que:
 ### Comando 1: Conectar al Master
 
 ```bash
-ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@13.216.1.120
+ssh -i "/home/nirmata/Descargas/Kubernetes.pem" ubuntu@44.210.109.96
 ```
 
 ### Comando 2: Mostrar Nodos del Cluster
@@ -591,13 +608,13 @@ cat kubernetes/server/deployment-advanced2.yaml
 
 ## DEMO 3: DEMOSTRACIÓN PRÁCTICA CON CLIENTES <a name="demo3"></a>
 
-### Comando 12: Obtener IP del Nodo
+### Comando 12: Mostrar Nodos Completo
 
 ```bash
-kubectl get nodes -o wide | grep -E "NAME|master"
+kubectl get nodes -o wide
 ```
 
-**IP del master para conectar desde cliente: 13.216.1.120**
+**Qué decir:** "Aquí vemos los 4 nodos del cluster. El nodo con rol control-plane es el master y los otros 3 son workers. La IP pública del master para conectar desde el cliente es 44.210.109.96."
 
 ### Comando 13: Preparar Archivos de Prueba (EN TU MÁQUINA LOCAL)
 
@@ -611,10 +628,10 @@ ls -la *.txt
 ### Comando 14: Ejecutar Primer Cliente
 
 ```bash
-./clientFileManager 13.216.1.120
+./clientFileManager 44.210.109.96 32002
 ```
 
-**Qué decir:** "Voy a ejecutar el primer cliente. El cliente se ha conectado correctamente."
+**Qué decir:** "Voy a ejecutar el primer cliente conectándolo al broker en la IP pública del master y puerto 32002. El cliente se ha conectado correctamente."
 
 ### Comando 15: Listar Archivos Locales
 
@@ -662,7 +679,7 @@ lls
 
 ```bash
 # En otra terminal, conectar al master (donde está el NFS)
-ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@13.216.1.120
+ssh -i "/home/nirmata/Descargas/Kubernetes.pem" ubuntu@44.210.109.96
 
 # Listar archivos en el NFS
 ls -la /mnt/nfs-share/FileManagerDir/
@@ -681,7 +698,7 @@ exit
 ### Comando 22: Ejecutar Segundo Cliente
 
 ```bash
-./clientFileManager 13.216.1.120
+./clientFileManager 44.210.109.96 32002
 ```
 
 **Qué decir:** "Ahora inicio un segundo cliente para demostrar la persistencia de datos. Conectado. Este segundo cliente puede haberse conectado a una réplica diferente gracias al balanceo de carga de Kubernetes."
@@ -725,7 +742,7 @@ cat test1.txt
 
 ```bash
 # Volver al master
-ssh -i "/home/nirmata/Descargas/Ismael.pem" ubuntu@13.216.1.120
+ssh -i "/home/nirmata/Descargas/Kubernetes.pem" ubuntu@44.210.109.96
 
 # Listar pods del servidor
 kubectl get pods -l app=filemanager-server

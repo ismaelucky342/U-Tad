@@ -1,5 +1,4 @@
-# Deployment avanzado 2 para serverFileManager
-# Configuración con múltiples nodos usando NFS (+5 puntos)
+
 
 apiVersion: apps/v1
 kind: Deployment
@@ -8,7 +7,6 @@ metadata:
   labels:
     app: filemanager-server
 spec:
-  # Múltiples réplicas distribuidas en varios nodos
   replicas: 3
   selector:
     matchLabels:
@@ -21,11 +19,10 @@ spec:
       containers:
       - name: server
         image: ismaelucky342/server-filemanager:latest
-        args: ["broker-service"]
+        args: ["10.96.110.17", "32002", "44.210.109.96", "32001"]
         ports:
         - containerPort: 32001
           name: server-port
-        # Montar PVC con almacenamiento NFS
         volumeMounts:
         - name: nfs-storage
           mountPath: /app/FileManagerDir
@@ -40,7 +37,6 @@ spec:
       - name: nfs-storage
         persistentVolumeClaim:
           claimName: nfs-pvc
-      # Anti-affinity para distribuir pods en diferentes nodos
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

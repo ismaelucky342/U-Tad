@@ -2,7 +2,7 @@
 
 ## Descripción del Proyecto
 
-Para esta actividad he desarrollado en Python un sistema de búsqueda semántica utilizando Chroma como base de datos vectorial, aplicando conceptos clave como vectores/embeddings, métricas de similitud, filtrado con metadatos, recall/latencia, y manejo de colecciones para resolver búsquedas semánticas eficientes.
+Para esta actividad he decidido desarrollar la parte práctica en lenguaje Python, siendo el objetivo crear un sistema de búsqueda semántica utilizando Chroma como base de datos vectorial, aplicando conceptos como vectores/embeddings, métricas de similitud, filtrado con metadatos, recall/latencia, y manejo de colecciones para resolver búsquedas semánticas eficientes.
 
 **Puntos a cubrir:**
 - Crear y poblar una base de datos de vectores con embeddings de documentos.
@@ -14,11 +14,11 @@ Para esta actividad he desarrollado en Python un sistema de búsqueda semántica
 - Aplicar MMR (Maximal Marginal Relevance) para diversidad en resultados.
 - Gestionar chunking para RAG, evitando riesgos comunes como pérdida de contexto o chunks demasiado grandes.
 
-## Justificación de Chroma en este escenario y su integración con Python
+## Justificación de Chroma en este escenario y porque Python
 
-Chroma es ideal para búsquedas semánticas porque ofrece una API simple y eficiente para almacenar y consultar embeddings, soportando metadatos para filtrado híbrido y métricas de similitud integradas. Su integración con Python es nativa, permitiendo generar embeddings con librerías como sentence-transformers y ejecutar consultas en tiempo real.
+Chroma es ideal para búsquedas semánticas porque ofrece una API simple y eficiente para almacenar y consultar embeddings, soportando metadatos para filtrado híbrido y métricas de similitud integradas. Su integración con Python es prácticamente nativa, lo que me permite generar embeddings con librerías como sentence-transformers y ejecutar consultas en tiempo real.
 
-En mi experiencia previa con bases de datos vectoriales, Chroma destaca por su facilidad de uso y rendimiento en escenarios de RAG (Retrieval-Augmented Generation), donde la precisión semántica y la velocidad son críticas. Combinado con Python, acelera el desarrollo de prototipos y permite iterar rápidamente en tuning de parámetros.
+En mi experiencia previa con bases de datos vectoriales (en otros estudios), creo que Chroma destaca claramente por su facilidad de uso y rendimiento en escenarios de RAG donde como hemos visto la precisión semántica y la velocidad son críticas, algo que con Python creo acelera el desarrollo de prototipos y permite iterar rápidamente en tuning de parámetros.
 
 ## Estructura del Proyecto
 
@@ -40,28 +40,28 @@ AEC5/
     └── tester_isma_aec5.py            # Tester automatizado en Python
 ```
 
-## Inicio Rápido
+## Como ejecutar
 
 ### Opción 1: 
 ```bash
-# 1. Instalar dependencias Python
+# 1. Instalar dependencias Python si no las tuvieramos
 pip install chromadb sentence-transformers numpy
 
-# 2. Ejecutar los módulos Python en orden
+# 2. Ejecutar los módulos Python uno por unoo
 python implementacion/01_setup_chroma.py
 python implementacion/02_embeddings.py
 python implementacion/03_poblado_db.py
-# ...etc
+# ETC ...
 ```
 
-### Opción 2: Validación con Tester
+### Opción 2: uso de mi tester
 ```bash
 python pruebas/tester_isma_aec5.py
 ```
 
 ## ¿Qué he usado?
 
-La solución implementa los conceptos estudiados en la unidad.
+Mi solución a este ejercicio implementa los conceptos estudiados en la unidad.
 
 - **Embeddings**: Generación de vectores densos con sentence-transformers (modelo all-MiniLM-L6-v2).
 - **Métricas de similitud**: Cosine similarity para búsquedas semánticas.
@@ -73,13 +73,9 @@ La solución implementa los conceptos estudiados en la unidad.
 - **Chunking para RAG**: Estrategias overlap, tamaño fijo, evitando fragmentación.
 - **Latencia P95/P99**: Medición de percentiles para evaluar rendimiento bajo carga.
 
-### Funcionalidades concretas
-- **Búsqueda semántica**: Queries naturales como "qué es machine learning".
-- **Filtrado híbrido**: Combinar similitud con filtros (e.g., documentos de 2023).
-- **Tuning**: Ajuste de n_results, efSearch para balance recall/latencia.
-- **Evaluación**: Métricas de recall y latencia en pruebas automatizadas.
+Para en concreto he usado funcionalidades como Búsqueda semántica con queries naturales como "qué es machine learning", filtrado híbrido y tuning haciendo ajuste de n_results, efSearch para balance. 
 
-## Cuestiones Breves
+## Cuestiones AEC5
 
 ### 1. Diferencia entre vectores densos y dispersos y un caso de uso típico de cada uno.
 

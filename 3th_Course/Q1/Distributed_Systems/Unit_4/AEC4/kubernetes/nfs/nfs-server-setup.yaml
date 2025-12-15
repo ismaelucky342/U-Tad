@@ -1,6 +1,3 @@
-# Configuración opcional: Servidor NFS dentro del cluster
-# Si prefieres no usar un servidor NFS externo
-
 apiVersion: v1
 kind: Service
 metadata:

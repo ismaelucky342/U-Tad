@@ -1,8 +1,4 @@
-# Persistent Volume y Persistent Volume Claim para NFS
-# Configuración avanzada 2 (+5 puntos)
-
 ---
-# Persistent Volume con almacenamiento NFS
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -11,19 +7,16 @@ spec:
   capacity:
     storage: 5Gi
   accessModes:
-    - ReadWriteMany  # Permite múltiples pods en múltiples nodos
+    - ReadWriteMany  
   persistentVolumeReclaimPolicy: Retain
   storageClassName: nfs
   nfs:
-    # Cambia por la IP de tu servidor NFS
-    server: <NFS_SERVER_IP>
-    # Cambia por el path exportado en tu servidor NFS
-    path: "/exports/filemanager"
+    server: 172.31.76.253
+    path: "/mnt/nfs-share"
   mountOptions:
     - nfsvers=4.1
 
 ---
-# Persistent Volume Claim para solicitar almacenamiento
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

@@ -17,12 +17,10 @@ spec:
     spec:
       containers:
       - name: broker
-        # Cambia esto por tu imagen en Docker Hub o ECR
         image: ismaelucky342/broker-filemanager:latest
         ports:
         - containerPort: 32002
           name: broker-port
-        # Recursos opcionales
         resources:
           limits:
             memory: "256Mi"
@@ -31,7 +29,6 @@ spec:
             memory: "128Mi"
             cpu: "250m"
 ---
-# Service para exponer el broker
 apiVersion: v1
 kind: Service
 metadata:
@@ -43,6 +40,6 @@ spec:
   ports:
   - port: 32002
     targetPort: 32002
-    nodePort: 32002  # Puerto externo en el nodo
+    nodePort: 32002 
     protocol: TCP
     name: broker-port
