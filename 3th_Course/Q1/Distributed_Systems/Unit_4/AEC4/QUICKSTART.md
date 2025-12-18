@@ -657,7 +657,7 @@ upload test1.txt
 
 **Qué decir:** "Archivo subido correctamente. Voy a verificar."
 
-### Comando 18: Verificar con lls
+e .### Comando 18: Verificar con lls
 
 ```bash
 lls
