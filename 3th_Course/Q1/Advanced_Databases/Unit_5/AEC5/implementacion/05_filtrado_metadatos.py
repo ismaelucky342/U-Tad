@@ -17,13 +17,16 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 
 def filtered_search():
+    # Conecto y tomo la colección.
     client = chromadb.PersistentClient(path="./chroma_db")
     collection = client.get_collection("aec5_docs")
     model = SentenceTransformer('all-MiniLM-L6-v2')
 
+    # Query sobre cálculo, pero filtro por asignatura para acotar.
     query = "cálculo"
     query_embedding = model.encode(query)
 
+    # Búsqueda híbrida: similitud + filtro por metadatos. Esto reduce ruido.
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=5,

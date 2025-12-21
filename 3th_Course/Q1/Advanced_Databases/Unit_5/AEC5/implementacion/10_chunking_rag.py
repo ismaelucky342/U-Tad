@@ -17,6 +17,8 @@ from sentence_transformers import SentenceTransformer
 import re
 
 def chunk_text(text, chunk_size=512, overlap=50):
+    # Función para dividir texto en chunks con overlap para preservar contexto.
+    # Evita perder ideas entre chunks.
     words = re.findall(r'\b\w+\b', text)
     chunks = []
     start = 0
@@ -28,6 +30,8 @@ def chunk_text(text, chunk_size=512, overlap=50):
     return chunks
 
 def rag_chunking():
+    # Demo de chunking para RAG: divido texto en pedazos y embeddo cada uno.
+    # Overlap evita cortes bruscos.
     model = SentenceTransformer('all-MiniLM-L6-v2')
     sample_text = "Álgebra lineal es una rama de las matemáticas que estudia conceptos tales como vectores, matrices, espacios vectoriales y transformaciones lineales."
     chunks = chunk_text(sample_text)

@@ -18,12 +18,13 @@ from sentence_transformers import SentenceTransformer
 import numpy as np
 
 def apply_pq():
+    # Conecto a la DB.
     client = chromadb.PersistentClient(path="./chroma_db")
     collection = client.get_collection("aec5_docs")
     model = SentenceTransformer('all-MiniLM-L6-v2')
 
-    # Simular PQ: reducir dimensionalidad (en Chroma, usar metadata o custom)
-    # Aquí solo demo
+    # Simulo PQ: reducir dims de 384 a 128 para ahorrar memoria y acelerar búsquedas.
+    # En real, Chroma no tiene PQ built-in, así que es demo.
     query = "álgebra"
     query_embedding = model.encode(query)
     results = collection.query(

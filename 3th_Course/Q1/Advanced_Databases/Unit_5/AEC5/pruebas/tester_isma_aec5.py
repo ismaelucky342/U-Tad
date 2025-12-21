@@ -17,94 +17,44 @@
 
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'implementacion'))
+import subprocess
 
-from implementacion import (
-    setup_chroma,
-    embeddings,
-    poblado_db,
-    busquedas_basicas,
-    filtrado_metadatos,
-    metricas_recall,
-    tuning_hnsw,
-    cuantizacion_pq,
-    mmr_diversidad,
-    chunking_rag
-)
+def run_script(script_name):
+    try:
+        result = subprocess.run([sys.executable, os.path.join(os.path.dirname(__file__), '..', 'implementacion', script_name)], 
+                                capture_output=True, text=True, cwd=os.path.join(os.path.dirname(__file__), '..'))
+        if result.returncode == 0:
+            print(f"[OK] {script_name} ejecutado\n{result.stdout}")
+            return True
+        else:
+            print(f"[KO] Error en {script_name}: {result.stderr}")
+            return False
+    except Exception as e:
+        print(f"[KO] Error ejecutando {script_name}: {e}")
+        return False
 
 def run_tests():
     print("=== Ejecutando tests para AEC5 ===\n")
 
-    print("1. Setup Chroma")
-    try:
-        setup_chroma.setup_chroma()
-        print("✓ Setup completado\n")
-    except Exception as e:
-        print(f"✗ Error en setup: {e}\n")
+    scripts = [
+        ("01_setup_chroma.py", "Setup Chroma"),
+        ("02_embeddings.py", "Embeddings"),
+        ("03_poblado_db.py", "Poblado DB"),
+        ("04_busquedas_basicas.py", "Búsquedas Básicas"),
+        ("05_filtrado_metadatos.py", "Filtrado Metadatos"),
+        ("06_metricas_recall.py", "Métricas Recall"),
+        ("07_tuning_hnsw.py", "Tuning HNSW"),
+        ("08_cuantizacion_pq.py", "Cuantización PQ"),
+        ("09_mmr_diversidad.py", "MMR Diversidad"),
+        ("10_chunking_rag.py", "Chunking RAG")
+    ]
 
-    print("2. Embeddings")
-    try:
-        model = embeddings.load_model()
-        embeddings.generate_embedding(model, "Test chunk")
-        print("✓ Embeddings generados\n")
-    except Exception as e:
-        print(f"✗ Error en embeddings: {e}\n")
-
-    print("3. Poblado DB")
-    try:
-        poblado_db.populate_db()
-        print("✓ DB poblada\n")
-    except Exception as e:
-        print(f"✗ Error en poblado: {e}\n")
-
-    print("4. Búsquedas Básicas")
-    try:
-        busquedas_basicas.basic_search()
-        print("✓ Búsquedas básicas completadas\n")
-    except Exception as e:
-        print(f"✗ Error en búsquedas: {e}\n")
-
-    print("5. Filtrado Metadatos")
-    try:
-        filtrado_metadatos.filtered_search()
-        print("✓ Filtrado completado\n")
-    except Exception as e:
-        print(f"✗ Error en filtrado: {e}\n")
-
-    print("6. Métricas Recall")
-    try:
-        metricas_recall.evaluate_recall()
-        print("✓ Recall evaluado\n")
-    except Exception as e:
-        print(f"✗ Error en recall: {e}\n")
-
-    print("7. Tuning HNSW")
-    try:
-        tuning_hnsw.tune_hnsw()
-        print("✓ Tuning completado\n")
-    except Exception as e:
-        print(f"✗ Error en tuning: {e}\n")
-
-    print("8. Cuantización PQ")
-    try:
-        cuantizacion_pq.apply_pq()
-        print("✓ PQ aplicado\n")
-    except Exception as e:
-        print(f"✗ Error en PQ: {e}\n")
-
-    print("9. MMR Diversidad")
-    try:
-        mmr_diversidad.apply_mmr()
-        print("✓ MMR aplicado\n")
-    except Exception as e:
-        print(f"✗ Error en MMR: {e}\n")
-
-    print("10. Chunking RAG")
-    try:
-        chunking_rag.rag_chunking()
-        print("✓ Chunking completado\n")
-    except Exception as e:
-        print(f"✗ Error en chunking: {e}\n")
+    for script, desc in scripts:
+        print(f"{desc}")
+        if not run_script(script):
+            print(f"Falló en {desc}\n")
+        else:
+            print()
 
     print("=== Tests finalizados ===")
 

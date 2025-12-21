@@ -17,6 +17,7 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 
 def apply_mmr():
+    # Conecto.
     client = chromadb.PersistentClient(path="./chroma_db")
     collection = client.get_collection("aec5_docs")
     model = SentenceTransformer('all-MiniLM-L6-v2')
@@ -24,12 +25,13 @@ def apply_mmr():
     query = "álgebra lineal"
     query_embedding = model.encode(query)
 
-    # MMR simulado (Chroma no tiene MMR built-in, pero podemos filtrar)
+    # MMR simulado: busco más resultados y selecciono diversos para evitar repeticiones en RAG.
+    # Chroma no tiene MMR nativo, así que es demo.
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=10
     )
-    # Simular diversidad
+    # Simulo selección diversa
     print("MMR lambda=0.5: Resultados más diversos, menos redundancia")
     for doc in results['documents'][0][:5]:
         print(f"- {doc}")
