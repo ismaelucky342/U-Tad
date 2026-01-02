@@ -1,6 +1,13 @@
+# Unidad 1
+
+Creado: 29 de septiembre de 2025 15:12
+progress: 100
+
+![logo.png](unit_1/logo.png)
+
 Entendemos como modelo distribuido a cualquier sistema de “nodos de computo” conectados a través de una red de comunicaciones. Siendo el Nodo de cómputo aquel hardware con una mínima autonomía para ejecutar una serie de ordenes y a una red como un sistema de envío / recepción. 
 
-Una vez se tiene el sistema básico definido, podemos pasar a un modelo de cómputo basado en “servicios” donde los usuarios pueden alquilar sistemas que dan un servicio bajo ciertas condiciones.
+Una vez se tiene el sistema básico definido, se abre la posibilidad de pasarnos a un modelo de cómputo basado en “servicios” donde los usuarios pueden alquilar sistemas que dan un servicio bajo ciertas condiciones.
 
 ## Contexto Historico (1940-1970)
 
@@ -12,6 +19,9 @@ Desde el comienzo se ha tenido un objetivo claro poder operar desde terminales s
 - **Time sharing**: varios usuarios y proyectos podían compartir la capacidad de un mismo sistema.
 - **Distribución global**: propuso crear centros de supercomputación repartidos en el mundo para que hubiera recursos accesibles para más gente.
 - Antecedente de las regiones AWS o Google cloud actuales.
+    
+    ![image.png](unit_1/image.png)
+    
 
 ### Cómputo como servicio (John McCarthy, años 60)
 
@@ -19,21 +29,26 @@ Desde el comienzo se ha tenido un objetivo claro poder operar desde terminales s
 - **Enfoque comercial**: además de verlo como un servicio que podía ser público público, abrió la puerta a su explotación económica como servicio privado.
 - **Computación como servicio público/privado**: anticipó el modelo actual de la nube (ej. AWS), donde se paga por uso.
 
+![image.png](unit_1/image%201.png)
+
 ### Definición de cómputo como servicio (Douglas Parkhill, 1966)
 
 - Sistematizó el concepto de “**Servicios de cómputo**” en su libro *The Challenges of the Computer Utility*.
 - Definió la visión de la computación como un **utility**, comparable a la electricidad o el agua, accesible bajo demanda.
 - Definió casi todos los conceptos actuales de la nube: Acceso remoto, recursos compartidos, pago por uso, seguridad y privacidad e infraestructura repartida en centros de datos.
 
+![image.png](unit_1/image%202.png)
+
+En la práctica realmente solo fueron hipótesis que se desarrollaron de forma teórica, y fueron antecedentes necesarios para  llegar a crear los sistemas de cómputo distribuido que usamos actualmente. Sin embargo, aún carecían de la tecnología necesaria para ponerlas en funcionamiento. La mayoría de esas ideas se englobaban dentro de historias de ciencia ficción, para un futuro que aún estaba por llegar. 
+
 ## Evolución de los modelos Distribuidos (1970-actualidad)
 
 A inicios de los años 70 disponíamos de la mayoría de las ideas necesarias para implementar los sistemas de cómputo distribuidos usados actualmente. Sin embargo, se carecía de algunas características necesarias para ponerlo en funcionamiento:
 
-- Tecnologías Especificas: En concreto, en las definiciones vistas anteriormente se hacía hincapié en
- la necesidad de acceso remoto. No existía aún una red global que 
+- **Tecnologías Especificas**: En concreto, en las definiciones vistas anteriormente se hacía hincapié en la necesidad de acceso remoto. No existía aún una red global que 
 pusiera en comunicación a los usuarios con los sistemas de cómputo.
-- Modelo de Negocio: No existía un público que necesitara de cómputo distribuido, lo que encarecía el desarrollo de cualquier tecnología relacionada. No se veía el beneficio de venta de servicios de cómputo, por lo que pocos trabajaban en ello.
-- Contexto social: En aquel momento las tecnologías informáticas eran de uso mayormente en centros de investigación y militar. Los usuarios potenciales eran muy concretos, y pocos podrían pagarlo.
+- **Modelo de Negocio:** No existía un público que necesitara de cómputo distribuido, lo que encarecía el desarrollo de cualquier tecnología relacionada. No se veía el beneficio de venta de servicios de cómputo, por lo que pocos trabajaban en ello.
+- **Contexto social**: En aquel momento las tecnologías informáticas eran de uso mayormente en centros de investigación y militar. Los usuarios potenciales eran muy concretos, y pocos podrían pagarlo.
 
 ## Etapas:
 
@@ -58,7 +73,7 @@ grandes empresas o universidades podían plantearse.
 - Con la llegada de los ordenadores personales aparece una nueva forma de crear “sistemas de cómputo de altas prestaciones”, abaratando los costes y permitiendo que empresas y centros más humildes puedan hacer uso de ellos.
 - Se define un sistema “tipo cluster” como la unión de una red de nodos de cómputo, que en este caso pueden ser ordenadores de bajo coste.
 
-![image.png](attachment:1dd33b5f-4224-470a-8897-5229b95c8986:image.png)
+![image.png](unit_1/image%203.png)
 
 **2000 - 2006**
 
@@ -75,7 +90,7 @@ la implementación de cómputo distribuido y cómputo como servicio. Surgen
         - Cada centro tecnológico dispone de un tipo de hardware distinto, formando redes de recursos computacionales globales.
         - Se exploran posibilidades de un nuevo modelo de computación distribuida a gran escala.
 
-![image.png](attachment:19f97c76-addf-45bb-b676-58f08842f20b:image.png)
+![image.png](unit_1/image%204.png)
 
 - **Cloud computing:**
 - Paralelamente con Grid, surge la idea de los sistemas de computación “en la nube”. La arquitectura es muy similar a lo visto en Grid, pero su objetivo es distinto:
@@ -86,6 +101,8 @@ de negocio:
     - Sistemas Grid: Unión de varios centros/empresas para un único proyecto. Modelo de negocio centrado en el desarrollo de un proyecto en común.
     - Sistemas Cloud: Una (o varias) empresas ofreciendo servicios para cualquier persona que pueda pagar por él. Modelo de negocio centrado en llegar al máximo número de usuarios y ofrecerles paquetes de servicios a medida.
     - En la definición anterior habría que matizar distintos modos de funcionamiento, se analizará en futuras unidades.
+
+![image.png](unit_1/image%205.png)
 
 **2006 - presente** 
 
@@ -145,7 +162,7 @@ de banda de datos efectivo
 - Tamaños de transistores y niveles de integración: Hay un límite físico para el mínimo tamaño del sistema
 - Gasto energético….
 
-![image.png](attachment:c70798c5-8e51-46c1-84bc-688b43bdbe0c:image.png)
+![image.png](unit_1/image%206.png)
 
 Imagen de un procesador multicore de 4 núcleos. Se puede apreciar la complejidad para poder acceder de forma eficiente a zonas de memoria compartidas, como puede ser la memoria caché. 
 
@@ -163,7 +180,7 @@ El sistema puede escalar de forma fácil y rápida añadiendo más nodos. Cada n
 
 El tipo de red usada marcará la latencua de las comunicaciones siendo lo mas interesante contruirlas de forma sencilla y barata segun la aplicación. 
 
-![image.png](attachment:a6378c25-3f5f-4b87-8eec-b2e3a0d9b520:image.png)
+![image.png](unit_1/image%207.png)
 
 Dependiendo de la topología de la red y características de la aplicación, podemos diseñar un sistema de comunicaciones eficiente para aprovechar las características del modelo distribuido.
 
@@ -175,21 +192,26 @@ La ampliación de un cluster es costosa en grandes tamaños. Normalmente la cons
 
 En el momento que no se puedan conectar más ordenadores, se pasará a sustituir por máquinas nuevas. En último término, se cambiará la red por una de mayores prestaciones.
 
+**Redes Infrautilizadas**
+
 Los gastos que surjan durante el mantenimiento son cubiertos por los beneficios de tener el sistema encendido y trabajando. También hay que tener en cuenta el ahorro al detectar recursos infrautilizados:
 
-- Necesidad de crear un buen plan de gestión de recursos
+- **Necesidad de crear un buen plan de gestión de recursos**
     - ¿Dos nodos al 50% de carga o un nodo al 100%?
         - El objetivo del administrador del sistema es llegar al 100% de carga (sin pasarse)
         - 100% de carga de trabajo implica que no se está infrautilizando, por lo que no se desperdicia el sistema y el gasto en mantenimiento es eficiente:
-- Mejor un nodo al 100% (sistema óptimo) que dos nodos al 50% (sistema infrautilizado)
+- **Mejor un nodo al 100% (sistema óptimo) que dos nodos al 50% (sistema infrautilizado)**
     - Es difícil dar métricas para definir correctamente la carga de trabajo que puede soportar un sistema. Normalmente pasa un tiempo hasta que se tienen pruebas de rendimiento y uso para las aplicaciones usadas.
     - Se necesitan herramientas específicas para rebalancear cargas de trabajo en el sistema, migrar procesos de nodos poco cargados, opciones a apagar nodos infrautilizados…
 - **Modo ahorro de energía en ordenadores personales**
     - En ordenadores personales y portátiles actuales existe una opción de ahorro energético que permite tener el sistema al 100% de carga:
     - Si el sistema operativo detecta que no se está usando el 100% del hardware, pasa a apagar partes del ordenador
     - Si el sistema cuenta con 4 núcleos de cómputo, pero sólo se usan 2 (50% de uso), se pueden apagar los dos núcleos infrautilizados para llegar al 100% de carga (nivel óptimo para no desperdiciar dinero)
-- **Ejemplo en un centro de cómputo:**
-    - En estos centros se cuenta con cientos de ordenadores. Si el sistema está al 50% de uso se puede ahorrar la mitad del coste de mantenerlo encendido migrando las aplicaciones de ordenadores infrautilizados para posteriormente apagarlos.
+
+**Ejemplo en un centro de cómputo:**
+
+> En estos centros se cuenta con cientos de ordenadores. Si el sistema está al 50% de uso se puede ahorrar la mitad del coste de mantenerlo encendido migrando las aplicaciones de ordenadores infrautilizados para posteriormente apagarlos.
+> 
 
 ### Aplicaciones de sistemas de cómputo de alto rendimiento
 

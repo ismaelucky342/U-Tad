@@ -1,8 +1,13 @@
-# Unidad 2 
+# Unidad 2
 
-*Definimos los sistemas distribuidos de tipo Cluster como un conjunto de computadoras (nodos) interconectadas que trabajan de manera coordinada como si fueran un único sistema, con el objetivo de ofrecer mayor disponibilidad, escalabilidad y rendimiento.*
+Creado: 29 de septiembre de 2025 23:31
+progress: 100
 
-## Diseño de un sistema de memoria distribuida
+![logo.png](unit_2/logo.png)
+
+*“Definimos los sistemas distribuidos de tipo Cluster como un conjunto de computadoras (nodos) interconectadas que trabajan de manera coordinada como si fueran un único sistema, con el objetivo de ofrecer mayor disponibilidad, escalabilidad y rendimiento.”*
+
+# Diseño de un sistema de memoria distribuida
 
 Los sistemas de memoria distribuida se componen de nodos de cómputo conectados entre sí, pero trabajan de forma independiente. Se denominan ”sistemas multicomputador”, ofreciendo capacidad de cómputo paralela.
 
@@ -14,19 +19,21 @@ Para poder aprovechar estos sistemas se deben usar enfoques de programación bas
     - Puede haber nodos iguales (clónicos) o nodos especializados en algún tipo de función.
     - Se pueden usar nuevos enfoques para recuperación de datos ante pérdida de conectividad, fallos hardware, etc...
 
-Además, los sistemas de procesamiento distribuido permiten conexión remota para poder ofrecer distintos servicios. En el caso de servicios ofrecidos por datacenters o sistemas tipo clúster de ordenadores en general, los clientes deben disponer de algunas métricas para comparar calidad de 
-servicio. 
+![image.png](unit_2/image.png)
 
-En un **sistema distribuido con memoria aislada**, cada nodo actúa como un sistema independiente con su propio sistema operativo y recursos locales. No existe un espacio de memoria compartido, por lo que la comunicación entre procesos se realiza mediante **técnicas de paso de mensajes**: cuando un nodo necesita información de otro, le envía una solicitud por red y recibe la respuesta correspondiente.
+Además, los sistemas de procesamiento distribuido permiten conexión remota para poder ofrecer distintos servicios. En el caso de servicios ofrecidos por datacenters o sistemas tipo clúster de ordenadores en general, los clientes deben disponer de algunas métricas para comparar calidad de servicio. 
 
-Esta independencia implica que cada nodo debe ser **autónomo y capaz de autogestionarse**, minimizando los accesos a la red. Si varios nodos comparten recursos (archivos, dispositivos, etc.), deben **sincronizarse** para evitar conflictos y pérdida de datos, lo que requiere **protocolos de coordinación más complejos** que los semáforos o cerrojos usados en sistemas con memoria compartida.
+En un sistema distribuido con memoria aislada, cada nodo actúa como un sistema independiente con su propio sistema operativo y recursos locales. No existe un espacio de memoria compartido, por lo que la comunicación entre procesos se realiza mediante técnicas de paso de mensajes: cuando un nodo necesita información de otro, le envía una solicitud por red y recibe la respuesta correspondiente.
 
-En este contexto surgen distintos **modelos de programación distribuida**:
+> Esta independencia implica que cada nodo debe ser autónomo y capaz de autogestionarse, minimizando los accesos a la red. Si varios nodos comparten recursos (archivos, dispositivos, etc.), deben sincronizarse para evitar conflictos y pérdida de datos, lo que requiere protocolos de coordinación más complejos que los semáforos o cerrojos usados en sistemas con memoria compartida.
+> 
+
+En este contexto surgen distintos modelos de programación distribuida:
 
 - **Modelo Cliente–Servidor:** el servidor ofrece servicios o recursos, y los clientes los solicitan mediante peticiones. Es el esquema más común en redes y aplicaciones distribuidas, como servidores web o de bases de datos.
 - **Modelo Maestro–Esclavo:** un nodo maestro reparte las tareas entre varios nodos esclavos, que las ejecutan y devuelven los resultados. Este modelo es típico en clústeres de computación y sistemas de procesamiento paralelo. Aunque es fácil de programar, puede generar **desequilibrios de carga**, ya que el maestro suele permanecer inactivo mientras los esclavos procesan los datos.
 
-### **Sistemas tipo Cluster y redes de ordenadores**
+## **Sistemas tipo Cluster y redes de ordenadores**
 
 Un **cluster** es un sistema de procesamiento basado en la unión de varias máquinas en red que trabajan coordinadamente para ofrecer mayor rendimiento, disponibilidad o capacidad de cómputo. Este tipo de arquitecturas se popularizó en los años 90 y 2000 en empresas, universidades y centros de investigación.
 
@@ -66,7 +73,7 @@ Un **cluster** es un sistema de procesamiento basado en la unión de varias máq
     - Ejemplo histórico: **Toy Story (1995)** utilizó un cluster de 53 nodos para renderizar 114.000 imágenes en 20 meses, reduciendo un trabajo que habría tardado 43 años en un solo ordenador.
     - Hoy en día, Pixar utiliza clusters con **más de 23.000 procesadores**, capaces de renderizar en tiempo real.
 
-### **Middleware**
+## **Middleware**
 
 En sistemas distribuidos tipo **cluster**, la diversidad de hardware, sistemas operativos y librerías hace difícil desarrollar aplicaciones portables que funcionen en todos los entornos. Para resolver esto, se utilizan **capas de software intermedio**, llamadas **middleware**, que abstraen a los programas de los detalles de bajo nivel del sistema y la red.
 
@@ -104,8 +111,11 @@ En sistemas distribuidos tipo **cluster**, la diversidad de hardware, sistemas o
 
 - En un **cliente**, el middleware traduce las operaciones de la aplicación a protocolos de comunicación de red y manejo del sistema operativo.
 - En un **servidor**, recibe paquetes de datos del cliente, los interpreta y los entrega a la aplicación, incluso si el cliente y servidor usan sistemas diferentes.
+    
+    ![image.png](unit_2/image%201.png)
+    
 
-## Computación en Red
+# Computación en Red
 
 La computación en red se puede definir como el conjunto de técnicas, métodos y sistemas que permiten compartir recursos de hardware, software y datos entre varias computadoras conectadas mediante una red para trabajar de manera coordinada.
 
@@ -116,11 +126,9 @@ Los modelos “cliente-servidor” están pensados para aplicaciones con necesid
 - Un ordenador actúa de servidor.
 - Varios ordenadores se conectan al servidor para poderse sincronizar.
 
+![image.png](unit_2/image%202.png)
 
-Bajo estos esquemas el principal cuello de botella es la comunicación con el propio servidor, ya que con demasiados clientes conectados se corre el riesgo de saturar el servidor y que no de servicios. 
-
-Las soluciones clásicas pasan por crear nuevos servidores “clónicos” para 
-dar soporte a más conexiones, pero esa solución genera nuevos problemas:
+Bajo estos esquemas el principal cuello de botella es la comunicación con el propio servidor, ya que con demasiados clientes conectados se corre el riesgo de saturar el servidor y que no de servicios. Las soluciones clásicas pasan por crear nuevos servidores “clónicos” para dar soporte a más conexiones, pero esa solución genera nuevos problemas:
 
 - El servidor originariamente debía dar soporte de acceso/modificación de datos (una Base de Datos por ejemplo)
 - En el momento que hay demasiados usuarios, se decide añadir un segundo servidor:
@@ -134,25 +142,22 @@ En el modelo de programación “cliente-servidor” podemos encontrar diversas 
 - **Procesador tipo servidor:** El cliente tiene cierta capacidad de procesamiento de datos y proporciona una interfaz gráfica con las opciones a realizar al usuario. Mediante mensajes al servidor éste realiza las operaciones.
     - Ejemplo: Clientes con un navegador web (uso de javascript), acceso/procesado de datos conectados a servidores de bases de datos.
 - **Procesamiento basado en cliente:**
- En este caso, casi toda la carga de proceso recae en el cliente. El 
-servidor se usa para tareas de validación de datos, pero es el terminal 
-del cliente el que realiza las operaciones.
+ En este caso, casi toda la carga de proceso recae en el cliente. El servidor se usa para tareas de validación de datos, pero es el terminal del cliente el que realiza las operaciones.
     ◦ Ej: Juegos en red que necesiten de una tarjeta gráfica potente.
 - **Procesamiento cooperativo (P2P):**
- En este caso, tanto los clientes como el servidor realizan parte del 
-trabajo, repartiéndolo de forma equilibrada entre las estaciones.
+ En este caso, tanto los clientes como el servidor realizan parte del trabajo, repartiéndolo de forma equilibrada entre las estaciones.
     ◦ Ej: Una base de datos con un sistema de ficheros distribuido entre los clientes, redes bittorrent
 
 En los esquemas “cliente-servidor” las aplicaciones implementadas suelen necesitar únicamente compartir una parte de información para sincronizar la red de programas. Sin embargo, también existen “peticiones de ejecución”, que son representadas programas tipo “servicio”. 
 
-## Llamadas a procedimientos remotos
+## Llamadas a procedimientos remotos (RPC)
 
-Las **llamadas a procedimientos remotos (RPC)** son la forma en que un programa puede **pedirle a otro ordenador que haga algo por él**, como si fuese una función normal de su propio código. Esto sirve cuando:
+Las llamadas a procedimientos remotos (RPC) son la forma en que un programa puede pedirle a otro ordenador que haga algo por él, como si fuese una función normal de su propio código. Esto sirve cuando:
 
 - El cliente no tiene suficiente capacidad de cálculo.
 - La lógica de la aplicación o los datos están en otro ordenador (el servidor).
 
-El **flujo básico** es:
+El flujo básico es:
 
 1. El usuario usa la interfaz del programa en su ordenador.
 2. El programa envía la petición al servidor para ejecutar un cálculo o acceder a datos.
@@ -168,7 +173,7 @@ En sistemas de procesamiento distribuido para comunicar y sincronizar procesos s
 
 Para facilitar las llamadas a estas funciones se suele usar o implementar un “middleware” orientado a paso de mensajes. Esta capa software se usaría para abstraer de los detalles de comunicación con red y pondría en contacto las aplicaciones “cliente-servidor” que se hayan implementado.
 
-![image.png](attachment:11b1ba36-8a40-4590-a13d-3dab0fccdc73:image.png)
+![image.png](unit_2/image%203.png)
 
 ### Sistemas de mensajes
 
@@ -182,7 +187,7 @@ Para facilitar las llamadas a estas funciones se suele usar o implementar un “
 
 ## LLamadas a procedimientos Remotos (RPC)
 
-![image.png](attachment:039cb5d7-c969-4a36-b1ed-2c676a9d0126:image.png)
+![image.png](unit_2/image%204.png)
 
 ### Programación basada en paso de mensajes y RPC
 
@@ -199,5 +204,3 @@ Para facilitar las llamadas a estas funciones se suele usar o implementar un “
 - Separar la **interfaz de usuario del núcleo de la aplicación**.
 - Transformar una llamada local a función en una **llamada remota**, empaquetando datos, enviándolos y recibiendo resultados.
 - Permite que la aplicación sea distribuida en red sin que el cliente necesite saber dónde se ejecutan realmente los servicios.
-
-💡 **Idea clave:** RPC = “función normal que se ejecuta en otro ordenador, sin que el programador tenga que preocuparse de la red”.
