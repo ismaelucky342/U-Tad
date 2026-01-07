@@ -1,7 +1,7 @@
 # Unidad 3
 
 Creado: 29 de septiembre de 2025 23:32
-progress: 0
+progress: 100
 
 ![logo.png](unit_3/logo.png)
 
@@ -94,10 +94,10 @@ Bash
 
 ## Introducción a la programación paralela
 
+En general, cada vez que un programa quiere crear un hilo nuevo de ejecución paralela, debe especificar la pieza de código que quiere que se ejecute. Aquí nace el concepto de programación multithread. 
+
 > *“En un sistema monoprocesador, todos los procesos se ejecutan en tiempo compartido.  Sin embargo, hoy en día es fácil encontrar sistemas multiprocesadores que permiten la ejecución de código realmente en paralelo, siendo el Sistema Operativo el que asigna piezas de código a cada procesador.”*
 > 
-
-En general, cada vez que un programa quiere crear un hilo nuevo de ejecución paralela, debe especificar la pieza de código que quiere que se ejecute. Aquí nace el concepto de programación multithread. 
 
 ### La programación multithread
 
@@ -125,7 +125,12 @@ void funcionThread(int param1, int param2)
 } 
 ```
 
-### **Hilos sincronizables (joinables)**
+> *“Una vez se tiene el código de la función que deberá ejecutarse en paralelo, se puede crear el thread. Para eso, a partir de C++11 disponemos de la clase “std::thread”, la cual crea un hilo de ejecución paralelo a partir de una función pasada por parámetros a su constructor. “*
+> 
+
+### Tipos de Hilos
+
+**Hilos sincronizables (joinables)**
 
 Necesarios cuando se necesita crear threads a los que se debe esperar para recuperar un resultado.
 
@@ -177,7 +182,7 @@ int main(int argc, char** argv)
 }
 ```
 
-### **Hilos no sincronizables (detached)**
+**Hilos no sincronizables (detached)**
 
 Necesarios cuando no es necesario sincronizarse y se autogestionan.
 
@@ -285,9 +290,7 @@ El enfoque más común para distribuir funcionalidades ya existentes es el uso d
 
 ### Definición de RPC
 
-Las llamadas a procedimiento remoto (RPC) permiten la invocación de código en máquinas remotas conectadas a través de red.
-
-Para ello debemos definir un protocolo de comunicación y un formato de mensaje para que ambas máquinas (cliente y servidor) se puedan entender independientemente del tipo de hardware y lenguaje que implementen.
+Las llamadas a procedimiento remoto (RPC) permiten la invocación de código en máquinas remotas conectadas a través de red, para lo cual debemos definir un protocolo de comunicación y un formato de mensaje para que ambas máquinas (cliente y servidor) se puedan entender independientemente del tipo de hardware y lenguaje que implementen.
 
 > *“También es interesante implementar funcionalidades que permitan que existan varios servidores y varios clientes en el sistema, de tal manera que se asignen los clientes de forma apropiada y balancear el acceso a los recursos entre varias máquinas.”*
 > 
@@ -330,7 +333,7 @@ Dado que el broker mantiene información de todo el sistema, debería ser capaz 
 
 ### Objetivo general del rediseño distribuido
 
-El propósito del ejercicio es tomar un programa ya existente —en este caso, un gestor de objetos `Persona`— y transformarlo en un sistema distribuido sin modificar la lógica original del usuario.
+El propósito del ejercicio es tomar un programa ya existente en este caso, un gestor de objetos `Persona` y transformarlo en un sistema distribuido sin modificar la lógica original del usuario.
 
 El usuario debe seguir utilizando la misma interfaz que antes (mismos métodos, mismas clases, mismo `main.cpp`), pero las operaciones reales deben ejecutarse en un servidor remoto.
 
