@@ -1,0 +1,9 @@
+{
+  "name": "twitter-read-lambda",
+  "version": "1.0.0",
+  "description": "Lambda function to read comments from Mini Twitter",
+  "main": "index.js",
+  "dependencies": {
+    "mysql2": "^3.6.0"
+  }
+}

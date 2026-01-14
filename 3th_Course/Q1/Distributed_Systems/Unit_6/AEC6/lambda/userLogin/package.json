@@ -1,0 +1,9 @@
+{
+  "name": "user-login-lambda",
+  "version": "1.0.0",
+  "description": "Lambda function to validate user login",
+  "main": "index.js",
+  "dependencies": {
+    "mysql2": "^3.6.0"
+  }
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Mini Twitter</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-logo">X</div>
+            <h1 class="auth-title">Iniciar Sesión</h1>
+            
+            <div id="message" class="message hidden"></div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username" class="form-label">Usuario</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        class="form-input" 
+                        placeholder="Ingresa tu usuario"
+                        required
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="form-input" 
+                        placeholder="Ingresa tu contraseña"
+                        required
+                    >
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full" id="loginBtn">
+                    Iniciar Sesión
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                ¿No tienes cuenta? <a href="register.html">Regístrate aquí</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ IMPORTANTE: Reemplazar con tu URL de API Gateway
+        const API_URL = 'https://YOUR-API-GATEWAY-URL.amazonaws.com/prod/userLogin';
+        
+        const loginForm = document.getElementById('loginForm');
+        const messageDiv = document.getElementById('message');
+        const loginBtn = document.getElementById('loginBtn');
+
+        // Función para mostrar mensajes
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = `message message-${type}`;
+            messageDiv.classList.remove('hidden');
+            
+            setTimeout(() => {
+                messageDiv.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Manejar submit del formulario
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            // Validaciones básicas
+            if (!username || !password) {
+                showMessage('Por favor completa todos los campos', 'error');
+                return;
+            }
+            
+            // Deshabilitar botón mientras se procesa
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Iniciando sesión...';
+            
+            try {
+                // Llamar a la función Lambda
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                console.log('Response:', data);
+                
+                // Verificar respuesta
+                if (data.status === 'OK' || data.success === true) {
+                    showMessage('¡Login exitoso! Redirigiendo...', 'success');
+                    
+                    // Guardar usuario en localStorage
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('userId', data.userId);
+                    
+                    // Redirigir a postComment.html después de 1 segundo
+                    setTimeout(() => {
+                        window.location.href = 'postComment.html';
+                    }, 1000);
+                    
+                } else {
+                    showMessage(data.message || 'Usuario o contraseña incorrectos', 'error');
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Iniciar Sesión';
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Error de conexión. Verifica tu configuración de API.', 'error');
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Iniciar Sesión';
+            }
+        });
+    </script>
+</body>
+</html>

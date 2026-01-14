@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar - Mini Twitter</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">X Mini Twitter</div>
+            <div class="nav-links">
+                <a href="postComment.html">Publicar</a>
+                <a href="readComment.html">Timeline</a>
+                <a href="searchUser.html">Buscar</a>
+                <a href="#" id="logoutLink">Salir</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Mensaje de bienvenida -->
+        <div class="form-container" style="margin-top: 20px;">
+            <h2 style="color: var(--text-primary); margin-bottom: 10px;">
+                Bienvenido, <span id="usernameDisplay">Usuario</span>
+            </h2>
+            <p style="color: var(--text-secondary); font-size: 14px;">
+                ¿Qué está pasando?
+            </p>
+        </div>
+
+        <!-- Formulario de comentario -->
+        <div class="form-container">
+            <h1 class="form-title">Publicar Comentario</h1>
+            
+            <div id="message" class="message hidden"></div>
+            
+            <form id="postForm">
+                <div class="form-group">
+                    <label for="commentText" class="form-label">Tu comentario</label>
+                    <textarea 
+                        id="commentText" 
+                        class="form-textarea" 
+                        placeholder="¿Qué está pasando?"
+                        maxlength="500"
+                        required
+                    ></textarea>
+                    <small style="color: var(--text-secondary); font-size: 12px;">
+                        <span id="charCount">0</span>/500 caracteres
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="videoFile" class="form-label">
+                        Video adjunto (opcional)
+                    </label>
+                    <div class="file-input-wrapper">
+                        <input 
+                            type="file" 
+                            id="videoFile" 
+                            accept="video/*"
+                        >
+                        <label for="videoFile" class="file-input-label">
+                            Video: Seleccionar video
+                        </label>
+                    </div>
+                    <div id="fileName" class="file-name"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full" id="postBtn">
+                    Publicar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ IMPORTANTE: Reemplazar con tus URLs de API Gateway y S3
+        const LAMBDA_API_URL = 'https://YOUR-API-GATEWAY-URL.amazonaws.com/prod/twitterPost';
+        const S3_BUCKET_URL = 'https://YOUR-BUCKET-NAME.s3.amazonaws.com';
+        const S3_BUCKET_NAME = 'YOUR-BUCKET-NAME';
+        
+        const postForm = document.getElementById('postForm');
+        const messageDiv = document.getElementById('message');
+        const postBtn = document.getElementById('postBtn');
+        const commentText = document.getElementById('commentText');
+        const charCount = document.getElementById('charCount');
+        const videoFile = document.getElementById('videoFile');
+        const fileName = document.getElementById('fileName');
+        const usernameDisplay = document.getElementById('usernameDisplay');
+        const logoutLink = document.getElementById('logoutLink');
+
+        // Verificar si hay usuario logueado
+        const currentUsername = localStorage.getItem('username');
+        if (!currentUsername) {
+            window.location.href = 'login.html';
+        } else {
+            usernameDisplay.textContent = currentUsername;
+        }
+
+        // Logout
+        logoutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('username');
+            localStorage.removeItem('userId');
+            window.location.href = 'login.html';
+        });
+
+        // Contador de caracteres
+        commentText.addEventListener('input', () => {
+            charCount.textContent = commentText.value.length;
+        });
+
+        // Mostrar nombre del archivo seleccionado
+        videoFile.addEventListener('change', () => {
+            if (videoFile.files.length > 0) {
+                fileName.textContent = `Video: ${videoFile.files[0].name}`;
+            } else {
+                fileName.textContent = '';
+            }
+        });
+
+        // Función para mostrar mensajes
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = `message message-${type}`;
+            messageDiv.classList.remove('hidden');
+            
+            setTimeout(() => {
+                messageDiv.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Función para subir video a S3
+        async function uploadVideoToS3(file) {
+            // Generar nombre único para el archivo
+            const timestamp = Date.now();
+            const safeFilename = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+            const uniqueFilename = `videos/${timestamp}_${safeFilename}`;
+            
+            try {
+                // En un escenario real, necesitarías:
+                // 1. Obtener una presigned URL desde Lambda
+                // 2. Usar esa URL para subir el archivo
+                // Por simplicidad, aquí simularemos la subida
+                
+                // NOTA: Para implementar esto correctamente, necesitas:
+                // - Crear otra función Lambda que genere presigned URLs de S3
+                // - O configurar el bucket S3 con CORS y política pública
+                
+                const videoUrl = `${S3_BUCKET_URL}/${uniqueFilename}`;
+                
+                // Aquí deberías implementar la lógica real de subida a S3
+                // Por ahora retornamos la URL simulada
+                console.log('Archivo a subir:', file.name);
+                console.log('URL destino:', videoUrl);
+                
+                return {
+                    url: videoUrl,
+                    filename: safeFilename
+                };
+                
+            } catch (error) {
+                console.error('Error al subir video:', error);
+                throw error;
+            }
+        }
+
+        // Manejar submit del formulario
+        postForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const comment = commentText.value.trim();
+            
+            if (!comment) {
+                showMessage('Por favor escribe un comentario', 'error');
+                return;
+            }
+            
+            // Deshabilitar botón mientras se procesa
+            postBtn.disabled = true;
+            postBtn.textContent = 'Publicando...';
+            
+            try {
+                let videoUrl = null;
+                let videoFilename = null;
+                
+                // Si hay un archivo de video, subirlo a S3
+                if (videoFile.files.length > 0) {
+                    showMessage('Subiendo video...', 'info');
+                    const uploadResult = await uploadVideoToS3(videoFile.files[0]);
+                    videoUrl = uploadResult.url;
+                    videoFilename = uploadResult.filename;
+                }
+                
+                // Enviar datos a Lambda
+                const response = await fetch(LAMBDA_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: currentUsername,
+                        comment_text: comment,
+                        video_url: videoUrl,
+                        video_filename: videoFilename
+                    })
+                });
+                
+                const data = await response.json();
+                console.log('Response:', data);
+                
+                if (data.success) {
+                    showMessage('¡Comentario publicado exitosamente!', 'success');
+                    
+                    // Limpiar formulario
+                    commentText.value = '';
+                    videoFile.value = '';
+                    fileName.textContent = '';
+                    charCount.textContent = '0';
+                    
+                    // Opcionalmente, redirigir al timeline después de 2 segundos
+                    setTimeout(() => {
+                        window.location.href = 'readComment.html';
+                    }, 2000);
+                    
+                } else {
+                    showMessage(data.message || 'Error al publicar comentario', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Error de conexión. Verifica tu configuración.', 'error');
+            } finally {
+                postBtn.disabled = false;
+                postBtn.textContent = 'Publicar';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Twitter - Bienvenida</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-box" style="max-width: 500px;">
+            <div class="auth-logo">X</div>
+            <h1 class="auth-title">Bienvenido a Mini Twitter</h1>
+            
+            <p style="color: var(--text-secondary); text-align: center; margin-bottom: 30px;">
+                Una red social simple construida con AWS Lambda, RDS, S3 y API Gateway
+            </p>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <a href="login.html" class="btn btn-primary btn-full">
+                    Iniciar Sesión
+                </a>
+                
+                <a href="register.html" class="btn btn-secondary btn-full">
+                    Crear Cuenta
+                </a>
+                
+                <a href="readComment.html" class="btn btn-secondary btn-full">
+                    Ver Timeline (sin login)
+                </a>
+            </div>
+            
+            <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--border-color);">
+                <h3 style="color: var(--text-primary); margin-bottom: 15px; text-align: center;">
+                    Funcionalidades
+                </h3>
+                <ul style="color: var(--text-secondary); font-size: 14px; line-height: 2;">
+                    <li> Registro e inicio de sesión de usuarios</li>
+                    <li> Publicar comentarios con videos adjuntos</li>
+                    <li> Timeline de todos los comentarios</li>
+                    <li> Búsqueda de comentarios por usuario</li>
+                    <li>🎨 Diseño moderno estilo Twitter/X</li>
+                </ul>
+            </div>
+            
+            <div style="margin-top: 30px; text-align: center; color: var(--text-secondary); font-size: 12px;">
+                <p>Práctica de Sistemas Distribuidos</p>
+                <p>AWS Lambda • RDS • S3 • API Gateway</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

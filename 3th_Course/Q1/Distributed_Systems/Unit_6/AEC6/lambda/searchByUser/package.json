@@ -1,0 +1,9 @@
+{
+  "name": "search-by-user-lambda",
+  "version": "1.0.0",
+  "description": "Lambda function to search comments by username",
+  "main": "index.js",
+  "dependencies": {
+    "mysql2": "^3.6.0"
+  }
+}

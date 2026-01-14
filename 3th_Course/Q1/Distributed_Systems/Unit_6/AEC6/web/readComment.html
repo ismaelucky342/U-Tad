@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline - Mini Twitter</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">X Mini Twitter</div>
+            <div class="nav-links">
+                <a href="postComment.html">Publicar</a>
+                <a href="readComment.html">Timeline</a>
+                <a href="searchUser.html">Buscar</a>
+                <a href="#" id="logoutLink">Salir</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Título -->
+        <div class="form-container" style="margin-top: 20px;">
+            <h1 class="form-title">Timeline</h1>
+            <p style="color: var(--text-secondary); font-size: 14px;">
+                Todos los comentarios de la comunidad
+            </p>
+            <button class="btn btn-secondary" id="refreshBtn" style="margin-top: 15px;">
+                Actualizar Actualizar
+            </button>
+        </div>
+
+        <!-- Loading spinner -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Mensajes -->
+        <div id="message" class="message hidden"></div>
+
+        <!-- Contenedor de comentarios -->
+        <div id="commentsContainer" class="comments-container"></div>
+
+        <!-- Estado vacío -->
+        <div id="emptyState" class="empty-state hidden">
+            <div class="empty-state-icon"></div>
+            <div class="empty-state-text">
+                No hay comentarios aún. ¡Sé el primero en publicar!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ IMPORTANTE: Reemplazar con tu URL de API Gateway
+        const API_URL = 'https://YOUR-API-GATEWAY-URL.amazonaws.com/prod/twitterRead';
+        
+        const commentsContainer = document.getElementById('commentsContainer');
+        const loading = document.getElementById('loading');
+        const emptyState = document.getElementById('emptyState');
+        const messageDiv = document.getElementById('message');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const logoutLink = document.getElementById('logoutLink');
+
+        // Verificar si hay usuario logueado (opcional para esta página)
+        const currentUsername = localStorage.getItem('username');
+
+        // Logout
+        if (logoutLink) {
+            logoutLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('username');
+                localStorage.removeItem('userId');
+                window.location.href = 'login.html';
+            });
+        }
+
+        // Función para mostrar mensajes
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = `message message-${type}`;
+            messageDiv.classList.remove('hidden');
+            
+            setTimeout(() => {
+                messageDiv.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Función para formatear fecha
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+            
+            if (diffMins < 1) return 'Ahora';
+            if (diffMins < 60) return `Hace ${diffMins}m`;
+            if (diffHours < 24) return `Hace ${diffHours}h`;
+            if (diffDays < 7) return `Hace ${diffDays}d`;
+            
+            return date.toLocaleDateString('es-ES', { 
+                day: 'numeric', 
+                month: 'short',
+                year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+            });
+        }
+
+        // Función para crear tarjeta de comentario
+        function createCommentCard(comment) {
+            const card = document.createElement('div');
+            card.className = 'comment-card';
+            
+            let videoHTML = '';
+            if (comment.video_url && comment.video_filename) {
+                videoHTML = `
+                    <div class="comment-video">
+                        <a href="${comment.video_url}" target="_blank" class="comment-video-link">
+                            Video: Ver video: ${comment.video_filename}
+                        </a>
+                    </div>
+                `;
+            }
+            
+            card.innerHTML = `
+                <div class="comment-header">
+                    <span class="comment-user">@${comment.username}</span>
+                    <span class="comment-date">${formatDate(comment.created_at)}</span>
+                </div>
+                <div class="comment-text">${escapeHtml(comment.comment_text)}</div>
+                ${videoHTML}
+                <div class="comment-footer">
+                    <span class="comment-stat">❤️ ${comment.likes || 0}</span>
+                    <span class="comment-stat">ID: ${comment.comment_id}</span>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Función para escapar HTML (prevenir XSS)
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Función para cargar comentarios
+        async function loadComments() {
+            try {
+                // Mostrar loading
+                loading.classList.remove('hidden');
+                commentsContainer.innerHTML = '';
+                emptyState.classList.add('hidden');
+                
+                // Llamar a la función Lambda
+                const response = await fetch(API_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const data = await response.json();
+                console.log('Response:', data);
+                
+                // Ocultar loading
+                loading.classList.add('hidden');
+                
+                if (data.success && data.comments && data.comments.length > 0) {
+                    // Mostrar comentarios
+                    data.comments.forEach(comment => {
+                        const commentCard = createCommentCard(comment);
+                        commentsContainer.appendChild(commentCard);
+                    });
+                    
+                    showMessage(`${data.comments.length} comentarios cargados`, 'success');
+                    
+                } else if (data.success && data.comments && data.comments.length === 0) {
+                    // No hay comentarios
+                    emptyState.classList.remove('hidden');
+                    
+                } else {
+                    showMessage(data.message || 'Error al cargar comentarios', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                loading.classList.add('hidden');
+                showMessage('Error de conexión. Verifica tu configuración de API.', 'error');
+            }
+        }
+
+        // Botón de actualizar
+        refreshBtn.addEventListener('click', () => {
+            loadComments();
+        });
+
+        // Cargar comentarios al inicio
+        loadComments();
+    </script>
+</body>
+</html>

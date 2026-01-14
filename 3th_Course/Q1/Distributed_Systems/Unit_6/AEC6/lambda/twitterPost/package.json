@@ -1,0 +1,9 @@
+{
+  "name": "twitter-post-lambda",
+  "version": "1.0.0",
+  "description": "Lambda function to post comments to Mini Twitter",
+  "main": "index.js",
+  "dependencies": {
+    "mysql2": "^3.6.0"
+  }
+}
