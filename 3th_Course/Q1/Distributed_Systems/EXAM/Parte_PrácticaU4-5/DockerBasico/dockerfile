@@ -1,0 +1,21 @@
+# dockerfile básico de una ISO para entender la estrucutra y aplicarla a sistemas distribuidos y de orquestacion
+
+# aqui importamos una imagen base ligera
+FROM alpine:latest
+
+# aqui añadimos una etiqueta a la imagen
+LABEL version="1.0"
+LABEL description="Imagen Docker básica basada en Alpine Linux"
+LABEL maintainer="tu_email@ejemplo.com"
+
+# aqui actualizamos los paquetes e instalamos curl
+RUN apk update && apk add --no-cache curl
+# aqui creamos un directorio de trabajo
+WORKDIR /app
+# aqui copiamos un archivo local al contenedor
+COPY ./mi_archivo.txt /app/mi_archivo.txt
+# aqui exponemos un puerto (opcional)
+EXPOSE 8080
+# aqui definimos el comando por defecto al iniciar el contenedor
+CMD ["sh", "-c", "echo 'Contenedor iniciado'; curl --version"]
+# fin del dockerfile

@@ -1,0 +1,21 @@
+# ConfigMap para almacenar configuración no confidencial
+# Permite separar la configuración del código de la aplicación
+
+apiVersion: v1
+kind: ConfigMap      # Tipo de objeto: ConfigMap (almacena configuración)
+metadata:
+  name: app-config   # Nombre del ConfigMap
+  labels:
+    app: web
+data:                # Datos de configuración en formato clave-valor
+  database_host: "db-service.default.svc.cluster.local"
+  database_port: "5432"
+  database_name: "mydatabase"
+  app_mode: "production"
+  # También se pueden incluir archivos completos:
+  config.json: |
+    {
+      "feature_x": true,
+      "feature_y": false,
+      "timeout": 30
+    }

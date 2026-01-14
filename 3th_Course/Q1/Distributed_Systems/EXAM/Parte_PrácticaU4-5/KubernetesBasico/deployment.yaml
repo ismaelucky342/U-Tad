@@ -1,0 +1,34 @@
+# Deployment básico de Kubernetes para entender la estructura
+# Un Deployment gestiona la creación y actualización de Pods
+
+apiVersion: apps/v1  # Version de la API de Kubernetes
+kind: Deployment     # Tipo de objeto: Deployment (gestiona réplicas de Pods)
+metadata:
+  name: web-deployment  # Nombre del Deployment
+  labels:
+    app: web           # Etiqueta para identificar el Deployment
+spec:
+  replicas: 3          # Número de réplicas (Pods) que queremos ejecutar
+  selector:
+    matchLabels:
+      app: web         # Selector para identificar qué Pods gestiona este Deployment
+  template:            # Plantilla para crear los Pods
+    metadata:
+      labels:
+        app: web       # Etiquetas que tendrán los Pods
+    spec:
+      containers:      # Definición de los contenedores dentro del Pod
+      - name: web-container      # Nombre del contenedor
+        image: nginx:latest      # Imagen del contenedor (en este caso nginx)
+        ports:
+        - containerPort: 80      # Puerto que expone el contenedor
+        env:                     # Variables de entorno
+        - name: ENV_VARIABLE
+          value: "production"
+        resources:               # Límites de recursos
+          limits:
+            memory: "256Mi"      # Límite máximo de memoria
+            cpu: "500m"          # Límite máximo de CPU (500 milicores)
+          requests:
+            memory: "128Mi"      # Memoria solicitada
+            cpu: "250m"          # CPU solicitada

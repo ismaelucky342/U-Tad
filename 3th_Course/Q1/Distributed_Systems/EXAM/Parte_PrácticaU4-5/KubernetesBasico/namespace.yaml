@@ -1,0 +1,18 @@
+# Namespace para organizar y aislar recursos en Kubernetes
+# Un Namespace proporciona un scope para los nombres de los objetos
+
+apiVersion: v1
+kind: Namespace      # Tipo de objeto: Namespace (agrupación lógica de recursos)
+metadata:
+  name: dev          # Nombre del Namespace (por ejemplo: dev, prod, test)
+  labels:
+    environment: development
+    team: backend
+
+# Los namespaces permiten:
+# 1. Separar recursos por entorno (dev, staging, production)
+# 2. Aplicar políticas de acceso y cuotas por namespace
+# 3. Organizar recursos por equipos o proyectos
+
+# Para usar un namespace en otros recursos, añade en metadata:
+#   namespace: dev

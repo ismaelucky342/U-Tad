@@ -1,0 +1,19 @@
+# Service básico de Kubernetes para exponer el Deployment
+# Un Service proporciona una IP estable y balanceo de carga para acceder a los Pods
+
+apiVersion: v1       # Version de la API
+kind: Service        # Tipo de objeto: Service (expone Pods a la red)
+metadata:
+  name: web-service  # Nombre del Service
+  labels:
+    app: web
+spec:
+  type: LoadBalancer # Tipo de servicio: LoadBalancer (expone externamente)
+                     # Otros tipos: ClusterIP (solo interno), NodePort (puerto en cada nodo)
+  selector:
+    app: web         # Selector para identificar qué Pods reciben el tráfico
+  ports:
+  - protocol: TCP    # Protocolo de red
+    port: 80         # Puerto del Service (por donde se accede externamente)
+    targetPort: 80   # Puerto del contenedor al que se redirige el tráfico
+    # nodePort: 30080  # Puerto en cada nodo (solo si type es NodePort)

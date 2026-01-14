@@ -1,0 +1,25 @@
+# Aplicando el dockerfile anterior ahora con docker-compose para levantar un contenedor con la aplicacion web y otro contenedor con la base de datos
+
+version: '3.8' # Version de docker-compose
+services: # Definicion de los servicios
+  web: # Servicio de la aplicacion web
+    build: . # Construye la imagen desde el Dockerfile en el directorio actual
+    ports: # exposicion de puertos
+      - "5000:5000"
+    depends_on: # Dependencia del servicio web con el servicio de base de datos
+      - db
+    environment: # Variables de entorno para la aplicacion web
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=mydatabase
+      - DATABASE_USER=myuser
+      - DATABASE_PASSWORD=mypassword
+
+  db: # Servicio de la base de datos
+    image: postgres:13 # Imagen oficial de Postgres
+    environment: # Variables de entorno para la base de datos
+      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+    volumes: # Volumen para persistencia de datos
+      - db_data:/var/lib/postgresql/data

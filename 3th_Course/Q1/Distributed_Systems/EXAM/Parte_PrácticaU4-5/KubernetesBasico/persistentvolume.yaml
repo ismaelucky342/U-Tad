@@ -1,0 +1,39 @@
+# PersistentVolume y PersistentVolumeClaim para almacenamiento persistente
+# PV: almacenamiento en el cluster
+# PVC: solicitud de almacenamiento por parte de un Pod
+
+---
+# PersistentVolume - Define el almacenamiento disponible
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-pv        # Nombre del PersistentVolume
+  labels:
+    type: local
+spec:
+  storageClassName: manual  # Clase de almacenamiento
+  capacity:
+    storage: 1Gi     # Capacidad de almacenamiento
+  accessModes:
+    - ReadWriteOnce  # Modos de acceso: ReadWriteOnce, ReadOnlyMany, ReadWriteMany
+  hostPath:          # Tipo de almacenamiento (hostPath para desarrollo local)
+    path: "/mnt/data"
+
+---
+# PersistentVolumeClaim - Solicitud de almacenamiento
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc       # Nombre del PersistentVolumeClaim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce  # Debe coincidir con el PV
+  resources:
+    requests:
+      storage: 500Mi # Cantidad de almacenamiento solicitada
+
+# Para usar el PVC en un Pod, añade en spec.volumes:
+#   - name: my-storage
+#     persistentVolumeClaim:
+#       claimName: my-pvc

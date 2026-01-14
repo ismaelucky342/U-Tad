@@ -1,0 +1,29 @@
+# Pod básico de Kubernetes (normalmente no se crean directamente, sino a través de Deployments)
+# Un Pod es la unidad más pequeña de despliegue en Kubernetes
+
+apiVersion: v1
+kind: Pod            # Tipo de objeto: Pod (contiene uno o más contenedores)
+metadata:
+  name: simple-pod   # Nombre del Pod
+  labels:
+    app: simple      # Etiquetas para identificar el Pod
+    tier: frontend
+spec:
+  containers:        # Lista de contenedores dentro del Pod
+  - name: nginx-container    # Nombre del contenedor
+    image: nginx:latest      # Imagen del contenedor
+    ports:
+    - containerPort: 80      # Puerto que expone el contenedor
+    volumeMounts:            # Montaje de volúmenes
+    - name: config-volume
+      mountPath: /etc/config # Ruta donde se monta el volumen
+    env:                     # Variables de entorno
+    - name: MY_ENV_VAR
+      value: "hello-kubernetes"
+  volumes:                   # Definición de volúmenes
+  - name: config-volume
+    configMap:
+      name: app-config       # Usa el ConfigMap creado anteriormente
+
+# Nota: Los Pods no se reinician automáticamente si fallan.
+# Por eso se usan Deployments que gestionan los Pods.
