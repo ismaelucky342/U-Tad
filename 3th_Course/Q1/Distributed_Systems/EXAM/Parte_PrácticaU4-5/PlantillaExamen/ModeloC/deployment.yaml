@@ -1,0 +1,31 @@
+# Modelo C - Deployment siguiendo el estilo de A y B
+# Aplicación: collector (ejemplo similar a docManager/sensorServer)
+
+name: collector-depl
+namespace: default
+
+replicas: 2
+
+selector:
+  matchLabels:
+    app: collector-depl
+
+template:
+  metadata:
+    labels:
+      app: collector-depl
+
+containers:
+  - name: collector
+    image: docker.io/mnovalbos/collector:1.0
+    volumeMounts:
+      - mountPath: /collectorData
+        name: collectorData
+    ports:
+      - containerPort: 7070
+
+volumes:
+  - name: collectorData
+    hostPath:
+      path: /var/collector
+      type: Directory

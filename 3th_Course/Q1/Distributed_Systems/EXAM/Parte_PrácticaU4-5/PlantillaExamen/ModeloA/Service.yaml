@@ -1,0 +1,11 @@
+name: docManager-svc
+namespace: default
+
+spec:
+  selector:
+    app: docManager-depl
+  ports:
+    - protocol: TCP
+      port: 8080          # Puerto que el Service expone dentro del cluster
+      targetPort: 8080    # Puerto donde la aplicación escucha
+  type: ClusterIP

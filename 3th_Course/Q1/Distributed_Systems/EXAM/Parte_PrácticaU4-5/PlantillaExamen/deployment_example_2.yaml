@@ -1,0 +1,40 @@
+#Enunciado:
+#Se pide desplegar una aplicación de gestión de fotos a lo largo de un cluster de ordenadores.
+#Se suministran los ejecutables:
+#Servidor: serverPhotoManager
+#Bróker: brokerPhotoManager
+#Cliente: clientePhotoManager
+#El primer programa que se debe levantar es brokerPhotoManager.
+#Los servidores se conectan al bróker y esperan conexiones de clientes.
+#Se quiere desplegar serverPhotoManager:
+#Despliegue llamado photoManager-depl
+#Namespace default
+#2 réplicas
+#Contenedor llamado photoManager con imagen docker.io/mnovalbos/photoManager:1.0
+#Volumen host /srv/photos montado en /photoDir
+
+name: photoManager-depl
+namespace: default
+
+replicas: 2
+selector:
+  matchLabels:
+    app: photoManager-depl
+
+template:
+  metadata:
+    labels:
+      app: photoManager-depl
+
+containers:
+  - name: photoManager
+    image: docker.io/mnovalbos/photoManager:1.0
+    volumeMounts:
+      - mountPath: /photoDir
+        name: photoDir
+
+volumes:
+  - name: photoDir
+    hostPath:
+      path: /srv/photos
+      type: Directory

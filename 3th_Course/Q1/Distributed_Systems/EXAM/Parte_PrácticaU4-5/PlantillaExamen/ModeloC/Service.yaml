@@ -1,0 +1,11 @@
+name: collector-svc
+namespace: default
+
+spec:
+  selector:
+    app: collector-depl
+  ports:
+    - protocol: TCP
+      port: 7070
+      targetPort: 7070
+  type: ClusterIP

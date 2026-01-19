@@ -1,0 +1,32 @@
+# Enunciado:
+# Se quiere desplegar un servidor de logs para la aplicación de clientes y servidores de archivos.
+# Despliegue llamado logManager-depl
+# Namespace default
+# 3 réplicas
+# Contenedor llamado logManager con imagen docker.io/mnovalbos/logManager:1.0
+# Volumen host /var/log/app montado en /logDir
+
+name: logManager-depl
+namespace: default
+
+replicas: 3
+selector:
+  matchLabels:
+    app: logManager-depl
+
+template:
+  metadata:
+    labels:
+      app: logManager-depl
+
+containers:
+  - name: logManager
+    image: docker.io/mnovalbos/logManager:1.0
+    volumeMounts:
+      - mountPath: /logDir
+        name: logDir
+volumes:
+  - name: logDir
+    hostPath:
+      path: /var/log/app
+      type: Directory

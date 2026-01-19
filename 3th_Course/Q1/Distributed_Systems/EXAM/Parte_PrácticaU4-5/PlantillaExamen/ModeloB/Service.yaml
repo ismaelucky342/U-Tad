@@ -1,0 +1,11 @@
+name: sensorServer-svc
+namespace: default
+
+spec:
+  selector:
+    app: sensorServer-depl
+  ports:
+    - protocol: TCP
+      port: 9000          # Puerto que el Service expone dentro del cluster
+      targetPort: 9000    # Puerto donde la aplicación escucha dentro del contenedor
+  type: ClusterIP

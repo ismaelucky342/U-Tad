@@ -1,0 +1,34 @@
+# Enunciado:
+# Para una nueva aplicación de monitorización de sensores, necesitamos desplegar un servidor que reciba datos de distintos clientes IoT.
+# Cada instancia del servidor debe poder acceder a un directorio del host /var/sensors para almacenar los datos recibidos.
+# La aplicación ya está compilada y empaquetada en la imagen docker.io/mnovalbos/sensorServer:2.0.
+# Se recomienda ejecutar 3 réplicas para poder balancear la carga entre varias máquinas del cluster.
+# Los contenedores se deben llamar sensorServer.
+
+name: sensorServer-depl
+namespace: default
+
+replicas: 3
+
+selector:
+  matchLabels:
+    app: sensorServer-depl
+
+template:
+  metadata:
+    labels:
+      app: sensorServer-depl
+
+containers:
+  - name: sensorServer
+    image: docker.io/mnovalbos/sensorServer:2.0
+    volumeMounts:
+      - mountPath: /sensorData
+        name: sensorData
+
+volumes: 
+  - name: sensorData
+    hostPath:
+      path: /var/sensors
+      type: Directory
+

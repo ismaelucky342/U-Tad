@@ -1,0 +1,34 @@
+#Enunciado:
+#Se quiere desplegar el bróker de la aplicación de archivos para que reciba conexiones de clientes y servidores.
+#Despliegue llamado brokerFileManager-depl
+#Namespace default
+#1 réplica
+#Contenedor llamado brokerFileManager con imagen docker.io/mnovalbos/brokerFileManager:1.0
+#Volumen host /etc/brokerData montado en /brokerDir
+
+name: BrojerFileManager-depl
+namespace:default
+
+replicas: 1
+selector: 
+  matchLabels:
+    app: BrojerFileManager-depl # definimos que pods pertenecen a este deployment
+    # Significa: “todos los Pods que tengan app=fileManager-depl son gestionados por este Deployment”.
+template:
+  metadata:
+    labels:
+      app: BrojerFileManager-depl  # define como deben ser creados los pods
+          # Significa: “cada Pod que cree este Deployment tendrá el label app=fileManager-depl y contendrá este contenedor con esta imagen”.
+containers:
+  - name: brokerFileManager
+    image: docker.io/mnovalbos/brokerFileManager:1.0
+    volumeMounts:
+      - mountPath: /brokerDir
+        name: brokerDir
+        # Montamos el volumen en la ruta /brokerDir del contenedor
+volumes:
+  - name: brokerDir
+    hostPath:
+      path: /etc/brokerData
+      type: Directory
+      # Montamos el volumen hostPath que apunta a /etc/brokerData del nodo

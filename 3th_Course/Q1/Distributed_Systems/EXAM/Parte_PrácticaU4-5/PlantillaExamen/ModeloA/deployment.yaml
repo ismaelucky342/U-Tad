@@ -1,0 +1,47 @@
+# Enunciado:
+# Queremos desplegar una aplicación para gestionar documentos en un cluster de ordenadores.
+# El primer componente que debe arrancar es el “broker” que centraliza la información de los servidores.
+# Cada servidor se conecta al broker y espera peticiones de los clientes.
+# Se dispone del ejecutable serverDocManager, que debe ejecutarse en 2 instancias para repartir la carga.
+# Los contenedores deben tener acceso a un directorio del host /srv/docs para almacenar los archivos.
+# La imagen del contenedor que debe ejecutarse es docker.io/mnovalbos/docManager:1.0.
+
+# | Lo que nos da                                                                | Parte del YAML que corresponde                               |
+# | ---------------------------------------------------------------------------- | ------------------------------------------------------------ |
+# | Nombre del despliegue no explicitado → podemos inferir `docManager-depl`     | `name: docManager-depl`                                      |
+# | Namespace no mencionado → usamos `default`                                   | `namespace: default`                                         |
+# | “2 instancias”                                                               | `replicas: 2`                                                |
+# | Contenedor que ejecuta la aplicación → `serverDocManager`                    | `containers.name: docManager` (normalmente lo simplificamos) |
+# | Imagen → `docker.io/mnovalbos/docManager:1.0`                                | `containers.image`                                           |
+# | Directorio del host → `/srv/docs`                                            | `volumes.hostPath.path`                                      |
+# | Montaje dentro del contenedor → `/docDir` (se elige coherente con el nombre) | `containers.volumeMounts.mountPath`                          |
+# 
+
+name: docManager-depl
+namespace: default # Namespace por defecto si no se especifica otro en el enunciado
+
+replicas: 2 
+
+selector: 
+  matchLabels:
+    app: docManager-depl # definimos que pods pertenecen a este deployment
+
+template:
+  metadata:
+    labels:
+      app: docManager-depl  # define como deben ser creados los pods
+
+containers:
+  - name: docManager
+    image: docker.io/mnovalbos/docManager:1.0
+    volumeMounts:
+      - mountPath: /docDir
+        name: docDir
+        # Montamos el volumen en la ruta /docDir del contenedor
+
+volumes:
+  - name: docDir
+    hostPath:
+      path: /srv/docs
+      type: Directory
+      # Montamos el volumen hostPath que apunta a /srv/docs del nodo

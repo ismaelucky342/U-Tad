@@ -1,0 +1,25 @@
+name: fileManager-depl
+namespace: default
+
+replicas: 3
+selector:
+  matchLabels:
+    app: fileManager-depl
+
+template:
+  metadata:
+    labels:
+      app: fileManager-depl
+
+containers:
+  - name: fileManager
+    image: docker.io/mnovalbos/fileManager:1.0
+    volumeMounts:
+      - mountPath: /fileManagerDir
+        name: fileManagerDir
+
+volumes:
+  - name: fileManagerDir
+    hostPath:
+      path: /etc/dirFisico
+      type: Directory
