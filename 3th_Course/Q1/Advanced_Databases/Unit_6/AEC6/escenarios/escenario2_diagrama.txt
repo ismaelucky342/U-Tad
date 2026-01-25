@@ -1,25 +1,43 @@
-[Cliente Query: SELECT * FROM users WHERE pk = 'pk2' AND ck = 'ck2']
+Escenario 2
 
-1-2. Memtable & Row Cache: Miss (similar a Esc1, pero fila no cached)
+Row Cache habilitada, pero sin acierto. Lectura desde SSTables
 
-3. Bloom Filter:
-   - Contenido: Bitmap probabilístico indicando presencia de pk2
-   - Resultado: Possible hit
+Consulta realizada:
+SELECT * FROM users WHERE pk = 'pk2' AND ck = 'ck2';
 
-4. Partition Key Cache: Disabled
+Contexto previo:
+- La fila pk2/ck2 fue escrita hace tiempo y ya está en disco.
+- No ha sido leída lo suficiente para entrar en Row Cache.
+- Row Cache habilitada, pero miss.
+- Partition Key Cache deshabilitada.
 
-5. Partition Summary:
-   - Contenido: {pk2: offset_start=1000, offset_end=1500}
-   - Resultado: Encuentra resumen
+Estado de las estructuras:
+- Memtable: No contiene pk2.
+- Row Cache: Miss.
+- Partition Key Cache: Deshabilitada.
+- SSTables: Contienen la fila { pk2: { ck2: { email: "ismael@example.com" } } }.
 
-6. Partition Index:
-   - Contenido: {pk2: {ck2: disk_offset=1200}}
-   - Resultado: Offset localizado
+Flujo de lectura:
+1. Memtable: Miss
+2. Row Cache: Miss
+3. Bloom Filter: Possible hit
+4. Partition Key Cache: Deshabilitada
+5. Partition Summary: { pk2: offset_start=1000, offset_end=1500 }
+6. Partition Index: { pk2: { ck2: disk_offset=1200 } }
+7. Compression Offset Map: 1200 -> uncompressed_pos=5000
+8. SSTable Read: Devuelve { pk2: { ck2: { email: "ismael@example.com" } } }
 
-7. Compression Offset Map:
-   - Contenido: {1200: uncompressed_pos=5000}
-   - Resultado: Posición descomprimida
+Cliente -> Nodo Cassandra
+  |-> Memtable: Miss
+  |-> Row Cache: Miss
+  |-> Bloom Filter: Possible hit
+  |-> Partition Summary: pk2 -> offset_start=1000
+  |-> Partition Index: ck2 -> disk_offset=1200
+  |-> Compression Offset Map: 1200 -> pos=5000
+  |-> SSTable: Datos leídos
+  |-> Resultado devuelto al cliente
 
-8. SSTable Read:
-   - Contenido: {pk2: {ck2: {email: 'john@example.com'}}}
-   - Resultado: Datos leídos del disco
+Notas:
+- Bloom Filter evita leer SSTables innecesarias.
+- Partition Summary e Index permiten localizar offsets precisos.
+- Este escenario es más costoso que el Escenario 1, pero aún optimizado.

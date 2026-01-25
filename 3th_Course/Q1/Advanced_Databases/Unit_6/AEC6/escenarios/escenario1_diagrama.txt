@@ -1,11 +1,32 @@
-[Cliente Query: SELECT * FROM users WHERE pk = 'pk1' AND ck = 'ck1']
+Escenario 1
 
-1. Memtable Check:
-   - Contenido: {pk_recent: {ck_recent: {data: 'new'}}}
-   - Resultado: Miss (pk1 no presente, datos antiguos flushed)
+Lectura resuelta mediante Row Cache (Partition Key Cache habilitada)
 
-2. Row Cache Check (Habilitada):
-   - Contenido: {pk1: {ck1: {name: 'John', age: 30}}} (fila completa, accedida 5 veces)
-   - Resultado: Hit - Devuelve datos
+Consulta realizada:
+SELECT * FROM users WHERE pk = 'pk1' AND ck = 'ck1';
 
-Fin del flujo.
+Contexto previo:
+- La fila pk1/ck1 fue escrita hace tiempo y ya está en disco.
+- Ha sido leída varias veces recientemente.
+- Row Cache habilitada y contiene la fila completa.
+- Partition Key Cache habilitada, pero no se utiliza en este escenario.
+
+Estado de las estructuras:
+- Memtable: No contiene pk1 (datos antiguos flushed).
+- Row Cache: Contiene { pk1: { ck1: { name: "Ismael", age: 21 } } }.
+- Partition Key Cache: Habilitada, no utilizada.
+- SSTables: Contienen la fila, pero no es necesario acceder a ellas.
+
+Flujo de lectura:
+1. Memtable Check: Miss
+2. Row Cache Check: Hit -> Devuelve la fila completa.
+
+Cliente -> Nodo Cassandra
+  |-> Memtable: Miss
+  |-> Row Cache: Hit { pk1: { ck1: { name: "Ismael", age: 21 } } }
+  |-> Resultado devuelto al cliente
+
+Notas:
+- No se consultan Bloom Filter, Partition Key Cache, Partition Summary, Partition Index ni SSTables.
+- La fila está en Row Cache porque ha sido accedida frecuentemente.
+- Si se produjera una escritura, la Row Cache se invalidaría.

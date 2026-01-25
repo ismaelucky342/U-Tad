@@ -1,19 +1,38 @@
-[Cliente Query: SELECT * FROM users WHERE pk = 'pk3' AND ck = 'ck3']
+Escenario 3
 
-1-4. Memtable, Row Cache, Bloom Filter: Miss/Hit como arriba, caches disabled
+Sin cachés. Lectura completa desde múltiples SSTables
 
-5. Partition Summary:
-   - Contenido: {pk3: offset_start=2000, offset_end=2500}
-   - Resultado: Resumen encontrado
+Consulta realizada:
+SELECT * FROM users WHERE pk = 'pk3' AND ck = 'ck3';
 
-6. Partition Index:
-   - Contenido: {pk3: {ck3: disk_offset=2200}}
-   - Resultado: Offset localizado
+Contexto previo:
+- La fila pk3/ck3 fue escrita hace tiempo.
+- Múltiples escrituras y flushes realizados.
+- No hay Row Cache ni Partition Key Cache.
+- Los datos están repartidos en varias SSTables.
 
-7. Compression Offset Map:
-   - Contenido: {2200: uncompressed_pos=8000}
-   - Resultado: Posición descomprimida
+Estado de las estructuras:
+- Memtable: Vacía
+- Row Cache: Deshabilitada
+- Partition Key Cache: Deshabilitada
+- SSTables: Contienen fragmentos de la misma partición.
 
-8. SSTable Read:
-   - Contenido: {pk3: {ck3: {city: 'Madrid'}}}
-   - Resultado: Datos leídos del disco
+Flujo de lectura:
+1. Memtable: Miss
+2. Cachés: No disponibles
+3. Bloom Filter: Possible hit en SSTable 1, SSTable 2, SSTable 3
+4. Partition Summary: Cada SSTable acota zona de búsqueda
+5. Partition Index: Cada SSTable localiza offset exacto
+6. Compression Offset Map: Convierte offset lógico a posición real
+7. Lectura de múltiples SSTables y reconciliación de datos
+   - SSTable 1 -> ck3 = email_old
+   - SSTable 2 -> ck3 = email_new
+   - SSTable 3 -> tombstone ck2
+8. Resultado final: { pk3: { ck3: { email: "final@example.com" } } }
+
+Cliente -> Nodo Cassandra
+  |-> Memtable: Miss
+  |-> Cachés: No disponibles
+  |-> Bloom Filters (varias SSTables): Possible hit
+  |-> Partition Summary (cada SSTable)
+  |-
