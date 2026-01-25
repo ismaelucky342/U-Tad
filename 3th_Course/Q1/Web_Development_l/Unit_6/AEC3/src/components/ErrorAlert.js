@@ -1,7 +1,7 @@
 /*====================================================================================================*/
 /*                                                                                                    */
 /*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
-/*      AEC3 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*      AEC3 - PWIC (React Migration)                     ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
 /*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
 /*      created:        12/12/2025  -  10:30:09           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
 /*      last change:    16/12/2025  -  01:45:14           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
@@ -13,6 +13,12 @@
 /*                                                                                                    */
 /*====================================================================================================*/
 
+/**
+ * ErrorAlert.js - Componente de alerta de error
+ * 
+ * Muestro errores de la API de forma elegante con Bootstrap.
+ * El usuario puede cerrar la alerta manualmente.
+ */
 import React from 'react';
 import { Alert, Container } from 'react-bootstrap';
 

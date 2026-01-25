@@ -1,7 +1,7 @@
 /*====================================================================================================*/
 /*                                                                                                    */
 /*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
-/*      AEC3 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*      AEC3 - PWIC (React Migration)                     ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
 /*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
 /*      created:        12/12/2025  -  10:30:09           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
 /*      last change:    16/12/2025  -  01:45:14           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
@@ -13,6 +13,12 @@
 /*                                                                                                    */
 /*====================================================================================================*/
 
+/**
+ * LandingPage.js - Página de inicio
+ * 
+ * Cargo automáticamente 6 imágenes aleatorias de perros al entrar.
+ * Uso useState para el estado y useEffect para cargar al montar.
+ */
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import DogCard from '../components/DogCard';
@@ -22,14 +28,15 @@ import { getRandomDogs } from '../services/dogAPI';
 import './LandingPage.css';
 
 function LandingPage() {
+  // Estados para manejar los perros, carga y errores
   const [dogs, setDogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Cargar perros al montar el componente
+  // Cargo los perros automáticamente al montar el componente
   useEffect(() => {
     loadDogs();
-  }, []);
+  }, []); // El array vacío significa "solo al montar"
 
   const loadDogs = async () => {
     try {
@@ -39,23 +46,20 @@ function LandingPage() {
       setDogs(dogsData);
     } catch (err) {
       setError(err.message);
-      console.error('Error:', err);
+      console.error('Error cargando perros:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDismissError = () => {
-    setError(null);
-  };
-
+  // Si está cargando, muestro el spinner
   if (loading) {
     return <LoadingSpinner message="Cargando perros adorables..." />;
   }
 
   return (
     <div className="landing-page">
-      {/* Hero Section */}
+      {/* Sección Hero */}
       <section className="hero-section py-5">
         <Container>
           <Row className="align-items-center">
@@ -64,13 +68,12 @@ function LandingPage() {
                 🐕 Bienvenido a la Galería de Perros
               </h1>
               <p className="hero-subtitle mb-4">
-                Exploremos juntas estas fantásticas imágenes aleatorias de perretes.
+                Explorá estas fantásticas imágenes aleatorias de perretes.
               </p>
               <Button 
                 variant="primary" 
                 size="lg"
                 onClick={loadDogs}
-                className="me-3"
               >
                 Recargar Perros
               </Button>
@@ -82,12 +85,10 @@ function LandingPage() {
         </Container>
       </section>
 
-      {/* Error Alert */}
-      {error && (
-        <ErrorAlert error={error} onDismiss={handleDismissError} />
-      )}
+      {/* Alerta de error si hay */}
+      {error && <ErrorAlert error={error} onDismiss={() => setError(null)} />}
 
-      {/* Dogs Gallery */}
+      {/* Galería de perros */}
       <section className="gallery-section py-5">
         <Container>
           <h2 className="section-title text-center mb-5">
@@ -96,11 +97,7 @@ function LandingPage() {
           <Row xs={1} md={2} lg={3} className="g-4">
             {dogs.map((dog, index) => (
               <Col key={index}>
-                <DogCard 
-                  imageUrl={dog.imageUrl}
-                  breed={dog.breed}
-                  onDownload={() => {}}
-                />
+                <DogCard imageUrl={dog.imageUrl} breed={dog.breed} />
               </Col>
             ))}
           </Row>

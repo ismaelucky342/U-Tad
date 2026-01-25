@@ -1,7 +1,7 @@
 /*====================================================================================================*/
 /*                                                                                                    */
 /*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
-/*      AEC3 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*      AEC3 - PWIC (React Migration)                     ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
 /*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
 /*      created:        12/12/2025  -  10:30:09           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
 /*      last change:    16/12/2025  -  01:45:14           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
@@ -13,10 +13,16 @@
 /*                                                                                                    */
 /*====================================================================================================*/
 
+/**
+ * LoadingSpinner.js - Indicador de carga
+ * 
+ * Muestro este spinner mientras cargo datos de la API.
+ * Recibo un mensaje personalizado como prop.
+ */
 import React from 'react';
 import { Spinner, Container, Row, Col } from 'react-bootstrap';
 
-function LoadingSpinner({ message = 'Cargando imágenes...' }) {
+function LoadingSpinner({ message = 'Cargando...' }) {
   return (
     <Container className="py-5">
       <Row className="justify-content-center align-items-center min-vh-50">

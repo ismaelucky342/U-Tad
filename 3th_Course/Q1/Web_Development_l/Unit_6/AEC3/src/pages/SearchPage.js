@@ -1,7 +1,7 @@
 /*====================================================================================================*/
 /*                                                                                                    */
 /*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
-/*      AEC3 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*      AEC3 - PWIC (React Migration)                     ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
 /*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
 /*      created:        12/12/2025  -  10:30:09           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
 /*      last change:    16/12/2025  -  01:45:14           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
@@ -13,6 +13,12 @@
 /*                                                                                                    */
 /*====================================================================================================*/
 
+/**
+ * SearchPage.js - Página de búsqueda
+ * 
+ * Cargo todas las razas disponibles y permito buscar por raza.
+ * Uso dos estados de carga: uno inicial y otro para búsquedas.
+ */
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import DogCard from '../components/DogCard';
@@ -22,6 +28,7 @@ import { getAllBreeds, getDogsByBreed } from '../services/dogAPI';
 import './SearchPage.css';
 
 function SearchPage() {
+  // Estados para razas, búsqueda y resultados
   const [breeds, setBreeds] = useState([]);
   const [selectedBreed, setSelectedBreed] = useState('');
   const [dogs, setDogs] = useState([]);
@@ -29,7 +36,7 @@ function SearchPage() {
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState(null);
 
-  // Cargar lista de razas al montar el componente
+  // Cargo las razas al montar el componente
   useEffect(() => {
     loadBreeds();
   }, []);
@@ -40,12 +47,13 @@ function SearchPage() {
       setError(null);
       const breedsList = await getAllBreeds();
       setBreeds(breedsList);
+      // Selecciono la primera raza por defecto
       if (breedsList.length > 0) {
         setSelectedBreed(breedsList[0]);
       }
     } catch (err) {
       setError(err.message);
-      console.error('Error:', err);
+      console.error('Error cargando razas:', err);
     } finally {
       setLoading(false);
     }
@@ -53,6 +61,7 @@ function SearchPage() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    
     if (!selectedBreed) {
       setError('Por favor selecciona una raza');
       return;
@@ -65,23 +74,20 @@ function SearchPage() {
       setDogs(dogsData);
     } catch (err) {
       setError(err.message);
-      console.error('Error:', err);
+      console.error('Error buscando:', err);
     } finally {
       setSearching(false);
     }
   };
 
-  const handleDismissError = () => {
-    setError(null);
-  };
-
+  // Si está cargando las razas, muestro spinner
   if (loading) {
     return <LoadingSpinner message="Cargando razas..." />;
   }
 
   return (
     <div className="search-page">
-      {/* Search Section */}
+      {/* Sección de búsqueda */}
       <section className="search-section py-5 bg-light">
         <Container>
           <Row className="justify-content-center">
@@ -120,12 +126,10 @@ function SearchPage() {
         </Container>
       </section>
 
-      {/* Error Alert */}
-      {error && (
-        <ErrorAlert error={error} onDismiss={handleDismissError} />
-      )}
+      {/* Alerta de error */}
+      {error && <ErrorAlert error={error} onDismiss={() => setError(null)} />}
 
-      {/* Results Section */}
+      {/* Resultados de la búsqueda */}
       {dogs.length > 0 && (
         <section className="results-section py-5">
           <Container>
@@ -135,11 +139,7 @@ function SearchPage() {
             <Row xs={1} md={2} lg={3} className="g-4">
               {dogs.map((dog, index) => (
                 <Col key={index}>
-                  <DogCard 
-                    imageUrl={dog.imageUrl}
-                    breed={dog.breed}
-                    onDownload={() => {}}
-                  />
+                  <DogCard imageUrl={dog.imageUrl} breed={dog.breed} />
                 </Col>
               ))}
             </Row>
@@ -158,7 +158,7 @@ function SearchPage() {
         </section>
       )}
 
-      {/* No Results Message */}
+      {/* Mensaje cuando no hay resultados */}
       {!searching && dogs.length === 0 && !error && (
         <section className="py-5">
           <Container>
@@ -173,6 +173,7 @@ function SearchPage() {
         </section>
       )}
 
+      {/* Spinner mientras busca */}
       {searching && <LoadingSpinner message="Buscando perros..." />}
     </div>
   );

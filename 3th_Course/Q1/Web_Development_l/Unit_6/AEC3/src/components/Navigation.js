@@ -1,7 +1,7 @@
 /*====================================================================================================*/
 /*                                                                                                    */
 /*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
-/*      AEC3 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*      AEC3 - PWIC (React Migration)                     ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
 /*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
 /*      created:        12/12/2025  -  10:30:09           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
 /*      last change:    16/12/2025  -  01:45:14           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
@@ -13,6 +13,12 @@
 /*                                                                                                    */
 /*====================================================================================================*/
 
+/**
+ * Navigation.js - Barra de navegación
+ * 
+ * Navbar sticky con Bootstrap que uso en todas las páginas.
+ * Con React Router hago navegación SPA sin recargar.
+ */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Container, Nav } from 'react-bootstrap';
@@ -23,15 +29,15 @@ function Navigation() {
     <Navbar bg="dark" expand="lg" sticky="top" className="navbar-custom">
       <Container>
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
-          <h2 className="mb-0 text-white">🐕 AEC2 - Galería de Perros</h2>
+          <h2 className="mb-0 text-white">🐕 Galería de Perros</h2>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link as={Link} to="/" className="nav-item">
+            <Nav.Link as={Link} to="/">
               Inicio
             </Nav.Link>
-            <Nav.Link as={Link} to="/search" className="nav-item">
+            <Nav.Link as={Link} to="/search">
               Búsqueda
             </Nav.Link>
           </Nav>

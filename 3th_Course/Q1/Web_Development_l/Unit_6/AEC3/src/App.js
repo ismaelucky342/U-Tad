@@ -1,7 +1,7 @@
 /*====================================================================================================*/
 /*                                                                                                    */
 /*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
-/*      AEC3 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*      AEC3 - PWIC (React Migration)                     ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
 /*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
 /*      created:        12/12/2025  -  10:30:09           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
 /*      last change:    16/12/2025  -  01:45:14           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
@@ -21,6 +21,12 @@ import LandingPage from './pages/LandingPage';
 import SearchPage from './pages/SearchPage';
 import './App.css';
 
+/**
+ * App.js - Componente principal
+ * 
+ * Aquí configuro el Router para la navegación SPA.
+ * Envuelvo toda la app con Router y defino las rutas principales.
+ */
 function App() {
   return (
     <Router>

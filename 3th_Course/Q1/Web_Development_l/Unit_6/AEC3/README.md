@@ -1,274 +1,131 @@
-# AEC3 - Migración de Galería de Perros a React con Bootstrap
+# AEC3 - Migración a React y Bootstrap
 
-## Introducción
+## ¿En que ha consistido esta práctica?
 
-La AEC2 original consistía en una galería de imágenes de perros desarrollada con tecnologías tradicionales web (HTML, CSS y JavaScript con jQuery), mientras que esta AEC3 representa la evolución hacia una aplicación React con Bootstrap.
+Para esta tercera actividad, migré mi galería de perros que hice en la AEC2 (con jQuery y AJAX) a un stack moderno usando **React** y **Bootstrap**. La idea era mantener toda la funcionalidad pero haciéndola más profesional y escalable.
 
-El proyecto mantiene la funcionalidad core de la galería de perros, pero introduce mejoras significativas en términos de arquitectura, mantenibilidad y experiencia de usuario. La migración no solo implica un cambio tecnológico, sino también una reestructuración completa del código para aprovechar las ventajas de los componentes reutilizables y el estado reactivo.
+## ¿Qué es React y por qué lo uso?
 
-## Objetivos del Proyecto
+React es una librería de JavaScript que me permite construir interfaces de usuario dividiéndolas en **componentes reutilizables**. En lugar de manipular el DOM directamente como hacía con jQuery, ahora trabajo con un concepto que React maneja llamado "DOM virtual", que hace todo más rápido y eficiente.
 
-Los objetivos principales de esta migración fueron:
+Lo que más me gusta de React:
 
-- **Modernizar la tecnología:** Migrar de jQuery/AJAX a React Hooks y Axios
-- **Mejorar la arquitectura:** Implementar componentes reutilizables y separación clara de responsabilidades
-- **Optimizar la experiencia de usuario:** Introducir navegación SPA con React Router
-- **Mantener funcionalidad:** Preservar todas las características de la AEC2 original
-- **Responsive design:** Utilizar Bootstrap para un diseño adaptativo mejorado
-- **Mejorar el rendimiento:** Implementar lazy loading y gestión eficiente del estado
+- **Componentes:** Puedo dividir mi aplicación en piezas pequeñas e independientes
+- **Hooks:** `useState` y `useEffect` me permiten manejar el estado y los efectos secundarios de forma muy limpia
+- **Declarativo:** Describo cómo quiero que se vea la UI y React se encarga del resto
+- **Ecosistema:** Hay miles de librerías que puedo integrar fácilmente
 
-## Análisis de la AEC2 Original
+## ¿Qué es Bootstrap y por qué lo uso?
 
-La AEC2 era una aplicación web tradicional que utilizaba:
+Bootstrap es un framework CSS que me da componentes ya diseñados y un sistema de grid responsive. En lugar de escribir todo el CSS desde cero como en la AEC2, ahora uso componentes de Bootstrap que ya vienen con estilos profesionales y adaptativos.
 
-- **HTML/CSS/JavaScript puro** con jQuery para manipulación del DOM
-- **Peticiones AJAX** directas con jQuery para consumir la API de Dog CEO
-- **Estructura monolítica** con archivos separados para estilos y scripts
-- **Navegación tradicional** con enlaces que recargaban la página completa
+Ventajas que he notado:
 
-### Fortalezas de la AEC2:
-- Funcionalidad completa según requisitos
-- Diseño responsive básico
-- Validación de formularios implementada
-- Manejo de errores adecuado
+- **Grid System:** Con `Container`, `Row` y `Col` hago layouts responsive sin esfuerzo
+- **Componentes listos:** Botones, cards, navbar, forms... todo con clases predefinidas
+- **Responsive by default:** No tengo que preocuparme tanto por los media queries
+- **React-Bootstrap:** Los componentes nativos de React evitan conflictos con el DOM
 
-### Limitaciones identificadas:
-- Código procedural difícil de mantener
-- Manipulación directa del DOM propensa a errores
-- Estado disperso en variables globales
-- Navegación que recarga la página completa
-- Dificultad para reutilizar componentes
+## ¿Qué mejora respecto a la AEC2?
 
-## Diseño y Arquitectura
+La diferencia principal es la **arquitectura**. Antes tenía todo mezclado: HTML, jQuery manipulando el DOM, estilos por todos lados. Ahora tengo:
 
-### Arquitectura de Componentes
+1. **Código más organizado:** Cada componente tiene su responsabilidad clara
+2. **Navegación SPA:** Con React Router cambio de página sin recargar, mucho más fluido
+3. **Estado centralizado:** Uso hooks para manejar el estado en lugar de variables globales
+4. **Más mantenible:** Si quiero cambiar algo, sé exactamente dónde está
+5. **Reutilización:** Los componentes como `DogCard` los uso en varias páginas
+6. **Mejor UX:** La app se siente más rápida y moderna
 
-La nueva arquitectura se basa en el patrón de componentes de React:
+## Estructura que tengo
+
+Organicé todo el código siguiendo una estructura clara:
 
 ```
 src/
-├── components/          # Componentes reutilizables
-│   ├── Navigation.js    # Barra de navegación con React Router
-│   ├── Footer.js        # Pie de página
-│   ├── DogCard.js       # Tarjeta individual de perro
-│   ├── LoadingSpinner.js # Indicador de carga
-│   └── ErrorAlert.js    # Componente de alertas de error
-├── pages/              # Páginas principales (rutas)
-│   ├── LandingPage.js  # Página de inicio
-│   └── SearchPage.js   # Página de búsqueda
-├── services/           # Servicios externos
-│   └── dogAPI.js       # Cliente API con Axios
-├── App.js              # Componente raíz con Router
-└── index.js            # Punto de entrada
+├── App.js                    # Componente principal con el Router
+├── index.js                  # Punto de entrada
+├── components/               # Componentes reutilizables
+│   ├── Navigation.js         # Barra de navegación con enlaces
+│   ├── Footer.js             # Pie de página
+│   ├── DogCard.js            # Tarjeta individual para cada perro
+│   ├── LoadingSpinner.js     # Spinner mientras carga
+│   └── ErrorAlert.js         # Alertas de error
+├── pages/                    # Las dos páginas principales
+│   ├── LandingPage.js        # Inicio con perros aleatorios
+│   └── SearchPage.js         # Búsqueda por raza
+└── services/                 # Lógica de API separada
+    └── dogAPI.js             # Todas las llamadas a la API
 ```
 
-### Gestión del Estado
+### ¿Por qué esta estructura?
 
-Se implementó una gestión de estado local utilizando React Hooks:
+- **components/**: Todo lo que es reutilizable va aquí. Un componente = un archivo.
+- **pages/**: Las "pantallas" principales de la app. Cada ruta del Router renderiza una página.
+- **services/**: Separé la lógica de API para no tenerla mezclada con los componentes. Así si cambia la API, solo toco este archivo.
 
-- **useState** para estado de componentes individuales
-- **useEffect** para efectos secundarios (carga de datos)
-- Estado centralizado en componentes padre cuando necesario
+## ¿Cómo funciona todo esto?
 
-### Navegación SPA
+### App.js - El corazón de la aplicación
 
-Se implementó React Router v6 para navegación sin recarga:
+Aquí configuro el Router que maneja la navegación:
 
-- Rutas declarativas con `<Routes>` y `<Route>`
-- Navegación programática con `useNavigate`
-- Links activos con `NavLink`
-
-## Implementación Técnica
-
-### Configuración del Proyecto
-
-Se inició el proyecto con Create React App para una configuración rápida y estándar:
-
-```bash
-npx create-react-app aec3-dog-gallery
-cd aec3-dog-gallery
-npm install react-router-dom axios bootstrap react-bootstrap
-```
-
-### Componentes Principales
-
-#### Navigation Component
 ```javascript
-// Implementación básica del navbar responsive
-import { Navbar, Nav, Container } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-
-const Navigation = () => (
-  <Navbar bg="primary" expand="lg">
-    <Container>
-      <LinkContainer to="/">
-        <Navbar.Brand>Galería de Perros</Navbar.Brand>
-      </LinkContainer>
-      <Nav className="me-auto">
-        <LinkContainer to="/">
-          <Nav.Link>Inicio</Nav.Link>
-        </LinkContainer>
-        <LinkContainer to="/search">
-          <Nav.Link>Búsqueda</Nav.Link>
-        </LinkContainer>
-      </Nav>
-    </Container>
-  </Navbar>
-);
+<Router>
+  <Navigation />
+  <Routes>
+    <Route path="/" element={<LandingPage />} />
+    <Route path="/search" element={<SearchPage />} />
+  </Routes>
+  <Footer />
+</Router>
 ```
 
-#### Landing Page
-La página de inicio carga automáticamente 5 imágenes aleatorias al montar el componente:
+### LandingPage - Inicio con perros aleatorios
+
+Cuando cargo la página:
+1. `useEffect` se ejecuta automáticamente
+2. Llamo a `getRandomDogs(6)` desde dogAPI
+3. Guardo las imágenes en el estado con `setDogs`
+4. React re-renderiza mostrando las tarjetas
 
 ```javascript
 useEffect(() => {
-  loadRandomDogs();
-}, []);
+  loadDogs();
+}, []); // [] significa "solo al montar el componente"
+```
 
-const loadRandomDogs = async () => {
-  setLoading(true);
-  try {
-    const response = await dogAPI.getRandomDogs(5);
-    setDogs(response.data.message);
-  } catch (error) {
-    setError('Error al cargar imágenes');
-  } finally {
-    setLoading(false);
-  }
+### SearchPage - Búsqueda por raza
+
+Similar, pero:
+1. Primero cargo todas las razas en el dropdown
+2. Cuando selecciono una raza y busco
+3. Llamo a `getDogsByBreed(breed, 6)`
+4. Muestro los resultados en un grid
+
+### dogAPI.js - Servicio de API
+
+Centralicé todas las llamadas a la API aquí usando Axios:
+
+```javascript
+export const getRandomDogs = async (count = 6) => {
+  // Hago múltiples llamadas en paralelo con Promise.all
+  const promises = Array.from({ length: count }, () => getRandomDog());
+  return await Promise.all(promises);
 };
 ```
 
-#### Search Page
-Implementa un formulario con validación y búsqueda por raza:
+## Tecnologías que uso
 
-- Dropdown dinámico de razas cargado desde la API
-- Campo numérico con validación de rango
-- Manejo de sub-razas cuando existen
-- Resultados mostrados en grid responsive
+- **React 18:** Para la UI y gestión del estado
+- **React Router 6:** Para la navegación entre páginas
+- **Axios:** Para las peticiones HTTP (más robusto que fetch)
+- **Bootstrap 5 + React-Bootstrap:** Para el diseño y componentes
+- **Create React App:** Para la configuración inicial del proyecto
 
-### Servicios API
 
-Se centralizó la lógica de API en un módulo dedicado:
+## Extras
 
-```javascript
-// dogAPI.js
-import axios from 'axios';
+Esta migración me ha enseñado mucho sobre cómo estructurar aplicaciones modernas. Pasar de jQuery a React es un cambio de mentalidad: en lugar de decirle al DOM "haz esto", le digo a React "así es como debería verse" y él se encarga del resto.
 
-const API_BASE = 'https://dog.ceo/api';
-
-export const getRandomDogs = (count) => 
-  axios.get(`${API_BASE}/breeds/image/random/${count}`);
-
-export const getBreeds = () => 
-  axios.get(`${API_BASE}/breeds/list/all`);
-
-export const getDogsByBreed = (breed, count) => 
-  axios.get(`${API_BASE}/breed/${breed}/images/random/${count}`);
-```
-
-## Tecnologías Utilizadas
-
-| Tecnología | Versión | Justificación |
-|------------|---------|---------------|
-| **React** | 18.2.0 | Framework moderno para UI componentes |
-| **React Router DOM** | 6.16.0 | Navegación SPA sin recarga |
-| **Bootstrap** | 5.3.0 | Framework CSS responsive |
-| **React Bootstrap** | 2.9.0 | Componentes Bootstrap nativos para React |
-| **Axios** | 1.6.0 | Cliente HTTP más robusto que fetch |
-
-### Justificación de Elecciones Tecnológicas
-
-- **React sobre Vue/Angular:** Mayor adopción en la industria y mejor integración con herramientas existentes
-- **React Router sobre alternativas:** Estándar de facto para React
-- **Bootstrap sobre CSS puro:** Acelera desarrollo y garantiza responsive design
-- **Axios sobre fetch:** Mejor manejo de errores y soporte para interceptores
-
-## Funcionalidades Implementadas
-
-### Funcionalidades Core
-- ✅ Carga automática de imágenes aleatorias en landing page
-- ✅ Búsqueda por raza con formulario completo
-- ✅ Manejo de sub-razas dinámico
-- ✅ Validación de formularios con feedback visual
-- ✅ Manejo de errores con alertas Bootstrap
-- ✅ Estados de carga con spinners
-
-### Mejoras sobre AEC2
-- 🔄 Navegación SPA sin recargas
-- 📱 Diseño más responsive con Bootstrap Grid
-- ♻️ Componentes reutilizables
-- ⚡ Mejor rendimiento con React
-- 🎨 UI más moderna y consistente
-
-## Pruebas y Validación
-
-### Pruebas Funcionales
-- Verificación de carga de imágenes aleatorias
-- Validación de formulario de búsqueda
-- Prueba de navegación entre rutas
-- Test de manejo de errores de red
-
-### Pruebas de Responsive Design
-- Desktop (>1024px): Grid de 4 columnas
-- Tablet (768-1024px): Grid de 3 columnas  
-- Mobile (<768px): Grid de 2 columnas
-
-### Validación de API
-- Manejo de respuestas exitosas
-- Gestión de errores HTTP
-- Validación de datos recibidos
-
-## Dificultades y Soluciones
-
-### Migración de jQuery a React
-**Problema:** La manipulación directa del DOM con jQuery no se traduce directamente a React.
-
-**Solución:** Reestructuración completa pensando en estado y props. Los event listeners se convirtieron en manejadores de eventos de React.
-
-### Gestión del Estado Asíncrono
-**Problema:** Coordinar loading states y errores en operaciones asíncronas.
-
-**Solución:** Implementación de patrón consistente con useState para loading/error y useEffect para efectos secundarios.
-
-### Integración Bootstrap con React
-**Problema:** Conflictos entre clases CSS de Bootstrap y estilos de componentes.
-
-**Solución:** Uso de React Bootstrap para componentes nativos, evitando manipulación directa de clases CSS.
-
-## Conclusiones
-
-Esta migración ha demostrado las ventajas significativas de los frameworks modernos de frontend:
-
-### Logros Alcanzados
-- ✅ Migración completa manteniendo toda funcionalidad
-- ✅ Mejora sustancial en mantenibilidad del código
-- ✅ Experiencia de usuario superior con SPA
-- ✅ Diseño más robusto y responsive
-
-### Aprendizajes Obtenidos
-- Arquitectura de componentes y reutilización
-- Gestión de estado en aplicaciones React
-- Integración de librerías externas
-- Mejores prácticas de desarrollo frontend moderno
-
-### Recomendaciones Futuras
-- Implementar testing automatizado con Jest/React Testing Library
-- Añadir TypeScript para mayor robustez
-- Considerar state management global (Redux/Zustand) para aplicaciones más complejas
-- Implementar PWA features para mejor UX offline
-
-Esta actividad ha sido fundamental para comprender la evolución de las tecnologías web y la importancia de elegir las herramientas adecuadas para cada proyecto.
-
-## Bibliografía
-
-- [Documentación Oficial de React](https://react.dev/)
-- [React Router Documentation](https://reactrouter.com/)
-- [Bootstrap Documentation](https://getbootstrap.com/)
-- [Dog CEO API](https://dog.ceo/dog-api/)
-- [React Bootstrap](https://react-bootstrap.github.io/)
-
----
-
-**Ismael Hernández Clemente**  
-*Desarrollo Web I - U-tad*  
-Diciembre 2025
+![Logo U-tad](image.png)

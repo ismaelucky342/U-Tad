@@ -1,7 +1,7 @@
 /*====================================================================================================*/
 /*                                                                                                    */
 /*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
-/*      AEC3 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*      AEC3 - PWIC (React Migration)                     ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
 /*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
 /*      created:        12/12/2025  -  10:30:09           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
 /*      last change:    16/12/2025  -  01:45:14           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
@@ -13,11 +13,18 @@
 /*                                                                                                    */
 /*====================================================================================================*/
 
+/**
+ * DogCard.js - Tarjeta de perro reutilizable
+ * 
+ * Componente que muestro en ambas páginas para cada perro.
+ * Incluye la imagen, el nombre de la raza y un botón de descarga.
+ */
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import './DogCard.css';
 
-function DogCard({ imageUrl, breed, onDownload }) {
+function DogCard({ imageUrl, breed }) {
+  // Manejo la descarga de la imagen
   const handleDownload = () => {
     const link = document.createElement('a');
     link.href = imageUrl;
@@ -30,7 +37,7 @@ function DogCard({ imageUrl, breed, onDownload }) {
       <Card.Img 
         variant="top" 
         src={imageUrl} 
-        alt="Imagen de perro"
+        alt={`Perro de raza ${breed}`}
         className="dog-image"
       />
       <Card.Body className="d-flex flex-column">

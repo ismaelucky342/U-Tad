@@ -1,7 +1,7 @@
 /*====================================================================================================*/
 /*                                                                                                    */
 /*                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        */
-/*      AEC3 - PWIC                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
+/*      AEC3 - PWIC (React Migration)                     ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       */
 /*                                                        ██║   ██║█████╗██║   ███████║██║  ██║       */
 /*      created:        12/12/2025  -  10:30:09           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       */
 /*      last change:    16/12/2025  -  01:45:14           ╚██████╔╝      ██║   ██║  ██║██████╔╝       */
@@ -13,11 +13,19 @@
 /*                                                                                                    */
 /*====================================================================================================*/
 
+
+/**
+ * dogAPI.js - Servicio de API para Dog CEO
+ * 
+ * Aquí centralizo todas las llamadas a la API de Dog CEO.
+ * Uso Axios en lugar de fetch porque maneja mejor los errores
+ * y tiene una sintaxis más limpia.
+ */
 import axios from 'axios';
 
 const API_BASE_URL = 'https://dog.ceo/api';
 
-// Obtener una imagen aleatoria de perro
+// Obtengo una imagen aleatoria de perro
 export const getRandomDog = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/breeds/image/random`);
@@ -30,18 +38,18 @@ export const getRandomDog = async () => {
   }
 };
 
-// Obtener múltiples imágenes aleatorias
+// Obtengo múltiples imágenes aleatorias en paralelo
 export const getRandomDogs = async (count = 6) => {
   try {
+    // Creo un array de promesas y las ejecuto todas a la vez con Promise.all
     const promises = Array.from({ length: count }, () => getRandomDog());
-    const results = await Promise.all(promises);
-    return results;
+    return await Promise.all(promises);
   } catch (error) {
     throw new Error('Error al obtener múltiples imágenes');
   }
 };
 
-// Obtener todas las razas
+// Obtengo todas las razas disponibles de la API
 export const getAllBreeds = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/breeds/list/all`);
@@ -51,7 +59,7 @@ export const getAllBreeds = async () => {
   }
 };
 
-// Obtener imagen por raza específica
+// Obtengo una imagen de una raza específica
 export const getDogByBreed = async (breed) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/breed/${breed}/images/random`);
@@ -64,12 +72,11 @@ export const getDogByBreed = async (breed) => {
   }
 };
 
-// Obtener múltiples imágenes por raza
+// Obtengo múltiples imágenes de una raza específica
 export const getDogsByBreed = async (breed, count = 6) => {
   try {
     const promises = Array.from({ length: count }, () => getDogByBreed(breed));
-    const results = await Promise.all(promises);
-    return results;
+    return await Promise.all(promises);
   } catch (error) {
     throw new Error(`Error al obtener imágenes de la raza ${breed}`);
   }
