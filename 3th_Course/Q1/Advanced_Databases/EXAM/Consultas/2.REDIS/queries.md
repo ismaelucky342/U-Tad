@@ -45,7 +45,6 @@ SMEMBERS usuarios:hoy
 
 
 
-
 Ejercicio 5: Sesión de usuario con expiración
 
 Enunciado:
@@ -53,3 +52,56 @@ Guardar la sesión de un usuario que caduca en 30 minutos.
 
 SETEX session:12345 "Ismael" 1800
 GET session:12345
+
+
+
+Ejercicio 6: Rate limit por usuario
+
+Enunciado
+Limitar a 100 peticiones por minuto por usuario.
+
+INCR rate:user:42
+
+
+
+Ejercicio 7: Sesión de usuario
+
+Enunciado
+Guardar datos de sesión y que caduquen en 30 minutos.
+
+HSET session:abc123 nombre "Ismael" rol "admin"
+EXPIRE session:abc123 1800
+
+
+
+Ejercicio 8: Usuarios online ahora mismo 
+
+Enunciado 
+Saber qué usuarios están conectados, sin duplicados.
+
+SADD users:online "Ismael"
+SADD users:online "Ana"
+SREM users:online "Ismael" <- lo elimina
+SMEMBERS users:online 
+
+
+
+Ejercicio 9: Contador por categoría
+
+Enunciado
+Contar eventos por tipo.
+
+HINCRBY eventos login 1 
+HINCRBY eventos logout 1
+HGETALL eventos 
+
+
+
+Ejercicio 10: Mensajes recientes por usuario
+
+Enunciado
+Guardar los últimos 5 mensajes enviados por un usuario.
+
+LPUSH user:42:messages "hola"
+LPUSH user:42:messages "adios"
+LTRIM user:42:messages 0 4
