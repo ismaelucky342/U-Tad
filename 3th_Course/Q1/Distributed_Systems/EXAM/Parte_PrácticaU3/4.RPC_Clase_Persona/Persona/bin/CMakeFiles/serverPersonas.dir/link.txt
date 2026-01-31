@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/serverPersonas.dir/utils.cpp.o CMakeFiles/serverPersonas.dir/persona.cpp.o CMakeFiles/serverPersonas.dir/server.cpp.o CMakeFiles/serverPersonas.dir/gestorClientes.cpp.o  -o serverPersonas -lpthread 
