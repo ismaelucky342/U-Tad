@@ -1,6 +1,7 @@
 const mysql = require('mysql2/promise');
 
-// Configuración de la base de datos desde variables de entorno
+// He configurado la conexion a la base de datos usando variables de entorno
+// esto me permite cambiar los parametros sin modificar el codigo
 const dbConfig = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT || 3306,
@@ -15,10 +16,10 @@ exports.handler = async (event) => {
     let connection;
     
     try {
-        // Parsear el body si viene como string
+        // Primero parseo el body porque Lambda puede enviarlo como string o como objeto
         const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
         
-        // Validar datos requeridos
+        // Valido que los campos obligatorios esten presentes antes de continuar
         if (!body.username || !body.comment_text) {
             return {
                 statusCode: 400,
@@ -34,17 +35,17 @@ exports.handler = async (event) => {
             };
         }
         
-        // Conectar a la base de datos
+        // Establezco la conexion con la base de datos RDS
         connection = await mysql.createConnection(dbConfig);
         console.log('Database connection established');
         
-        // Preparar datos del comentario
+        // Extraigo los datos del comentario del body recibido
         const username = body.username;
         const commentText = body.comment_text;
         const videoUrl = body.video_url || null;
         const videoFilename = body.video_filename || null;
         
-        // Insertar comentario en la base de datos
+        // Inserto el comentario en la tabla comments usando prepared statements para evitar SQL injection
         const query = `
             INSERT INTO comments (username, comment_text, video_url, video_filename) 
             VALUES (?, ?, ?, ?)
@@ -59,7 +60,7 @@ exports.handler = async (event) => {
         
         console.log('Comment inserted successfully:', result.insertId);
         
-        // Respuesta exitosa
+        // Devuelvo una respuesta exitosa con los datos del comentario creado
         return {
             statusCode: 200,
             headers: {
@@ -83,6 +84,7 @@ exports.handler = async (event) => {
     } catch (error) {
         console.error('Error:', error);
         
+        // En caso de error devuelvo un mensaje descriptivo
         return {
             statusCode: 500,
             headers: {
@@ -98,7 +100,7 @@ exports.handler = async (event) => {
         };
         
     } finally {
-        // Cerrar conexión
+        // Siempre cierro la conexion a la base de datos para liberar recursos
         if (connection) {
             await connection.end();
             console.log('Database connection closed');

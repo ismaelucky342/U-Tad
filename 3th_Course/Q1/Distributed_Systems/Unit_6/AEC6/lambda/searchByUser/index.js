@@ -1,6 +1,7 @@
 const mysql = require('mysql2/promise');
 
-// Configuración de la base de datos desde variables de entorno
+// He configurado la conexion a la base de datos usando variables de entorno
+// esto me permite cambiar los parametros sin modificar el codigo
 const dbConfig = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT || 3306,
@@ -15,7 +16,7 @@ exports.handler = async (event) => {
     let connection;
     
     try {
-        // Obtener parámetros de query string
+        // Obtengo el parametro username desde la query string de la peticion GET
         const username = event.queryStringParameters?.username;
         
         if (!username) {
@@ -33,11 +34,11 @@ exports.handler = async (event) => {
             };
         }
         
-        // Conectar a la base de datos
+        // Establezco la conexion con la base de datos RDS
         connection = await mysql.createConnection(dbConfig);
         console.log('Database connection established');
         
-        // Query para obtener comentarios de un usuario específico
+        // Obtengo solo los comentarios del usuario especificado ordenados por fecha
         const query = `
             SELECT 
                 comment_id,
@@ -56,7 +57,7 @@ exports.handler = async (event) => {
         
         console.log(`Retrieved ${rows.length} comments for user: ${username}`);
         
-        // Respuesta exitosa
+        // Devuelvo los comentarios filtrados por usuario
         return {
             statusCode: 200,
             headers: {
@@ -76,6 +77,7 @@ exports.handler = async (event) => {
     } catch (error) {
         console.error('Error:', error);
         
+        // En caso de error devuelvo un mensaje descriptivo
         return {
             statusCode: 500,
             headers: {
@@ -91,7 +93,7 @@ exports.handler = async (event) => {
         };
         
     } finally {
-        // Cerrar conexión
+        // Siempre cierro la conexion a la base de datos para liberar recursos
         if (connection) {
             await connection.end();
             console.log('Database connection closed');

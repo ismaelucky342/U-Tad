@@ -1,19 +1,14 @@
-/* ============================================
-   Mini Twitter - Estilos CSS
-   Diseño inspirado en Twitter/X
-   ============================================ */
+/* He decidido simplificar los estilos manteniendo solo lo esencial para la funcionalidad */
 
 :root {
-    --primary-color: #1DA1F2;
-    --primary-hover: #1A91DA;
-    --background: #15202B;
-    --secondary-bg: #192734;
-    --text-primary: #E7E9EA;
-    --text-secondary: #8899A6;
-    --border-color: #38444D;
+    --primary: #1DA1F2;
+    --bg: #15202B;
+    --bg-secondary: #192734;
+    --text: #E7E9EA;
+    --text-muted: #8899A6;
+    --border: #38444D;
     --success: #00BA7C;
     --error: #F4212E;
-    --white: #FFFFFF;
 }
 
 * {
@@ -23,9 +18,9 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--background);
-    color: var(--text-primary);
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
     line-height: 1.6;
 }
 
@@ -35,17 +30,14 @@ body {
     padding: 20px;
 }
 
-/* ============================================
-   Header / Navbar
-   ============================================ */
+/* Header */
 .header {
-    background-color: var(--secondary-bg);
-    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
     padding: 15px 20px;
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(12px);
 }
 
 .header-content {
@@ -59,7 +51,7 @@ body {
 .logo {
     font-size: 24px;
     font-weight: bold;
-    color: var(--primary-color);
+    color: var(--primary);
 }
 
 .nav-links {
@@ -68,34 +60,31 @@ body {
 }
 
 .nav-links a {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     text-decoration: none;
     padding: 8px 15px;
     border-radius: 20px;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
 .nav-links a:hover {
-    background-color: rgba(29, 161, 242, 0.1);
-    color: var(--primary-color);
+    background: rgba(29, 161, 242, 0.1);
+    color: var(--primary);
 }
 
-/* ============================================
-   Forms
-   ============================================ */
-.form-container {
-    background-color: var(--secondary-bg);
-    border: 1px solid var(--border-color);
+/* Forms */
+.form-container, .auth-box, .search-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
     border-radius: 16px;
     padding: 30px;
     margin: 20px 0;
 }
 
-.form-title {
+.form-title, .auth-title {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
-    color: var(--text-primary);
 }
 
 .form-group {
@@ -105,43 +94,28 @@ body {
 .form-label {
     display: block;
     margin-bottom: 8px;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     font-size: 14px;
-    font-weight: 500;
 }
 
-.form-input,
-.form-textarea,
-.form-select {
+.form-input, .form-textarea, .search-input {
     width: 100%;
     padding: 12px 16px;
-    background-color: var(--background);
-    border: 1px solid var(--border-color);
+    background: var(--bg);
+    border: 1px solid var(--border);
     border-radius: 8px;
-    color: var(--text-primary);
+    color: var(--text);
     font-size: 16px;
-    transition: all 0.3s ease;
 }
 
-.form-input:focus,
-.form-textarea:focus,
-.form-select:focus {
+.form-input:focus, .form-textarea:focus, .search-input:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.1);
+    border-color: var(--primary);
 }
 
 .form-textarea {
-    resize: vertical;
     min-height: 100px;
-    font-family: inherit;
-}
-
-.file-input-wrapper {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    width: 100%;
+    resize: vertical;
 }
 
 .file-input-wrapper input[type=file] {
@@ -154,27 +128,23 @@ body {
     align-items: center;
     justify-content: center;
     padding: 12px 16px;
-    background-color: var(--background);
-    border: 1px dashed var(--border-color);
+    background: var(--bg);
+    border: 1px dashed var(--border);
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
 .file-input-label:hover {
-    border-color: var(--primary-color);
-    background-color: rgba(29, 161, 242, 0.05);
+    border-color: var(--primary);
 }
 
 .file-name {
     margin-top: 8px;
     font-size: 14px;
-    color: var(--text-secondary);
+    color: var(--text-muted);
 }
 
-/* ============================================
-   Buttons
-   ============================================ */
+/* Buttons */
 .btn {
     padding: 12px 24px;
     border: none;
@@ -182,29 +152,26 @@ body {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-block;
-    text-decoration: none;
-    text-align: center;
+    transition: 0.3s;
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
-    color: var(--white);
+    background: var(--primary);
+    color: white;
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-hover);
+    background: #1A91DA;
 }
 
 .btn-secondary {
-    background-color: transparent;
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
 }
 
 .btn-secondary:hover {
-    background-color: rgba(29, 161, 242, 0.1);
+    background: rgba(29, 161, 242, 0.1);
 }
 
 .btn-full {
@@ -216,55 +183,37 @@ body {
     cursor: not-allowed;
 }
 
-/* ============================================
-   Comments / Posts
-   ============================================ */
-.comments-container {
-    margin-top: 20px;
-}
-
+/* Comments */
 .comment-card {
-    background-color: var(--secondary-bg);
-    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 15px;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
 .comment-card:hover {
-    border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(29, 161, 242, 0.1);
+    border-color: var(--primary);
 }
 
 .comment-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     margin-bottom: 12px;
 }
 
 .comment-user {
     font-weight: bold;
-    color: var(--text-primary);
-    font-size: 16px;
 }
 
 .comment-date {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     font-size: 14px;
 }
 
 .comment-text {
-    color: var(--text-primary);
     margin-bottom: 12px;
-    line-height: 1.5;
-}
-
-.comment-video {
-    margin-top: 12px;
-    border-radius: 12px;
-    overflow: hidden;
 }
 
 .comment-video video {
@@ -273,76 +222,49 @@ body {
 }
 
 .comment-video-link {
-    display: inline-block;
-    color: var(--primary-color);
-    text-decoration: none;
+    color: var(--primary);
     padding: 8px 16px;
-    background-color: rgba(29, 161, 242, 0.1);
+    background: rgba(29, 161, 242, 0.1);
     border-radius: 20px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-.comment-video-link:hover {
-    background-color: rgba(29, 161, 242, 0.2);
-}
-
-.comment-footer {
-    display: flex;
-    gap: 15px;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border-color);
-}
-
-.comment-stat {
-    color: var(--text-secondary);
+    text-decoration: none;
     font-size: 14px;
 }
 
-/* ============================================
-   Messages / Alerts
-   ============================================ */
+/* Messages */
 .message {
     padding: 15px 20px;
     border-radius: 12px;
     margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
 
 .message-success {
-    background-color: rgba(0, 186, 124, 0.1);
+    background: rgba(0, 186, 124, 0.1);
     border: 1px solid var(--success);
     color: var(--success);
 }
 
 .message-error {
-    background-color: rgba(244, 33, 46, 0.1);
+    background: rgba(244, 33, 46, 0.1);
     border: 1px solid var(--error);
     color: var(--error);
 }
 
 .message-info {
-    background-color: rgba(29, 161, 242, 0.1);
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
+    background: rgba(29, 161, 242, 0.1);
+    border: 1px solid var(--primary);
+    color: var(--primary);
 }
 
-/* ============================================
-   Loading Spinner
-   ============================================ */
+/* Loading */
 .loading {
     display: flex;
     justify-content: center;
-    align-items: center;
     padding: 40px;
 }
 
 .spinner {
-    border: 4px solid var(--border-color);
-    border-top: 4px solid var(--primary-color);
+    border: 4px solid var(--border);
+    border-top: 4px solid var(--primary);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -354,142 +276,42 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* ============================================
-   Search Box
-   ============================================ */
-.search-container {
-    background-color: var(--secondary-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 20px;
-    margin: 20px 0;
-}
-
-.search-box {
-    display: flex;
-    gap: 10px;
-}
-
-.search-input {
-    flex: 1;
-    padding: 12px 16px;
-    background-color: var(--background);
-    border: 1px solid var(--border-color);
-    border-radius: 24px;
-    color: var(--text-primary);
-    font-size: 16px;
-}
-
-.search-input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-}
-
-/* ============================================
-   Empty State
-   ============================================ */
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-secondary);
-}
-
-.empty-state-icon {
-    font-size: 48px;
-    margin-bottom: 20px;
-    opacity: 0.5;
-}
-
-.empty-state-text {
-    font-size: 18px;
-}
-
-/* ============================================
-   Login / Register Pages
-   ============================================ */
+/* Auth pages */
 .auth-container {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
 }
 
 .auth-box {
-    background-color: var(--secondary-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 40px;
-    width: 100%;
     max-width: 400px;
 }
 
 .auth-logo {
     text-align: center;
     font-size: 32px;
-    color: var(--primary-color);
+    color: var(--primary);
     margin-bottom: 30px;
     font-weight: bold;
-}
-
-.auth-title {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 30px;
 }
 
 .auth-footer {
     text-align: center;
     margin-top: 20px;
-    color: var(--text-secondary);
+    color: var(--text-muted);
 }
 
 .auth-footer a {
-    color: var(--primary-color);
+    color: var(--primary);
     text-decoration: none;
 }
 
-.auth-footer a:hover {
-    text-decoration: underline;
-}
+/* Utilities */
+.hidden { display: none !important; }
+.text-center { text-align: center; }
+.empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
 
-/* ============================================
-   Responsive Design
-   ============================================ */
 @media (max-width: 768px) {
-    .container {
-        padding: 10px;
-    }
-    
-    .form-container {
-        padding: 20px;
-    }
-    
-    .comment-card {
-        padding: 15px;
-    }
-    
-    .auth-box {
-        padding: 30px 20px;
-    }
-}
-
-/* ============================================
-   Utilities
-   ============================================ */
-.hidden {
-    display: none !important;
-}
-
-.text-center {
-    text-align: center;
-}
-
-.mt-20 {
-    margin-top: 20px;
-}
-
-.mb-20 {
-    margin-bottom: 20px;
+    .container, .form-container, .comment-card { padding: 15px; }
 }
