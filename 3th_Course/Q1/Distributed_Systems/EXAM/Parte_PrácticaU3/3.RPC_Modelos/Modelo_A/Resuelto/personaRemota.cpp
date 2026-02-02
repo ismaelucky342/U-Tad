@@ -5,6 +5,13 @@
 #include <string.h>
 #include <iostream>
 
+/**
+ * Objetivo: Establecer la edad de la persona en el servidor remoto mediante RPC.
+ * 
+ * Serializa la operación SET_EDAD y el valor entero 'edad', lo envía al servidor
+ * a través del socket, y espera confirmación (ACK) para validar que la operación
+ * se completó correctamente.
+ */
 void PersonaRemota::setEdad(int edad) {
     // 1. Definir buffer y variables
     // Calculamos tamaño total: 4 bytes para op code + 4 bytes para el entero 'edad'
@@ -40,6 +47,13 @@ void PersonaRemota::setEdad(int edad) {
     }
 }
 
+/**
+ * Objetivo: Obtener la edad de la persona desde el servidor remoto mediante RPC.
+ * 
+ * Envía una solicitud GET_EDAD al servidor, espera la respuesta que contiene
+ * un ACK seguido del valor entero de la edad, valida el ACK y retorna la edad.
+ * En caso de error, retorna -1.
+ */
 int PersonaRemota::getEdad() {
     // 1. Definir buffer y variables
     int op = OP_GET_EDAD;
@@ -71,6 +85,13 @@ int PersonaRemota::getEdad() {
     return datos[1];
 }
 
+/**
+ * Objetivo: Establecer el nombre de la persona en el servidor remoto mediante RPC.
+ * 
+ * Serializa la operación SET_NOMBRE junto con el string 'nombre' (incluyendo su
+ * longitud para que el servidor sepa cuántos bytes leer), envía el paquete completo
+ * al servidor y espera confirmación (ACK).
+ */
 void PersonaRemota::setNombre(std::string nombre) {
     // 1. Definir buffer
     // Necesitamos serializar una cadena de longitud variable.
@@ -107,6 +128,13 @@ void PersonaRemota::setNombre(std::string nombre) {
     recv(serverSocket, &ack, sizeof(int), 0);
 }
 
+/**
+ * Objetivo: Obtener el nombre de la persona desde el servidor remoto mediante RPC.
+ * 
+ * Envía una solicitud GET_NOMBRE al servidor, recibe primero la cabecera (ACK +
+ * tamaño del string), valida el ACK, reserva espacio para el nombre y lo recibe.
+ * Retorna el string reconstruido o una cadena vacía en caso de error.
+ */
 std::string PersonaRemota::getNombre() {
     // 1. Empaquetar ID
     // Solicitud simple, solo enviamos qué queremos hacer
