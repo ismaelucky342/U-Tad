@@ -1,0 +1,78 @@
+/*====================================================================================================*/
+/*  RecipeCard.css - Estilos para la tarjeta de receta                                               */
+/*====================================================================================================*/
+
+.recipe-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.recipe-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+.recipe-image {
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.recipe-card:hover .recipe-image {
+  transform: scale(1.1);
+}
+
+.recipe-name {
+  color: #333;
+  font-size: 1.3rem;
+  font-weight: bold;
+  min-height: 3rem;
+}
+
+.recipe-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.recipe-instructions {
+  text-align: justify;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* Modal */
+.modal-body img {
+  max-height: 400px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.list-group-item {
+  border-left: 3px solid #ff6b6b;
+  transition: background-color 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .recipe-image {
+    height: 200px;
+  }
+  
+  .recipe-name {
+    font-size: 1.1rem;
+    min-height: 2.5rem;
+  }
+}

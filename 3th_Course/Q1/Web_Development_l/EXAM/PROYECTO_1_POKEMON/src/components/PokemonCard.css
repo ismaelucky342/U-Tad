@@ -1,0 +1,102 @@
+/*====================================================================================================*/
+/*  PokemonCard.css - Estilos para la tarjeta de Pokemon                                             */
+/*====================================================================================================*/
+
+.pokemon-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.pokemon-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+.pokemon-card-header {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem;
+  text-align: right;
+}
+
+.pokemon-id {
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.pokemon-image {
+  background: white;
+  padding: 1.5rem;
+  height: 200px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.pokemon-card:hover .pokemon-image {
+  transform: scale(1.1);
+}
+
+.pokemon-name {
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.pokemon-types {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pokemon-types .badge {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.pokemon-info {
+  background: #f8f9fa;
+  padding: 0.75rem;
+  border-radius: 10px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  color: #666;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.info-value {
+  color: #333;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pokemon-image {
+    height: 150px;
+  }
+  
+  .pokemon-name {
+    font-size: 1.2rem;
+  }
+}

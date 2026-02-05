@@ -1,0 +1,71 @@
+/*====================================================================================================*/
+/*  App.css - Estilos globales de la aplicación                                                      */
+/*====================================================================================================*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+/* Botones personalizados */
+.btn-danger {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+  background: linear-gradient(135deg, #ff8e53 0%, #ff6b6b 100%);
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-outline-danger {
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+  background-color: #ff6b6b;
+  border-color: #ff6b6b;
+  transform: translateY(-2px);
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
