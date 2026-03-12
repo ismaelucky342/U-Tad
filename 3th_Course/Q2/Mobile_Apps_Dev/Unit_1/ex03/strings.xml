@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/values/strings.xml — idioma por defecto (inglés) -->
+<!-- El sistema usa este fichero si no encuentra una carpeta para el idioma del dispositivo -->
+<resources>
+    <string name="app_name">ex03</string>
+    <string name="saludo">Hello!</string>
+    <string name="descripcion">This app adapts automatically to the device language.</string>
+    <string name="instruccion">Change the system language to see it in action.</string>
+    <string name="boton_oscuro">Dark mode</string>
+    <string name="boton_claro">Light mode</string>
+    <string name="boton_sistema">Follow system</string>
+    <string name="label_locale">Active locale:</string>
+    <string name="bienvenida">Welcome, %1$s! You have %2$d messages.</string>
+</resources>

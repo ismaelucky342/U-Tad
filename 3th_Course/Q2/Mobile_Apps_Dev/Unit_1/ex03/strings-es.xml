@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/values-es/strings.xml — español -->
+<!-- Solo es necesario sobreescribir los strings que cambian; el resto cae al por defecto -->
+<resources>
+    <string name="saludo">¡Hola!</string>
+    <string name="descripcion">Esta app se adapta automáticamente al idioma del dispositivo.</string>
+    <string name="instruccion">Cambia el idioma del sistema para verlo en acción.</string>
+    <string name="boton_oscuro">Modo oscuro</string>
+    <string name="boton_claro">Modo claro</string>
+    <string name="boton_sistema">Seguir sistema</string>
+    <string name="bienvenida">¡Bienvenido, %1$s! Tienes %2$d mensajes.</string>
+</resources>

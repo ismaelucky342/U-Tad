@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Intents implícitos"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/botonNavegador"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Abrir developer.android.com" />
+
+    <Button
+        android:id="@+id/botonCompartir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Compartir texto"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/botonEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enviar email"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/botonTelefono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Marcar número"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/botonMaps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Abrir Madrid en Maps"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>
