@@ -1,0 +1,3 @@
+{"doc_id": 1, "title": "Python y datos", "text": "Python es muy usado en ciencia de datos y análisis de información."}
+{"doc_id": 2, "title": "Búsqueda de información", "text": "Un índice invertido permite búsquedas rápidas por términos."}
+{"doc_id": 3, "title": "Pandas", "text": "Pandas proporciona DataFrames para filtrar, agrupar y limpiar datos."}

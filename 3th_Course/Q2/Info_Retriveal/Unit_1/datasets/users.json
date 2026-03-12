@@ -1,0 +1,7 @@
+{
+  "users": [
+    {"id": 1, "name": "Ana", "active": true, "city": "Madrid", "age": 21},
+    {"id": 2, "name": "Juan", "active": false, "city": "Sevilla", "age": 19},
+    {"id": 3, "name": "Marta", "active": true, "city": "Barcelona", "age": 25}
+  ]
+}

@@ -1,0 +1,10 @@
+id,ciudad,vendedor,mes,ventas
+1,Madrid,Ana,Enero,700
+2,Madrid,Juan,Enero,550
+3,Barcelona,Ana,Febrero,620
+4,Valencia,Luis,Enero,300
+5,Valencia,Luis,Febrero,450
+6,Barcelona,Marta,Enero,800
+7,Madrid,Marta,Febrero,900
+8,Sevilla,Ana,Enero,200
+9,Sevilla,Juan,Febrero,250

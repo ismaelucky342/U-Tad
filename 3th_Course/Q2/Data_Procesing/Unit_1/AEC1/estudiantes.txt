@@ -1,0 +1,19 @@
+# Fichero de datos de estudiantes
+# Formato: id;nombre;edad;nota;curso
+# Separador: ;
+# Las líneas que empiezan por # son comentarios y se ignoran
+# Las líneas vacías también se ignoran
+
+11;Laura_Gomez;21;8.7;Informatica
+12;Carlos_Ruiz;23;6.2;Matematicas
+13;Sofia_Lopez;20;9.1;Fisica
+14;Andres_Mora;25;5.5;Informatica
+
+# Grupo de Quimica e Historia
+15;Elena_Vidal;22;7.8;Quimica
+16;Pablo_Torres;19;4.3;Historia
+17;Maria_Sanz;21;8.0;Matematicas
+18;Javier_Gil;24;6.9;Fisica
+
+19;Lucia_Pena;20;9.5;Informatica
+20;Daniel_Reyes;18;7.2;Quimica
