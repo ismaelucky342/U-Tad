@@ -125,18 +125,19 @@ Luego abre `http://localhost:8501`.
 
 ## Referencias y recursos (lo que consulte)
 
-1. Kaggle Dataset: Bitcoin Tweets Dataset 2.  
-   https://www.kaggle.com/datasets/kaushiksuresh147/bitcoin-tweets/data?select=Bitcoin_tweets_dataset_2.csv
-2. pandas: `read_csv` y lectura por chunks.  
-   https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html
-3. pandas: `to_datetime` para normalizar fechas.  
-   https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html
-4. W3Schools: Regex y manejo de strings en Python (repaso rapido).  
-   https://www.w3schools.com/python/python_regex.asp
-5. WordCloud (lib oficial): generacion de nubes de palabras.  
-   https://amueller.github.io/word_cloud/
-6. Matplotlib: graficos basicos (barh, figuras y estilos).  
-   https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.barh.html
-7. 42 AI (organizacion oficial): proyectos de IA/DS, con ejemplos de limpieza, parsing y pipelines.
+1. 42 AI (organizacion oficial): proyectos de IA/DS, con ejemplos de limpieza, parsing y pipelines.
    https://github.com/42-AI
-8. 42 School: proyectos y ramas con foco en parsing/limpieza de texto y pipelines de datos (inspiracion metodologica).
+   https://42-ai.github.io/
+2. 42 School: proyectos y ramas con foco en parsing/limpieza de texto y pipelines de datos (inspiracion metodologica).
+3. Kaggle Dataset: Bitcoin Tweets Dataset 2.  
+   https://www.kaggle.com/datasets/kaushiksuresh147/bitcoin-tweets/data?select=Bitcoin_tweets_dataset_2.csv
+4. pandas: `read_csv` y lectura por chunks.  
+   https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html
+5. pandas: `to_datetime` para normalizar fechas.  
+   https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html
+6. W3Schools: Regex y manejo de strings en Python (repaso rapido).  
+   https://www.w3schools.com/python/python_regex.asp
+7. WordCloud (lib oficial): generacion de nubes de palabras.  
+   https://amueller.github.io/word_cloud/
+8. Matplotlib: graficos basicos (barh, figuras y estilos).  
+   https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.barh.html
