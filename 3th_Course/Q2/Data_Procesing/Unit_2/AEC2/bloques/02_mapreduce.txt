@@ -1,0 +1,46 @@
+# Bloque 2 - MapReduce (resumen)
+
+Escenario real elegido: bicicletas compartidas en una gran ciudad. Se busca calcular el porcentaje de devoluciones tardias por estacion.
+
+Justificacion Big Data (5V):
+- Volumen alto (millones de viajes al mes).
+- Velocidad alta (eventos en tiempo real).
+- Variedad (viajes, logs de app, clima).
+- Veracidad imperfecta (errores de sensores/usuarios).
+- Valor (optimizacion operativa y mejor experiencia).
+
+Registros de entrada (formato: viaje_id, estacion, minutos_retraso):
+1) (v001, SOL, 0)
+2) (v002, SOL, 7)
+3) (v003, ATO, 0)
+4) (v004, ATO, 12)
+5) (v005, ATO, 4)
+6) (v006, GRA, 0)
+7) (v007, GRA, 0)
+8) (v008, GRA, 9)
+9) (v009, SOL, 0)
+10) (v010, SOL, 3)
+
+Criterio: tardia si minutos_retraso > 5.
+
+Map (emito estacion, (tardia, total)):
+- v001 -> (SOL, (0, 1))
+- v002 -> (SOL, (1, 1))
+- v003 -> (ATO, (0, 1))
+- v004 -> (ATO, (1, 1))
+- v005 -> (ATO, (0, 1))
+- v006 -> (GRA, (0, 1))
+- v007 -> (GRA, (0, 1))
+- v008 -> (GRA, (1, 1))
+- v009 -> (SOL, (0, 1))
+- v010 -> (SOL, (0, 1))
+
+Shuffle/Sort:
+- SOL -> (0,1), (1,1), (0,1), (0,1)
+- ATO -> (0,1), (1,1), (0,1)
+- GRA -> (0,1), (0,1), (1,1)
+
+Reduce (sumo tardias y totales):
+- SOL -> tardias=1, total=4, porcentaje=25%
+- ATO -> tardias=1, total=3, porcentaje=33.3%
+- GRA -> tardias=1, total=3, porcentaje=33.3%

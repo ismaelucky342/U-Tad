@@ -1,0 +1,46 @@
+# Bloque 1 - HDFS (comandos)
+# Nota: usar la ruta de Hadoop indicada en los apuntes
+cd /home/bigdata/hadoop-3.3.6/
+
+# Arranque de HDFS
+sbin/start-dfs.sh
+PAUSE
+
+# Comprobaciones iniciales
+bin/hdfs dfs -help
+bin/hdfs dfs -ls /
+PAUSE
+
+# Crear directorio de trabajo
+bin/hdfs dfs -mkdir /ebooks
+PAUSE
+
+# Descargar libro en local
+mkdir -p /home/bigdata/datos
+wget -q https://www.gutenberg.org/cache/epub/11/pg11.txt -O /home/bigdata/datos/alice.txt
+
+# Paso con error intencionado
+bin/hdfs dfs -put /home/bigdata/datos/no_existe.txt /ebooks/
+PAUSE
+
+# Solucion: subir el archivo correcto
+bin/hdfs dfs -put /home/bigdata/datos/alice.txt /ebooks/
+bin/hdfs dfs -ls /ebooks
+bin/hdfs dfs -head /ebooks/alice.txt
+bin/hdfs dfs -tail /ebooks/alice.txt
+PAUSE
+
+# Buscar y medir uso de espacio
+bin/hdfs dfs -find / -name alice.txt
+bin/hdfs dfs -du -h /ebooks
+bin/hdfs dfs -count /ebooks
+PAUSE
+
+# Renombrar, descargar y borrar
+bin/hdfs dfs -mv /ebooks/alice.txt /ebooks/alice_renombrado.txt
+bin/hdfs dfs -get /ebooks/alice_renombrado.txt /home/bigdata/datos/alice_descargado.txt
+bin/hdfs dfs -rm /ebooks/alice_renombrado.txt
+PAUSE
+
+# Parar HDFS
+sbin/stop-dfs.sh

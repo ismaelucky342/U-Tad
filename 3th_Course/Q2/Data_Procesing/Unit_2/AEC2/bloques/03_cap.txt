@@ -1,0 +1,14 @@
+# Bloque 3 - Caso CAP (resumen)
+
+Sistema distribuido real: Apache Cassandra.
+
+Analisis CAP:
+- P (tolerancia a particiones): el sistema sigue funcionando si hay cortes de red.
+- A (disponibilidad): prioriza responder peticiones aunque exista particion.
+- C (consistencia): no siempre es estricta; se usa consistencia eventual o por nivel.
+
+Justificacion tecnica:
+Cassandra replica datos y permite elegir niveles de consistencia en lectura/escritura. Ante particion, mantiene operaciones (A) y tolera la particion (P), asumiendo divergencias temporales.
+
+Justificacion de negocio:
+En monitorizacion y logs es mas importante no detener el servicio ni perder datos. La consistencia eventual es suficiente y se reconcilia mas tarde.
