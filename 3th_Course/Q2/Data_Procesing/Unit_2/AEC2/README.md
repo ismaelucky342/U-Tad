@@ -1,58 +1,129 @@
-# AEC2 - Procesamiento de Datos
+## Introducción
 
-## Introduccion
+Esta práctica la he desarrollado en tres bloques: primero trabajo con HDFS y un flujo de comandos completo (incluyendo fallos típicos y su corrección). Luego hago una representación manual de MapReduce con registros simulados. Por último, cierro con un análisis de un sistema real bajo el teorema CAP.
 
-Esta practica ha consistido en un recorrido practico por tres bloques un ejercicio con comandos de HDFS, una representacion manual de MapReduce con registros simulados, y un analisis de un sistema real bajo el teorema CAP. La entrega esta dividida en esos tres bloques para que sea facil de seguir y de presentar como memoria.
-
-En el bloque 1 hago el caso de HDFS con un paso que falla y su correccion. En el bloque 2 muestro el flujo Map y Reduce con diez registros y en el bloque 3 tengo un caso CAP con justificacion tecnica y de negocio. Ademas de este archivo, presento como material adicional un script con mini menu interactivo que ejecuta el bloque de HDFS y sirve como visor de los otros bloques para facilitar el debug.
+Como extra he decidido añadir un script con un mini menú interactivo que ejecuta el bloque de HDFS y sirve de visor para los otros bloques, lo que me ha ayudado a depurar y a comprobar todo más rápido.
 
 ## Bloque 1 - HDFS
 
-La idea es un caso aplicado a una editorial ficticia, se descarga un libro en local, se crea un directorio en HDFS, se sube el archivo, se inspecciona su contenido y se gestiona su ciclo de vida con renombrado, descarga y borrado.
+Aquí planteo un caso sencillo sobre una editorial ficticia que quiere archivar y publicar libros en un repositorio distribuido. El flujo que he creado sigue esta forma: arranque de HDFS, comprobaciones, creación de directorio, subida de un libro, lectura parcial para verificar contenido, búsqueda y medición de espacio, y el cierre con renombrado, descarga y borrado.
 
-Incluyo un error intencionado al subir un fichero que no existe para mostrar el tipo de fallo mas comun, explicar por que ocurre y aplicar el procedimiento correcto para solucionarlo.
+Además incluyo tres errores concretos que me han parecido interesantes:
+
+- subir un fichero local que no existe,
+- listar una ruta de HDFS mal escrita,
+- leer un fichero antes de subirlo (o con un nombre incorrecto).
+
+Me parece una elección razonable porque son fallos muy habituales que a mí me han ocurrido en HDFS, y quería plasmar cómo se detectan y cómo se corrigen.
 
 ### Comandos completos (bloque 1)
 
-> Ruta de Hadoop usada en los apuntes: `/home/bigdata/hadoop-3.3.6/`.
+Ruta de Hadoop usada en los apuntes: `/home/bigdata/hadoop-3.3.6/`.
 
+1) Arrancar Hadoop y HDFS (en un solo bloque relacionado)
 ```bash
-cd /home/bigdata/hadoop-3.3.6/
+cd /home/bigdata/hadoop-3.3.6/ && \
+	sbin/start-dfs.sh
+```
 
-# Arranque de HDFS
-sbin/start-dfs.sh
-
-# Comprobaciones iniciales
+3) Comprobaciones iniciales (ayuda)
+```bash
 bin/hdfs dfs -help
+```
+
+4) Comprobaciones iniciales (lista raiz)
+```bash
 bin/hdfs dfs -ls /
+```
 
-# Crear directorio de trabajo
-bin/hdfs dfs -mkdir /ebooks
+5) Crear directorio de trabajo y verificar su creación
+```bash
+bin/hdfs dfs -mkdir /ebooks && \
+	echo "HDFS: /ebooks creado correctamente" && \
+	bin/hdfs dfs -ls /ebooks
+```
 
-# Descargar libro en local
-mkdir -p /home/bigdata/datos
-wget -q https://www.gutenberg.org/cache/epub/11/pg11.txt -O /home/bigdata/datos/alice.txt
+6) Error intencionado 1: ruta mal escrita
+```bash
+bin/hdfs dfs -ls /ebook
+```
 
-# Paso con error intencionado
-bin/hdfs dfs -put /home/bigdata/datos/no_existe.txt /ebooks/
-
-# Solucion: subir el archivo correcto
-bin/hdfs dfs -put /home/bigdata/datos/alice.txt /ebooks/
+7) Correccion: ruta correcta
+```bash
 bin/hdfs dfs -ls /ebooks
+```
+
+8) Preparar carpeta local y descargar libro (bloque relacionado)
+```bash
+mkdir -p /home/bigdata/datos && \
+wget -q https://www.gutenberg.org/cache/epub/11/pg11.txt -O /home/bigdata/datos/alice.txt && \
+echo "Ficheros en /home/bigdata/datos:" && ls -l /home/bigdata/datos
+```
+
+10) Error intencionado 2: fichero local no existe
+```bash
+bin/hdfs dfs -put /home/bigdata/datos/no_existe.txt /ebooks/
+```
+
+11) Correccion: subir el archivo correcto y verificar subida (bloque relacionado)
+```bash
+bin/hdfs dfs -put /home/bigdata/datos/alice.txt /ebooks/ && \
+bin/hdfs dfs -ls /ebooks
+```
+
+12) Error intencionado 3: leer antes de tiempo / nombre incorrecto
+```bash
+bin/hdfs dfs -head /ebooks/alice_no_subido.txt
+```
+
+13) Correccion: leer el fichero correcto y comprobar primeras líneas
+```bash
 bin/hdfs dfs -head /ebooks/alice.txt
+```
+
+14) Comprobar contenido en HDFS
+```bash
+bin/hdfs dfs -ls /ebooks
+```
+
+15) Ver final del fichero
+```bash
 bin/hdfs dfs -tail /ebooks/alice.txt
+```
 
-# Buscar y medir uso de espacio
+16) Buscar el fichero
+```bash
 bin/hdfs dfs -find / -name alice.txt
+```
+
+17) Medir uso de espacio (du)
+```bash
 bin/hdfs dfs -du -h /ebooks
+```
+
+18) Medir uso de espacio (count)
+```bash
 bin/hdfs dfs -count /ebooks
+```
 
-# Renombrar, descargar y borrar
+19) Renombrar
+```bash
 bin/hdfs dfs -mv /ebooks/alice.txt /ebooks/alice_renombrado.txt
-bin/hdfs dfs -get /ebooks/alice_renombrado.txt /home/bigdata/datos/alice_descargado.txt
-bin/hdfs dfs -rm /ebooks/alice_renombrado.txt
+```
 
-# Parar HDFS
+20) Descargar a local y listar el fichero descargado
+```bash
+bin/hdfs dfs -get /ebooks/alice_renombrado.txt /home/bigdata/datos/alice_descargado.txt && \
+ls -l /home/bigdata/datos/alice_descargado.txt
+```
+
+21) Borrar en HDFS
+```bash
+bin/hdfs dfs -rm /ebooks/alice_renombrado.txt
+```
+
+22) Parar HDFS
+```bash
 sbin/stop-dfs.sh
 ```
 
@@ -65,19 +136,21 @@ chmod +x run_hdfs_pruebas.sh
 ./run_hdfs_pruebas.sh
 ```
 
-## 2) Practica manual de MapReduce
+## 2) Práctica manual de MapReduce
+
+En este bloque quería dejar muy claro el flujo de MapReduce sin depender de un cluster, así que lo hice a mano con pocos registros y un criterio de negocio sencillo. La idea es que se vea la lógica completa desde la entrada hasta el porcentaje final. Lo traté casi como si fuera un experimento controlado: pocos datos, un criterio bien definido y un resultado fácil de comprobar, para que el foco fuese entender el proceso y no pelearme con la infraestructura.
 
 ### Escenario real elegido
 
-He elegido el caso de uso de bicicletas compartidas en una gran ciudad. El objetivo es calcular el porcentaje de devoluciones tardias por estacion, un indicador util para detectar puntos con problemas de disponibilidad o funcionamiento.
+He elegido el caso de uso de bicicletas compartidas en una gran ciudad. Lo que me interesa medir es el porcentaje de devoluciones tardías por estación, porque es un indicador muy útil para detectar puntos con problemas de disponibilidad o de funcionamiento. Es un ejemplo que se entiende rápido y, a la vez, se parece mucho a problemas reales de analítica operativa.
 
 ### Justificacion Big Data
 
-El problema creo que encaja en Big Data por varias razones por un lado el volumen es alto porque hay millones de viajes al mes, cada uno con muchos atributos. La velocidad es elevada porque los eventos se generan en tiempo real desde docks y apps. La variedad aparece en la mezcla de datos de viajes, logs de la aplicacion y variables externas como el clima. La veracidad no es perfecta por fallos de sensores o usuarios, y el valor esta en optimizar la operativa y mejorar la experiencia del usuario.
+En mi opinión encaja en Big Data por varias razones. El volumen es alto porque hay millones de viajes al mes, cada uno con muchos atributos. La velocidad también es elevada porque los eventos se generan en tiempo real desde docks y apps. La variedad aparece en la mezcla de datos de viajes, logs de la aplicación y variables externas como el clima. La veracidad no es perfecta por fallos de sensores o usuarios, y el valor está en optimizar la operativa y mejorar la experiencia del usuario. Este resumen me sirve para justificar por qué MapReduce es una herramienta razonable en este tipo de casos.
 
-### Representacion manual de Map y Reduce (10 registros)
+### Representación manual de Map y Reduce (10 registros)
 
-#### Registros de entrada (simulados)
+### Registros de entrada (simulados)
 
 Formato: `(viaje_id, estacion, minutos_retraso)`
 
@@ -92,11 +165,11 @@ Formato: `(viaje_id, estacion, minutos_retraso)`
 9. (v009, SOL, 0)
 10. (v010, SOL, 3)
 
-Criterio: se considera tardia si `minutos_retraso > 5`.
+Criterio: considero tardía si `minutos_retraso > 5`. Esto simplifica el problema a una regla clara que luego puedo transformar fácilmente en clave-valor.
 
-#### Fase Map
+### Fase Map
 
-Emito `(estacion, (tardia, total))` para cada registro.
+Emito `(estacion, (tardia, total))` para cada registro. Con esto dejo preparado el agregado final sin perder el detalle de cada viaje.
 
 - v001 -> (SOL, (0, 1))
 - v002 -> (SOL, (1, 1))
@@ -109,29 +182,31 @@ Emito `(estacion, (tardia, total))` para cada registro.
 - v009 -> (SOL, (0, 1))
 - v010 -> (SOL, (0, 1))
 
-#### Shuffle/Sort
+### Shuffle/Sort
 
-Agrupo por clave:
+Agrupo por clave: aquí es donde se ve por qué MapReduce funciona tan bien cuando el problema es sumar o contar por categorías.
 
 - SOL -> (0,1), (1,1), (0,1), (0,1)
 - ATO -> (0,1), (1,1), (0,1)
 - GRA -> (0,1), (0,1), (1,1)
 
-#### Fase Reduce
+### Fase Reduce
 
-Sumo tardias y totales y calculo el porcentaje:
+Sumo tardías y totales y calculo el porcentaje: en este punto el problema ya está resumido y se puede comparar estaciones de forma directa.
 
 - SOL -> tardias=1, total=4, porcentaje=25%
 - ATO -> tardias=1, total=3, porcentaje=33.3%
 - GRA -> tardias=1, total=3, porcentaje=33.3%
 
-Resultado final: ATO y GRA presentan mas retraso relativo que SOL.
+Resultado final: ATO y GRA presentan más retraso relativo que SOL. En un caso real, este resultado serviría para priorizar mantenimiento o ajustar la distribución de bicicletas.
 
 ## 3) Caso CAP
 
+Para cerrar la práctica, preferí aterrizar CAP en un sistema real en lugar de quedarme en definiciones. Elegí Cassandra porque lo he visto en ejemplos de producción, porque es un clásico en bases de datos distribuidas y, además, encaja con lo que vimos en la asignatura de Bases de Datos Avanzadas en la unidad de bases de datos distribuidas donde se explican los compromisos entre disponibilidad, particiones y consistencia.
+
 ### Sistema distribuido real: Apache Cassandra
 
-He escogido Apache Cassandra porque es una base de datos distribuida muy usada en servicios con mucha carga (telemetria, logs, IoT). Es un ejemplo claro para explicar los compromisos del teorema CAP.
+He escogido Apache Cassandra porque es una base de datos distribuida muy usada en servicios con mucha carga (telemetría, logs, IoT). Me parece un ejemplo claro para mostrar los compromisos del teorema CAP. Además, su modelo maestro-less y su enfoque en disponibilidad permiten ver de forma práctica por qué en entornos reales no siempre se puede aspirar a la consistencia fuerte.
 
 ### Analisis CAP
 
@@ -139,24 +214,19 @@ He escogido Apache Cassandra porque es una base de datos distribuida muy usada e
 - Disponibilidad (A): prioriza responder peticiones aunque exista particion, devolviendo respuestas locales.
 - Consistencia (C): no siempre es estricta; se trabaja con consistencia eventual o configurada por nivel.
 
-### Justificacion tecnica
+### Justificación técnica
 
-Cassandra replica datos y permite elegir niveles de consistencia en lectura y escritura. En caso de particion, prefiere seguir aceptando operaciones para no frenar el servicio (A) y tolerar la particion (P), aunque eso implique divergencias temporales entre replicas.
+Cassandra replica datos y permite elegir niveles de consistencia en lectura y escritura. En caso de partición, prefiere seguir aceptando operaciones para no frenar el servicio (A) y tolerar la partición (P), aunque eso implique divergencias temporales entre réplicas. Esto me parece clave porque conecta la teoría con la operativa real: no se trata de que el sistema sea "menos correcto", sino de que prioriza el servicio y luego repara el estado cuando la red se estabiliza.
 
-### Justificacion de negocio
+### Justificación de negocio
 
-En sistemas de monitorizacion y logs es mas importante mantener el servicio activo y no perder datos que bloquear todo por consistencia estricta. La consistencia eventual es suficiente porque se puede reconciliar mas tarde.
-
-## Uso de IA (si aplica)
-
-Para cumplir la norma del enunciado, dejo documentado el uso de IA si se considera:
-
-- **Prompt usado:** "Genera un README para una practica con HDFS, MapReduce manual y un caso CAP; incluye un paso con error y su solucion, y un script de pruebas."
-- **Respuesta de la IA (resumen):** propuso una estructura con secciones, un ejemplo HDFS con error de ruta, un flujo MapReduce con 10 registros y un caso CAP con Cassandra.
-- **Mi interpretacion personal:** revise la propuesta, ajuste el escenario a mis palabras, seleccione un dataset de dominio publico y redacte la explicacion final con mis propios criterios.
+En sistemas de monitorización y logs veo más importante mantener el servicio activo y no perder datos que bloquear todo por una consistencia estricta. La consistencia eventual es suficiente porque en la mayoría de los casos creo que se puede reconciliar más tarde. En un contexto de negocio, ese tiempo de respuesta continuo vale más que la precisión inmediata en cada lectura, y por eso Cassandra resulta una elección coherente para este tipo de escenarios.
 
 ## Referencias
 
-- https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html
-- https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSUserGuide.html
-- https://www.gutenberg.org/ (libros de dominio publico)
+- https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html (guía oficial de comandos `hadoop fs` y `hdfs dfs`)
+- https://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html (tutorial oficial de MapReduce)
+- https://cassandra.apache.org/doc/latest/ (documentación oficial de Cassandra)
+- https://cassandra.apache.org/_/quickstart.html (quickstart oficial con Docker y CQL)
+- https://www.ibm.com/think/topics/cap-theorem (explicación clara del teorema CAP con ejemplos)
+- https://en.wikipedia.org/wiki/CAP_theorem (resumen general y referencias académicas)

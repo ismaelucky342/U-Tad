@@ -1,8 +1,9 @@
 # Bloque 2 - MapReduce (resumen)
 
-Escenario real elegido: bicicletas compartidas en una gran ciudad. Se busca calcular el porcentaje de devoluciones tardias por estacion.
+Escenario real que he elegido es bicicletas compartidas en una gran ciudad. Se busca calcular el porcentaje de devoluciones tardias por estacion.
+Aqui la relacion con bases de datos es directa ya que tenemos un conjunto de registros y queremos agregarlos para obtener un indicador util.
 
-Justificacion Big Data (5V):
+Justificacion Big Data:
 - Volumen alto (millones de viajes al mes).
 - Velocidad alta (eventos en tiempo real).
 - Variedad (viajes, logs de app, clima).

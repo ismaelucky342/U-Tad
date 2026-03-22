@@ -1,13 +1,3 @@
-"""
-dashboard.py – (Bonus) Mini-dashboard interactivo para AEC1.
-
-Yo lo lanzo con:
-    streamlit run dashboard.py
-
-Requiere:
-    pip install streamlit pandas matplotlib wordcloud
-"""
-
 from pathlib import Path
 
 import pandas as pd

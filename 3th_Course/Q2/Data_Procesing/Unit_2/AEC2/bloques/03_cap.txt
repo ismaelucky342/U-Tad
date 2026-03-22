@@ -1,6 +1,7 @@
 # Bloque 3 - Caso CAP (resumen)
 
 Sistema distribuido real: Apache Cassandra.
+Lo uso para enlazar con bases de datos distribuidas y el tema de consistencia que vemos en la asignatura.
 
 Analisis CAP:
 - P (tolerancia a particiones): el sistema sigue funcionando si hay cortes de red.

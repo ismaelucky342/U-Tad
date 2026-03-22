@@ -1,24 +1,15 @@
 # AEC1 – Analisis de Sentimiento y Tendencias en Redes Sociales
-## Extraccion y Tratamiento de Datos – Bitcoin Tweets
-
-**Asignatura:** Information Retrieval | **Curso:** 3er Curso – Q2  
-**Entrega:** AEC1 – Fase inicial del proyecto
 
 ---
 
-## Fuente de datos (lo que use y por que)
+## Introducción
 
-| Campo | Detalle |
-|-------|---------|
-| Dataset | Bitcoin Tweets Dataset 2 |
-| Origen | [Kaggle – kaushiksuresh147](https://www.kaggle.com/datasets/kaushiksuresh147/bitcoin-tweets/data?select=Bitcoin_tweets_dataset_2.csv) |
-| Archivo | `Bitcoin_tweets_dataset_2.csv` |
-| Formato | CSV (separador `,`, fin de linea `\n`, codificacion UTF-8) |
-| Columnas clave | `date`, `user_name`, `text` |
+Este proyecto es un gran punto de partida para explorar las técnicas básicas de extracción, limpieza y análisis de texto aplicadas a un conjunto de tweets sobre Bitcoin. 
 
-Lo eligi porque ya viene bien estructurado, tiene volumen suficiente para analizar hashtags y me permite trabajar con chunks sin petar memoria. Ademas, en Kaggle es facil reproducir y compartir.
+El objetivo es demostrar un flujo reproducible en el que extraer datos, limpiar y normalizar texto, extraer entidades, y producir métricas y visualizaciones que permitan interpretar tendencias y detectar patrones. 
 
----
+El repositorio incluye el notebook con la implementación principal, un mini-dashboard opcional para visualización interactiva y ejemplos de salida (gráficos y wordclouds). En la sección de ejecución se indican las dependencias y los pasos mínimos para reproducir los resultados localmente.
+
 
 ## Estructura del proyecto
 
@@ -35,11 +26,10 @@ AEC1/
 └── README.md                  # Este archivo
 ```
 
-> **Nota:** El CSV original no se sube por tamano. Descargalo desde Kaggle y colocalo en este directorio antes de ejecutar el notebook.
 
 ---
 
-## Metodologia (como lo hice)
+## Flujo 
 
 ### 1. Extraccion de datos
 
@@ -57,16 +47,16 @@ Guardo el resultado en `Bitcoin_tweets_cleaned.csv` con UTF-8. Elegi CSV porque 
 
 ### 3. Limpieza y normalizacion (`clean_text`)
 
-Uso regex y normalizo el texto. En resumen:
+En esta etapa preparo el texto para que el análisis funcione de forma fiable: quito ruido, unifico formatos y dejo sólo lo que aporta valor. Personalmente lo hago así:
 
-| Paso | Regex / Funcion | Resultado |
-|------|-----------------|-----------|
-| Lowercase | `str.lower()` | Normalizo mayusculas |
-| Eliminar URLs | `https?://\S+\|www\.\S+` | Quito enlaces |
-| Eliminar menciones | `@\w+` | Quito `@usuario` |
-| Eliminar emojis | `unicodedata.category` | Filtro `So`, `Sk`, `Cs` |
-| Eliminar especiales | `[^\w\s#]` | Conservo `#` y alfanumericos |
-| Colapsar espacios | `\s+` → ` ` | Un solo espacio entre tokens |
+- Paso 1 — minúsculas: convierto todo a minúsculas con `str.lower()` para que "Bitcoin" y "bitcoin" se traten igual y no se fraccione el conteo.
+- Paso 2 — eliminar URLs: borro enlaces porque suelen ser identificadores largos que no ayudan al análisis semántico y ensucian las nubes de palabras.
+- Paso 3 — eliminar menciones: quito los `@usuario` para centrarme en el mensaje, no en quién lo escribió.
+- Paso 4 — quitar emojis y símbolos no textuales: empleo las categorías Unicode (So, Sk, Cs) para filtrar pictogramas que interfieren con la tokenización.
+- Paso 5 — limpiar caracteres especiales pero conservar `#`: elimino signos y puntuación que no aportan, pero mantengo los hashtags porque son las entidades que quiero extraer.
+- Paso 6 — normalizar espacios: colapso múltiples espacios en uno solo para que la tokenización sea consistente.
+
+Cada paso está diseñado para reducir el ruido y facilitar las siguientes fases (extracción de hashtags y agregaciones). Si quieres, puedo incluir ejemplos concretos antes/después para cada transformación.
 
 ### 4. Extraccion de hashtags (`extract_hashtags`)
 
@@ -123,7 +113,7 @@ Luego abre `http://localhost:8501`.
 
 ---
 
-## Referencias y recursos (lo que consulte)
+## Referencias y recursos
 
 1. 42 AI (organizacion oficial): proyectos de IA/DS, con ejemplos de limpieza, parsing y pipelines.
    https://github.com/42-AI

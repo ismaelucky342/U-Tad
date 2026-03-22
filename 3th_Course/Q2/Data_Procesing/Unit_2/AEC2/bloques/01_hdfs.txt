@@ -1,8 +1,10 @@
-# Bloque 1 - HDFS (comandos)
-# Nota: usar la ruta de Hadoop indicada en los apuntes
+# Bloque 1 HDFS
+# Nota: uso la ruta de Hadoop indicada en los apuntes
+# Lo conecto con bases de datos como la capa de almacenamiento base del dato
 cd /home/bigdata/hadoop-3.3.6/
+echo "Directorio Hadoop actual: $(pwd)" && ls -ld .
 
-# Arranque de HDFS
+# Arranque
 sbin/start-dfs.sh
 PAUSE
 
@@ -11,26 +13,40 @@ bin/hdfs dfs -help
 bin/hdfs dfs -ls /
 PAUSE
 
-# Crear directorio de trabajo
-bin/hdfs dfs -mkdir /ebooks
+# Crear directorio de trabajo y verificar su creación
+bin/hdfs dfs -mkdir /ebooks && \
+	echo "HDFS: /ebooks creado correctamente" && \
+	bin/hdfs dfs -ls /ebooks || \
+	{ echo "Error: no se pudo crear /ebooks en HDFS"; bin/hdfs dfs -ls / || true; }
 PAUSE
 
-# Descargar libro en local
-mkdir -p /home/bigdata/datos
-wget -q https://www.gutenberg.org/cache/epub/11/pg11.txt -O /home/bigdata/datos/alice.txt
+# Error intencionado 1: ruta mal escrita
+bin/hdfs dfs -ls /ebook
+# Correccion
+bin/hdfs dfs -ls /ebooks
+PAUSE
 
-# Paso con error intencionado
+# Descargar libro en local para luego subirlo a HDFS (bloque agrupado)
+mkdir -p /home/bigdata/datos && \
+	wget -q https://www.gutenberg.org/cache/epub/11/pg11.txt -O /home/bigdata/datos/alice.txt && \
+	echo "Ficheros en /home/bigdata/datos:" && ls -l /home/bigdata/datos
+
+# Error intencionado 2: fichero local no existe
 bin/hdfs dfs -put /home/bigdata/datos/no_existe.txt /ebooks/
 PAUSE
 
-# Solucion: subir el archivo correcto
+# Correccion: subir el archivo correcto
 bin/hdfs dfs -put /home/bigdata/datos/alice.txt /ebooks/
-bin/hdfs dfs -ls /ebooks
+
+# Error intencionado 3: leer antes de tiempo / nombre incorrecto
+bin/hdfs dfs -head /ebooks/alice_no_subido.txt
+# Correccion
 bin/hdfs dfs -head /ebooks/alice.txt
+bin/hdfs dfs -ls /ebooks
 bin/hdfs dfs -tail /ebooks/alice.txt
 PAUSE
 
-# Buscar y medir uso de espacio
+# Busco y mido el uso de espacio
 bin/hdfs dfs -find / -name alice.txt
 bin/hdfs dfs -du -h /ebooks
 bin/hdfs dfs -count /ebooks
@@ -42,5 +58,5 @@ bin/hdfs dfs -get /ebooks/alice_renombrado.txt /home/bigdata/datos/alice_descarg
 bin/hdfs dfs -rm /ebooks/alice_renombrado.txt
 PAUSE
 
-# Parar HDFS
+# Paro
 sbin/stop-dfs.sh

@@ -27,9 +27,11 @@ MAPREDUCE_BLOCK_FILE="$BASE_DIR/bloques/02_mapreduce.txt"
 CAP_BLOCK_FILE="$BASE_DIR/bloques/03_cap.txt"
 
 mkdir -p "$DATA_DIR" "$EVID_DIR"
+echo "Directorios locales creados:" | tee -a "$LOG_FILE"
+ls -ld "$BASE_DIR" "$DATA_DIR" "$EVID_DIR" | tee -a "$LOG_FILE"
 
 pause_shot() {
-  read -r -p ">> Captura pantalla ahora y pulsa Enter para continuar..." _
+  read -r -p ">> pulsa Enter para continuar..." _
 }
 
 run_cmd() {
@@ -38,6 +40,8 @@ run_cmd() {
 }
 
 run_hdfs() {
+  local current_dir="$BASE_DIR"
+
   if [[ ! -f "$HDFS_BLOCK_FILE" ]]; then
     echo "No se encuentra el archivo de comandos: $HDFS_BLOCK_FILE" | tee -a "$LOG_FILE"
     return 1
@@ -50,9 +54,16 @@ run_hdfs() {
       "" ) continue ;;
       \#* ) continue ;;
       PAUSE ) pause_shot ;;
-      * ) run_cmd bash -c "$line" ;;
+      cd\ * )
+        current_dir="${line#cd }"
+        ;;
+      * ) run_cmd bash -c "cd \"$current_dir\" && $line" ;;
     esac
   done < "$HDFS_BLOCK_FILE"
+
+  echo "Resumen local tras ejecución HDFS:" | tee -a "$LOG_FILE"
+  run_cmd ls -l "$DATA_DIR" || true
+  run_cmd head -n 5 "$DATA_DIR/alice.txt" || true
 
   echo "Fin de la practica HDFS. Log guardado en: $LOG_FILE" | tee -a "$LOG_FILE"
 }
@@ -80,7 +91,7 @@ while true; do
   echo "==============================="
   echo "  AEC2 - Procesamiento Datos"
   echo "==============================="
-  echo "1) Ejecutar bloque HDFS (con pausas para capturas)"
+  echo "1) Ejecutar bloque HDFS"
   echo "2) Ver bloque MapReduce"
   echo "3) Ver bloque CAP"
   echo "4) Ejecutar todo (bloques + HDFS)"
