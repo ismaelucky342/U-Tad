@@ -1,3 +1,18 @@
+#====================================================================================================#
+#                                                                                                    #
+#                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        #
+#      AEC1 - BAIN                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       #
+#                                                        ██║   ██║█████╗██║   ███████║██║  ██║       #
+#      created:        19/03/2026  -  03:00:51           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
+#      last change:    22/03/2026  -  11:34:43           ╚██████╔╝      ██║   ██║  ██║██████╔╝       #
+#                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        #
+#                                                                                                    #
+#      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             #
+#                                                                                                    #
+#      Github:                                           https://github.com/ismaelucky342            #
+#                                                                                                    #
+#====================================================================================================# 
+
 from pathlib import Path
 
 import pandas as pd
@@ -92,8 +107,8 @@ st.set_page_config(
     layout="wide",
 )
 
-st.title("₿ Bitcoin Tweets – Hashtag Analysis Dashboard")
-st.caption("AEC1 · Information Retrieval · 3rd Course Q2")
+st.title("₿ Dashboard ")
+st.caption("AEC1 · Busqueda y Análisis de la Información")
 
 # ---- Barra lateral: carga del CSV ------------------------------------------
 st.sidebar.header("Configuration")
