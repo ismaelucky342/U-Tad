@@ -1,199 +1,106 @@
+# AEC1 - Análisis de Sentimiento y Tendencias en Redes Sociales
 
-# AEC1 – Análisis de Sentimiento y Tendencias en Redes Sociales
-
----
+![image.png](attachment:23514a5f-0acd-4aeb-921a-558d6cb0b1f3:image.png)
 
 ## Introducción
 
-En este proyecto he desarrollado un flujo completo para analizar tweets sobre Bitcoin. He implementado la extracción, limpieza, normalización y análisis de texto, y he generado visualizaciones para interpretar tendencias y patrones. Todo el proceso está explicado paso a paso y cada decisión está justificada por motivos prácticos o técnicos.
+En este proyecto he desarrollado un flujo completo de extracción, limpieza y análisis de datos aplicado a tweets relacionados con Bitcoin. La idea es construir un pipeline reutilizable que me permita trabajar con este tipo de datos de forma consistente y replicable en otros escenarios similares.
 
-El repositorio contiene:
-- El notebook principal con el código y las explicaciones.
-- Un dashboard interactivo en Streamlit para explorar los resultados.
-- Archivos de salida (gráficos y CSVs) generados automáticamente.
-- Este README con instrucciones y justificación de cada parte.
+El núcleo del proyecto es la clase DataExtractor, donde concentro toda la lógica: desde la carga de datos hasta el análisis final. Esto me permite no depender del notebook como tal y reutilizar directamente el código en otros contextos, como el dashboard que incluyo en el proyecto. En cierto modo, he intentado separar claramente la lógica de datos de la parte de visualización, algo que considero clave y que resultó ser uno de mis principales problemas en la asignatura de Inteligencia Artificial a la hora de mantener el código limpio y escalable.
 
+## Dataset
 
-## Estructura del proyecto
+He utilizado el dataset de tweets sobre Bitcoin disponible en Kaggle, en formato CSV. Me parece que tiene suficiente volumen como para que aparezcan patrones reales, tanto en hashtags como en comportamiento de usuarios.
 
-He organizado el proyecto así para que sea fácil de seguir y reproducir:
-
-```
-AEC1/
-├── AEC1_DataExtractor.ipynb   # Notebook principal
-├── dashboard.py               # Dashboard interactivo (Streamlit)
-├── Bitcoin_tweets_dataset_2.csv   # Dataset original (no incluido en el repo)
-├── Bitcoin_tweets_cleaned.csv     # Dataset limpio generado
-├── wordcloud_hashtags.png     # Wordcloud de hashtags
-├── wordcloud_words.png        # Wordcloud de palabras
-├── top20_hashtags.png         # Barplot top 20 hashtags
-├── hashtag_evolution.png      # Evolución temporal de hashtags
-└── README.md                  # Documentación
-```
+No incluyo el dataset en el repositorio por tamaño y licencia, así que hay que descargarlo manualmente y colocarlo en la carpeta del proyecto. Aun así, el código está preparado para funcionar directamente una vez se añade el fichero, sin necesidad de configuraciones adicionales.
 
 ---
 
-## Diagrama de flujo del proceso
+## Desarrollo del proyecto
 
-He seguido este flujo para asegurarme de que cada paso está bien aislado y documentado:
+La primera decisión importante que seguí fue la carga de datos. En lugar de leer el CSV directamente, utilizo pandas.read_csv con chunksize, lo que me permite trabajar de forma más facil si el dataset crece o hay limitaciones de memoria. Es una decisión sencilla, pero bastante más realista que asumir que todo cabe en RAM.
 
-```mermaid
-graph TD;
-   A[Descarga del dataset] --> B[Carga y almacenamiento]
-   B --> C[Limpieza y normalización]
-   C --> D[Extracción de hashtags]
-   D --> E[Análisis y visualizaciones]
-   E --> F[Dashboard interactivo]
-```
-
-
----
-
-## Flujo de trabajo
-
-### 1. Extracción de datos
-
-Para cargar el dataset uso `pandas.read_csv` con `chunksize=100_000` porque el archivo es grande y así evito problemas de memoria. Desactivo `low_memory` para que pandas no haga inferencias raras de tipos y fijo el `lineterminator` a `\n` para evitar errores con saltos de línea. Siempre uso `encoding='utf-8'` para evitar problemas de caracteres.
-
-Si no fijo el `lineterminator`, pandas puede mezclar filas. Esto lo comprobé en pruebas y por eso lo incluyo siempre.
-
-```python
-chunks = pd.read_csv('Bitcoin_tweets_dataset_2.csv', encoding='utf-8', low_memory=False, chunksize=100_000, lineterminator='\n')
-df = pd.concat(chunks, ignore_index=True)
-```
-
-Concateno los chunks y trabajo siempre con un DataFrame limpio en memoria.
-
-### 2. Almacenamiento
-
-Guardo el resultado en CSV porque es el formato más ligero y universal para datos tabulares. Así puedo abrirlo en pandas, Excel o cargarlo en una base de datos. Uso UTF-8 para evitar problemas de codificación, sobre todo con caracteres especiales.
-
-Después de guardar, reviso el tamaño del archivo y abro una muestra para comprobar que no hay filas corruptas ni caracteres extraños.
-
-### 3. Limpieza y normalización (`clean_text`)
-
-La limpieza del texto es fundamental para que el análisis funcione bien. Sigo estos pasos:
-1. Paso todo a minúsculas con `str.lower()` para que "Bitcoin" y "bitcoin" cuenten igual.
-2. Quito URLs porque suelen ser ruido y no aportan nada útil.
-3. Elimino menciones (`@usuario`) para centrarme en el contenido.
-4. Quito emojis y símbolos usando las categorías Unicode (So, Sk, Cs).
-5. Elimino signos y puntuación pero conservo los hashtags (`#`) porque son entidades clave.
-6. Colapso múltiples espacios en uno solo para que la tokenización sea consistente.
+El preprocesado del texto es probablemente la parte más importante del proyecto. Convierto todo a minúsculas, elimino URLs y menciones, y limpio emojis y símbolos usando categorías Unicode. Mantengo el carácter # porque es esencial para el análisis, ya que es precisamente el elemento que quiero estudiar. Después normalizo los espacios para dejar el texto consistente y evitar problemas en pasos posteriores.
 
 Ejemplo:
-```
-Tweet original:
-"🚀 Just bought more #Bitcoin! Check out https://t.co/abc123 @user 😎 #Crypto"
 
-Después de limpiar:
-"just bought more #bitcoin check out #crypto"
-```
+- Original: "Check out #Bitcoin at [https://bitcoin.org](https://bitcoin.org/) 🚀 @user"
+- Limpio: "check out #bitcoin"
 
-Si eliminara los hashtags, perdería la información más relevante para el análisis.
+A partir de ahí, extraigo hashtags con expresiones regulares y elimino duplicados dentro del mismo tweet para no sesgar las frecuencias. Esto evita que un único tweet tenga demasiado peso en el análisis simplemente por repetir un mismo hashtag varias veces.
 
-### 4. Extracción de hashtags (`extract_hashtags`)
+Con los datos ya preparados, calculo frecuencias globales, por usuario y por fecha. Esto permite ver tanto qué hashtags dominan la conversación como cómo evolucionan en el tiempo y quiénes son los usuarios más activos.
 
-Para extraer hashtags uso la expresión regular `#(\w+)`. Devuelvo todo en minúsculas para evitar duplicados y deduplico manteniendo el orden.
-
-Ejemplo:
-```
-Tweet: "#Bitcoin to the moon! #Crypto #bitcoin"
-Extraído: ['bitcoin', 'crypto']
-```
-
-### 5. Análisis extendido (`analytics_hashtags_extended`)
-
-En este paso aplico `clean_text` y `extract_hashtags` para asegurar que los datos estén limpios y los hashtags bien extraídos. Convierto la columna `date` a tipo fecha para analizar la evolución temporal. Exploto la lista de hashtags para que cada fila sea un hashtag y así calcular frecuencias fácilmente.
-
-Calculo tres agregaciones:
-- **overall**: frecuencia global de cada hashtag.
-- **by_user**: frecuencia de hashtags por usuario (para detectar posibles bots).
-- **by_date**: frecuencia diaria de cada hashtag (para ver tendencias).
-
-### 6. Posibles bots
-
-Para detectar posibles bots calculo qué porcentaje del total de hashtags viene del top 1% de usuarios. Si el top 1% concentra más del 50% de los hashtags, es probable que haya automatización.
+Además, incluyo una métrica simple pero bastante útil: el porcentaje de uso de hashtags que proviene del top 1% de usuarios. No es un detector de bots como tal, pero sirve como señal bastante clara de actividad anómala o automatizada, especialmente cuando hay una concentración muy alta en pocos perfiles.
 
 ---
 
-## Instrucciones de ejecución
+## Implementación
 
-### Requisitos
+Toda la lógica está encapsulada en la clase DataExtractor, que actúa como una especie de “API sencilla” digamos. Incluye métodos para cargar datos, limpiar texto, extraer hashtags y generar métricas.
 
-Para ejecutar el proyecto hay que instalar las siguientes librerías:
+He intentado que sea independiente del entorno en el que se ejecute, lo que me ha permitido reutilizarla directamente en el dashboard sin cambios relevantes. Esto también facilita que el código sea más mantenible y fácil de ampliar en caso de querer añadir nuevas funcionalidades en el futuro.
+
+---
+
+## Ejecución
+
+Para ejecutar el proyecto:
 
 ```bash
-pip install pandas wordcloud matplotlib seaborn streamlit
+python -m venv .venv
+source .venv/bin/activate
+pip install pandas matplotlib seaborn wordcloud
 ```
 
-### Notebook principal
+Pasos:
 
-1. Descargo `Bitcoin_tweets_dataset_2.csv` desde Kaggle y lo coloco en el mismo directorio.
-2. Abro `AEC1_DataExtractor.ipynb` en VS Code, JupyterLab o Google Colab.
-3. Ejecuto todas las celdas en orden.
-4. Si hay problemas de memoria, reduzco el `chunksize` al crear la clase.
-5. Si aparecen errores de codificación, reviso que el archivo esté en UTF-8.
-6. Compruebo que se han generado los archivos de salida y las visualizaciones.
-
-### Dashboard interactivo
-
-Para lanzar el dashboard ejecuto:
-
-```bash
-streamlit run dashboard.py
-```
-
-Después abro `http://localhost:8501` en el navegador. El dashboard permite explorar los hashtags más frecuentes, la evolución temporal y detectar posibles bots de forma interactiva.
+1. Descargar el dataset desde Kaggle
+2. Colocarlo en la carpeta AEC1/
+3. Ejecutar el notebook AEC1_DataExtractor.ipynb
 
 ---
 
-## Visualizaciones generadas
+## Visualización y dashboard
 
-He generado varias visualizaciones para interpretar los resultados:
+Al final del notebook genero visualizaciones como el top de hashtags, la evolución temporal y nubes de palabras, que permiten interpretar los datos de forma bastante directa y detectar patrones sin necesidad de profundizar en tablas.
 
-- El archivo `top20_hashtags.png` muestra un gráfico de barras horizontal con los 20 hashtags más frecuentes del dataset. Así identifico rápidamente los temas más repetidos.
-- En `hashtag_evolution.png` represento la evolución temporal diaria de los 5 hashtags principales. Esto me permite ver tendencias y picos de actividad.
-- El archivo `wordcloud_hashtags.png` es una nube de palabras formada solo por hashtags, donde el tamaño indica la frecuencia de aparición. Es útil para ver de un vistazo qué etiquetas dominan la conversación.
-- En `wordcloud_words.png` genero una nube de palabras con el vocabulario general de los tweets, excluyendo hashtags y stopwords. Así destaco las palabras más usadas en el corpus.
-
-Incluyo aquí ejemplos de las salidas generadas:
-
-![Barplot top 20 hashtags](top20_hashtags.png)
-![Evolución temporal hashtags](hashtag_evolution.png)
-![Wordcloud hashtags](wordcloud_hashtags.png)
-![Wordcloud palabras](wordcloud_words.png)
+Además como añadido a la práctica, he decidido crear un pequeño dashboard en Streamlit (muy sencillo es solo para visualizar) donde se puede subir el dataset y explorar los resultados de forma interactiva. Con esto no solo facilito a mi profesor la corrección, sino que también demuestro que la lógica está bien desacoplada y preparada para integrarse en otras herramientas.
 
 ---
 
-## Referencias y recursos
+## Referencias
 
-He consultado estas fuentes para la implementación:
-
-1. 42 AI: proyectos de IA/DS, ejemplos de limpieza y pipelines.
-   https://github.com/42-AI
-   https://42-ai.github.io/
-2. 42 School: proyectos de parsing y limpieza de texto.
-3. Kaggle Dataset: Bitcoin Tweets Dataset 2.  
-   https://www.kaggle.com/datasets/kaushiksuresh147/bitcoin-tweets/data?select=Bitcoin_tweets_dataset_2.csv
-4. pandas: `read_csv` y lectura por chunks.  
-   https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html
-5. pandas: `to_datetime` para normalizar fechas.  
-   https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html
-6. W3Schools: Regex y manejo de strings en Python.  
-   https://www.w3schools.com/python/python_regex.asp
-7. WordCloud: generación de nubes de palabras.  
-   https://amueller.github.io/word_cloud/
-8. Matplotlib: gráficos básicos.  
-   https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.barh.html
-
----
-
-## Limitaciones y mejoras futuras
-
-El análisis depende de la calidad y representatividad del dataset. Si los tweets están sesgados o provienen de bots, los resultados pueden no reflejar tendencias reales. La limpieza está pensada para textos en inglés y español, pero no cubre otros idiomas ni sarcasmo.
-
-Mejoras previstas:
-- Añadir análisis de sentimiento (positivo/negativo) sobre los tweets.
-- Mejorar la detección de bots con técnicas adicionales.
-- Ampliar la limpieza para más idiomas.
-- Incluir más visualizaciones interactivas en el dashboard.
+- 42 AI Bootcamp (Organización orientada a IA dentro de 42 Paris creada por estudiantes):
+    
+    https://42-ai.github.io/
+    
+    https://github.com/42-AI
+    
+- Kaggle dataset:
+    
+    https://www.kaggle.com/datasets/kaushiksuresh147/bitcoin-tweets
+    
+- Pandas documentation:
+    
+    https://pandas.pydata.org/docs/user_guide/index.html
+    
+- Matplotlib documentation:
+    
+    https://matplotlib.org/stable/users/index.html
+    
+- Seaborn tutorial:
+    
+    https://seaborn.pydata.org/tutorial.html
+    
+- WordCloud documentation:
+    
+    https://amueller.github.io/word_cloud/
+    
+- Regex tester:
+    
+    https://regex101.com/
+    
+- Unicode standard (TR44):
+    
+    https://unicode.org/reports/tr44/
