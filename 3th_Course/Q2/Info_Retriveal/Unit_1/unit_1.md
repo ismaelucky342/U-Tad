@@ -1,1162 +1,2153 @@
-# Unidad 1 — El ecosistema Python (Mega‑temario)
+# Unidad 1. El ecosistema Python.
 
-> Asignatura: **Búsqueda y Análisis de la Información**
->
-> Este documento es intencionalmente largo. La idea es que tengas un **temario autosuficiente** con teoría + ejemplos + ejercicios.
 
----
 
-## Checklist global (TO‑DO) — Unidad 1
+## Index
 
-Marca a medida que avances:
+- [1. Introducción Y Objetivos](#1-introducción-y-objetivos)
+  - [1.1 Introducción y objetivos](#11-introducción-y-objetivos)
+- [2. Instalación De Python](#2-instalación-de-python)
+  - [2.1 Introducción](#21-introducción)
+  - [2.2 Instalación de Python en Windows](#22-instalación-de-python-en-windows)
+  - [2.3 Instalación de Python en Linux](#23-instalación-de-python-en-linux)
+  - [2.4 Instalación de Python en macOS](#24-instalación-de-python-en-macos)
+- [3. Entornos (Ide) De Programación: Jupyter, Pycharm, Vscode](#3-entornos-ide-de-programación-jupyter-pycharm-vscode)
+  - [3.1 Introducción](#31-introducción)
+  - [3.2 El lenguaje de programación Python](#32-el-lenguaje-de-programación-python)
+  - [3.3 Jupyter](#33-jupyter)
+  - [3.4 PyCharm](#34-pycharm)
+  - [3.5 Visual Studio Code (VSCode)](#35-visual-studio-code-vscode)
+- [4. El Lenguaje Python: Sintaxis Y Estructuras Básicas](#4-el-lenguaje-python-sintaxis-y-estructuras-básicas)
+  - [4.1 Introducción](#41-introducción)
+  - [4.2 Sintaxis básicas en Python](#42-sintaxis-básicas-en-python)
+  - [4.3 Tipos de datos en Python](#43-tipos-de-datos-en-python)
+  - [4.4 Estructuras de datos habituales en Python](#44-estructuras-de-datos-habituales-en-python)
+  - [4.5 Estructuras de control de flujo de ejecución](#45-estructuras-de-control-de-flujo-de-ejecución)
+  - [4.6 Funciones](#46-funciones)
+  - [4.7 Programación orientada a objetos](#47-programación-orientada-a-objetos)
+  - [4.8 Manejo de excepciones](#48-manejo-de-excepciones)
+  - [4.9 Enlaces de interés](#49-enlaces-de-interés)
+- [5. Librerías Python: Instalación, Mantenimiento Y Creación De Paquetes Propios](#5-librerías-python-instalación-mantenimiento-y-creación-de-paquetes-propios)
+  - [5.1 Introducción](#51-introducción)
+  - [5.2 Instalación de librerías con pip](#52-instalación-de-librerías-con-pip)
+  - [5.3 Instalación de librerías desde repositorios externos](#53-instalación-de-librerías-desde-repositorios-externos)
+  - [5.4 Mantenimiento y actualización de librerías](#54-mantenimiento-y-actualización-de-librerías)
+  - [5.5 Entornos virtuales](#55-entornos-virtuales)
+  - [5.6 Creación de paquetes propios y publicación en PyPl](#56-creación-de-paquetes-propios-y-publicación-en-pypl)
+- [6. Introducción A Formatos De Datos: Csv, Json, Parquet, Avro](#6-introducción-a-formatos-de-datos-csv-json-parquet-avro)
+  - [6.1 Introducción](#61-introducción)
+  - [6.2 Tipos de datos](#62-tipos-de-datos)
+  - [6.3 CSV (Comma-Separated Values)](#63-csv-comma-separated-values)
+  - [6.4 JSON (JavaScript Object Notation)](#64-json-javascript-object-notation)
+  - [6.5 Parquet](#65-parquet)
+  - [6.6 Avro](#66-avro)
+  - [6.7 Enlaces de interés](#67-enlaces-de-interés)
+- [7. Manipulación Y Análisis De Datos Con Pandas Y Polars](#7-manipulación-y-análisis-de-datos-con-pandas-y-polars)
+  - [7.1 Introducción](#71-introducción)
+  - [7.2 Carga e inspección de datos](#72-carga-e-inspección-de-datos)
+  - [7.3 Selección, filtrado y creación](#73-selección-filtrado-y-creación)
+  - [7.4 Agrupación, ordenación y unión](#74-agrupación-ordenación-y-unión)
+  - [7.5 Enlaces de interés](#75-enlaces-de-interés)
+- [8. Conclusiones](#8-conclusiones)
+  - [8.1 Conclusiones de la unidad](#81-conclusiones-de-la-unidad)
 
-### Introducción y objetivos
-- [ ] Entender el objetivo de la unidad (ecosistema Python)
-- [ ] Entender qué es “reproducibilidad” en proyectos
-- [ ] Definir tu stack mínimo: terminal + VSCode + venv + pip
 
-### Instalación de Python
-- [ ] Instalar Python en Windows
-- [ ] Instalar Python en Linux
-- [ ] Instalar Python en macOS
-- [ ] Verificar `python`/`python3`/`pip` y el ejecutable real
-- [ ] Entender PATH y “múltiples Python”
 
-### Herramientas
-- [ ] Jupyter: cuándo usarlo y cómo evitar “estado oculto”
-- [ ] PyCharm: concepto de proyecto e intérprete
-- [ ] VSCode: intérprete/venv, depuración y notebooks
+## 1. Introducción Y Objetivos
 
-### Python lenguaje
-- [ ] Sintaxis básica y estilo (PEP 8)
-- [ ] Tipos, mutabilidad, copias
-- [ ] Estructuras de datos (list/tuple/dict/set)
-- [ ] Control de flujo (if/for/while/match)
-- [ ] Funciones (firmas, docstrings, *args/**kwargs)
-- [ ] POO (clases, composición, dataclasses)
-- [ ] Excepciones (raise, chaining, custom)
 
-### Paquetes y entornos
-- [ ] `pip` (instalar, freeze, requirements)
-- [ ] Instalar desde git/local
-- [ ] Actualizar dependencias y entender compatibilidad
-- [ ] `venv` y aislamiento real
-- [ ] Concepto de paquete propio y PyPI
 
-### Datos
-- [ ] CSV (delimitadores, encoding, quoting)
-- [ ] JSON (objetos, arrays, JSONL)
-- [ ] Parquet (columnar, compresión)
-- [ ] Avro (esquema, evolución)
+### 1.1 Introducción y objetivos
 
-### Pandas
-- [ ] Cargar/inspeccionar
-- [ ] Filtrar/seleccionar
-- [ ] Crear columnas
-- [ ] GroupBy/merge
 
-### Práctica
-- [ ] Completar biblioteca de ejercicios
-- [ ] Completar mini‑proyecto IR
 
----
+#### Introducción
 
-## Índice
-- 0. Introducción y objetivos
-- 1. Instalación y configuración
-  - 1.1 Windows
-  - 1.2 Linux
-  - 1.3 macOS
-  - 1.4 Troubleshooting (PATH, versiones, pip)
-- 2. Herramientas (Jupyter, PyCharm, VSCode)
-  - 2.1 Qué usar según la tarea
-  - 2.2 Configuración mínima en VSCode
-    - 2.3 Jupyter en profundidad (kernels, buenas prácticas)
-    - 2.4 PyCharm (proyecto, venv, debugging)
-    - 2.5 Flujo recomendado para la asignatura
-- 3. Python (de básico a muy práctico)
-  - 3.1 Sintaxis, scripts, módulos
-  - 3.2 Tipos y mutabilidad
-  - 3.3 Estructuras de datos y patrones comunes
-  - 3.4 Control de flujo
-  - 3.5 Funciones
-  - 3.6 POO
-  - 3.7 Excepciones
-    - 3.8 IO (ficheros) y `pathlib`
-    - 3.9 Módulos clave (collections, re, json, csv)
-    - 3.10 Debugging y logging
-- 4. Paquetes, pip y entornos
-  - 4.1 pip (instalar, freeze, reproducibilidad)
-  - 4.2 venv (aislamiento real)
-  - 4.3 Publicación (visión de alto nivel)
-    - 4.4 Reproducibilidad real (requirements, rangos, locks)
-- 5. Formatos de datos
-  - 5.1 CSV
-  - 5.2 JSON (y JSONL)
-  - 5.3 Parquet
-  - 5.4 Avro
-    - 5.5 Cómo elegir formato (reglas prácticas)
-- 6. Pandas
-  - 6.1 Carga e inspección
-  - 6.2 Limpieza y transformación
-  - 6.3 GroupBy, merge, pivot
-    - 6.4 Tipos, missing values y datetime
-    - 6.5 Rendimiento (apply vs vectorización)
-- 7. Biblioteca de ejercicios (por carpetas)
-- 8. Mini‑proyecto: mini buscador (IR)
-- 9. Enlaces y recursos
 
----
 
-## Temario oficial (punto por punto) + TO‑DO
+En esta unidad didáctica, se explorará el ecosistema Python, proporcionando una comprensión de sus componentes más relevantes y su aplicación en el análisis de datos. Python es un lenguaje de programación versátil y ampliamente utilizado en diversas áreas, incluyendo la ciencia de datos, el aprendizaje automático y el desarrollo web.
 
-Esta sección replica el temario “tal cual” y te sirve como lista de control.
+A continuación, se presentarán los fundamentos del lenguaje Python, abordando su sintaxis básica y sus estructuras de datos principales. También se discutirá la instalación y el mantenimiento de librerías en Python, enfatizando su importancia en la expansión de sus capacidades y en la realización de tareas específicas. Además, introduciremos los formatos de datos más comunes, como CSV, JSON, Parquet y Avro, que son fundamentales para el manejo de datos.
 
-### Bloque A — Introducción
-- [ ] Introducción y objetivos
-- [ ] Introducción (por qué Python en IR)
+Finalmente, exploraremos cómo utilizar las librerías Pandas y Polars para la manipulación y análisis de datos, herramientas esenciales en la ciencia de datos que permiten realizar operaciones complejas de manera eficiente y efectiva.
 
-### Bloque B — Instalación
-- [ ] Instalación de Python en Windows
-- [ ] Instalación de Python en Linux
-- [ ] Instalación de Python en macOS
 
-### Bloque C — Herramientas
-- [ ] El lenguaje de programación Python (visión general)
-- [ ] Jupyter
-- [ ] PyCharm
-- [ ] Visual Studio Code (VSCode)
 
-### Bloque D — Fundamentos del lenguaje
-- [ ] Sintaxis básicas en Python
-- [ ] Tipos de datos en Python
-- [ ] Estructuras de datos habituales en Python
-- [ ] Estructuras de control de flujo de ejecución
-- [ ] Funciones
-- [ ] Programación orientada a objetos
-- [ ] Manejo de excepciones
-- [ ] Enlaces de interés
+- **Instalación de Python**  
+  Antes de instalar cualquier IDE o herramienta adicional, es fundamental tener Python instalado en el sistema. A continuación, veremos los pasos instalar Python en Windows, macOS y Linux.
+- **Entornos (IDE) de Programación: Jupyter, Pycharm, VsCode**  
+  En este apartado vamos a conocer los IDEs más utilizados cuando se quiere programar en Python. Un IDE es una herramienta que facilita la escritura, ejecución y depuración de código, ofreciendo funcionalidades que mejoran la productividad del desarrollador.
+- **El lenguaje Python: Sintaxis y Estructuras básicas**  
+  En este apartado, introduciremos los elementos esenciales del lenguaje Python, incluyendo su sintaxis básica, tipos de datos fundamentales y estructuras de control de flujo. Aprenderemos a escribir y ejecutar scripts simples, realizar operaciones aritméticas y lógicas, y manipular datos utilizando listas, tuplas, diccionarios y estructuras similares.
+- **Librerías Python: Instalación, mantenimiento y creación de paquetes propios**  
+  Este apartado introduce a los estudiantes a la gestión de paquetes en Python, aprenderemos a instalar y mantener librerías utilizando el gestor de paquetes pip, a crear entornos virtuales para aislar dependencias y a crear nuestros propios paquetes, incluyendo cómo publicarlos en el repositorio oficial de Python, PyPI.
+- **Introducción a formatos de datos: CSV, JSON, PARQUET, AVRO**  
+  En este apartado, exploraremos los formatos de datos más utilizados: CSV, JSON, Parquet y Avro, y aprenderemos cómo trabajar con ellos en Python.
+- **Manipulación y Análisis de datos con Pandas y Polars**  
+  En este apartado, exploraremos cómo utilizar ambas librerías para manipular y analizar datos de manera efectiva.
 
-### Bloque E — Librerías, pip y entornos
-- [ ] Instalación de librerías con pip
-- [ ] Instalación de librerías desde repositorios externos
-- [ ] Mantenimiento y actualización de librerías
-- [ ] Entornos virtuales
-- [ ] Creación de paquetes propios y publicación en PyPI
 
-### Bloque F — Formatos de datos
-- [ ] Tipos de datos (fila vs columna)
-- [ ] CSV (Comma‑Separated Values)
-- [ ] JSON (JavaScript Object Notation)
-- [ ] Parquet
-- [ ] Avro
-- [ ] Enlaces de interés
 
-### Bloque G — Pandas
-- [ ] Carga e inspección de datos
-- [ ] Selección, filtrado y creación
-- [ ] Agrupación, ordenación y unión
-- [ ] Enlaces de interés
+#### Objetivos
 
-### Bloque H — Cierre
-- [ ] Conclusiones de la unidad
 
-Sugerencia: completa los ejercicios de la sección 7 en paralelo.
 
-## 0. Introducción y objetivos
+En esta unidad se plantean los siguientes objetivos:
 
-Python es el “lenguaje pegamento” del análisis de información: te permite desde procesar ficheros y APIs (JSON/CSV) hasta montar pipelines de limpieza y análisis (Pandas), y más adelante en la asignatura, implementar estructuras típicas de IR (índices invertidos, scoring, ranking).
 
-### Qué vas a dominar aquí (en términos de competencias)
-- Montar un entorno reproducible (que *mañana* funcione igual que hoy).
-- Escribir código Python limpio, debuggable, y con manejo de errores.
-- Trabajar con datos reales (sucios, incompletos) sin romper el flujo.
 
-### Qué significa “ecosistema” en Python
-Cuando alguien dice “ecosistema Python” normalmente se refiere a:
-- **Intérprete** (CPython) y su versión.
-- **Librería estándar** (json, csv, pathlib, collections, re...).
-- **Gestor de paquetes** (`pip`) y repositorio (PyPI).
-- **Entornos** (venv/conda) para aislar dependencias.
-- **Herramientas** (VSCode/Jupyter) para desarrollar y analizar.
+1. Comprender el ecosistema Python y su relevancia en la ciencia de datos.
+2. Familiarizarse con los entornos de desarrollo integrados para Python y seleccionar el más adecuado según sus necesidades.
+3. Entender la sintaxis básica de Python y las estructuras de datos fundamentales.
+4. Instalar y mantener librerías en Python de manera eficiente.
+5. Conocer y manejar diferentes formatos de datos como CSV, JSON, Parquet y Avro.
+6. Utilizar las librerías Pandas y Polars para manipular y analizar datos.
 
-En esta asignatura lo importante es que seas capaz de:
-- instalar y aislar dependencias;
-- leer y transformar datos;
-- escribir código modular para algoritmos de IR.
 
-### TO‑DO de la sección
-- [ ] Entender por qué reproducibilidad = “no perder semanas”
-- [ ] Identificar tus herramientas: VSCode + venv + pip
 
----
+## 2. Instalación De Python
 
-## 1. Instalación y configuración
 
-### 1.1 Instalación en Windows
 
-**Opciones típicas:**
-- Instalador oficial de python.org
-- Microsoft Store (menos recomendable para proyectos serios)
+### 2.1 Introducción
 
-**Pasos (recomendado):**
-1. Descarga desde https://www.python.org/downloads/windows/
-2. Ejecuta el instalador
-3. Marca **Add Python to PATH**
-4. Instala
 
-**Verificación:**
-```bash
-python --version
-pip --version
+
+![image](assets/cm5xt2du500583571wvmro0rl-stock-image.jpg)
+
+
+
+Antes de instalar cualquier IDE o herramienta adicional, es fundamental tener Python instalado en el sistema. A continuación, veremos los pasos instalar Python en Windows, macOS y Linux.
+
+
+
+### 2.2 Instalación de Python en Windows
+
+
+
+1. Entrar en la página web del siguiente enlace: [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/)
+2. En el apartado “Stable Releases”, hacer click en “Download Windows installer” de la versión correspondiente y acorde a tu sistema operativo. Para este curso utilizaremos la última versión estable de Python 3.11.9, para Windows 64-bit: [https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe](https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe)
+3. ![image](assets/cm5xt6ghx009g3571syxr93id-step3-Imagen1.jpg)
+   Ejecuta el instalador y En la primera pantalla, marcar la opción "Add Python 3.x to PATH" para añadir Python al PATH del sistema y facilitar su uso desde la línea de comandos.
+4. Hacer click en “install now” y seguir las instrucciones.
+5. Verifica la instalación ejecutando el siguiente comando en la terminal (CMD): python --version (o python3 --version)
+
+
+
+### 2.3 Instalación de Python en Linux
+
+
+
+Python viene preinstalado en gran parte de las distribuciones de Linux. Sin embargo, puede ser necesario instalar una versión más reciente o específica.
+
+
+
+1. Actualizar los repositorios: sudo apt update.
+2. Instalar Python 3: sudo apt install python3.
+3. Instalar pip para gestionar paquetes: sudo apt install python3-pip.
+4. Verificar la instalación: python3 –version.
+
+
+
+### 2.4 Instalación de Python en macOS
+
+
+
+1. Entrar en la página web del siguiente enlace: [https://www.python.org/downloads/macos/](https://www.python.org/downloads/macos/)
+2. En el apartado “Stable Releases”, hacer click en “Download macOS installer” de la versión correspondiente y acorde a tu sistema operativo. Para este curso utilizaremos la última versión estable de Python 3.11.9: [https://www.python.org/ftp/python/3.11.9/python-3.11.9-macos11.pkg](https://www.python.org/ftp/python/3.11.9/python-3.11.9-macos11.pkg)
+3. Ejecuta el instalador y seguir las instrucciones.
+4. Verifica la instalación ejecutando el siguiente comando en la terminal (CMD): python3 --version
+
+
+
+## 3. Entornos (Ide) De Programación: Jupyter, Pycharm, Vscode
+
+
+
+### 3.1 Introducción
+
+
+
+![image](assets/cl3isuljk005x396ljvqiqoc5-stock-image.jpg)
+
+
+
+En este apartado vamos a conocer los IDEs más utilizados cuando se quiere programar en Python. Un IDE es una herramienta que facilita la escritura, ejecución y depuración de código, ofreciendo funcionalidades que mejoran la productividad del desarrollador.
+
+
+
+### 3.2 El lenguaje de programación Python
+
+
+
+Python es un lenguaje de programación de alto nivel, interpretado y de propósito general, creado por Guido van Rossum y lanzado por primera vez en 1991. Se caracteriza por su sintaxis clara y legible, lo que facilita el aprendizaje y la escritura de código eficiente. Entre los paradigmas que soporta Python encontramos el orientado a objetos, funcional y procedimental.
+
+Desde su creación, Python se ha consolidado como una herramienta fundamental en diversos campos como la ciencia de datos, la inteligencia artificial, la bioinformática y el desarrollo web. La elección de un lenguaje de programación para una solución particular a menudo se basa en la comunidad de desarrollo que lo respalda, y Python destaca en este aspecto debido a su vasta y activa comunidad.
+
+Estudiar y utilizar Python es crucial, especialmente en áreas de análisis de datos, debido a la gran cantidad de bibliotecas y frameworks disponibles que abordan problemas específicos en diversas disciplinas científicas. Por ejemplo, en el ámbito de la ciencia de datos, bibliotecas como pandas, NumPy, SciPy y scikit-learn han hecho de Python el lenguaje preferido para el análisis y modelado de datos, facilitando a los investigadores y profesionales el desarrollo de soluciones eficientes y escalables.
+
+La abundancia de bibliotecas especializadas en Python no solo facilita el acceso a herramientas avanzadas y métodos estadísticos, sino que también permite a los investigadores aprovechar las contribuciones y el conocimiento acumulado de la comunidad. Esto optimiza la calidad y la relevancia de sus trabajos en contextos científicos específicos.
+
+Comparado con R, Python ofrece una mayor versatilidad y una integración más fluida con otras tecnologías y aplicaciones de software, lo que lo convierte en una opción más adecuada para proyectos que requieren un enfoque multidisciplinario. Además, la creciente popularidad de Python, como se ilustra en la gráfica adjunta de popularidad, demuestra su preferencia en la industria y la academia, impulsando el estudio y uso de Python, así como el desarrollo continuo de sus dependencias y paquetes asociados.
+
+Todo ello ha hecho que Python se convierta en uno de los lenguajes populares de 2024, siguiendo la tendencia de los últimos años.
+
+
+
+![image](assets/cm5xtj1fp00gm357112bia5um-Imagen2.jpg)
+
+
+
+### 3.3 Jupyter
+
+
+
+Dentro del ecosistema Jupyter, trabajaremos con JupyterLab es el entorno de desarrollo interactivo de última generación, diseñado para mejorar y ampliar las capacidades de Jupyter Notebook. Nos proporciona una interfaz más flexible y potente que permite trabajar con cuadernos (notebooks), editores de texto, terminales y otras herramientas en una sola aplicación unificada.
+
+Para instalar JupyterLab, utilizaremos el gestor de paquetes pip, que se incluye con la instalación de Python.
+
+1. **Abrir la terminal o CMD**
+2. **Ejecutar:** Windows & Mac: pip install jupyterlab Linux: pip3 install jupyterlab
+3. **Verifica la instalación inicializando jupyter ejecutando en la terminal**: jupyter lab
+
+Entre sus características principales encontramos:
+
+1. **Celdas interactivas**: permite ejecutar código en bloques denominados celdas.
+2. **Visualización integrada**: soporta la integración de gráficos y visualizaciones directamente en el cuaderno.
+3. **Compatibilidad con múltiples lenguajes**: aunque está diseñado para Python, Jupyter soporta otros lenguajes a través de kernels.
+
+
+
+### 3.4 PyCharm
+
+
+
+PyCharm es un IDE centrado para el desarrollo en Python. Ha sido creado por JetBrains, misma compañía que el famoso IntelliJ. Ofrece herramientas avanzadas para escribir, depurar y probar código, y es ampliamente utilizado tanto en la industria como en el ámbito académico.
+
+PyCharm dispone de dos versiones: Community (gratuita) y Professional (de pago). En este curso utilizaremos la versión Community. Para instalar:
+
+1. Accede a [https://www.jetbrains.com/pycharm/download/](https://www.jetbrains.com/pycharm/download/)
+2. ![image](assets/cm5xtm8im00hq35710woz0ki6-step2-Imagen3.jpg)
+   Hacer click en descargar la edición Community
+3. Seguir las instrucciones de instalación. En caso de que lo pregunte, marcar la opción “Update PATH variable”.
+
+
+
+Entre sus características principales encontramos:
+
+1. **Autocompletado inteligente**: Sugerencias de código basadas en el contexto.
+2. **Depurador gráfico**: Herramientas para inspeccionar variables y flujos de ejecución.
+3. **Integración con sistemas de control de versiones**: Soporte para Git, SVN, entre otros.
+
+
+
+### 3.5 Visual Studio Code (VSCode)
+
+
+
+VS Code es un IDE que ha sido desarrollado por Microsoft. Se ha vuelto muy popular por su flexibilidad y amplia gama de extensiones, así como cierto carácter open-source. Aunque no es un IDE exclusivo para Python, se puede configurar para ofrecer una experiencia completa de desarrollo en este lenguaje.
+
+VSCode es gratuito y se puede descargar desde el sitio oficial:
+
+1. Accede a [https://code.visualstudio.com/](https://code.visualstudio.com/)
+2. Hacer click en descargar
+3. Seguir las instrucciones de instalación.
+
+A continuación, deberemos instalar ciertas extensiones para habilitar Python y Jupyter.
+
+1. ![image](assets/cm5xtr7h300kl3571q1j8mkcy-step1-Imagen4.png)
+   Abrir VSCode y navegar a la sección de extensiones.
+2. ![image](assets/cm5xtr7h300kl3571q1j8mkcy-step2-Imagen5.jpg)
+   Buscar “Python” e instalar “Python” y “Python debugger”
+3. ![image](assets/cm5xtr7h300kl3571q1j8mkcy-step3-Imagen6.jpg)
+   Buscar “Jupyter” e instalar “Jupyter”.
+4. Reiniciar VSCode si es necesario.
+
+
+
+Entre sus características principales encontramos:
+
+1. **Extensibilidad:** gran cantidad de extensiones disponibles para personalizar y ampliar funcionalidades.
+2. **Terminal integrada:** acceso rápido a la línea de comandos desde el editor.
+3. **Depuración y pruebas:** herramientas para depurar código y ejecutar pruebas unitarias.
+
+
+
+![image](assets/cm5xtvxgt00na3571e934o8bq-Imagen7.png)
+
+
+
+Por facilidad de integración y opciones que no requieren pago adicional, en este curso utilizaremos VSCode.
+
+
+
+## 4. El Lenguaje Python: Sintaxis Y Estructuras Básicas
+
+
+
+### 4.1 Introducción
+
+
+
+![image](assets/cm5xtxrgo00p5357184ym5736-stock-image.jpg)
+
+
+
+La programación básica en Python es fundamental para desarrollar aplicaciones en diversos campos como la ciencia de datos, el aprendizaje automático y el desarrollo web. En este apartado, introduciremos los elementos esenciales del lenguaje Python, incluyendo su sintaxis básica, tipos de datos fundamentales y estructuras de control de flujo. Aprenderemos a escribir y ejecutar scripts simples, realizar operaciones aritméticas y lógicas, y manipular datos utilizando listas, tuplas, diccionarios y estructuras similares.
+
+
+
+### 4.2 Sintaxis básicas en Python
+
+
+
+La sintaxis básica en Python es sencilla y legible, lo que facilita su aprendizaje y uso. Las instrucciones fundamentales incluyen la asignación de variables, las operaciones aritméticas básicas y la capacidad de imprimir resultados en la consola.
+
+Otro recurso muy útil es la capacidad de comentar código, que se realiza con el símbolo #.
+
+Un ejemplo de estas tareas es el siguiente:
+
+
+
+```ini
+# Asignación de variables
+x = 10
+y = 5
+
+# Operaciones aritméticas básicas
+suma = x + y
+resta = x - y
+producto = x * y
+cociente = x / y
+
+# Imprimir resultados
+print(suma)       # Output: 15
+print(resta)      # Output: 5
+print(producto)   # Output: 50
+print(cociente)   # Output: 2.0
 ```
 
-**Errores clásicos y solución rápida:**
-- “python no se reconoce como un comando”: el PATH no apunta a la instalación.
-- “pip no existe”: el instalador no agregó pip o estás llamando al Python equivocado.
 
-**Tip práctico:**
-En Windows a veces conviene usar:
-```bash
-py -V
-py -m pip --version
-py -m pip install requests
-```
-El launcher `py` te reduce el caos de versiones.
 
-**TO‑DO Windows:**
-- [ ] Instalar y verificar Python
-- [ ] Entender diferencia `python` vs `py`
+Para ejecutar el siguiente código en VSCode, se deben seguir los siguientes pasos:
 
-#### Windows: “recetas” rápidas
-1) Mostrar dónde está Python:
-```bash
-where python
-python -c "import sys; print(sys.executable)"
-```
+1. Con el IDE abierto, navegar por las siguientes opciones en el apartado File: File > New File > Jupyter Notebook
+2. En el archivo abierto, hacemos click en la celda que aparece vacía y pegamos el código.
+3. ![image](assets/cm5xu0s6t00sh3571v7bwh60v-step3-INSD_BAIN_U1_Imagen8.jpg)
+   Hacemos click en el botón de ejecutar o bien por atajos (Ctrl + Shift en Windows). Al ejecutar el código, los resultados aparecerán en la consola o directamente debajo de la celda.
+4. Finalmente, podemos guardar el archivo con Ctrl + S e incluso guardarlo en un repositorio de Git.
 
-2) Usar pip del intérprete correcto:
-```bash
-python -m pip install -U pip
-python -m pip install pandas
-```
 
-3) Si `pip` da problemas, reinstala/actualiza:
-```bash
-python -m ensurepip --upgrade
-python -m pip install -U pip
-```
 
----
+### 4.3 Tipos de datos en Python
 
-### 1.2 Instalación en Linux
 
-En Linux suele venir `python3` ya instalado, pero necesitas también `pip` y `venv`.
 
-Debian/Ubuntu:
-```bash
-sudo apt update
-sudo apt install -y python3 python3-pip python3-venv
-python3 --version
-pip3 --version
-```
+Los tipos de datos básicos en Python son similares a los de otros lenguajes de programación y son fundamentales para manejar información. Estos incluyen:
 
-**TO‑DO Linux:**
-- [ ] Verificar `python3` y `pip3`
-- [ ] Instalar `python3-venv`
 
-#### Linux: notas prácticas
-- En Debian/Ubuntu, evita instalar paquetes con `sudo pip` (mezcla sistema con proyecto).
-- En general: *venv siempre*.
 
-Mostrar rutas:
-```bash
-which python3
-python3 -c "import sys; print(sys.executable)"
+- **Datos de tipo numéricos**  
+  1. **Enteros (int):** números sin parte decimal, por ejemplo, 42.
+  2. **Flotantes (float):** números con parte decimal, por ejemplo, 3.14.
+- **Datos de tipo cadena de texto (str)**  
+  Representan secuencias de caracteres, por ejemplo, "Hola, mundo".
+- **Datos de tipo lógico (bool)**  
+  Representan valores de verdad, True o False.
+
+
+
+Un ejemplo de cuál es la nomenclatura que estos siguen en Python es el siguiente:
+
+
+
+```ini
+# Números
+numero_entero = 42
+numero_flotante = 3.14
+
+# Cadenas de texto
+texto = "Hola, mundo"
+
+# Valores lógicos
+logico = True
+
+# Imprimir valores
+print(numero_entero)    # Output: 42
+print(numero_flotante)  # Output: 3.14
+print(texto)            # Output: Hola, mundo
+print(logico)           # Output: True
 ```
 
----
 
-### 1.3 Instalación en macOS
 
-Recomendado: Homebrew.
-```bash
-brew install python
-python3 --version
-pip3 --version
+### 4.4 Estructuras de datos habituales en Python
+
+
+
+Python ofrece diversas estructuras de datos que permiten almacenar y manipular colecciones de elementos de manera eficiente. Las más habituales son: Listas (List), Tuplas (Tuple), Conjuntos (Set) y Diccionarios (Dictionary).
+
+
+
+#### Listas (List)
+
+
+
+Una lista (list) es una colección que se caracteriza por ser ordenada y mutable, que puede contener elementos de diferentes tipos, tales como strings, números e incluso objetos o estructuras de datos como diccionarios. Se puede acceder a un elemento de la lista indicándolo entre corchetes. Es importante recordar que la numeración de las listas comienza en 0, es decir, el primer elemento se accedería con: mi_lista[0].
+
+Un ejemplo básico de esta estructura es el siguiente.
+
+
+
+```markdown
+# Definición de una lista
+
+lista = [1, 2, 3, 4, 5]
+
+ 
+
+# Acceso a elementos
+
+print(lista[0])    # Output: 1
+
+ 
+
+# Modificación de elementos
+
+lista[1] = 10
+
+ 
+
+# Añadir elementos
+
+lista.append(6)
+
+ 
+
+# Recorrer una lista
+
+for elemento in lista:
+
+   print(elemento)
 ```
 
-**TO‑DO macOS:**
-- [ ] Instalar Python con brew
-- [ ] Verificar versión y pip
 
-#### macOS: notas prácticas
-- `python` del sistema puede no ser el que quieres: usa `python3`.
-- Homebrew suele instalar en `/opt/homebrew/...` (Apple Silicon) o `/usr/local/...` (Intel).
 
----
+Esto nos devuelve por pantalla lo siguiente.
 
-### 1.4 Troubleshooting (PATH, versiones, pip)
 
-#### 1.4.1 `python` vs `python3`
-- En Linux/macOS suele ser `python3`.
-- En Windows suele ser `python` o `py`.
 
-#### 1.4.2 ¿Qué Python se está ejecutando?
-Para evitar confusiones, imprime el ejecutable:
-```python
-import sys
-print(sys.executable)
-print(sys.version)
+```ini
+1
+
+1
+
+10
+
+3
+
+4
+
+5
+
+6
 ```
 
-#### 1.4.3 `pip` correcto
-**Regla de oro:** usa `python -m pip` para instalar en el intérprete correcto.
-```bash
-python3 -m pip install pandas
-python3 -m pip list
+
+
+#### Tuplas (Tuple)
+
+
+
+Las tuplas (tuple) se diferencian de las listas en que son inmutables, es decir, una vez creadas no se pueden modificar.
+
+Mientras que las listas las definimos mediante corchetes [], las tuplas las definimos entre paréntesis ().
+
+
+
+```ruby
+# Definición de una tupla
+
+tupla = (1, 2, 3)
+
+ 
+
+# Acceso a elementos
+
+print(tupla[0])    # Output: 1
+
+ 
+
+# Las siguientes operaciones no son válidas y generarían un error
+
+# tupla[1] = 10
+
+# tupla.append(4)
 ```
 
-#### 1.4.4 Múltiples versiones de Python
-En proyectos reales, podrás necesitar Python 3.10 en un proyecto y 3.12 en otro.
-- Linux/macOS: `pyenv` (concepto)
-- Windows: `py` launcher + instalaciones múltiples
 
-**TO‑DO troubleshooting:**
-- [ ] Saber encontrar `sys.executable`
-- [ ] Instalar con `python -m pip`
 
-#### 1.4.5 Errores típicos (y cómo pensar)
-1) “Funciona en terminal pero no en VSCode”
-- Causa típica: VSCode está usando otro intérprete.
-- Solución: seleccionar intérprete del `.venv` y reiniciar terminal integrada.
+#### Conjuntos (Set)
 
-2) “Instalo pandas pero luego import falla”
-- Causa típica: instalaste en un Python distinto.
-- Solución: `python -m pip install ...` + `python -c "import pandas; print(pandas.__version__)"`
 
-3) “Tengo 2 pythons”
-- Es normal. Lo importante es ser explícito.
 
----
+Un conjuntos o set, es una colección desordenada (a diferencia de las listas, las cuales eran ordenadas) de elementos únicos, útiles para operaciones de conjunto como unión e intersección.
 
-## 2. Herramientas (Jupyter, PyCharm, VSCode)
+La forma de definir un conjunto es entre llaves {}.
 
-### 2.1 ¿Qué usar según la tarea?
-- **Jupyter**: exploración, prototipado, explicación paso a paso.
-- **VSCode**: scripts, proyectos, control de versiones, debugging, refactor.
-- **PyCharm**: IDE pesado, muy bueno para proyectos grandes (si te gusta JetBrains).
 
-### 2.2 Jupyter (Notebook / Lab)
 
-**Qué es:** un documento que mezcla texto (Markdown) + celdas de código ejecutables.
+```markdown
+# Definición de un conjunto
 
-**Ventajas reales:**
-- Perfecto para análisis de datos incremental.
-- Permite ver resultados inmediatamente.
+conjunto_1 = {1, 2, 3, 3}
 
-**Peligros reales:**
-- “Estado oculto”: una celda puede depender de otra ejecutada antes.
-- Difícil de testear y modularizar.
+ 
 
-**Buenas prácticas:**
-- Re-ejecuta “Restart kernel & Run all” para validar.
-- Evita copiar/pegar código: convierte en funciones.
+# Los elementos duplicados se eliminan
 
-### 2.3 Jupyter en profundidad (kernels, buenas prácticas)
+print(conjunto_1)    # Output: {1, 2, 3}
 
-#### 2.3.1 Kernel
-El *kernel* es el proceso Python que ejecuta tus celdas. Problema típico: tienes varios entornos y el notebook ejecuta el kernel equivocado.
+ 
 
-Checklist:
-- [ ] Saber identificar el kernel activo
-- [ ] Cambiar kernel al venv correcto
+# Añadir elementos
 
-#### 2.3.2 Patrones recomendados en notebooks
-- Arranca con una celda de imports y configuración.
-- Escribe funciones en celdas (no bloques enormes sueltos).
-- Evita estados globales opacos.
+conjunto_1.add(4)
 
-Ejemplo (estructura mínima):
-```python
-from pathlib import Path
-import pandas as pd
+ 
 
-DATA = Path("datasets") / "ventas.csv"
-df = pd.read_csv(DATA)
-df.head()
+# Operaciones de conjunto
+
+conjunto_2 = {3, 4, 5}
+
+union = conjunto_1.union(conjunto_2)
+
+print(union)
+
+interseccion = conjunto_1.intersection(conjunto_2)
+
+print(interseccion)
 ```
 
-### 2.4 PyCharm (proyecto, venv, debugging)
 
-Puntos clave:
-- En PyCharm, el proyecto está asociado a un intérprete (idealmente el `.venv`).
-- Depurar en PyCharm suele ser muy cómodo si vienes de IDEs clásicos.
 
-Checklist:
-- [ ] Crear proyecto y asignar intérprete `.venv`
-- [ ] Ejecutar un script con breakpoints
+Como resultado, obtenemos lo siguiente
 
-### 2.5 Flujo recomendado para la asignatura
 
-1) Crea un venv por unidad/proyecto.
-2) Escribe ejercicios en `.py` (más fácil de versionar y testear).
-3) Usa notebooks sólo cuando necesites exploración.
 
----
+```css
+{1, 2, 3}
 
-## 2.6 VSCode: depuración y calidad
+{1, 2, 3, 4, 5}
 
-Checklist:
-- [ ] Saber poner breakpoints
-- [ ] Saber inspeccionar variables
-- [ ] Saber ejecutar un archivo con el intérprete del venv
-
-Debugging mínimo:
-- un script con `if __name__ == "__main__":`
-- configura el intérprete
-- ejecuta con Debug
-
-### 2.3 VSCode (configuración mínima)
-
-Extensiones recomendadas:
-- Python
-- Pylance
-- Jupyter (si vas a usar notebooks)
-
-Conceptos:
-- Linter/formatter (ej. `ruff`/`black`)
-- Debugger
-- Selección de intérprete (tu venv)
-
-**TO‑DO herramientas:**
-- [ ] Tener VSCode con Python + Pylance
-- [ ] Saber seleccionar tu entorno virtual
-
----
-
-## 3. Python (de básico a muy práctico)
-
-### 3.1 Sintaxis, scripts y módulos
-
-**Script:** archivo `.py` ejecutable.
-```bash
-python3 mi_script.py
+{3, 4}
 ```
 
-**Módulo:** un `.py` importable.
 
-**Paquete:** carpeta con `__init__.py` (en Python clásico) o paquete namespace.
 
-Ejemplo rápido:
-```python
-# archivo: utils.py
+#### Diccionarios
 
-def normalize(text: str) -> str:
-    return text.strip().lower()
-```
 
-```python
-# archivo: main.py
-from utils import normalize
 
-print(normalize("  Hola  "))
-```
+A una colección donde existen pares de clave-valor y siendo las claves únicas, se le conoce como diccionario. Los diccionarios son mutables, es decir, se pueden añadir o eliminar claves, valores e incluso modificarlos. Como valores de las claves, también podemos encontrar otros objetos.
 
-**TO‑DO:**
-- [ ] Entender `if __name__ == "__main__":`
-- [ ] Saber separar en módulos
+Su sintaxis es la siguiente, {‘key’:’value’}
 
-#### 3.1.1 Patrón `__main__` (por qué existe)
 
-Cuando importas un módulo, Python ejecuta su “top level” una vez. Para que un archivo se pueda **importar** sin ejecutar la parte de “programa principal”, se usa:
-```python
-def main() -> None:
-    ...
-
-if __name__ == "__main__":
-    main()
-```
-Esto te permite:
-- reusar funciones desde otros módulos;
-- testear;
-- evitar side-effects al importar.
-
----
-
-### 3.2 Tipos de datos y mutabilidad
-
-#### 3.2.1 Tipos básicos
-- `int`, `float`, `bool`, `str`
-- `None` (`NoneType`)
-
-#### 3.2.2 Mutabilidad
-- Inmutables: `int`, `float`, `bool`, `str`, `tuple`
-- Mutables: `list`, `dict`, `set`
-
-Ejemplo: aliasing (error típico)
-```python
-a = [1, 2]
-b = a
-b.append(3)
-print(a)  # [1, 2, 3]  (porque b y a apuntan al mismo objeto)
-```
-
-Copia superficial vs profunda:
-```python
-import copy
-
-x = [[1], [2]]
-y = x.copy()          # superficial
-z = copy.deepcopy(x)  # profunda
-
-x[0].append(99)
-print(y)  # también cambia
-print(z)  # no cambia
-```
-
-**TO‑DO:**
-- [ ] Saber cuándo necesitas `copy.deepcopy`
-- [ ] Entender aliasing
-
-#### 3.2.3 Igualdad vs identidad
-- `==` compara valores
-- `is` compara identidad (mismo objeto)
-
-Ejemplo:
-```python
-a = [1, 2]
-b = [1, 2]
-print(a == b)  # True
-print(a is b)  # False
-```
-
----
-
-### 3.3 Estructuras de datos y patrones
-
-#### 3.3.1 Listas
-- Ordenadas, mutables.
-- Muy usadas para secuencias.
-
-Patrones:
-- Slicing: `lst[a:b:c]`
-- Comprensiones: `[f(x) for x in xs if cond]`
-
-Ejemplo:
-```python
-nums = [1, 2, 3, 4, 5]
-pares_cuadrado = [n*n for n in nums if n % 2 == 0]
-```
-
-#### 3.3.2 Tuplas
-- Inmutables.
-- Ideales para claves compuestas.
-
-```python
-coord = (40.4168, -3.7038)
-```
-
-#### 3.3.3 Diccionarios
-- Clave->valor.
-- Base de muchos algoritmos IR (índice invertido clásico).
 
 ```python
-freq = {}
-for token in ["a", "b", "a"]:
-    freq[token] = freq.get(token, 0) + 1
+# Definición de un diccionario
+
+diccionario = {'nombre': 'Ana', 'edad': 28}
+
+ 
+
+# Acceso a valores
+
+print(diccionario['nombre'])    # Output: Ana
+
+ 
+
+# Modificación de valores
+
+diccionario['edad'] = 29
+
+ 
+
+# Añadir nuevos pares clave-valor
+
+diccionario['ciudad'] = 'Madrid'
+
+ 
+
+# Recorrer un diccionario
+
+for clave, valor in diccionario.items():
+
+   print(f"{clave}: {valor}")
 ```
 
-#### 3.3.4 Sets
-- Unicidad.
-- Intersecciones rápidas (búsqueda booleana, IR):
+
+
+### 4.5 Estructuras de control de flujo de ejecución
+
+
+
+Para controlar el flujo, encontramos estructuras similares a las presentes en otros lenguajes. Concretamente, podemos encontrar las siguientes implementadas de forma nativa:
+
+- Estructuras condicionales
+- Estructuras de tipo bucle
+
+
+
+#### Estructuras condicionales
+
+
+
+La sintaxis de**las estructuras condicionales** en Python utiliza la palabra clave if, seguida opcionalmente por elif (else if) y else.
+
+
 
 ```python
-docs_a = {1, 2, 3}
-docs_b = {2, 3, 4}
-print(docs_a & docs_b)  # {2, 3}
-```
+# Estructuras condicionales
 
-**TO‑DO:**
-- [ ] Dominar `.get` en dict
-- [ ] Saber cuándo usar set vs list
+x = 7
 
-#### 3.3.5 `collections` (cuando crezcas)
-En proyectos reales, `collections.Counter` y `defaultdict` son oro:
-```python
-from collections import Counter, defaultdict
+ 
 
-tokens = ["a", "b", "a"]
-print(Counter(tokens))
+if x > 5:
 
-index = defaultdict(set)
-index["python"].add(1)
-```
+   print("x es mayor que 5")
 
----
-
-### 3.4 Control de flujo
-
-#### 3.4.1 `if/elif/else`
-```python
-if score >= 90:
-    grade = "A"
-elif score >= 80:
-    grade = "B"
 else:
-    grade = "C"
+
+   print("x es menor o igual a 5")
 ```
 
-#### 3.4.2 `for`
+
+
+#### Estructuras de tipo bucle
+
+
+
+Las  **estructuras de tipo bucle** se dividen en dos tipos: los bucles “for” y los “while”.
+
+En el caso de “for” se utiliza para iterar sobre una secuencia, como por ejemplo una lista o tupla. La sintaxis de los bucles “for”es la siguiente.
+
+
+
 ```python
-for i, value in enumerate(["a", "b"]):
-    print(i, value)
+# Bucle For
+
+for i in [1, 2, 3, 4, 5]:
+
+   print(i)
+
+ 
+
+# Utilizar la función range()
+
+for i in range(1, 6):
+
+   print(i)
 ```
 
-#### 3.4.3 `while`
-```python
-n = 3
-while n > 0:
-    n -= 1
+
+
+En el caso de un bucle “while”, el bloque de código se repite mientras la condición sea verdadera. La sintaxis de los bucles “while” es la siguiente.
+
+
+
+```haskell
+# Bucle While
+
+contador = 1
+
+ 
+
+while contador <= 5:
+
+   print(contador)
+
+   contador += 1
 ```
 
-#### 3.4.4 `match` (Python 3.10+)
-Útil para patrones simples:
-```python
-match status:
-    case 200:
-        msg = "OK"
-    case 404:
-        msg = "Not found"
-    case _:
-        msg = "Other"
+
+
+### 4.6 Funciones
+
+
+
+Una función de Python es un bloque de código reutilizable que permite realizar tareas específicas. Su sintaxis es similar a otros lenguajes de programación. Al igual que en estos lenguajes, las funciones en Python pueden aceptar argumentos, ejecutar operaciones y devolver resultados. Para definirlas se utiliza la palabra “def”, seguidas del nombre de la función y paréntesis que pueden contener parámetros
+
+Por ejemplo, una función que suma dos números se define de la siguiente manera:
+
+
+
+```yaml
+# Definición de una función
+def sumar(a, b):
+    resultado = a + b
+    return resultado
+
+# Llamada a la función
+print(sumar(5, 10))    # Output: 15
 ```
 
-**TO‑DO:**
-- [ ] Saber usar `enumerate`
-- [ ] Entender `match` (si tu versión lo permite)
 
-#### 3.4.5 Comprensiones y control de flujo declarativo
-Mucho código Python “idiomático” usa comprensiones:
-```python
-lineas = ["a", "", "b", "  "]
-no_vacias = [ln.strip() for ln in lineas if ln.strip()]
+
+Las funciones pueden tener parámetros opcionales, valores por defecto y pueden devolver múltiples valores.
+
+
+
+```ini
+# Función con parámetros por defecto
+def saludar(nombre, mensaje="Hola"):
+    return f"{mensaje}, {nombre}!"
+
+print(saludar("Carlos"))                # Output: Hola, Carlos!
+print(saludar("Ana", "Buenos días"))    # Output: Buenos días, Ana!
 ```
 
----
 
-### 3.5 Funciones (muy a fondo)
 
-#### 3.5.1 Firma y docstring
+### 4.7 Programación orientada a objetos
+
+
+
+La programación orientada a objetos (POO) es un paradigma que organiza el diseño de software alrededor de objetos, que pueden contener datos y código para manipular esos datos. Python soporta plenamente la POO, permitiendo crear clases, instanciar objetos.
+
+Una clase se entiende como una plantilla donde se definen las propiedades y comportamientos (atributos y métodos) que tendrán los objetos creados a partir de ella.
+
+Por otro lado, un objeto sería una instancia de la clase creada, es decir, una entidad que posee los atributos y métodos definidos en la clase.
+
+
+
+![image](assets/cm5xukvxs015k3571tn93cg2a-Imagen10.png)
+
+
+
+Para definir una clase en Python, se hará mediante el uso de la clave class:
+
+
+
 ```python
-def tokenize(text: str, *, lowercase: bool = True) -> list[str]:
-    """Convierte texto en tokens separando por espacios.
+# Definición de una clase
+class Persona:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre  # Atributo de instancia
+        self.edad = edad      # Atributo de instancia
 
-    Args:
-        text: texto de entrada
-        lowercase: si True, pasa a minúsculas
-
-    Returns:
-        Lista de tokens
-    """
-    if lowercase:
-        text = text.lower()
-    return text.split()
+    def saludar(self):
+        print(f"Hola, me llamo {self.nombre} y tengo {self.edad} años.")
 ```
 
-#### 3.5.2 `*args` y `**kwargs`
-```python
-def log(*values, sep=" "):
-    print(sep.join(str(v) for v in values))
 
-log("IR", "con", "Python")
+
+El método _ init _ es el constructor de la clase y se ejecuta al crear un nuevo objeto.
+
+El uso de self se hace para referenciar a la instancia actual de la clase. Además, se utiliza para acceder a los atributos y métodos.
+
+Para crear un objeto (instancia de una clase), simplemente llamamos a la clase como si fuera una función:
+
+
+
+```ini
+# Crear instancias de la clase Persona (objeto)
+persona1 = Persona("Ana", 30)
+persona2 = Persona("Luis", 25)
+
+# Acceder a atributos y métodos
+print(persona1.nombre)  # Output: Ana
+persona2.saludar()      # Output: Hola, me llamo Luis y tengo 25 años.
 ```
 
-#### 3.5.3 Scope
-- Local
-- Enclosing
-- Global
-- Built‑in
 
-**TO‑DO:**
-- [ ] Definir funciones con parámetros keyword-only (`*`)
-- [ ] Saber leer y escribir docstrings
 
-#### 3.5.4 Errores típicos con parámetros mutables
-Nunca uses un mutable como default:
+### 4.8 Manejo de excepciones
+
+
+
+El manejo de excepciones es esencial para crear programas robustos que puedan manejar errores y situaciones inesperadas sin interrumpir la ejecución del programa.
+
+En Python existen múltiples tipos de excepciones tales como “ValueError”, “ZeroDivisionError” entre otras. Sin embargo, la manera más genérica de definir excepciones es la siguiente:
+
+
+
 ```python
-def bad(acc=[]):
-    acc.append(1)
-    return acc
-```
-Esto “comparte” la lista entre llamadas.
-
-Patrón correcto:
-```python
-def good(acc=None):
-    if acc is None:
-        acc = []
-    acc.append(1)
-    return acc
-```
-
----
-
-### 3.6 Programación Orientada a Objetos
-
-#### 3.6.1 Qué problema resuelve
-- Encapsular estado + comportamiento
-- Modelar entidades (Documento, Colección, Tokenizador)
-
-Ejemplo: documento y normalización
-```python
-class Document:
-    def __init__(self, doc_id: int, text: str):
-        self.doc_id = doc_id
-        self.text = text
-
-    def normalized(self) -> str:
-        return " ".join(self.text.lower().split())
-```
-
-#### 3.6.2 `@dataclass`
-Simplifica clases de datos.
-```python
-from dataclasses import dataclass
-
-@dataclass
-class Posting:
-    doc_id: int
-    tf: int
-```
-
-**TO‑DO:**
-- [ ] Crear una clase simple con métodos
-- [ ] Usar `@dataclass` para estructuras
-
-#### 3.6.3 Composición vs herencia
-En IR, suele ser mejor **composición**:
-- `InvertedIndex` *tiene un* `Tokenizer`
-- `Tokenizer` *tiene una* estrategia de normalización
-
-Evita herencia si no hay una jerarquía clara.
-
----
-
-### 3.7 Excepciones
-
-#### 3.7.1 Estructura
-```python
+# Código que puede generar una excepción
 try:
-    x = int(value)
-except ValueError as e:
-    raise ValueError("value debe ser un entero") from e
-```
-
-#### 3.7.2 Custom exceptions
-```python
-class ParseError(Exception):
-    pass
-```
-
-**TO‑DO:**
-- [ ] Manejar errores sin “silenciar” excepciones importantes
-
-#### 3.7.3 `try/except/else/finally`
-`else` corre si no hubo excepción; `finally` siempre.
-```python
-try:
-    value = int("123")
-except ValueError:
-    value = 0
-else:
-    value += 1
+    numero = int(input("Introduce un número entero: "))
+    resultado = 10 / numero
+except Exception as e:
+    print("Ha ocurrido un error:", e)
 finally:
-    pass
+    print("Fin del programa.")
 ```
 
----
 
-## 3.8 IO (ficheros) y `pathlib`
 
-Checklist:
-- [ ] Abrir ficheros con `with open(...)`
-- [ ] Usar `Path` para rutas robustas
+### 4.9 Enlaces de interés
 
-Lectura segura:
+
+
+Por supuesto, abarcar todo el contenido del lenguaje de programación de Python no es el objetivo de este apartado ni unidad. Sin embargo, sí es importante tener claros los conceptos definidos.
+
+Para poder consultar de forma más exhaustiva el amplio abanico de funcionalidades que vienen implementadas de forma nativa en Python, se proporcionan los siguientes enlaces.
+
+Para consultar todo el listado de funciones y diferentes métodos de interacción con las estructuras de control se aconseja revisar las siguientes hojas de código de referencia:
+
+- [https://www.pythoncheatsheet.org/](https://www.pythoncheatsheet.org/)
+- [https://www.datacamp.com/cheat-sheet/category/python](https://www.datacamp.com/cheat-sheet/category/python)
+
+De igual modo, se recomienda revisarse en profundidad la documentación oficial de Python
+
+- [https://docs.python.org/es/3/tutorial/index.html](https://docs.python.org/es/3/tutorial/index.html)
+
+
+
+## 5. Librerías Python: Instalación, Mantenimiento Y Creación De Paquetes Propios
+
+
+
+### 5.1 Introducción
+
+
+
+![image](assets/cm5xut0l401br3571i09twl57-stock-image.jpg)
+
+
+
+La instalación de librerías, también conocidos como paquetes, en Python es un aspecto fundamental que permite a los usuarios extender las capacidades básicas del lenguaje para aplicaciones industriales y científicas.
+
+Este apartado introduce a los estudiantes a la gestión de paquetes en Python, aprenderemos a instalar y mantener librerías utilizando el gestor de paquetes pip, a crear entornos virtuales para aislar dependencias y a crear nuestros propios paquetes, incluyendo cómo publicarlos en el repositorio oficial de Python, PyPI.
+
+Comprender estos conceptos permitirá a los estudiantes gestionar eficientemente sus entornos de trabajo y aprovechar al máximo las herramientas disponibles en Python para realizar análisis de datos complejos y desarrollar soluciones robustas.
+
+
+
+### 5.2 Instalación de librerías con pip
+
+
+
+A la hora de trabajar con Python es necesario comprender cómo se maneja el versionado de las librerías.
+
+La mayoría de los paquetes de código que posee el lenguaje, y a los que se le da un soporte continuo, se encuentran en el repositorio PyPi ([https://pypi.org/](https://pypi.org/))
+
+El gestor de paquetes pip es la herramienta estándar para instalar y gestionar librerías en Python. Viene incluido con las versiones modernas de Python y permite instalar paquetes desde el Python Package Index (PyPI).
+
+Para instalar una librería, se utiliza el comando pip install seguido del nombre del paquete. Esto descargará e instalará automáticamente la última versión disponible del paquete desde PyPI:
+
+
+
+```ini
+pip install nombre_de_la_libreria
+```
+
+
+
+Por ejemplo, para instalar la librería “requests” que utilizaremos para hacer llamadas HTTP, se haría mediante:
+
+
+
+```ini
+pip install requests
+```
+
+
+
+Al ejecutar este comando, pip buscará la librería requests en PyPI, descargará el paquete y lo instalará en tu entorno de Python. Una vez completado, podrás importar y utilizar requests en tus scripts
+
+Para poder importar la biblioteca de código, una vez instalado, se debe ejecutar la siguiente instrucción:
+
+
+
 ```python
-from pathlib import Path
-
-path = Path("datasets") / "ventas.csv"
-with path.open(encoding="utf-8") as f:
-    text = f.read()
+import setuptools # Para importar todo el paquete
+from setuptools import setup, find_packages # Para importar solo las funciones necesarias
 ```
 
-## 3.9 Módulos clave (collections, re, json, csv)
 
-### `re` (expresiones regulares) para normalización
-Ejemplo: sustituir no-letras por espacio.
+
+A veces es necesario instalar una versión específica de una librería, ya sea por compatibilidad o por requisitos del proyecto. Puedes especificar la versión exacta utilizando == seguido del número de versión.
+
+
+
+```ini
+pip install nombre_de_la_libreria==versión
+```
+
+
+
+Dado que los paquetes siguen un versionado semántico, si queremos instalar una versión específica de numpy sería:
+
+
+
+```bat
+pip install numpy==2.1.3
+```
+
+
+
+Cuando se trata de proyectos con múltiples dependencias, es común listar todas las librerías y sus versiones en un archivo requirements.txt. Esto facilita la instalación de todas las dependencias de una sola vez, asegurando que todos los colaboradores utilicen las mismas versiones.
+
+Un ejemplo de archivo sería:
+
+
+
+```ini
+numpy==2.1.3 # Instalará version específica
+polars>=1.16.0 # Instalará la versión definida o una superior en caso de haberla
+requests
+```
+
+
+
+Para instalar estos paquetes simplemente deberemos navegar en el terminal hasta el directorio donde se encuentre el archivo y ejecutar:
+
+
+
+```bat
+pip install -r requirements.txt
+```
+
+
+
+### 5.3 Instalación de librerías desde repositorios externos
+
+
+
+Además de instalar paquetes desde PyPI, pip permite instalar librerías directamente desde repositorios como GitHub. Esto es útil cuando necesitas una versión específica o en desarrollo de una librería que aún no ha sido publicada en PyPI.
+
+Puedes instalar una librería directamente desde un repositorio utilizando la sintaxis git+URL:
+
+
+
+```dockerfile
+pip install git+https://github.com/usuario/repositorio.git
+```
+
+
+
+Por ejemplo, para instalar requests:
+
+
+
+```dockerfile
+pip install git+https://github.com/psf/requests.git
+```
+
+
+
+Puedes especificar una rama, etiqueta o incluso un commit específico añadiendo @ seguido de la referencia:
+
+
+
+```dockerfile
+pip install git+https://github.com/usuario/repositorio.git@rama
+```
+
+
+
+### 5.4 Mantenimiento y actualización de librerías
+
+
+
+Aunque es muy habitual fijar versiones de los paquetes con los que trabajamos, es importante mantener las librerías actualizadas para beneficiarse de las últimas funcionalidades, mejoras de rendimiento y parches de seguridad.
+
+Sin embargo, para conocer qué librerías deberemos actualizar en nuestro entorno virtual, lo primero que debemos conocer es cómo listar los paquetes instalados.
+
+Para ello haremos uso del parámetro --list.
+
+
+
+```bat
+pip list
+```
+
+
+
+Un ejemplo de output sería:
+
+
+
+```ini
+Package                       Version
+----------------------------- --------------
+aiohttp                       3.8.5
+aiosignal                     1.3.1
+alembic                       1.13.3
+annotated-types               0.7.0
+```
+
+
+
+El siguiente paso en el mantenimiento de un paquete sería actualizarla. Para actualizar un paquete a su versión más reciente, se utiliza el parámetro --upgrade:
+
+
+
+```ini
+pip install --upgrade nombre_de_la_libreria
+```
+
+
+
+Por ejemplo, para actualizar Polars sería:
+
+
+
+```bat
+pip install --upgrade polars
+```
+
+
+
+Por último, debemos conocer cómo desinstalar paquetes que no deseamos tener o no utilizamos para evitar conflictos, puedes desinstalarla con el siguiente comando:
+
+
+
+```ini
+pip uninstall nombre_de_la_libreria
+```
+
+
+
+Para desinstalar Polars sería:
+
+
+
+```ini
+pip uninstall polars
+```
+
+
+
+### 5.5 Entornos virtuales
+
+
+
+Los entornos virtuales son espacios aislados que permiten gestionar las dependencias de proyectos de forma independiente. Esto evita conflictos entre librerías y versiones, especialmente cuando trabajas en múltiples proyectos con requisitos diferentes
+
+Para crear entornos virtuales de manera sencilla podrás utilizar el módulo venv.
+
+El siguiente comando creará un entorno virtual en el directorio donde estemos ubicados:
+
+
+
+```bat
+python -m venv nombre_entorno # Para Windows
+python3 -m venv nombre_entorno # Para macOS o Linux
+```
+
+
+
+Una vez tenemos el entorno creado, deberemos activarlo para comenzar a utilizar los paquetes instalados en el mismo, o instalar nuevos paquetes en él de manera aislada.
+
+Para activarlo, deberemos ejecutar el siguiente comando:
+
+
+
+```bat
+nombre_entorno\Scripts\activate # Para Windows
+source nombre_entorno /bin/activate # Para macOS o Linux
+```
+
+
+
+Una vez hemos terminado de trabajar con el entorno virtual, deberemos desactivarlo para volver a nuestra línea de comandos normal.
+
+Para ello ejecutaremos el siguiente comando:
+
+
+
+```ini
+deactivate
+```
+
+
+
+![image](assets/cm5y1bbml01hb3571jw5iullp-Imagen11.png)
+
+
+
+En el siguiente video veremos una breve explicación de su importancia:
+
+
+
+> [Link al vídeo](https://u-tad.blackboard.com/courses/1/2602_INSD3_BAIN_A/content/_651977_1/scormcontent/assets/INSD_BAIN_U1_Video1.mp4?v=1)
+
+
+
+### 5.6 Creación de paquetes propios y publicación en PyPl
+
+
+
+Crear y publicar tus propios paquetes permite compartir tu trabajo con la comunidad y facilitar su instalación y uso mediante pip.
+
+
+
+#### Estructura y código básico de un paquete
+
+
+
+Para crear un paquete, debes organizar tu proyecto siguiendo una estructura específica.
+
+
+
+![image](assets/cm5y4c7b6004b3570pdae6j3d-Imagen12.jpg)
+
+
+
+Cada uno de estos directorios o archivos tiene una función:
+
+- mi_paquete/: directorio raíz del proyecto.
+- README.md: documento con descripción del paquete, instrucciones de instalación y uso.
+- setup.py: script de configuración que define cómo se empaqueta y distribuye el paquete.
+- mi_paquete/: carpeta que contiene el código del paquete.
+- **init**.py: archivo que indica a Python que este directorio debe ser tratado como un paquete.
+- modulo.py: archivo(s) con el código fuente del paquete.
+
+Por ejemplo, podríamos encontrar el siguiente contenido en los archivos:
+
+
+
 ```python
-import re
+# modulo.py
+def saludar(nombre):
+    return f"¡Hola, {nombre}!"
+# __init__.py
+from .modulo import saludar
 
-clean = re.sub(r"[^\w]+", " ", "Hola, mundo!!!")
+__all__ = ['saludar']
 ```
 
-## 3.10 Debugging y logging
 
-Checklist:
-- [ ] Saber usar `print` estratégicamente (al inicio)
-- [ ] Saber usar `logging` (cuando crezca)
 
-Logging mínimo:
-```python
-import logging
+#### Configuración para empaquetar
 
-logging.basicConfig(level=logging.INFO)
-logging.info("Cargando datos...")
-```
 
----
 
-## 4. Paquetes, `pip` y entornos
+De cara a definir las instrucciones para empaquetar y distribuir tu librería, debemos definir el archivo pyproject.toml. El archivo pyproject.toml contiene la configuración necesaria para empaquetar e instalar tu librería. Utiliza setuptools para definir las propiedades de tu paquete.
 
-### TO‑DO de la sección
-- [ ] Instalar paquetes en el intérprete correcto (`python -m pip`)
-- [ ] Exportar dependencias (`pip freeze`)
-- [ ] Reinstalar dependencias (`pip install -r requirements.txt`)
-- [ ] Instalar desde git/local
-- [ ] Entender por qué un venv evita conflictos
+Un ejemplo de archivo sería:
 
-### 4.1 Instalar con pip (bien)
 
-**Regla de oro:** usa el pip del intérprete.
-```bash
-python3 -m pip install pandas
-python3 -m pip freeze > requirements.txt
-```
 
-#### 4.1.1 Versionado (por qué importa)
-- `pandas==2.2.0` fija versión exacta.
-- `pandas>=2.2,<3` permite rango.
+```toml
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
-#### 4.1.2 Comandos de diagnóstico
-```bash
-python3 -m pip list
-python3 -m pip show pandas
-python3 -m pip check
-```
-
-#### 4.1.3 Instalar desde repositorios externos
-Git:
-```bash
-python3 -m pip install git+https://github.com/usuario/repo.git
-```
-Editable (para desarrollo):
-```bash
-python3 -m pip install -e ./mi_paquete
-```
-
-#### 4.1.4 Mantenimiento y actualización de librerías
-
-Comandos útiles:
-```bash
-python3 -m pip list --outdated
-python3 -m pip install --upgrade pip
-python3 -m pip install --upgrade pandas
-python3 -m pip uninstall pandas
-```
-
-Reglas prácticas:
-- Actualiza de 1 en 1 (o en pequeños lotes) para poder diagnosticar.
-- Si algo rompe: revisa el changelog y prueba fijar versión.
-- Evita “mezclar” instalaciones del sistema con el venv.
-
-Higiene de dependencias:
-- `pip check` detecta incompatibilidades.
-- `pip freeze` captura el estado exacto del entorno.
-
-#### 4.1.5 Caché de pip (por qué a veces “va raro”)
-
-Pip cachea descargas. Si notas comportamiento extraño (raro, pero pasa), puedes inspeccionar/limpiar:
-```bash
-python3 -m pip cache dir
-python3 -m pip cache purge
-```
-
-### 4.2 Entornos virtuales (venv)
-
-Crear (desde la carpeta del proyecto):
-```bash
-python3 -m venv .venv
-```
-Activar:
-```bash
-source .venv/bin/activate
-```
-
-**TO‑DO entornos:**
-- [ ] Crear `.venv`
-- [ ] Instalar dependencias dentro del `.venv`
-
-#### 4.2.1 Señales de que estás dentro del venv
-```bash
-python3 -c "import sys; print(sys.executable)"
-python3 -c "import sys; print(sys.prefix)"
-```
-
-#### 4.2.2 Regla de oro
-Nunca instales dependencias “del proyecto” en el Python del sistema.
-
-### 4.3 Paquetes propios y PyPI (visión rápida)
-- Estructura moderna: `pyproject.toml`
-- Publicación: `build` + `twine`
-
-Conceptos útiles (alto nivel):
-- **Módulo**: un `.py`
-- **Paquete**: carpeta importable
-- **Distribución**: lo que subes a PyPI
-
----
-
-### 4.4 Reproducibilidad real (requirements)
-
-Flujo mínimo recomendado:
-1. Crear venv.
-2. Instalar dependencias.
-3. Congelar:
-```bash
-python3 -m pip freeze > requirements.txt
-```
-4. Reprobar en limpio:
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install -r requirements.txt
-python3 -m pip check
-```
-
----
-
-## 5. Formatos de datos
-
-### TO‑DO de la sección
-- [ ] Leer y escribir CSV con `csv`
-- [ ] Leer JSON con `json.load`
-- [ ] Leer JSONL línea a línea
-- [ ] Entender Parquet vs CSV
-- [ ] Entender el rol del esquema en Avro
-
-### 5.1 CSV
-
-**Problemas reales de CSV:**
-- Separador distinto (`,` vs `;`)
-- Encoding (`utf-8`, `latin-1`)
-- Comillas y escapes
-
-Lectura robusta con `csv`:
-```python
-import csv
-
-with open("datasets/ventas.csv", newline="", encoding="utf-8") as f:
-    reader = csv.DictReader(f)
-    rows = list(reader)
-```
-
-Escritura recomendada:
-```python
-import csv
-
-rows = [
-    {"id": 1, "ciudad": "Madrid", "ventas": 700},
-    {"id": 2, "ciudad": "Sevilla", "ventas": 250},
+[project]
+name = "mi_paquete"
+version = "0.1.0"
+description = "Una descripción breve de tu paquete"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Nombre del autor", email = "autor.email@example.com"}
 ]
-
-with open("out.csv", "w", newline="", encoding="utf-8") as f:
-    writer = csv.DictWriter(f, fieldnames=["id", "ciudad", "ventas"])
-    writer.writeheader()
-    writer.writerows(rows)
+homepage = "https://github.com/tu_usuario/mi_paquete"
+dependencies = []
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
 ```
 
-Truco para separador `;`:
-```python
-reader = csv.DictReader(f, delimiter=';')
+
+
+Cada uno de estos parámetros tiene una función:
+
+- **name**: nombre del paquete tal como aparecerá en PyPI.
+- **version**: número de versión siguiendo el esquema semántico (mayor.menor.parche).
+- **author**: información de contacto.
+- **description**: descripción breve del paquete.
+- **homepage**: URL del proyecto, como el repositorio en GitHub.
+- **dependencies**: lista de paquetes a incluir; find_packages() detecta automáticamente los paquetes en el directorio.
+- **classifiers**: metadatos que ayudan a los usuarios a encontrar tu paquete.
+- **Requires-python**: versiones de Python soportadas.
+
+Como ejemplo de cómo se visualiza todo esto en PyPi, se puede consultar cualquier página de un paquete, como Polars: [https://pypi.org/project/polars/](https://pypi.org/project/polars/).
+
+
+
+#### Preparación de archivos y subir a PyPi
+
+
+
+Antes de subir el paquete, necesitamos generar los archivos de distribución. Para ello deberemos instalar:
+
+
+
+```bat
+pip install setuptools twine wheel build
 ```
 
-### 5.2 JSON (y JSON Lines)
 
-**JSON normal:** un objeto/array completo.
 
-**JSONL:** una línea = un JSON (perfecto para logs/eventos, streaming).
+Una vez instalados, deberemos navegar al directorio donde se encuentre nuestro pyproject.toml y ejecutar el siguiente comando:
 
-Ejemplo JSONL:
+
+
+```bat
+python -m build # En caso de error, probar a usar python3 para macOS o Linux
+```
+
+
+
+Finalmente, antes de poder subir el paquete a los repositorios de PyPi, deberemos crear una cuenta y una API key en PyPI [https://pypi.org/](https://pypi.org/) o para test (recomendado en este curso) [https://test.pypi.org/](https://test.pypi.org/), [https://test.pypi.org/manage/account/token/](https://test.pypi.org/manage/account/token/).
+
+Tras ello, deberemos ejecutar el siguiente comando para subir todos los paquetes en el directorio dist, creado por el paso anterior.
+
+
+
+```bat
+twine upload --repository testpypi dist/* -u __token__ -p <api_key>
+```
+
+
+
+Para probar si el paquete se ha subido correctamente a testpypi, podemos instalarlo de la siguiente manera:
+
+
+
+```ini
+pip install -i https://test.pypi.org/simple/ mi_paquete
+```
+
+
+
+A continuación, veremos el proceso completo de generar un paquete, subirlo a Test PyPi y descargarlo en el siguiente video:
+
+
+
+> [Link al vídeo](https://u-tad.blackboard.com/courses/1/2602_INSD3_BAIN_A/content/_651977_1/scormcontent/assets/INSD_BAIN_U1_Video2.mp4?v=1)
+
+
+
+#### Enlaces de interés
+
+
+
+Para poder consultar de forma más exhaustiva el proceso de gestión de paquetes y de su publicación tenemos diversas fuentes:
+
+
+
+> Guía oficial de gestión de paquetes
+>
+> [Link](https://packaging.python.org/en/latest/tutorials/installing-packages/)
+
+> Guía oficial de empaquetado en Python
+>
+> [Link](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
+
+> Documentación de setuptools
+>
+> [Link](https://setuptools.pypa.io/en/latest/)
+
+> Documentación de twine
+>
+> [Link](https://twine.readthedocs.io/en/latest/)
+
+
+
+## 6. Introducción A Formatos De Datos: Csv, Json, Parquet, Avro
+
+
+
+### 6.1 Introducción
+
+
+
+![image](assets/cm5y7dyhn00cq3570gco3t57c-stock-image.jpg)
+
+
+
+La programación básica en Python constituye el fundamento sobre el cual se construyen aplicaciones de uso industrial y científico. En el análisis y manipulación de datos, es común trabajar con diferentes formatos de archivos que almacenan información de manera estructurada. Cada formato posee características, ventajas y casos de uso propias. En este apartado, exploraremos los formatos de datos más utilizados: CSV, JSON, Parquet y Avro, y aprenderemos cómo trabajar con ellos en Python.
+
+
+
+### 6.2 Tipos de datos
+
+
+
+En el análisis de datos, es fundamental identificar el tipo de datos con el que se está trabajando para seleccionar las herramientas y métodos más adecuados. Existen tres tipos de datos:
+
+
+
+![image](assets/cm5y7gmn500eu3570dxvkif2c-Imagen13.png)
+
+- **Datos estructurados**  
+  Se organizan en formatos rígidos como tablas con filas y columnas, facilitando su almacenamiento y consulta.
+- **Datos Semi-estructurados**  
+  Poseen una organización parcial mediante etiquetas o esquemas flexibles, lo que permite una mayor adaptabilidad al integrar información diversa.
+- **Datos no estructurados**  
+  No siguen un esquema predefinido y abarcan una amplia variedad de formatos, lo que los hace más complejos de gestionar, pero altamente versátiles para capturar información rica y detallada.
+
+
+
+En el video a continuación, entenderemos estas clasificaciones con mayor detalle:
+
+
+
+> [Link al vídeo](https://u-tad.blackboard.com/courses/1/2602_INSD3_BAIN_A/content/_651977_1/scormcontent/assets/INSD_BAIN_U1_Video3.mp4?v=1)
+
+
+
+### 6.3 CSV (Comma-Separated Values)
+
+
+
+El formato CSV se caracteriza por su simplicidad. Además, es ampliamente utilizado para almacenar datos tabulares en texto plano. En un archivo CSV, cada línea representa un registro, y los campos están separados por comas (u otro delimitador). Es compatible con la mayoría de las aplicaciones y lenguajes de programación.
+
+Es un formato de datos estructurados que almacena información en tablas con filas y columnas, utilizando comas como delimitadores.
+
+Un ejemplo de CSV podría ser:
+
+
+
+```csv
+"id","firstname","lastname","email"
+"1","Kerry","O'Connell","Kerry16@gmail.com"
+"2","Ethel","Miller","Ethel14@hotmail.com"
+"3","Willie","Barton","Willie.Barton@gmail.com"
+"4","Ellis","Lowe","Ellis.Lowe@gmail.com"
+"5","Raymond","Miller","Raymond.Miller@gmail.com"
+"6","Ellen","Thompson","Ellen92@hotmail.com"
+"7","Joe","Rice","Joe55@gmail.com"
+"8","Nathaniel","Legros","Nathaniel40@hotmail.com"
+"9","Maxine","Schinner","Maxine93@hotmail.com"
+"10","Tim","Jacobson","Tim92@hotmail.com"
+```
+
+
+
+Para trabajar con CSV utilizaremos Pandas o Polars y el concepto de dataframes, que se explicará en detalle en el siguiente apartado de esta unidad.
+
+Antes de nada, debemos asegurar que tenemos instalados los paquetes. Como recomendación, se deberán instalar en un entorno virtual:
+
+
+
+```bat
+pip -m venv data-types # En Windows
+pip3 -m venv data-types # En macOS y Linux
+data-types/Source/activate # En Windows
+source data-types/bin/activate # En macOS y Linux
+pip install pandas polars # En Windows
+pip3 install pandas polars # En macOS y Linux
+```
+
+
+
+Una vez instaladas en nuestro entorno virtual, podremos importarlas y utilizarlas para leer un csv gracias a la función .read_csv():
+
+
+
 ```python
+# Lectura con pandas
+import pandas as pd
+
+# Lectura
+df = pd.read_csv('datos.csv')
+
+df
+```
+
+
+
+```python
+# Lectura con polars
+import polars as pl
+
+# Lectura
+df = pl.read_csv('datos.csv')
+
+df
+```
+
+
+
+Como output tenemos un dataframe que se puede visualizar en un archivo de tipo .ipynb de la siguiente forma:
+
+
+
+![image](assets/cm5y7rl2900m33570utcx101m-carousel1-Imagen14.jpg)
+
+![image](assets/cm5y7rl2900m33570utcx101m-carousel2-Imagen15.jpg)
+
+
+
+De igual modo, para escribir un csv, haremos uso del dataframe:
+
+
+
+```ruby
+import pandas as pd
+
+# Lectura
+df = pd.read_csv('datos.csv')
+
+# Escritura
+df.to_csv('datos_salida_pandas.csv')
+```
+
+
+
+```python
+import polars as pl
+
+# Lectura
+df = pl.read_csv('datos.csv')
+
+# Escritura
+df.write_csv('datos_salida_polars.csv')
+```
+
+
+
+Para CSV, hay numerosas opciones tales como elegir el delimitador, encoding e incluso índices que se pueden excluir cuando trabajamos con Pandas o Polars.
+
+Adicionalmente, se puede trabajar con archivos CSV mediante el módulo CSV de python. Sin embargo, no es tan utilizado y puede llegar a tener cierta complejidad.
+
+
+
+### 6.4 JSON (JavaScript Object Notation)
+
+
+
+En el caso de JSON se trata de un formato ligero de intercambio de datos, fácilmente legible y de escribir. Es ideal para representar estructuras de datos complejas y anidadas, como objetos y arrays.
+
+Representa datos semi-estructurados mediante una estructura de pares clave-valor, permitiendo una mayor flexibilidad en la organización de la información.
+
+Un ejemplo de JSON:
+
+
+
+```json
+[
+    {
+        "id": 1,
+        "firstname": "Julio",
+        "lastname": "Pfannerstill",
+        "email": "Julio.Pfannerstill39@hotmail.com"
+    },
+    {
+        "id": 2,
+        "firstname": "Suzanne",
+        "lastname": "Murphy",
+        "email": "Suzanne.Murphy22@hotmail.com"
+    }
+]
+```
+
+
+
+Al igual que con CSV, utilizaremos tanto Pandas como Polars para trabajar con este tipo de archivos:
+
+
+
+```ruby
+import pandas as pd
+
+# Lectura
+df = pd.read_json('data.json')
+
+# Escritura
+df.to_json('datos_salida_pandas.json')
+```
+
+
+
+```python
+import polars as pl
+
+# Lectura
+df = pl.read_json('data.json')
+
+# Escritura
+df.write_json('datos_salida_polars.json')
+```
+
+
+
+De forma adicional, podemos trabajar directamente con el módulo json de python:
+
+
+
+```python
+# Uso de módulo JSON
 import json
 
-items = [{"id": 1}, {"id": 2}]
-with open("out.jsonl", "w", encoding="utf-8") as f:
-    for obj in items:
-        f.write(json.dumps(obj) + "\n")
+# Lectura
+with open('datos.json') as f:
+    data = json.load(f)
+    print(data)
+
+# Escritura
+with open('datos_salida.json', 'w') as f:
+    json.dump(data, f)
 ```
 
-Lectura JSON “clásico”:
+
+
+### 6.5 Parquet
+
+
+
+Parquet es un formato de almacenamiento basado en columnas, diseñado para el procesamiento eficiente de grandes conjuntos de datos. Es especialmente útil en entornos de Big Data y cuando se trabaja con sistemas distribuidos como Hadoop o Spark.
+
+Soporta compresión y codificación eficientes, lo que reduce el espacio de almacenamiento y mejora el rendimiento de lectura. Esto lo hace idóneo cuando trabajamos en entornos de Big Data.
+
+Además, tanto Parquet como Avro, forman parte del ecosistema de Apache facilitando su integración y compartiendo beneficios con otras tecnologías como Kafka, Hive o Spark.
+
+Para generar archivos Parquet de manera visual para ejemplos, utilizaremos: [https://konbert.com/generator/parquet](https://konbert.com/generator/parquet)
+
+Para trabajar con ellos, en caso de utilizar Pandas, deberemos instalar el paquete pyarrow mediante:
+
+
+
+```bat
+pip install pyarrow
+```
+
+
+
+Una vez instalada la dependencia, podemos trabajar con estos archivos de la siguiente manera:
+
+
+
+```ruby
+import pandas as pd
+
+# Lectura
+df = pd.read_parquet('datos.parquet')
+
+# Escritura
+df.to_parquet('datos_salida_pandas.parquet')
+```
+
+
+
 ```python
-import json
+import polars as pl
 
-with open("datasets/users.json", encoding="utf-8") as f:
-    payload = json.load(f)
-users = payload["users"]
+# Lectura
+df = pl.read_parquet('datos.parquet')
+
+# Escritura
+df.write_parquet('datos_salida_polars.parquet')
 ```
 
-### 5.3 Parquet
 
-Parquet es columnar: ideal para analítica.
 
-Con Pandas:
+### 6.6 Avro
+
+
+
+Avro es un sistema de serialización de datos que utiliza esquemas definidos en JSON para representar estructuras de datos complejas en formato binario. Es ampliamente utilizado en sistemas de Big Data y streaming, como Apache Kafka. Avro facilita la interoperabilidad entre diferentes sistemas y lenguajes de programación.
+
+Se considera semi-estructurado debido a su capacidad de incluir un esquema que define la estructura de los datos, facilitando la serialización y deserialización eficiente
+
+Un ejemplo de esquema podría ser:
+
+
+
+```dart
+schema = {
+    'doc': 'documento Avro',
+    'name': 'Usuario',
+    'namespace': 'ejemplo.avro',
+    'type': 'record',
+    'fields': [
+        {'name': 'name', 'type': 'string'},
+        {'name': 'age', 'type': 'int'},
+        {'name': 'city', 'type': 'string'},
+    ],
+}
+```
+
+
+
+Al igual que Parquet, forma parte del ecosistema de Apache facilitando su integración y compartiendo beneficios con otras tecnologías como Kafka.
+
+Para generar archivos Avro de manera visual para ejemplos, utilizaremos: [https://konbert.com/generator/avro](https://konbert.com/generator/avro)
+
+De igual forma que con Parquet, para tratar Avro con Pandas, debemos instalar el paquete fastavro:
+
+pip install fastavro
+
+Una vez instalada la dependencia, podemos trabajar con estos archivos de la siguiente manera:
+
+
+
+```python
+import fastavro
+import pandas as pd
+
+# Lectura
+with open('datos.avro', 'rb') as f:
+    avro_reader = fastavro.reader(f)
+    schema = avro_reader.writer_schema
+    df_avro = pd.DataFrame(avro_reader)
+
+# Escritura
+with open('datos_salida_pandas.avro', 'wb') as f:
+    data = df_avro.to_dict('records')
+    fastavro.writer(f, schema, data)
+```
+
+
+
+```python
+import polars as pl
+
+# Lectura
+df = pl.read_avro('datos.avro')
+
+# Escritura
+df.write_avro('datos_salida_polars.avro')
+```
+
+
+
+A modo resumen, según el caso de uso será necesario utilizar un tipo de archivo u otro:
+
+
+
+![image](assets/cm5y82t9y00su3570qgacpr6q-Imagen16.png)
+
+
+
+A continuación, podremos ver un video donde comparamos los diferentes formatos:
+
+
+
+> [Link al vídeo](https://u-tad.blackboard.com/courses/1/2602_INSD3_BAIN_A/content/_651977_1/scormcontent/assets/INSD_BAIN_U1_Video4.mp4?v=1)
+
+
+
+### 6.7 Enlaces de interés
+
+
+
+> Trabajar con CSV mediante módulo nativo de Python
+>
+> [Link](https://docs.python.org/3/library/csv.html)
+
+> Trabajar con JSON mediante módulo nativo de Python
+>
+> [Link](https://docs.python.org/3/library/json.html)
+
+> Parquet VS Avro
+>
+> [Link](https://airbyte.com/data-engineering-resources/parquet-vs-avro)
+
+
+
+## 7. Manipulación Y Análisis De Datos Con Pandas Y Polars
+
+
+
+### 7.1 Introducción
+
+
+
+![image](assets/cm5y89e8y00vv3570v8g9qbb9-stock-image.jpg)
+
+
+
+La manipulación y análisis de datos son componentes centrales en la ciencia e ingeniería de datos. Python ofrece poderosas librerías para estas tareas, siendo Pandas la más popular y ampliamente utilizada. Polars es una librería más reciente que ofrece rendimiento mejorado y eficiencia en memoria debido a su implementación con Rust. Además, Polars está empezando a ofrecer posibilidad de procesamiento paralelizable.
+
+En este apartado, exploraremos cómo utilizar ambas librerías para manipular y analizar datos de manera efectiva.
+
+El elemento principal en ambas librerías es el de DataFrame. Este se trata de una estructura bidimensional (tabular) con columnas de diferentes tipos, similar a una hoja de cálculo o una tabla SQL.
+
+
+
+### 7.2 Carga e inspección de datos
+
+
+
+La primera etapa en el análisis de datos es la carga de estos desde diversas fuentes tales como CSV, JSON, Parquet o Avro. En este caso, veremos cómo leer archivos CSV.
+
+Como hemos visto en el apartado anterior, la manera de cargar datos desde un CSV es simple.
+
+
+
+```ruby
+import pandas as pd
+
+# Lectura
+df = pd.read_csv('datos.csv')
+```
+
+
+
+```ini
+import polars as pl
+
+# Lecturadf = pl.read_csv('datos.csv')
+```
+
+
+
+Adicionalmente, podemos obtener cierta información de nuestro DataFrame, por ejemplo, podemos extraer las N primeras filas:
+
+
+
+```ruby
+import pandas as pd
+
+# Lectura
+df = pd.read_csv('datos.csv')
+
+print(df.head(10)) # Por defecto las 5 primeras
+```
+
+
+
+```python
+import polars as pl
+
+# Lectura
+df = pl.read_csv('datos.csv')
+
+print(df.head(10)) # Por defecto las 5 primeras
+```
+
+
+
+![image](assets/cm5y8cwc200xz3570ssk6hklf-carousel1-Imagen17.jpg)
+
+![image](assets/cm5y8cwc200xz3570ssk6hklf-carousel2-Imagen18.jpg)
+
+
+
+Como podemos ver, visualmente podemos observar ciertas diferencias en la información que nos proporciona cada librería. En el caso de Polars directamente podemos observar el tamaño del output, 5 filas y 4 columnas, además del tipo de dato de cada columna.
+
+Adicionalmente, podemos obtener más información que nos ayudarán a describir nuestro DataFrame de la siguiente manera:
+
+
+
+```ruby
+import pandas as pd
+
+# Lectura
+df = pd.read_csv('datos.csv')
+
+
+print(df.info()) # Información del DataFrame
+print(df.describe(include='all')) # Información descriptiva
+```
+
+
+
+```ruby
+import polars as pl
+
+# Lectura
+df = pl.read_csv('datos.csv')
+print(f'df types: {df.dtypes}') # Información del DataFrame
+
+print(f'df size: {df.shape}') # Información del DataFrame
+print(df.describe()) # Información descriptiva
+```
+
+
+
+![image](assets/cm5y8f4to00zh35702789dnxd-carousel1-Imagen19.jpg)
+
+![image](assets/cm5y8f4to00zh35702789dnxd-carousel2-Imagen20.jpg)
+
+
+
+Sin embargo, en este caso, es Pandas quien proporciona más información sobre nuestros datos de manera sencilla. Obtener la misma información con Polars requerirá mayor complejidad.
+
+
+
+### 7.3 Selección, filtrado y creación
+
+
+
+La capacidad de seleccionar y filtrar es fundamental en el análisis e ingeniería de datos. En este caso, ambos paquetes ofrecen una solución ligeramente diferente.
+
+
+
+```ruby
+import pandas as pd
+
+# Lectura
+df = pd.read_csv('datos.csv')
+
+columna_firstname = df['firstname']
+print(columna_firstname)
+
+columnas_multiples = df[['firstname', 'lastname']]
+print(columnas_multiples)
+```
+
+
+
+```python
+# Lectura
+df = pl.read_csv('datos.csv')
+
+columna_firstname = df.select('firstname')
+print(columna_firstname)
+
+
+columnas_multiples = df.select(['firstname', 'lastname'])
+print(columnas_multiples)
+```
+
+
+
+![image](assets/cm5y8hktz011r3570y5e1eo3f-carousel1-Imagen21.jpg)
+
+![image](assets/cm5y8hktz011r3570y5e1eo3f-carousel2-Imagen22.jpg)
+
+
+
+Para filtrar, la sintaxis es sencilla, simplemente deberemos extender la utilizada previamente para seleccionar columnas. Por ejemplo, en Pandas bastará con igualar el valor de la columna y en Polars deberemos usar el método “filter”de la siguiente manera:
+
+
+
 ```python
 import pandas as pd
 
-df = pd.DataFrame({"id": [1, 2], "text": ["hola", "mundo"]})
-df.to_parquet("out.parquet", index=False)
+# Lectura
+df = pd.read_csv('datos.csv')
+
+columna_filtrada = df[df['firstname'] == 'Kerry' ]
+print(columna_filtrada)
+
+# Output
+id firstname   lastname              email
+0   1     Kerry  O'Connell  Kerry16@gmail.com
 ```
 
-Notas:
-- Parquet necesita engine (normalmente `pyarrow`).
-- Ideal si el dataset crece y haces analítica.
 
-### 5.4 Avro
 
-Conceptos:
-- Esquema explícito
-- Evolución de esquema
-
-Nota: Avro es típico en pipelines de eventos. En esta unidad basta con entender el concepto.
-
----
-
-### 5.5 Cómo elegir formato (reglas prácticas)
-- CSV: simple, universal, pero sin tipos.
-- JSON: jerárquico, perfecto para APIs.
-- JSONL: streaming y colecciones de documentos.
-- Parquet: analítica y eficiencia.
-- Avro: esquema + evolución.
-
----
-
-## 6. Pandas
-
-### TO‑DO de la sección
-- [ ] Inspección (shape/head/info/describe)
-- [ ] Limpieza (missing, dtypes)
-- [ ] Transformación (nuevas columnas)
-- [ ] GroupBy/agg
-- [ ] Merge/concat
-- [ ] Exportación
-
-### 6.1 Carga e inspección
 ```python
+import polars as pl
+
+# Lectura
+df = pl.read_csv('datos.csv')
+
+columna_filtrada = df.filter(pl.col('firstname') == "Kerry")
+print(columna_filtrada)
+
+# Output
+```
+
+
+
+![image](assets/cm5zp7ber004o356x0smgq9ei-Imagen1.png)
+
+
+
+También podemos crear nuevas columnas a la vez que las completamos con valores:
+
+
+
+```ruby
 import pandas as pd
 
-df = pd.read_csv("datasets/ventas.csv")
-print(df.head())
-print(df.info())
+# Lectura
+df = pd.read_csv('datos.csv')
+
+df['full_name'] = df['firstname'] + df['lastname']
+df['full_name']
+
+# Output
+0     KerryO'Connell
+1        EthelMiller
+2       WillieBarton
+3          EllisLowe
+4      RaymondMiller
+5      EllenThompson
+6            JoeRice
+7    NathanielLegros
+8     MaxineSchinner
+9        TimJacobson
 ```
 
-Inspección rápida:
+
+
 ```python
-print(df.shape)
-print(df.columns)
-print(df.dtypes)
-print(df.isna().sum())
+import polars as pl
+
+# Lectura
+df = pl.read_csv('datos.csv')
+
+df = df.with_columns((pl.col('firstname')+pl.col('lastname')).alias('full_name'))
+df.select('full_name')
+
+# Output
+full_name
+str
+"KerryO'Connell"
+"EthelMiller"
+"WillieBarton"
+"EllisLowe"
+"RaymondMiller"
+"EllenThompson"
+"JoeRice"
+"NathanielLegros"
+"MaxineSchinner"
+"TimJacobson
 ```
 
-### 6.2 Selección y filtrado
-```python
-solo_madrid = df[df["ciudad"] == "Madrid"]
-```
 
-Filtro compuesto:
-```python
-mask = (df["ciudad"] == "Madrid") & (df["ventas"] >= 600)
-print(df[mask])
-```
 
-### 6.3 GroupBy
-```python
-ventas_por_ciudad = df.groupby("ciudad")["ventas"].sum().reset_index()
-```
+Para modificar columnas podemos operar sobre ella misma de la siguiente forma:
 
-Agregaciones múltiples:
-```python
-resumen = df.groupby("ciudad").agg(
-    total=("ventas", "sum"),
-    media=("ventas", "mean"),
-    n=("ventas", "count"),
-).reset_index()
-print(resumen)
-```
 
----
 
-### 6.4 Tipos, missing values y datetime
-
-Conversión robusta:
-```python
+```ruby
 import pandas as pd
 
-df["ventas"] = pd.to_numeric(df["ventas"], errors="coerce").fillna(0)
+# Lectura
+df = pd.read_csv('datos.csv')
+
+df['full_name'] = df['firstname'] + df['lastname']
+df['full_name'] = df['full_name']+df['email']
+df['full_name']
+
+# Output
+0           KerryO'ConnellKerry16@gmail.com
+1            EthelMillerEthel14@hotmail.com
+2       WillieBartonWillie.Barton@gmail.com
+3             EllisLoweEllis.Lowe@gmail.com
+4     RaymondMillerRaymond.Miller@gmail.com
+5          EllenThompsonEllen92@hotmail.com
+6                    JoeRiceJoe55@gmail.com
+7    NathanielLegrosNathaniel40@hotmail.com
+8        MaxineSchinnerMaxine93@hotmail.com
+9              TimJacobsonTim92@hotmail.com
 ```
 
----
 
-### 6.5 Rendimiento
 
-Preferir vectorización:
 ```python
-df["ventas_x2"] = df["ventas"] * 2
+import polars as pl
+
+# Lectura
+df = pl.read_csv('datos.csv')
+
+df = df.with_columns((pl.col('firstname')+pl.col('lastname')).alias('full_name'))
+df = df.with_columns((pl.col('full_name')+pl.col('email')).alias('full_name'))
+df.select('full_name')
+
+# Output
+full_name
+str
+"KerryO'ConnellKerry16@gmail.co…
+"EthelMillerEthel14@hotmail.com"
+"WillieBartonWillie.Barton@gmai…
+"EllisLoweEllis.Lowe@gmail.com"
+"RaymondMillerRaymond.Miller@gm…
+"EllenThompsonEllen92@hotmail.c…
+"JoeRiceJoe55@gmail.com"
+"NathanielLegrosNathaniel40@hot…
+"MaxineSchinnerMaxine93@hotmail…
+"TimJacobsonTim92@hotmail.com"
 ```
 
----
 
-## 7. Biblioteca de ejercicios
 
-Carpetas (hazlos en orden):
-- [Ejercicios/00_setup/README.md](Ejercicios/00_setup/README.md)
-- [Ejercicios/01_python_basics/README.md](Ejercicios/01_python_basics/README.md)
-- [Ejercicios/02_data_structures/README.md](Ejercicios/02_data_structures/README.md)
-- [Ejercicios/03_control_flow_functions/README.md](Ejercicios/03_control_flow_functions/README.md)
-- [Ejercicios/04_oop_exceptions/README.md](Ejercicios/04_oop_exceptions/README.md)
-- [Ejercicios/05_packages_venv/README.md](Ejercicios/05_packages_venv/README.md)
-- [Ejercicios/06_formats_csv_json/README.md](Ejercicios/06_formats_csv_json/README.md)
-- [Ejercicios/07_parquet_avro/README.md](Ejercicios/07_parquet_avro/README.md)
-- [Ejercicios/08_pandas/README.md](Ejercicios/08_pandas/README.md)
-- [Ejercicios/09_mini_proyecto_ir/README.md](Ejercicios/09_mini_proyecto_ir/README.md)
+### 7.4 Agrupación, ordenación y unión
 
-En cada carpeta tienes un README con ejercicios + uno o más ficheros `.py` con TODOs.
 
----
 
-## 8. Mini‑proyecto IR: mini buscador
+En todo tratamiento de datos será necesaria la agrupación según nos interese, al igual que ordenación e incluso combinar esos datos con otros mediante técnicas de unión similares a los JOIN de SQL.
 
-Objetivo: construir un mini buscador que:
-- Indexe documentos (strings)
-- Cree un índice invertido `token -> {doc_id: tf}`
-- Permita consultas AND/OR
-- (Opcional) scoring simple por TF‑IDF
+Para agrupar, podemos referirnos a los clásicos groupby también existentes en SQL:
 
-### Checklist paso a paso
-- [ ] Cargar docs desde [datasets/docs.jsonl](datasets/docs.jsonl)
-- [ ] Implementar `normalize` + `tokenize`
-- [ ] Construir índice invertido (sets)
-- [ ] Implementar AND/OR
-- [ ] (Opcional) TF y posting list con `{doc_id: tf}`
-- [ ] (Opcional) ranking simple
 
-Archivo base:
-- [Ejercicios/09_mini_proyecto_ir/09_mini_search.py](Ejercicios/09_mini_proyecto_ir/09_mini_search.py)
 
----
+```python
+import pandas as pd
+import random
 
-## 9. Enlaces y recursos
-- Documentación Python: https://docs.python.org/3/
-- PEP 8 (estilo): https://peps.python.org/pep-0008/
-- Pandas: https://pandas.pydata.org/
+# Lectura
+df = pd.read_csv('datos.csv')
+
+random_age = [random.randrange(25,28,1) for x in range(len(df))]
+
+df['age'] = random_age
+agrupado_edad = df.groupby('age')['firstname'].apply(list)
+print(agrupado_edad)
+
+# Output
+age
+25              [Ethel, Ellen, Tim]
+26       [Kerry, Nathaniel, Maxine]
+27    [Willie, Ellis, Raymond, Joe]
+Name: firstname, dtype: object
+```
+
+
+
+```python
+import polars as pl
+import random
+
+# Lectura
+df = pl.read_csv('datos.csv')
+
+random_age = [random.randrange(25,28,1) for x in range(df.height)]
+
+df = df.with_columns(pl.Series(name='age', values=random_age))
+agrupado_edad = df.group_by('age').agg(pl.col('firstname'))
+print(agrupado_edad)
+
+# Output
+```
+
+
+
+![image](assets/cm5zphb1b00jn356xgwodx48v-Imagen2.jpg)
+
+
+
+El caso de ordenar columnas es algo más sencillo:
+
+
+
+```ruby
+import pandas as pd
+
+# Lectura
+df = pd.read_csv('datos.csv')
+
+df_ordenado = df.sort_values(by='firstname', ascending=True)
+df_ordenado
+
+# Output
+```
+
+
+
+![image](assets/cm5zpiyf000kq356x06uahrza-Imagen3.jpg)
+
+
+
+```python
+import polars as pl
+
+# Lectura
+df = pl.read_csv('datos.csv')
+
+df_ordenado = df.sort('firstname',descending=False)
+df_ordenado
+
+ # Output
+```
+
+
+
+![image](assets/cm5zpkera00mf356x2bugxsas-Imagen4.jpg)
+
+
+
+Finalmente tenemos las operaciones de unión mediante concatenación o join:
+
+
+
+```r
+# Concatenar verticalmente
+import pandas as pd
+
+df_1 = pd.read_csv('datos.csv')
+df_2 = pd.read_csv('datos.csv')
+
+df_concatenado = pd.concat([df_1,df_2])
+df_concatenado
+
+# Unión de dos dataframes utilizando una clave
+
+df_unido = pd.merge(df_1, df_2, on='id', how='inner')
+df_unido
+```
+
+
+
+```r
+# Concatenar verticalmente
+import polars as pl
+
+df_1 = pl.read_csv('datos.csv')
+df_2 = pl.read_csv('datos.csv')
+
+df_concatenado = pl.concat([df_1,df_2])
+df_concatenado
+
+# Unión de dos dataframes utilizando una clave
+
+df_unido = df_1.join(df_2, on='id', how='inner')
+df_unido
+```
+
+
+
+Cómo se puede observar, en cuanto a sintaxis ambos paquetes tienen operaciones parecidas y diferentes. Algunas con mejor legibilidad que otras, pero por lo general es una sintaxis similar.
+
+En cuanto a características más relevantes, en Polars los DataFrames son inmutables, haciendo que cada operación genere uno nuevo. Además, Polars se caracteriza por un mejor rendimiento y manejo más eficiente de la memoria que se hace más evidente con grandes volúmenes.
+
+Por otro lado, Pandas es el estándar en la industria y tiene muchos más años y comunidad por detrás, lo que lo convierte en una solución más fiable para proyectos en producción.
+
+La decisión de utilizar uno u otro dependerá del caso de uso, pero en última instancia del desarrollador.
+
+Para ayudar con la toma de esta decisión, veamos un breve video:
+
+
+
+> [Link al vídeo](https://u-tad.blackboard.com/courses/1/2602_INSD3_BAIN_A/content/_651977_1/scormcontent/assets/INSD_BAIN_U1_Video5.mp4?v=1)
+
+
+
+### 7.5 Enlaces de interés
+
+
+
+> Documentación de Polars
+>
+> [Link](https://docs.pola.rs/)
+
+> Documentación de Pandas
+>
+> [Link](https://pandas.pydata.org/docs/index.html)
+
+> Polars cheat-sheet
+>
+> [Link](https://franzdiebold.github.io/polars-cheat-sheet/Polars_cheat_sheet.pdf)
+
+> Pandas cheat-sheet
+>
+> [Link](https://www.datacamp.com/cheat-sheet/pandas-cheat-sheet-for-data-science-in-python)
+
+
+
+## 8. Conclusiones
+
+
+
+### 8.1 Conclusiones de la unidad
+
+
+
+En esta unidad didáctica, hemos explorado de manera profunda el ecosistema Python y las herramientas que lo componen para la ciencia de datos. Comenzamos por familiarizarnos con Python y configurando los entornos de desarrollo integrados más populares, como JupyterLab, PyCharm y Visual Studio Code, comprendiendo sus características distintivas y cómo pueden optimizar nuestro flujo de trabajo como desarrolladores y analistas de datos.
+
+Nos sumergimos en los fundamentos del lenguaje Python, explorando su sintaxis básica y las estructuras de datos esenciales como listas, tuplas, diccionarios y conjuntos. Estas bases son imprescindibles para cualquier tarea de programación y sientan los cimientos para abordar desafíos más complejos en el futuro.
+
+La gestión de librerías o paquetes es un aspecto crítico en el desarrollo en Python. Aprendimos a instalar, actualizar y desinstalar librerías utilizando pip, el gestor de paquetes estándar de Python. Además, comprendimos la importancia de los entornos virtuales para aislar las dependencias de cada proyecto, evitando conflictos y garantizando la reproducibilidad de nuestros entornos de desarrollo. Un aspecto destacado fue la creación y publicación de nuestros propios paquetes en PyPI, lo que nos abre las puertas para contribuir activamente a la comunidad de Python y compartir nuestras soluciones con otros profesionales además de crear soluciones internas adaptadas a nuestras necesidades y reutilizables por nuestro equipo.
+
+Exploramos los formatos de datos más comunes en el ámbito de la ciencia de datos: CSV, JSON, Parquet y Avro. Entendimos las características particulares de cada uno, sus ventajas y casos de uso. Saber cómo trabajar con estos formatos es esencial para importar, exportar y transformar datos en diversos proyectos, y nos permite adaptarnos a las necesidades específicas de cada situación.
+
+
+
+Nota Final: Se anima a los estudiantes a continuar explorando el ecosistema Python y enfrentarse a proyectos personales. La tecnología evoluciona rápidamente y es necesario estar atentos a las nuevas actualizaciones y librerías.

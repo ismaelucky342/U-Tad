@@ -1,0 +1,32 @@
+
+
+En este ejercicio, aplicarás el paradigma **MapReduce** utilizando **RDDs** en Apache Spark para analizar el texto de *El Quijote* descargado desde *Project Gutenberg*. A lo largo de los pasos, explorarás la distribución del archivo en particiones, realizarás conteo de palabras y analizarás diversas características del texto. Es muy importante tener el HDF levantado y haber hecho los pasos de la unidad anterior del ejercicio de HDFS ya que nos dejaba preparado el fichero en HDFS. Todo esto se explica en el video al final.
+
+
+
+- **Preparación del Entorno**  
+  - Descarga el texto de *El Quijote* con el siguiente comando: bigdata> wget http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+
+  - Carga el archivo en un RDD desde el sistema de archivos local: spark> val quijoteRDD = sc.textFile("file:///home/bigdata/Descargas/pg2000.txt")
+
+  - Verifica cuántas particiones tiene el RDD: spark> quijoteRDD.getNumPartitions
+
+  - Carga el archivo desde HDFS, especificando 10 particiones: spark> val quijoteRDD = sc.textFile("hdfs://localhost:9000/ebooks/quijote.txt", 10)
+
+  - Comprueba nuevamente la cantidad de particiones en este nuevo RDD: spark> quijoteRDD.getNumPartitions
+- **Análisis del Texto con RDDs**  
+  - **¿En cuántas líneas aparece la palabra "molino"?**
+    - Escribe una consulta en **Spark Shell** que cuente cuántas líneas contienen la palabra "molino".
+  - **¿Cuántas palabras distintas aparecen en el texto?**
+    - Aplica transformaciones sobre el RDD para obtener un conteo de palabras únicas.
+  - **¿Cuáles son las 10 palabras más repetidas (con más de 3 letras) y cuántas veces aparecen?**
+    - Filtra las palabras con más de 3 caracteres y obtén las 10 más frecuentes junto con su frecuencia.
+  - **¿Cuántas veces aparece la palabra “hidalgo”?**
+    - Busca específicamente cuántas veces se menciona la palabra "hidalgo" en el texto.
+  - **¿Cuántas líneas tiene el texto?**
+    - Obtén el número total de líneas en el archivo.
+  - **¿Cuántas líneas tienen más de 20 caracteres?**
+    - Filtra las líneas con más de 20 caracteres y cuenta cuántas cumplen esta condición.
+  - **¿Cuál es la línea más larga y cuántos caracteres tiene?**
+    - Determina la línea con mayor cantidad de caracteres en el archivo.
+
