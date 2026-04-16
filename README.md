@@ -48,27 +48,27 @@ In the **second year** we acquire programming skills in algorithms, POO, data st
 ### Full-year Project: 
 - **[Projects II: Software Engineering Trends](2nd_Course/Projects_ll)** (6 ECTS)
 
-## 3rd Course: (72 ECTS): (Coming soon)
+## 3rd Course: (72 ECTS):
 The **third year** introduces specialized subjects such as **Artificial Intelligence**, **Machine Learning**, **Distributed Systems**, and **Web Programming**. The mathematics curriculum also evolves with more advanced subjects such as **Numerical Calculus**, **Partial Differential Equations**, and **Topology**. Students are exposed to real-world applications of these subjects, particularly through **Mobile Application Development** and **Server-side Web Programming**. This is also the year when students begin focusing on more complex projects in both fields.
 
 ### Q1:
 - **[Fundamentals of Visual Composition](3th_Course/Q1/Fundamentals_of_VC)** (3 ECTS)
-- **Database Expansion** (6 ECTS)
-- **Artificial Intelligence** (6 ECTS)
-- **Distributed Systems Programming** (6 ECTS)
-- **Web Programming I, Client** (6 ECTS)
+- **[Database Expansion](3th_Course/Q1/Advanced_Databases)** (6 ECTS)
+- **[Artificial Intelligence](3th_Course/Q1/Artificial_Intelligence)** (6 ECTS)
+- **[Distributed Systems Programming](3th_Course/Q1/Distributed_Systems)** (6 ECTS)
+- **[Web Programming I, Client](3th_Course/Q1/Web_Development_l)** (6 ECTS)
 - **Topology** (9 ECTS)
 
 ### Q2:
-- **Information Search and Analysis** (6 ECTS)
+- **[Information Search and Analysis](3th_Course/Q2/Info_Retriveal)** (6 ECTS)
 - **Numerical Calculus** (6 ECTS)
-- **Mobile Application Development** (3 ECTS)
+- **[Mobile Application Development](3th_Course/Q2/Mobile_Apps_Dev)** (3 ECTS)
 - **Partial Differential Equations** (6 ECTS)
 - **Discrete Mathematics II** (3 ECTS)
-- **Machine Learning l** (6 ECTS)
-- **Web Programming II, Server** (6 ECTS)
+- **[Data Processing](3th_Course/Q2/Data_Procesing)** (6 ECTS)
+- **[Web Programming II, Server](3th_Course/Q2/Web_Development_ll_Server)** (6 ECTS)
 
-## 4th Course: (72 ECTS): (Coming soon)
+## 4th Course: (72 ECTS):
 In the **fourth year**, students focus on more advanced topics such as **Mathematical Analysis III**, **Optimization**, and **Algebraic Structures**. They also dive deeper into **Software Engineering**, **Machine Learning ll**, and **UX Fundamentals**, preparing them for the real-world challenges they will face in the technology industry. Projects during this year include developing complex web and mobile applications, as well as working on larger-scale software systems. This year is particularly geared toward applying all the learned concepts to real-world problems.
 
 ### Q1:
@@ -81,20 +81,20 @@ In the **fourth year**, students focus on more advanced topics such as **Mathema
 ### Q2:
 - **Machine Learning II** (6 ECTS)
 - **Curves and Surfaces** (6 ECTS)
-- **UX Fundamentals** (3 ECTS)
+- **[UX Fundamentals](4th_Course/Q2/UX_Fundamentals)** (3 ECTS)
 - **Statistical Inference** (6 ECTS)
   
 ### Full-year Project: 
-- **Projects III: Web and App Development** (9 ECTS)
+- **[Projects III: Web and App Development](3th_Course/Projects_lll)** (9 ECTS)
 
-## 5th Course: (57 ECTS):(Coming soon)
+## 5th Course: (57 ECTS):
 The **final year** is focused on preparation for the professional world. Students engage in an **internship** with a company, gaining practical experience in the industry, and they also work on their two **Final Degree Projects** (Bachelor's Thesis, BT). As a dual degree, the student must complete the BT for the mathematics section and the BT for the software section, which will result in the completion of the dual degree, thus obtaining:
 - An officially-recognized Degree in Software Engineering with a minor in Data Engineering.
 - An officially-recognized Degree in Computational Mathematics.
 
 ### Q1:
 - **Business Creation and Management** (3 ECTS)
-- **Project Management** (3 ECTS)
+- **[Project Management](5th_Course/Q1/Project_Management)** (3 ECTS)
 - **Partial Differential Equations** (6 ECTS)
 - **Programming Paradigms** (3 ECTS)
 - **Computer Vision** (6 ECTS)
