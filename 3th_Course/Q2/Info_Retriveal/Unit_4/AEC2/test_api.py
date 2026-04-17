@@ -1,9 +1,8 @@
 from data_extractor import DataExtractor
 import os
 
-# Asegúrate de exportar tu clave antes de ejecutar:
-# export RAPIDAPI_KEY="tu_clave_aqui"
-
+# para facilitar la evalucación
+# export RAPIDAPI_KEY="clave api"
 def main():
     extractor = DataExtractor()
     try:
