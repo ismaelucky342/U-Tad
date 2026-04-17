@@ -1,0 +1,9 @@
+pandas
+requests
+matplotlib
+wordcloud
+gensim
+textblob
+spacy
+spacytextblob
+nltk
