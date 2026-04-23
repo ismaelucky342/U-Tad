@@ -1,124 +1,183 @@
-# AEC2 - Análisis Avanzado de Sentimiento y Tendencias en Twitter
+# AEC2 – Análisis Avanzado de Sentimiento y Tendencias en Twitter
 
 ## Introducción
 
-Este proyecto implementa un pipeline avanzado para la extracción, limpieza y análisis de tweets, integrando:
-- Extracción en tiempo real desde la API de Twitter (RapidAPI)
-- Modelado de tópicos (LDA)
-- Análisis de sentimiento (TextBlob/spaCy)
-- Parsing y resumen extractivo (NLTK)
-- Visualización avanzada (WordCloud, gráficos)
+Partiendo de la clase `DataExtractor` que desarrollé en la anterior actividad, aquí la amplío con funcionalidades nuevas: conexión en tiempo real a la API de Twitter, modelado de tópicos con LDA, análisis de sentimiento, parsing y resumen extractivo. Todo sigue centralizado en la misma clase para que sea fácil de reutilizar.
 
-Toda la lógica está centralizada en la clase `DataExtractor` para máxima reutilización y reproducibilidad.
+El dataset base que uso es el de tweets de Bitcoin disponible en Kaggle, pero el flujo funciona igual con datos extraídos de la API.
 
-## Extracción de datos
+---
 
-Puedes trabajar tanto con datasets locales (CSV/JSON) como extraer tweets en tiempo real usando la API de Twitter vía RapidAPI. La autenticación se gestiona mediante la variable de entorno `RAPIDAPI_KEY`.
+## Estructura del proyecto
 
-**Ejemplo de uso API:**
-```python
-from data_extractor import DataExtractor
-ext = DataExtractor()
-ext.load_data_api(query="#bitcoin", max_results=100)
+```
+.
+├── data_extractor.py        # Clase principal con toda la lógica
+├── AEC1_DataExtractor.ipynb # Notebook base de la AEC1 (carga, limpieza, hashtags)
+├── dashboard.py             # Dashboard interactivo con Streamlit (opcional)
+├── test_api.py              # Script de prueba para la conexión a la API
+├── requirements.txt         # Dependencias
+├── README.md                # Este archivo
+└── DOCUMENTACION.md         # Documentación técnica detallada
 ```
 
-## Técnicas aplicadas
+---
 
-- **Carga y limpieza:**
-    - Carga eficiente con pandas (chunksize).
-    - Limpieza de texto: minúsculas, eliminación de URLs, menciones, símbolos, normalización de espacios.
-- **Extracción y análisis de hashtags:**
-    - Extracción con regex, eliminación de duplicados.
-    - Métricas globales, por usuario y por fecha.
-- **Modelado de tópicos (LDA):**
-    - Descubrimiento de temas con gensim.
-- **Análisis de sentimiento:**
-    - Polaridad y subjetividad con TextBlob o spaCy.
-- **Parsing y resumen extractivo:**
-    - Selección de oraciones clave con NLTK.
-- **Visualización:**
-    - WordCloud, gráficos de evolución y tablas resumen.
+## Flujo Principal
 
-## Implementación y reproducibilidad
+### 1. Conexión a la API de Twitter (`load_data_api`)
+Me conecto a la API de Twitter a través de RapidAPI usando `requests`. La clave la gestiono con una variable de entorno (`RAPIDAPI_KEY`) para no exponerla en el código. Los tweets los guardo en un CSV local para poder reutilizarlos luego con el resto de métodos.
 
-Toda la lógica está encapsulada en la clase `DataExtractor` (`data_extractor.py`). El flujo es independiente del entorno y puede usarse en scripts, notebooks o dashboards. Se recomienda usar entorno virtual y requirements.txt para instalar dependencias:
+```python
+from data_extractor import DataExtractor
+
+ext = DataExtractor()
+ext.load_data_api(query="#bitcoin", max_results=100, output_file="tweets_api.csv")
+```
+
+> Las APIs gratuitas de RapidAPI devuelven pocos resultados por llamada. Si necesito más volumen, encadeno varias llamadas o uso directamente el dataset CSV de Kaggle.
+
+### 2. Limpieza y normalización (`clean_text`)
+Bajo el texto a minúsculas, elimino URLs, menciones, emojis y caracteres raros. Los hashtags los conservo porque son la base del análisis.
+
+### 3. Extracción y análisis de hashtags (`extract_hashtags`, `analytics_hashtags_extended`)
+Extraigo hashtags por tweet con regex y calculo tres vistas: frecuencia global, por usuario y por fecha. Esto me permite ver tendencias y detectar posibles bots (usuarios que usan hashtags de forma masiva y repetitiva).
+
+### 4. WordCloud (`generate_hashtag_wordcloud`)
+Visualizo los hashtags más frecuentes en una nube de palabras. Rápido y efectivo para hacerse una idea del vocabulario dominante.
+
+### 5. Modelado de tópicos con LDA (`model_topics`)
+Aplico Latent Dirichlet Allocation con gensim para descubrir los temas principales del corpus. Cada tópico se representa como una lista de las palabras más relevantes.
+
+```python
+topics = ext.model_topics(num_topics=5, passes=10)
+for i, t in enumerate(topics):
+    print(f"Tópico {i+1}: {t}")
+```
+
+### 6. Análisis de sentimiento (`analyze_sentiment`)
+Calculo la polaridad y subjetividad de cada tweet. Soporto dos métodos: TextBlob (más rápido) y spaCy con spacytextblob (más preciso). El resultado se añade como columnas al DataFrame.
+
+```python
+df_sent = ext.analyze_sentiment(method='textblob')
+```
+
+### 7. Parsing y resumen extractivo (`parse_and_summarize`)
+Con NLTK tokenizo el corpus completo en oraciones, las puntúo por frecuencia de palabras clave y selecciono las más relevantes. Devuelvo un resumen extractivo compacto del dataset.
+
+```python
+resumen = ext.parse_and_summarize(summary_ratio=0.3)
+print(resumen)
+```
+
+---
+
+## Set up del proyecto 
+
+### Instalación
 
 ```bash
+git clone https://github.com/U-Tad/
+cd /3th_Course/Q2/Info_Retriveal/Unit_4/AEC2
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+python -m spacy download en_core_web_sm
 ```
 
-## Ejemplo de flujo completo
+### Configurar la clave de API
+
+```bash
+export RAPIDAPI_KEY="clavedetwiter"   
+set RAPIDAPI_KEY=clavedetwiter        
+```
+
+### Flujo completo de ejemplo
 
 ```python
 from data_extractor import DataExtractor
+
 ext = DataExtractor()
-# Extraer datos de la API o cargar CSV
+
+# Opción A: extraer de la API en tiempo real
 ext.load_data_api(query="#bitcoin", max_results=100)
+
+# Opción B: cargar desde CSV local (dataset Kaggle)
+# ext = DataExtractor(source="Bitcoin_tweets_dataset_2.csv")
+# ext.load_data()
+
 # Análisis de hashtags
 analytics = ext.analytics_hashtags_extended()
-# WordCloud
-ext.generate_hashtag_wordcloud()
-# Modelado de tópicos
+ext.generate_hashtag_wordcloud(overall_df=analytics['overall'])
+
+# Tópicos
 topics = ext.model_topics(num_topics=5)
-print("Tópicos:", topics)
-# Análisis de sentimiento
+
+# Sentimiento
 df_sent = ext.analyze_sentiment(method='textblob')
+print(df_sent[['clean_text', 'sentiment_polarity', 'sentiment_subjectivity']].head())
+
 # Resumen extractivo
-summary = ext.parse_and_summarize(summary_ratio=0.3)
-print("Resumen:", summary)
+resumen = ext.parse_and_summarize(summary_ratio=0.3)
+print(resumen)
 ```
 
-## Visualización y dashboard (opcional)
+### Dashboard interactivo (opcional)
 
-Se incluye un ejemplo de dashboard en Streamlit (`dashboard.py`) para explorar los resultados de forma interactiva. No es obligatorio, pero demuestra la reutilización de la lógica y facilita la exploración visual.
+```bash
+streamlit run dashboard.py
+```
+
+Luego subo el CSV desde la barra lateral y exploro los hashtags visualmente.
+
+---
+
+## Dependencias
+
+| Librería | uso |
+|---|---|
+| pandas | Carga y manipulación de datos |
+| requests | Llamadas a la API de Twitter |
+| matplotlib | Gráficos y visualizaciones |
+| wordcloud | Nube de palabras |
+| gensim | Modelado LDA |
+| textblob | Análisis de sentimiento (método rápido) |
+| spacy + spacytextblob | Análisis de sentimiento (método preciso) |
+| nltk | Tokenización y resumen extractivo |
+| streamlit | Dashboard interactivo |
+
+---
+
+## Fuente de datos
+
+- **API en tiempo real**: [twitter-api45 en RapidAPI](https://rapidapi.com/alexanderxbx/api/twitter-api45) — gratuita con límite de peticiones
+- **Dataset estático**: [Bitcoin Tweets – Kaggle](https://www.kaggle.com/datasets/kaushiksuresh147/bitcoin-tweets)
+
+---
 
 ## Referencias
 
-- RapidAPI: https://rapidapi.com/
-- Gensim: https://radimrehurek.com/gensim/
-- TextBlob: https://textblob.readthedocs.io/
-- spaCy: https://spacy.io/
-- NLTK: https://www.nltk.org/
-- WordCloud: https://amueller.github.io/word_cloud/
-- Pandas: https://pandas.pydata.org/
-- Matplotlib: https://matplotlib.org/
-- Streamlit: https://streamlit.io/
-- spacytextblob: https://spacytextblob.github.io/
+### Comunidad y aprendizaje
+- **[42 AI](https://42-ai.github.io/)** — organización estudiantil del campus de París de la escuela 42, creada por y para estudiantes de IA. He usado ejercicios de esta organización que han servido como referencia metodológica para estructurar el pipeline de este proyecto.
 
-## Referencias
+### Extracción de datos y APIs
+- **[RapidAPI](https://rapidapi.com/)** — plataforma de marketplace de APIs que usé para conectarme a la API de Twitter (`twitter-api45`) y extraer tweets en tiempo real desde `load_data_api()`.
 
-- 42 AI Bootcamp (Organización orientada a IA dentro de 42 Paris creada por estudiantes):
-    
-    https://42-ai.github.io/
-    
-    https://github.com/42-AI
-    
-- Kaggle dataset:
-    
-    https://www.kaggle.com/datasets/kaushiksuresh147/bitcoin-tweets
-    
-- Pandas documentation:
-    
-    https://pandas.pydata.org/docs/user_guide/index.html
-    
-- Matplotlib documentation:
-    
-    https://matplotlib.org/stable/users/index.html
-    
-- Seaborn tutorial:
-    
-    https://seaborn.pydata.org/tutorial.html
-    
-- WordCloud documentation:
-    
-    https://amueller.github.io/word_cloud/
-    
-- Regex tester:
-    
-    https://regex101.com/
-    
-- Unicode standard (TR44):
-    
-    https://unicode.org/reports/tr44/
+### Manipulación y análisis de datos
+- **[Pandas](https://pandas.pydata.org/docs/)** — librería principal para carga, limpieza y transformación del dataset. Usé `read_csv` con `chunksize` para manejar el dataset de Bitcoin sin problemas de memoria.
+- **[NumPy](https://numpy.org/)** — operaciones numéricas de apoyo en visualizaciones y cálculos intermedios.
+
+### Procesamiento del lenguaje natural (NLP)
+- **[NLTK](https://www.nltk.org/)** — tokenización de oraciones y palabras, eliminación de stopwords y generación del resumen extractivo en `parse_and_summarize()`.
+- **[TextBlob](https://textblob.readthedocs.io/)** — análisis de sentimiento rápido en `analyze_sentiment()`, calcula polaridad y subjetividad por tweet.
+- **[spaCy](https://spacy.io/)** — análisis sintáctico y parsing de dependencias, con árbol de dependencias generado con `displacy`. También como alternativa a TextBlob via `spacytextblob`.
+- **[Gensim](https://radimrehurek.com/gensim/)** — modelado de tópicos con LDA en `model_topics()`, descubrimiento de los temas principales del corpus.
+
+### Visualización
+- **[Matplotlib](https://matplotlib.org/stable/users/index.html)** — todos los gráficos del proyecto: barras, histogramas, scatter, líneas temporales.
+- **[Seaborn](https://seaborn.pydata.org/)** — estilos visuales y gráficos estadísticos complementarios.
+- **[WordCloud](https://amueller.github.io/word_cloud/)** — generación de nubes de palabras a partir de frecuencias de hashtags en `generate_hashtag_wordcloud()`.
+
+### Dashboard interactivo
+- **[Streamlit](https://streamlit.io/)** — framework con el que construí el dashboard (`dashboard.py`) para explorar los resultados de forma interactiva desde el navegador.
+

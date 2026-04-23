@@ -1,7 +1,5 @@
 # Unidad 2. Funciones avanzadas y persistencia de datos en Android.
 
-
-
 ## Index
 
 - [1. Introducción Y Objetivos](#1-introducción-y-objetivos)
