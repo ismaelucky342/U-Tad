@@ -56,11 +56,7 @@ Otro de los temas que se tratan en esta unidad es la persistencia de datos. Toda
 
 #### Objetivos
 
-
-
 Los objetivos que se persiguen en esta unidad son:
-
-
 
 1. Conocer los elementos UI avanzados.
 2. Crear y renderizar listado de datos con adaptadores personalizados.

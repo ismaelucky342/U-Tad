@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Unidad2Proyecto</string>
+    <string name="app_name">AEC1 Product App</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="no_account_register">Don\'t have an account? Register here</string>
+    <string name="create_account">Create Account</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="view_favorites">View Favorites</string>
+    <string name="my_favorites">My Favorites</string>
+    <string name="product_image">Product Image</string>
 </resources>

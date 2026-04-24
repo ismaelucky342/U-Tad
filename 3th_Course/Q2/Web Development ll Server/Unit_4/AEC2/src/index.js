@@ -23,10 +23,10 @@ app.use(express.json());
 
 app.use('/orders', ordersRouter);
 
-// 404 for unknown routes
+// 404 para rutas desconocidas 
 app.use((req, res) => res.status(404).json({ success: false, message: 'Not Found' }));
 
-// central error handler
+// Manejador de errores global
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;

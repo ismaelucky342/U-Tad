@@ -1,0 +1,60 @@
+Entregable individual:
+Presentación individual contando el avance del proyecto – 5 Puntos
+En este apartado, cada miembro del equipo deberá entregar un enlace a sharepoint o a un onedrive
+personal con una grabación individual contando el avance del proyecto hasta la fecha. Tiene que
+tener una duración de entre 7-15 minutos y se debe incluir:
+- Presentación de apoyo: es decir, un power point o al menos una slide con algunos puntos
+clave que se quieran transmitir.
+- Visualización de alguna parte de la aplicación funcionando o, en su defecto, de mockups,
+wireframes o diseños del producto.
+- Visualización de alguno de los artefactos del proyecto, ya sea el tablero Kanban, alguna épica
+o una visión general del backlog
+Notas:
+- No es necesario que se vea al alumno, con la voz y ver su pantalla es suficiente
+- Se puede enfocar en forma de demo, de reporte de estado o incluso basarlo en el sprint
+review
+- La visualización de algún artefacto puede ser una captura de pantalla embebida en la
+presentación de apoyo
+
+Ejercicio 3
+(5 Puntos)
+(De 3,75 a 5 puntos)
+Cumple con requisitos
+y tiempos, hace una
+presentación
+excelente y transmite
+claramente el mensaje
+adecuándose a lo
+aprendido en la
+Unidad 5
+(De 2,5 a 3,75
+puntos)
+Cumple con
+requisitos y
+tiempos y
+transmite el
+mensaje adecuado
+(De 1,25 a 2,5
+puntos)
+Cumple con
+requisitos, pero no
+explica de forma
+correcta y/o se
+excede o queda
+corto en tiempos o
+contenidos
+(De 0 a 1,25
+puntos)
+No cumple con
+los 3 requisitos
+que debe
+incluir la
+grabación y/o
+no se ajusta a
+tiempos
+*Para evaluar la calidad de las ceremonias se considerará:
+- la ejecución de cada rol
+- el uso de herramientas adecuadas (tableros, backlog, etc),
+- el contenido y la fluidez
+- el conocimiento de lo que se explica
+- la participación
