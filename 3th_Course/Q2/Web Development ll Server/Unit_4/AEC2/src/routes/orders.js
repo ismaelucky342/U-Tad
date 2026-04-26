@@ -17,7 +17,12 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/ordersController');
 const validateOrder = require('../middlewares/validateOrder');
+const validateId = require('../middlewares/validateId');
 
+// Validar el parámetro `id` antes de procesar rutas que lo llevan
+router.param('id', validateId);
+
+// Rutas del endpoint /orders
 router.get('/', controller.listOrders);
 router.get('/:id', controller.getOrder);
 router.post('/', validateOrder, controller.createOrder);

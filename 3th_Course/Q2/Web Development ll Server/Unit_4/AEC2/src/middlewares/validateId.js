@@ -13,15 +13,13 @@
 /*                                                                                                    */
 /*====================================================================================================*/
 
-module.exports = function errorHandler(err, req, res, next) {
-  // Si ya se ha enviado una respuesta, delega al siguiente handler
-  if (res.headersSent) return next(err);
+module.exports = function validateId(req, res, next, id) {
+  // Convierte el parámetro id en número y valida que sea un entero positivo
+  const orderId = parseInt(id, 10);
+  if (Number.isNaN(orderId) || orderId <= 0) {
+    return res.status(400).json({ success: false, message: 'Invalid order ID' });
+  }
 
-  // Log de error para depuración
-  console.error(err && err.stack ? err.stack : err);
-
-  // Devuelve un mensaje genérico cuando no hay estado definido
-  const status = err.status || 500;
-  const message = err.message || 'Internal Server Error';
-  res.status(status).json({ success: false, message });
+  req.orderId = orderId;
+  next();
 };

@@ -16,14 +16,20 @@
 const express = require('express');
 const ordersRouter = require('./routes/orders');
 const errorHandler = require('./middlewares/errorHandler');
+const requestLogger = require('./middlewares/logger');
 
 const app = express();
 
+// Leer el cuerpo JSON de las peticiones entrantes
 app.use(express.json());
 
+// Registrar cada petición para poder seguir el flujo cuando depuro
+app.use(requestLogger);
+
+// Rutas principales de pedidos
 app.use('/orders', ordersRouter);
 
-// 404 para rutas desconocidas 
+// Respuesta para rutas que no existen
 app.use((req, res) => res.status(404).json({ success: false, message: 'Not Found' }));
 
 // Manejador de errores global

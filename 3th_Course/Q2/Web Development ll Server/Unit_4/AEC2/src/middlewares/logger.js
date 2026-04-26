@@ -13,15 +13,9 @@
 /*                                                                                                    */
 /*====================================================================================================*/
 
-module.exports = function errorHandler(err, req, res, next) {
-  // Si ya se ha enviado una respuesta, delega al siguiente handler
-  if (res.headersSent) return next(err);
-
-  // Log de error para depuración
-  console.error(err && err.stack ? err.stack : err);
-
-  // Devuelve un mensaje genérico cuando no hay estado definido
-  const status = err.status || 500;
-  const message = err.message || 'Internal Server Error';
-  res.status(status).json({ success: false, message });
+module.exports = function requestLogger(req, res, next) {
+  // Registra el método y la ruta en la que se ha hecho la petición
+  const now = new Date().toISOString();
+  console.info(`[${now}] ${req.method} ${req.originalUrl}`);
+  next();
 };
