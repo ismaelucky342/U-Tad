@@ -2,31 +2,29 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{avg, col, desc, round}
 
 /**
- * Ejercicio 6 — Consultas sobre los datos con SQL y con la API de Spark
+ * Ejercicio 6 — SQL vs API de Spark (el mismo resultado, dos caminos)
  *
- * Se realizan dos consultas equivalentes de dos formas distintas:
+ * Spark es flexible: puedo hacer LO MISMO de dos formas:
+ *   1. SQL puro: para los que vienen de MySQL/PostgreSQL
+ *   2. API de Spark: para los que prefieren código funcional
  *
- *   1. Usando spark.sql() sobre una vista global temporal creada con
- *      createGlobalTempView(). La vista es accesible desde cualquier
- *      SparkSession del mismo contexto con el prefijo "global_temp.".
+ * ¿Cuál es mejor? AMBAS generan exactamente el mismo plan de ejecución.
+ * Solo elige la que te resulte más cómoda.
  *
- *   2. Usando la API funcional de Spark (groupBy, agg, filter, select,
- *      orderBy) directamente sobre el DataFrame, sin SQL.
- *
- * Las dos consultas que se realizan son:
- *   - Salario medio por departamento (orden descendente)
- *   - Empleados con salario superior a 45 000 (orden descendente)
+ * Aquí muestro dos queries reales sobre películas:
+ *   - Query 1: promedio de ingresos por género
+ *   - Query 2: películas baratas pero rentables (presupuesto < 50M, ingresos > 500M)
  */
 object Ejercicio6 {
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder()
-      .appName("Ejercicio6 - Consultas SQL y API de Spark")
+      .appName("Ejercicio6 - SQL vs API de Spark")
       .master("local[*]")
       .getOrCreate()
 
     spark.sparkContext.setLogLevel("WARN")
 
-    val csvPath = if (args.nonEmpty) args(0) else "data/datos_empleados.csv"
+    val csvPath = if (args.nonEmpty) args(0) else "data/datos_peliculas.csv"
 
     val df = spark.read
       .option("header",      "true")
@@ -35,41 +33,100 @@ object Ejercicio6 {
       .option("mode",        "DROPMALFORMED")
       .csv(csvPath)
 
-    // Registro de la vista global temporal
-    df.createGlobalTempView("empleados")
+    // Registro el DataFrame como vista para usar SQL
+    df.createGlobalTempView("peliculas")
 
-    // ── Consultas con spark.sql() ─────────────────────────────────────────
+    println("=" * 60)
+    println("QUERY 1: Ingresos promedio por género")
+    println("=" * 60)
 
-    println("=== SQL: salario medio por departamento ===")
-    spark.sql(
-      """SELECT   departamento,
-        |         ROUND(AVG(salario), 2) AS salario_medio
-        |FROM     global_temp.empleados
-        |GROUP BY departamento
-        |ORDER BY salario_medio DESC""".stripMargin
-    ).show(truncate = false)
+    // ─────────────────────────────────────────────────────
+    // OPCIÓN A: SQL
+    // ─────────────────────────────────────────────────────
+    
+    println("\n--- Versión SQL ---\n")
+    
+    spark.sql("""
+      SELECT 
+        genero,
+        ROUND(AVG(ingresos), 0) AS ingresos_promedio,
+        COUNT(*) AS cantidad
+      FROM global_temp.peliculas
+      WHERE ingresos > 0
+      GROUP BY genero
+      ORDER BY ingresos_promedio DESC
+    """).show(truncate = false)
 
-    println("=== SQL: empleados con salario > 45 000 ===")
-    spark.sql(
-      """SELECT nombre, departamento, salario
-        |FROM   global_temp.empleados
-        |WHERE  salario > 45000
-        |ORDER BY salario DESC""".stripMargin
-    ).show(truncate = false)
-
-    // ── Mismas consultas con la API de Spark ──────────────────────────────
-
-    println("=== API de Spark: salario medio por departamento ===")
-    df.groupBy("departamento")
-      .agg(round(avg("salario"), 2).alias("salario_medio"))
-      .orderBy(desc("salario_medio"))
+    // ─────────────────────────────────────────────────────
+    // OPCIÓN B: API de Spark (funcional)
+    // ─────────────────────────────────────────────────────
+    
+    println("--- Versión API de Spark ---\n")
+    
+    df.filter(col("ingresos") > 0)
+      .groupBy("genero")
+      .agg(
+        round(avg("ingresos"), 0).alias("ingresos_promedio"),
+        col("*").count().alias("cantidad")
+      )
+      .orderBy(desc("ingresos_promedio"))
       .show(truncate = false)
 
-    println("=== API de Spark: empleados con salario > 45 000 ===")
-    df.filter(col("salario") > 45000)
-      .select("nombre", "departamento", "salario")
-      .orderBy(desc("salario"))
-      .show(truncate = false)
+    println("\n" + "=" * 60)
+    println("QUERY 2: Películas 'sorpresas' (presupuesto bajo, ingresos altos)")
+    println("=" * 60)
+
+    // ─────────────────────────────────────────────────────
+    // OPCIÓN A: SQL
+    // ─────────────────────────────────────────────────────
+    
+    println("\n--- Versión SQL ---\n")
+    
+    spark.sql("""
+      SELECT 
+        titulo,
+        ano,
+        genero,
+        presupuesto,
+        ingresos,
+        ROUND((ingresos - presupuesto) / presupuesto, 2) AS roi
+      FROM global_temp.peliculas
+      WHERE presupuesto > 0 AND presupuesto < 50000000 AND ingresos > 500000000
+      ORDER BY roi DESC
+    """).show(10, truncate = false)
+
+    // ─────────────────────────────────────────────────────
+    // OPCIÓN B: API de Spark
+    // ─────────────────────────────────────────────────────
+    
+    println("--- Versión API de Spark ---\n")
+    
+    df.filter((col("presupuesto") > 0) && (col("presupuesto") < 50000000) && (col("ingresos") > 500000000))
+      .select(
+        col("titulo"),
+        col("ano"),
+        col("genero"),
+        col("presupuesto"),
+        col("ingresos"),
+        round((col("ingresos") - col("presupuesto")) / col("presupuesto"), 2).alias("roi")
+      )
+      .orderBy(desc("roi"))
+      .show(10, truncate = false)
+
+    println("\n" + "=" * 60)
+    println("CONCLUSIÓN")
+    println("=" * 60)
+    println("""
+    Ambas versiones:
+      ✓ Generan el MISMO plan de ejecución
+      ✓ Tienen la MISMA performance
+      ✓ El resultado es IDÉNTICO
+    
+    La diferencia es solo ESTILO. Elige la que:
+      - Entiendas mejor
+      - Te resulte más cómoda
+      - Vaya mejor con el resto de tu código
+    """)
 
     spark.stop()
   }

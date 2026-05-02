@@ -1,0 +1,99 @@
+DESCRIPCIÓN DE LA ACTIVIDAD PRÁCTICA
+Esta actividad práctica de la unidad 4 consta de 2 partes:
+1º Ejercicio con dataframes y RDD’s con fuente de datos a elección del alumno
+2º Ejercicio guiado con conector a postgree
+1º Ejercicio con dataframes y RDD’s con fuente de datos a elección del alumno
+Para realizar esta actividad es requisito imprescindible haber visto el video del ejemplo 1 final de la
+unidad y entenderlo.
+Se pide al alumno realizar las siguientes acciones documentádolas con pantallazos en el pdf
+entregable y generando un fichero .scala con todo el código:
+1 Seleccionar una fuente de datos del interés del alumno
+Debe cumplir las siguientes condiciones:
+• Más de 200 registros
+• Mínimo 7 columnas
+• Diferentes tipos de datos
+Se pueden tomar de portales de datos abiertos, Kaggle, etc.
+2 Si el fichero está accesible via url utilizar el comando Linux wget para descargarlo a Descargas de
+la máquina virtual. En caso de que no sea así descargar el fichero con el formato que tenga en la
+MV. Puede ser CSV, TSV, Json, Parquet, etc.
+
+3 Creación de un RDD y transformación a DataFrame
+Se debe demostrar que el alumno sabe:
+• Leer los datos como RDD
+• Realizar transformaciones básicas (split, map, etc.)
+• Convertir ese RDD en un DataFrame
+La creación del DataFrame puede hacerse: mediante .toDF() o definiendo un schema manual
+4. Mostrar estructura de datos y metadatos
+Se debe mostrar al menos:
+• Una muestra de los datos
+• El esquema (printSchema)
+• Número de registros
+• Número de registros distintos
+5. Se debe realizar un análisis exploratorio que incluya:
+• Estadísticas básicas
+• Detección de valores nulos
+• Al menos un método adicional no visto en el ejemplo, consultando la documentación
+6 . Conversión de DataFrame a RDD y vuelta a DataFrame
+Se debe demostrar que el alumno comprende la relación entre ambas estructuras:
+• Convertir el DataFrame a RDD
+• Aplicar al menos una transformación en el RDD (filtrado, conteo, transformación, etc.)
+• Volver a convertir ese RDD en un DataFrame
+Es obligatorio explicar:
+• Qué transformación se ha realizado
+• Por qué se ha utilizado RDD en ese punto
+7. Planteamiento de un problema sobre los datos
+En lugar de realizar consultas aisladas, el alumno debe definir un pequeño problema o análisis que
+quiera resolver con los datos.
+Ejemplos orientativos (no obligatorios):
+• Identificar categorías con mayor valor medio
+• Encontrar los registros más frecuentes
+• Analizar distribución por grupos
+• Detectar valores extremos o patrones
+
+Pero cumpliendo estas condiciones
+* Alguna query debe tener condicionales
+* Alguna query debe agrupar por más de una columna
+* Alguna query se debe ejecutar con SQL y alguna otra con API del DF
+* Alguna de las queries debe hacer uso de un UDF o de un UDAF que consideréis, distinto a los
+vistos en el material de la unidad.
+Es necesario además de aportar la solución, mostrar un pantallazo de la ejecución y explicar cada
+una de las ejecuciones que se realicen
+Se valorará positivamente tanto la creatividad como la dificultad y claridad en la solución.
+2º Ejercicio guiado con conector a postgree
+Vamos a probar en este punto otro conector. Para ello primeramente deberéis instalar postgree
+en la máquina vitual. Lo pasos os los detallo a continuación
+// Ejercicio: conector JDBC
+// sudo apt install postgresql
+// sudo -u postgres psql
+// postgres=# ALTER USER postgres PASSWORD 'postgres';
+// postgres=# CREATE TABLE mytable(id INT, name VARCHAR, rating INT);
+// postgres=# INSERT INTO mytable VALUES(1, 'Clase', 9);
+// postgres=# SELECT * FROM mytable;
+// postgres=# \q
+// cp /home/bigdata/.m2/repository/org/postgresql/postgresql/42.3.7/postgresql-42.3.7.jar
+/home/bigdata/Descargas/
+// bin/spark-shell --jars /home/bigdata/Descargas/postgresql-42.3.7.jar
+
+Llegados a este punto necesito que me comentéis con vuestras palabras qué habéis hecho con
+cada comando
+import java.util.Properties
+val props = new Properties()
+props.setProperty("user", "postgres")
+props.setProperty("driver", "org.postgresql.Driver")
+props.setProperty("password", "postgres")
+val jdbcDF = spark.read.jdbc("jdbc:postgresql://localhost:5432/postgres", "mytable", props)
+jdbcDF.show()
+Igualmente debéis comentar qué hacen estos comandos.
+Y ahora un pequeño ejercicio
+// Ejercicio Crea una tabla con esta misma tabla de Postgres con una sentencia SQL
+Para ello hay que ejecutar:
+spark.sql("CREATE TABLE pgtable USING jdbc OPTIONS (url
+'jdbc:postgresql://localhost:5432/postgres', driver 'org.postgresql.Driver', user 'postgres',
+password 'postgres', dbtable 'mytable')")
+spark.sql("SELECT * FROM pgtable").show
+Necesito que expliquéis que hace.
+Finalmente, se pide ejecutar dos sentencias SQL de elaboración propia utilizando este conector.
+Una de ellas deberá implicar la creación de una nueva tabla o vista a partir de los datos
+disponibles, y la otra deberá realizar una consulta sobre dichos datos. Es necesario explicar qué se
+pretende obtener en cada caso y analizar el resultado obtenido
+
