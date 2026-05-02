@@ -194,7 +194,6 @@ donde se cubre:
 
 ## Extras
 
-Este proyecto me ha servido para practicar cómo estructurar una API pequeña con rutas claras, validaciones y manejo de errores sin usar base de datos. Me ha permitido ver lo útil que es separar rutas, controladores y middlewares, y confirmar que incluso un proyecto sencillo gana calidad con pruebas automáticas y una documentación clara.
+Siendo mi primera vez con express (muy necesario actualmente en otra asignatura) este proyecto me ha servido para practicar cómo estructurar una API pequeña con rutas claras, validaciones y manejo de errores sin usar base de datos. Me ha permitido ver lo útil que es separar rutas, controladores y middlewares, y confirmar que incluso un proyecto sencillo gana calidad con pruebas automáticas y una documentación clara.
 
-
-
+![alt text](image.png)

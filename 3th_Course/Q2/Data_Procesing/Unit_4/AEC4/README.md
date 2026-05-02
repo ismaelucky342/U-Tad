@@ -1,8 +1,7 @@
-# EjercicioSparkSQL
+# AEC4 - Spark SQL
 
 Ejercicio práctico de Apache Spark para explorar la creación, transformación y consulta de DataFrames y RDDs en un entorno distribuido. Todos los ejemplos están escritos en Scala y se ejecutan en modo local.
 
----
 
 ## Estructura del proyecto
 
@@ -19,8 +18,6 @@ EjercicioSparkSQL/
 │   └── Ejercicio6.scala          # Consultas con SQL y con la API de Spark
 └── README.md
 ```
-
----
 
 ## Descripción de los ejercicios
 
