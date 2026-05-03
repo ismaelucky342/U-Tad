@@ -35,11 +35,10 @@ class DataExtractor:
         self.data = None
         self.chunksize = chunksize
 
-    # Inicializador de la clase. source apunta al archivo local de datos (CSV o JSON) o None si voy
+    # Inicializador de la clase, aqui apunto el source al archivo local de datos (CSV o JSON) o None si voy
     # a usar load_data_api(). self.data es el DataFrame principal donde se cargan los tweets.
-    # chunksize es el tamaño de bloque para leer CSVs gigantes sin reventar RAM (por defecto 100k).
+    # chunksize es el tamaño de bloque para leer CSVs gigantes
 
-    # --- API & Data Loading ---
 
     def _parse_api_response(self, response_json: dict) -> list:
         """Parse API response handling multiple formats: tweets, data, timeline, results."""
@@ -64,11 +63,10 @@ class DataExtractor:
 
         return rows if rows else (_ for _ in ()).throw(ValueError("No valid tweets in response"))
 
-    # Método privado para normalizar respuestas de la API de Twitter. Distintos endpoints y versiones
+    # con este metodo privado normalizo las respuestas de la API de Twitter. Distintos endpoints y versiones
     # de RapidAPI devuelven la lista de tweets bajo diferentes nombres de claves ('tweets', 'data',
     # 'timeline', etc.), así que intento encontrarla de forma robusta. Si la encuentro, normalizo
     # cada tweet a un formato común (user_name, date, text) para que el resto de métodos funcionen.
-    # Esto evita depender de una estructura específica de respuesta y hace el código más resiliente.
     def load_data_api(self, query: str, max_results: int = 100, output_file: str = "tweets.csv") -> pd.DataFrame:
         """Extract tweets from RapidAPI Twitter endpoint."""
         try:
@@ -86,10 +84,10 @@ class DataExtractor:
         self.data = pd.DataFrame(rows)
         self.data.to_csv(output_file, index=False, encoding="utf-8")
         self.source = output_file
-        print(f"✓ {len(self.data)} tweets extracted and saved to '{output_file}'")
+        print(f" {len(self.data)} tweets extracted and saved to '{output_file}'")
         return self.data
 
-    # Extrae tweets en tiempo real desde la API de RapidAPI usando credenciales de variable de entorno.
+    # Extraigo tweets en tiempo real desde la API de RapidAPI usando credenciales de variable de entorno.
     # Leo la clave RAPIDAPI_KEY desde os.environ para evitar exponerla en el código. Luego hago una
     # petición GET al endpoint search.php con los parámetros query (hashtag/búsqueda) y count (número
     # de tweets). El parser robusto convierte la respuesta al formato estándar. Finalmente guardo en
@@ -107,15 +105,13 @@ class DataExtractor:
             raise ValueError(f"Unsupported format: {ext}")
 
         self.data.columns = [c.strip().replace('\r', '') for c in self.data.columns]
-        print(f"✓ Loaded {len(self.data):,} rows – {list(self.data.columns)}")
+        print(f" Loaded {len(self.data):,} rows – {list(self.data.columns)}")
         return self.data
 
-    # Carga datos desde archivo local (CSV o JSON). Para archivos CSV grandes uso chunksize para no
+    # Cargo datos desde archivo local (CSV o JSON). Para archivos CSV grandes uso chunksize para no
     # saturar la RAM: leo el archivo en pedazos y los concateno. También limpio nombres de columnas
     # por si vienen con espacios o caracteres raros (CRLF). El método detecta automáticamente el
     # formato por la extensión del archivo y lo carga apropiadamente.
-
-    # --- Text Cleaning ---
 
     def clean_text(self, text: str) -> str:
         """Normalize text: lowercase, remove URLs/mentions/emojis, keep hashtags."""
@@ -131,8 +127,7 @@ class DataExtractor:
     # Normaliza y limpia cada tweet de manera sistemática. Paso a minúsculas, elimino URLs
     # (amenudo enlaces spammers), menciones (@usuario), emojis (usando categorías Unicode), y
     # caracteres especiales; pero CONSERVO hashtags (#bitcoin) porque son cruciales para el análisis.
-    # Colapso espacios múltiples al final para tener texto limpio. Es una operación crítica que
-    # se aplica a todo el corpus antes de hacer análisis (LDA, sentimiento, resumen).
+    # Colapso espacios múltiples al final para tener texto limpio. 
     def extract_hashtags(self, text: str) -> list:
         """Extract unique hashtags from text."""
         if not isinstance(text, str):
@@ -145,12 +140,10 @@ class DataExtractor:
                 result.append(t)
         return result
 
-    # Extrae hashtags únicos de un tweet usando regex. Busco el patrón #(\w+) y devuelvo una lista
+    # Extraigo hashtags únicos de un tweet usando regex. Busco el patrón #(\w+) y devuelvo una lista
     # sin duplicados manteniendo el orden de aparición. Esto se usa tanto para análisis like frecuencia
     # de hashtags como para filtrado en LDA (eliminamos hashtags antes de modelar tópicos porque no
     # son palabras "reales" y añaden ruido).
-
-    # --- Hashtag Analytics ---
 
     def analytics_hashtags_extended(self) -> dict:
         """Analyze hashtags: global frequency, by user, by date."""
@@ -169,13 +162,13 @@ class DataExtractor:
         by_user = df_exp.groupby(['user_name', 'hashtag'], as_index=False).size().rename(columns={'size': 'frequency'}).sort_values('frequency', ascending=False)
         by_date = df_exp.groupby(['date', 'hashtag'], as_index=False).size().rename(columns={'size': 'frequency'}).sort_values(['date', 'frequency'], ascending=[True, False])
 
-        print(f"✓ {len(overall)} unique hashtags found")
+        print(f" {len(overall)} unique hashtags found")
         return {'overall': overall, 'by_user': by_user, 'by_date': by_date}
 
-    # Análisis profundo de hashtags en tres perspectivas: (1) Overall: frecuencia global de cada
-    # hashtag sin contexto - ¿cuál es el más popular? (2) By user: qué usuarios usan cada hashtag
-    # con qué frecuencia - ayuda a detectar bots que spammean el mismo hashtag. (3) By date:
-    # evolución temporal - ¿está el hashtag en tendencia? Todos los análisis se hacen sobre
+    # Análisis profundo de hashtags en tres perspectivas: frecuencia global de cada
+    # hashtag sin contexto ¿cuál es el más popular?,  qué usuarios usan cada hashtag
+    # con qué frecuencia ayuda a detectar bots que spammean el mismo hashtag y 
+    # evolución temporal  ¿está el hashtag en tendencia? Todos los análisis se hacen sobre
     # datos limpios y con hashtags normalizados (minúsculas, sin duplicados).
     def generate_hashtag_wordcloud(self, overall_df: pd.DataFrame = None, max_words: int = 100, figsize: tuple = (10, 6)):
         """Generate wordcloud from hashtag frequencies."""
@@ -199,8 +192,6 @@ class DataExtractor:
     # tamaños relativos: hashtags más frecuentes aparecen más grandes. Es una visualización rápida y
     # efectiva para ver de un vistazo cuál es el vocabulario dominante del corpus sin necesidad de
     # tablas. Si no le paso un DataFrame de frecuencias, calculo uno sobre la marcha.
-
-    # --- Advanced Analysis ---
 
     def model_topics(self, num_topics: int = 5, passes: int = 10, min_word_len: int = 3) -> list:
         """LDA topic modeling with aggressive filtering (stopwords, numbers, short words, hashtags)."""
@@ -235,14 +226,14 @@ class DataExtractor:
                                            passes=passes, random_state=42, workers=1)
 
         topics = [[w for w, _ in t[1]] for t in lda_model.show_topics(num_topics=num_topics, num_words=10, formatted=False)]
-        print(f"✓ LDA: {num_topics} topics ({len(texts)} docs)")
+        print(f" LDA: {num_topics} topics ({len(texts)} docs)")
         return topics
 
     # Modelado de tópicos con Latent Dirichlet Allocation (LDA). El algoritmo descubre temas
     # latentes en el corpus de forma no supervisada. CRÍTICO: filtrado agresivo antes de entrenar:
     # elimino stopwords ingleses (the, is, etc.), números, palabras muy cortas (<3 caracteres),
     # y hashtags - todo esto es ruido que degradaría la calidad de los tópicos. Uso gensim que es
-    # la librería estándar. El modelo se entrena con N iteraciones (passes) para convergencia.
+    # la librería estándar. El modelo se entrena con N iteraciones ppara convergencia.
     # Devuelvo los tópicos como listas de palabras más relevantes de cada tema.
     def analyze_sentiment(self, method: str = 'textblob') -> pd.DataFrame:
         """Analyze sentiment (polarity & subjectivity) using TextBlob or spaCy."""
@@ -321,7 +312,7 @@ class DataExtractor:
     # palabra (ignorando stopwords, puntuación, etc.). Después puntúo cada oración por suma de frecuencias
     # de sus palabras - oraciones con palabras más frecuentes son "más importantes". Selecciono el top
     # summary_ratio (ej. 5%) y las reordeno por posición original para mantener coherencia. Limito a
-    # max_length palabras para no generar resúmenes enormes. Es una técnica clásica efectiva.
+    # max_length palabras para no generar resúmenes enormes. 
 
     def export_results(self, output_dir: str = "output") -> None:
         """Export all results: clean data, hashtag analytics, sentiment, summary."""
@@ -335,30 +326,23 @@ class DataExtractor:
             self.data['clean_text'] = self.data['text'].apply(self.clean_text)
 
         self.data.to_csv(out / 'tweets_clean.csv', index=False, encoding='utf-8')
-        print(f"✓ tweets_clean.csv ({len(self.data):,} rows)")
+        print(f" tweets_clean.csv ({len(self.data):,} rows)")
 
         analytics = self.analytics_hashtags_extended()
         for key, fname in [('overall', 'hashtags_overall.csv'), ('by_user', 'hashtags_by_user.csv'), ('by_date', 'hashtags_by_date.csv')]:
             analytics[key].to_csv(out / fname, index=False, encoding='utf-8')
-            print(f"✓ {fname} ({len(analytics[key]):,} rows)")
+            print(f" {fname} ({len(analytics[key]):,} rows)")
 
         if 'sentiment_polarity' in self.data.columns:
             cols = [c for c in ['user_name', 'date', 'text', 'clean_text', 'sentiment_polarity', 'sentiment_subjectivity'] if c in self.data.columns]
             self.data[cols].to_csv(out / 'sentiment_results.csv', index=False, encoding='utf-8')
-            print(f"✓ sentiment_results.csv ({len(self.data):,} rows)")
+            print(f" sentiment_results.csv ({len(self.data):,} rows)")
 
         summary = self.parse_and_summarize(summary_ratio=0.01)
         (out / 'summary.txt').write_text(summary, encoding='utf-8')
-        print(f"✓ summary.txt ({len(summary.split())} words)\n✅ Results in '{out.resolve()}'")
+        print(f" summary.txt ({len(summary.split())} words)\n✅ Results in '{out.resolve()}'")
 
-    # Exporta TODOS los resultados del análisis en archivos separados en una carpeta output_dir.
-    # Genera: (1) tweets_clean.csv - dataset completo con texto normalizado (clean_text).
-    # (2) hashtags_overall.csv / by_user.csv / by_date.csv - tres vistas del análisis de hashtags.
-    # (3) sentiment_results.csv - tweets con sus puntuaciones de polaridad y subjetividad.
-    # (4) summary.txt - resumen extractivo del corpus completo (muy comprimido, ratio 0.01).
-    # Así tienes todo listo para revisión sin depender de que el notebook se ejecute entero.
-    def export_topics(self, topics: list, output_dir: str = "output") -> None:
-        """Export LDA topics to text file."""
+    # Exporto todos los resultados del análisis en archivos separados en una carpeta output_dir.
         out = Path(output_dir)
         out.mkdir(parents=True, exist_ok=True)
         
@@ -367,9 +351,9 @@ class DataExtractor:
             lines.append(f"Topic {i}: {', '.join(topic)}\n")
         
         (out / 'topics_lda.txt').write_text(''.join(lines), encoding='utf-8')
-        print(f"✓ topics_lda.txt")
+        print(f" topics_lda.txt")
 
-    # Exporta los tópicos LDA a un archivo de texto legible. Cada tópico aparece en una línea
+    # Exporto los tópicos LDA a un archivo de texto legible. Cada tópico aparece en una línea
     # con sus palabras más relevantes separadas por comas. Se lo separo de export_results/()
     # porque los tópicos se generan por separado con model_topics() y no todos los pipelines
     # necesariamente los calculan.
