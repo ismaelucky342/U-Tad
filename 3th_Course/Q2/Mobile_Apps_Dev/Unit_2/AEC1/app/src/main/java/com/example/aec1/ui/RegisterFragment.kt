@@ -11,6 +11,8 @@ import com.example.aec1.R
 import com.example.aec1.databinding.FragmentRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 
+import com.bumptech.glide.Glide
+
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
@@ -28,6 +30,11 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance()
+
+        // Cargar logo U-Tad
+        Glide.with(this)
+            .load("https://www.u-tad.com/wp-content/uploads/2022/02/logo-u-tad.png")
+            .into(binding.ivLogoRegister)
 
         binding.btnRegister.setOnClickListener {
             val email = binding.etEmail.text.toString()

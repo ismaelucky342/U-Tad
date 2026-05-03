@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_light">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -10,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/my_favorites"
-        android:textSize="20sp"
+        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+        android:textColor="@color/utad_blue"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,6 +21,8 @@
         android:id="@+id/rvFavorites"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layoutAnimation="@anim/layout_animation_fall_down"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

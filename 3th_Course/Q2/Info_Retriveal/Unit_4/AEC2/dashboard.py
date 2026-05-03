@@ -107,7 +107,7 @@ st.set_page_config(
     layout="wide",
 )
 
-st.title("₿ Dashboard ")
+st.title(" Dashboard ")
 st.caption("AEC1 · Busqueda y Análisis de la Información")
 
 # ---- Barra lateral: carga del CSV ------------------------------------------
