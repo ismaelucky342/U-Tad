@@ -1,0 +1,33 @@
+{
+  "type": "record",
+  "name": "Venta",
+  "namespace": "com.tienda.ventas",
+  "doc": "Esquema Avro para registros de ventas en línea",
+  "fields": [
+    {
+      "name": "id_venta",
+      "type": "long",
+      "doc": "Identificador único de la transacción de venta"
+    },
+    {
+      "name": "producto",
+      "type": "string",
+      "doc": "Nombre del producto vendido"
+    },
+    {
+      "name": "cantidad",
+      "type": "int",
+      "doc": "Cantidad de unidades vendidas en esta transacción"
+    },
+    {
+      "name": "precio",
+      "type": "double",
+      "doc": "Precio unitario del producto en euros"
+    },
+    {
+      "name": "tienda",
+      "type": "string",
+      "doc": "Identificador o nombre de la tienda que realizó la venta"
+    }
+  ]
+}

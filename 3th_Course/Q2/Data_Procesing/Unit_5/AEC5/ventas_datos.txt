@@ -1,0 +1,12 @@
+1:{"id_venta":1,"producto":"Laptop","cantidad":1,"precio":899.99,"tienda":"Madrid"}
+2:{"id_venta":2,"producto":"Mouse","cantidad":5,"precio":15.50,"tienda":"Barcelona"}
+3:{"id_venta":3,"producto":"Teclado","cantidad":3,"precio":45.00,"tienda":"Valencia"}
+4:{"id_venta":4,"producto":"Monitor","cantidad":2,"precio":299.99,"tienda":"Sevilla"}
+5:{"id_venta":5,"producto":"Webcam","cantidad":1,"precio":79.99,"tienda":"Madrid"}
+6:{"id_venta":6,"producto":"Auriculares","cantidad":4,"precio":35.50,"tienda":"Barcelona"}
+7:{"id_venta":7,"producto":"Hub USB","cantidad":6,"precio":25.00,"tienda":"Bilbao"}
+8:{"id_venta":8,"producto":"SSD","cantidad":2,"precio":149.99,"tienda":"Valencia"}
+9:{"id_venta":9,"producto":"RAM","cantidad":3,"precio":89.99,"tienda":"Madrid"}
+10:{"id_venta":10,"producto":"CPU","cantidad":1,"precio":499.99,"tienda":"Barcelona"}
+11:{"id_venta":11,"producto":"GPU","cantidad":1,"precio":699.99,"tienda":"Sevilla"}
+12:{"id_venta":12,"producto":"Fuente","cantidad":2,"precio":199.99,"tienda":"Madrid"}
