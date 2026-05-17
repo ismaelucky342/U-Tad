@@ -41,7 +41,7 @@ kafka-topics --describe \
 
 # ── PASO 4: Crear el fichero ventas.json ────────────────────
 # CAPTURA: captura del editor con el contenido del fichero
-gedit /home/bigdata/confluent-7.5.1/console-consumer-primitive-keys-values/ventas.json
+gedit .confluent-7.5.1/console-consumer-primitive-keys-values/ventas.json
 # Pega este contenido y guarda:
 # {
 #   "type": "record",
@@ -57,7 +57,7 @@ gedit /home/bigdata/confluent-7.5.1/console-consumer-primitive-keys-values/venta
 # }
 
 # También puedes crearlo directamente con cat:
-cat > /home/bigdata/confluent-7.5.1/console-consumer-primitive-keys-values/ventas.json << 'EOF'
+cat > .confluent-7.5.1/console-consumer-primitive-keys-values/ventas.json << 'EOF'
 {
   "type": "record",
   "name": "Venta",
@@ -73,7 +73,7 @@ cat > /home/bigdata/confluent-7.5.1/console-consumer-primitive-keys-values/venta
 EOF
 
 # Verificar que se creó bien:
-cat /home/bigdata/confluent-7.5.1/console-consumer-primitive-keys-values/ventas.json
+cat .confluent-7.5.1/console-consumer-primitive-keys-values/ventas.json
 
 # ── PASO 5: Consumidor con clave y valor (grupo_ventas) ──────
 # CAPTURA: terminal con el consumidor esperando mensajes (o leyendo si hay)
@@ -97,7 +97,7 @@ kafka-console-consumer \
 
 # ── PASO 7: Crear fichero de datos y producir 12 mensajes ────
 # Crear el fichero de datos:
-cat > /home/bigdata/confluent-7.5.1/ventas_datos.txt << 'EOF'
+cat > .confluent-7.5.1/ventas_datos.txt << 'EOF'
 1:{"id_venta":1,"producto":"Laptop","cantidad":2,"precio":999.99,"tienda":"Madrid"}
 2:{"id_venta":2,"producto":"Monitor","cantidad":1,"precio":349.50,"tienda":"Barcelona"}
 3:{"id_venta":3,"producto":"Teclado","cantidad":3,"precio":79.99,"tienda":"Valencia"}
@@ -119,7 +119,7 @@ kafka-console-producer \
   --topic ventas \
   --property parse.key=true \
   --property key.separator=: \
-  < /home/bigdata/confluent-7.5.1/ventas_datos.txt
+  < .confluent-7.5.1/ventas_datos.txt
 
 # ── PASO 8: Generar 25 mensajes con datagen ──────────────────
 # Opción A - si tienes kafka-producer-perf-test:
@@ -132,13 +132,13 @@ kafka-producer-perf-test \
   --producer-props bootstrap.servers=localhost:9092
 
 # Opción B - si tienes el conector datagen de Confluent, crear config:
-cat > /home/bigdata/confluent-7.5.1/datagen-ventas.json << 'EOF'
+cat > .confluent-7.5.1/datagen-ventas.json << 'EOF'
 {
   "name": "datagen-ventas",
   "config": {
     "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
     "kafka.topic": "ventas",
-    "schema.filename": "/home/bigdata/confluent-7.5.1/console-consumer-primitive-keys-values/ventas.json",
+    "schema.filename": ".confluent-7.5.1/console-consumer-primitive-keys-values/ventas.json",
     "schema.keyfield": "id_venta",
     "max.interval": 200,
     "iterations": 25
@@ -147,7 +147,7 @@ cat > /home/bigdata/confluent-7.5.1/datagen-ventas.json << 'EOF'
 EOF
 
 confluent local services connect connector load datagen-ventas \
-  --config /home/bigdata/confluent-7.5.1/datagen-ventas.json
+  --config .confluent-7.5.1/datagen-ventas.json
 
 # ── PASO 9: Describir consumer group grupo_ventas ────────────
 # CAPTURA: tabla completa con CURRENT-OFFSET, LOG-END-OFFSET y LAG por partición
@@ -177,7 +177,7 @@ kafka-run-class kafka.tools.GetOffsetShell \
 mkdir -p /tmp/temperatura_stream
 
 # ── Crear el script generador ────────────────────────────────
-cat > /home/bigdata/generar_temperatura.py << 'PYEOF'
+cat > .generar_temperatura.py << 'PYEOF'
 import time
 import random
 import os
@@ -206,7 +206,7 @@ while True:
 PYEOF
 
 # ── Crear el script de Spark Streaming ──────────────────────
-cat > /home/bigdata/streaming_temperatura.py << 'PYEOF'
+cat > .streaming_temperatura.py << 'PYEOF'
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import (
     col, avg, stddev, count, max as spark_max,
@@ -307,7 +307,7 @@ PYEOF
 
 # ── EJECUCIÓN: Terminal 1 - Generador de datos ───────────────
 # CAPTURA: generador corriendo, mostrando los batches que va escribiendo
-python3 /home/bigdata/generar_temperatura.py
+python3 .generar_temperatura.py
 
 # ── EJECUCIÓN: Terminal 2 - Spark Streaming ──────────────────
 # CAPTURA 1: primera salida de las medias por sensor (tras ~30 segundos)
@@ -315,7 +315,7 @@ python3 /home/bigdata/generar_temperatura.py
 # CAPTURA 3: tabla de actividad por sensor (tras ~60 segundos)
 spark-submit \
   --master local[*] \
-  /home/bigdata/streaming_temperatura.py
+  .streaming_temperatura.py
 
 # ── LIMPIEZA (opcional, al terminar) ────────────────────────
 # rm -rf /tmp/temperatura_stream
