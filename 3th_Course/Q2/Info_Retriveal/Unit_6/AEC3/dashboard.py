@@ -20,83 +20,8 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
-# ---- Importo DataExtractor aqui para que sea autocontenido -------------------
-# Asi no dependo de que el notebook este en el PYTHONPATH.
-import re
-import unicodedata
-
-
-class DataExtractor:
-    """Copia minima de DataExtractor para el dashboard (misma logica)."""
-
-    _RE_URL     = re.compile(r'https?://\S+|www\.\S+', re.IGNORECASE)
-    _RE_MENTION = re.compile(r'@\w+')
-    _RE_HASHTAG = re.compile(r'#(\w+)')
-    _RE_SPECIAL = re.compile(r'[^\w\s#]', re.UNICODE)
-    _RE_SPACES  = re.compile(r'\s+')
-
-    def __init__(self, source_file: str, chunksize: int = 100_000):
-        self.source_file = source_file
-        self.data = None
-        self.chunksize = chunksize
-
-    def load_data(self) -> pd.DataFrame:
-        path = Path(self.source_file)
-        ext  = path.suffix.lower()
-        if ext == '.json':
-            self.data = pd.read_json(self.source_file, encoding='utf-8')
-        elif ext == '.csv':
-            chunks = pd.read_csv(
-                self.source_file,
-                encoding='utf-8',
-                low_memory=False,
-                chunksize=self.chunksize,
-                lineterminator='\n',
-            )
-            self.data = pd.concat(chunks, ignore_index=True)
-        else:
-            raise ValueError(f"Unsupported format: '{ext}'")
-        self.data.columns = [c.strip().replace('\r', '') for c in self.data.columns]
-        return self.data
-
-    def clean_text(self, text: str) -> str:
-        if not isinstance(text, str):
-            text = str(text) if pd.notna(text) else ''
-        text = text.strip().lower()
-        text = self._RE_URL.sub(' ', text)
-        text = self._RE_MENTION.sub(' ', text)
-        text = ''.join(ch for ch in text if unicodedata.category(ch) not in ('So', 'Sk', 'Cs'))
-        text = self._RE_SPECIAL.sub(' ', text)
-        return self._RE_SPACES.sub(' ', text).strip()
-
-    def extract_hashtags(self, text: str) -> list:
-        if not isinstance(text, str):
-            return []
-        seen, result = set(), []
-        for tag in self._RE_HASHTAG.findall(text):
-            t = tag.lower()
-            if t not in seen:
-                seen.add(t)
-                result.append(t)
-        return result
-
-    def analytics_hashtags_extended(self) -> dict:
-        df = self.data.copy()
-        df['clean_text'] = df['text'].apply(self.clean_text)
-        df['hashtags']   = df['clean_text'].apply(self.extract_hashtags)
-        df['date']       = pd.to_datetime(df['date'], utc=True, errors='coerce').dt.date
-        df_exp = df.explode('hashtags').dropna(subset=['hashtags'])
-        df_exp = df_exp[df_exp['hashtags'].str.strip() != ''].rename(columns={'hashtags': 'hashtag'})
-        overall = (df_exp.groupby('hashtag', as_index=False).size()
-                         .rename(columns={'size': 'frequency'})
-                         .sort_values('frequency', ascending=False).reset_index(drop=True))
-        by_user = (df_exp.groupby(['user_name', 'hashtag'], as_index=False).size()
-                         .rename(columns={'size': 'frequency'})
-                         .sort_values('frequency', ascending=False).reset_index(drop=True))
-        by_date = (df_exp.groupby(['date', 'hashtag'], as_index=False).size()
-                         .rename(columns={'size': 'frequency'})
-                         .sort_values(['date', 'frequency'], ascending=[True, False]).reset_index(drop=True))
-        return {'overall': overall, 'by_user': by_user, 'by_date': by_date}
+# ---- Importo DataExtractor desde el módulo centralizado
+from data_extractor import DataExtractor
 
 
 # ---- Interfaz Streamlit -----------------------------------------------------
