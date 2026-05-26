@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Wireframe 2 — Tooltip y validación en línea</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  .frame {
+    background: #fff;
+    border: 2px solid #333;
+    width: 500px;
+  }
+  .frame-header {
+    background: #ddd;
+    border-bottom: 2px solid #333;
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: .5px;
+  }
+  .form-body { padding: 22px 20px 10px; }
+
+  /* Field */
+  .field { margin-bottom: 20px; }
+  .field-label {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tooltip-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px; height: 16px;
+    border: 1.5px solid #555;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: default;
+    color: #555;
+    font-style: italic;
+    font-family: Georgia, serif;
+  }
+  /* Tooltip popup */
+  .tooltip-wrap { position: relative; display: inline-block; }
+  .tooltip-box {
+    display: none;
+    position: absolute;
+    top: 22px; left: 0;
+    width: 230px;
+    background: #333;
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.5;
+    padding: 9px 11px;
+    z-index: 5;
+    font-weight: normal;
+  }
+  .tooltip-box::before {
+    content: '';
+    position: absolute;
+    top: -6px; left: 5px;
+    border: 6px solid transparent;
+    border-bottom-color: #333;
+    border-top: 0;
+  }
+  .tooltip-box .tip-eg { margin-top: 5px; font-style: italic; opacity: .85; }
+  .tooltip-wrap:hover .tooltip-box { display: block; }
+
+  /* Inputs */
+  .field-input {
+    width: 100%;
+    border: 1.5px solid #bbb;
+    padding: 8px 10px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+  }
+  .field-input.ok  { border-color: #333; }
+  .field-input.err { border-color: #333; background: #f9f9f9; }
+  textarea.field-input { resize: none; height: 68px; }
+
+  /* Feedback */
+  .feedback {
+    margin-top: 5px;
+    font-size: 12px;
+    display: flex;
+    gap: 5px;
+    align-items: flex-start;
+    line-height: 1.4;
+  }
+  .feedback.ok  { color: #333; }
+  .feedback.err { color: #333; }
+
+  .wireframe-label {
+    text-align: center;
+    padding: 10px;
+    font-size: 11px;
+    color: #888;
+    border-top: 1px dashed #ccc;
+    letter-spacing: .5px;
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <div class="frame-header">CIRCE · Crear tu empresa — Paso 3: Las personas</div>
+
+  <div class="form-body">
+
+    <!-- Campo 1: objeto social — válido -->
+    <div class="field">
+      <div class="field-label">
+        A qué se dedica tu empresa
+        <div class="tooltip-wrap">
+          <div class="tooltip-icon">i</div>
+          <div class="tooltip-box">
+            <strong>¿Qué es esto?</strong><br>
+            Describe las actividades principales de tu empresa. El Registro Mercantil la revisará.
+            <div class="tip-eg">Ej: "Desarrollo y comercialización de software."</div>
+          </div>
+        </div>
+      </div>
+      <textarea class="field-input ok">Venta al por menor de productos de alimentación ecológica y distribución online.</textarea>
+      <div class="feedback ok"><span>✓</span><span>Correcto</span></div>
+    </div>
+
+    <!-- Campo 2: NIF — error -->
+    <div class="field">
+      <div class="field-label">
+        NIF del socio
+        <div class="tooltip-wrap">
+          <div class="tooltip-icon">i</div>
+          <div class="tooltip-box">
+            <strong>Número de Identificación Fiscal</strong><br>
+            8 números seguidos de una letra de control.
+            <div class="tip-eg">Ej: 12345678Z</div>
+          </div>
+        </div>
+      </div>
+      <input type="text" class="field-input err" value="1234567">
+      <div class="feedback err"><span>❌</span><span>NIF no válido. Formato: 8 números + letra. Ejemplo: 12345678Z</span></div>
+    </div>
+
+  </div>
+
+  <div class="wireframe-label">WIREFRAME 2 — Tooltip contextual y validación en línea</div>
+</div>
+</body>
+</html>

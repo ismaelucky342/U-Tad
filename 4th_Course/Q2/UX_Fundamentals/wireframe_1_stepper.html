@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Wireframe 1 — Stepper de progreso</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  .frame {
+    background: #fff;
+    border: 2px solid #333;
+    width: 620px;
+  }
+  /* Topbar */
+  .topbar {
+    background: #ddd;
+    border-bottom: 2px solid #333;
+    padding: 10px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .topbar .logo {
+    font-weight: bold;
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+  .topbar .btn-save {
+    border: 1.5px solid #555;
+    background: #fff;
+    padding: 4px 12px;
+    font-size: 12px;
+    cursor: default;
+  }
+  /* Stepper */
+  .stepper-area {
+    background: #eee;
+    border-bottom: 1.5px solid #bbb;
+    padding: 14px 18px 10px;
+  }
+  .steps {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+    font-size: 12px;
+  }
+  .dot {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    flex-shrink: 0;
+    background: #fff;
+  }
+  .dot.done   { background: #333; color: #fff; }
+  .dot.active { background: #555; color: #fff; border-color: #555; }
+  .dot.todo   { background: #fff; color: #aaa; border-color: #aaa; }
+  .step-lbl.done   { font-weight: bold; }
+  .step-lbl.active { font-weight: bold; text-decoration: underline; }
+  .step-lbl.todo   { color: #aaa; }
+  .line {
+    flex: 1;
+    height: 2px;
+    background: #bbb;
+    margin: 0 4px;
+  }
+  .line.done { background: #333; }
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #555;
+  }
+  .bar-wrap {
+    flex: 1;
+    height: 6px;
+    background: #ccc;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: #555;
+    border-radius: 3px;
+    width: 40%;
+  }
+  /* Step header */
+  .step-header {
+    border-bottom: 1.5px solid #ccc;
+    padding: 18px 20px 14px;
+  }
+  .step-header h2 { font-size: 18px; margin-bottom: 4px; }
+  .step-header p  { font-size: 13px; color: #555; }
+  /* Label */
+  .wireframe-label {
+    text-align: center;
+    padding: 10px;
+    font-size: 11px;
+    color: #888;
+    border-top: 1px dashed #ccc;
+    letter-spacing: .5px;
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <div class="topbar">
+    <span class="logo">CIRCE · Crear tu empresa</span>
+    <span class="btn-save">Guardar y salir</span>
+  </div>
+
+  <div class="stepper-area">
+    <div class="steps">
+      <div class="step">
+        <div class="dot done">✓</div>
+        <span class="step-lbl done">Nombre</span>
+      </div>
+      <div class="line done"></div>
+      <div class="step">
+        <div class="dot done">✓</div>
+        <span class="step-lbl done">Descripción</span>
+      </div>
+      <div class="line"></div>
+      <div class="step">
+        <div class="dot active">3</div>
+        <span class="step-lbl active">Personas</span>
+      </div>
+      <div class="line"></div>
+      <div class="step">
+        <div class="dot todo">4</div>
+        <span class="step-lbl todo">Capital</span>
+      </div>
+      <div class="line"></div>
+      <div class="step">
+        <div class="dot todo">5</div>
+        <span class="step-lbl todo">Normas</span>
+      </div>
+    </div>
+    <div class="progress-row">
+      <span>Paso 3 de 5</span>
+      <div class="bar-wrap"><div class="bar-fill"></div></div>
+      <span>40%</span>
+    </div>
+  </div>
+
+  <div class="step-header">
+    <h2>Las personas de la empresa</h2>
+    <p>Indica quiénes son los socios y quién la dirige</p>
+  </div>
+
+  <div class="wireframe-label">WIREFRAME 1 — Stepper de progreso y encabezado del formulario</div>
+</div>
+</body>
+</html>
