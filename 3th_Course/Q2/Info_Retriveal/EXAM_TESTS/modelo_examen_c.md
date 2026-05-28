@@ -21,6 +21,8 @@ B) `['Estoy', 'muy', 'feliz!!!', '#Python']`
 
 C) `['Estooo', 'muy', 'feliz!!!', '😊', '#Python']` ✅
 
+> **TweetTokenizer** con `strip_handles=True` elimina @usuarios. Con `reduce_len=True`, reduce caracteres repetidos: "Estoooooy" → "Estooo" (máximo 3). Los emojis se mantienen, el hashtag se preserva.
+
 D) Error: `TweetTokenizer` no admite emojis.
 
 ---
@@ -39,6 +41,8 @@ print(modelo.print_topics(num_topics=2, num_words=3))
 A) Una lista de 4 tópicos con todas sus palabras del vocabulario.
 
 B) Una lista de 2 tuplas con el índice del tópico y las 3 palabras más representativas con su peso. ✅
+
+> `.print_topics(num_topics=2, num_words=3)` devuelve los 2 primeros tópicos, cada uno con sus 3 palabras más representativas etiquetadas con pesos. Formato: `[(tópico_id, "palabra1*peso1 + palabra2*peso2 + ..."), ...]`.
 
 C) Un DataFrame con la distribución de tópicos por documento.
 
@@ -68,6 +72,8 @@ A) Error: `pd.to_datetime` no puede convertir strings con guiones.
 
 B) Devuelve una Serie con la suma de ventas por número de mes. ✅
 
+> `pd.to_datetime()` convierte strings a datetime. `.dt.month` extrae el mes (1-12). `.groupby('mes')['ventas'].sum()` agrupa y suma. Resultado: Serie con meses como índice y totales como valores.
+
 C) Devuelve un DataFrame con todas las columnas originales más 'mes'.
 
 D) Devuelve una Serie con la media de ventas por mes.
@@ -81,6 +87,8 @@ D) Devuelve una Serie con la media de ventas por mes.
 A) Las TPUs tienen mayor capacidad de almacenamiento en RAM que las GPUs.
 
 B) Las TPUs están diseñadas específicamente para operaciones matriciales de precisión reducida usadas en deep learning, ofreciendo mayor throughput para modelos grandes. ✅
+
+> Las **TPUs** (Tensor Processing Units) de Google son circuitos especializados para álgebra lineal. Ofrecen mayor throughput/operación que GPUs en modelos Transformer. Son más eficientes pero menos flexibles que GPUs.
 
 C) Las TPUs son más baratas y accesibles que las GPUs para uso doméstico.
 
@@ -113,6 +121,8 @@ B) `'Libro A'`
 
 C) `'12.99'` ✅
 
+> `filas[1]` es la primera `<tr>` de datos (index 1, saltando header). `.find_all('td')[1]` obtiene el 2º `<td>` (index 1). `.text` extrae el contenido: "12.99".
+
 D) Error: el índice 1 está fuera de rango.
 
 ---
@@ -132,6 +142,8 @@ print(sin_acentos)
 
 A) `'cafe resume naive'` ✅
 
+> `unicodedata.normalize('NFD', ...)` descompone caracteres acentuados: "é" → "e" + marca de acento. Luego filtramos categoría 'Mn' (nonspacing mark), eliminando acentos pero preservando la letra base.
+
 B) `'café résumé naïve'` (sin cambios)
 
 C) Error: `unicodedata.normalize` no acepta texto con espacios.
@@ -147,6 +159,8 @@ Calculamos el diámetro de una red con NetworkX. ¿Qué representa `nx.diameter(
 A) El número total de aristas del grafo.
 
 B) La longitud del camino más corto entre los dos nodos más alejados del grafo. ✅
+
+> El **diámetro** de un grafo es la mayor distancia más corta entre cualquier par de nodos. Mide el «radio» del grafo. Para un grafo desconectado, es infinito.
 
 C) La media de todas las distancias entre pares de nodos.
 
@@ -173,6 +187,8 @@ B) `0.85`
 
 C) `'POSITIVE'` ✅
 
+> `max(doc.cats, key=doc.cats.get)` encuentra la clave (label) con el valor más alto. `{'POSITIVE': 0.85, 'NEGATIVE': 0.15}` → el máximo es 0.85, clave 'POSITIVE'.
+
 D) Error: `doc.cats` solo existe si el modelo tiene el componente `textcat`.
 
 ---
@@ -184,6 +200,8 @@ D) Error: `doc.cats` solo existe si el modelo tiene el componente `textcat`.
 A) Las listas solo pueden contener elementos del mismo tipo; las tuplas pueden mezclar tipos.
 
 B) Las tuplas son inmutables (no se pueden modificar tras su creación); las listas son mutables. ✅
+
+> **Tuplas** son estructuras de datos inmutables: `t = (1, 2)` no se puede modificar. **Listas** son mutables: `l = [1, 2]` se puede cambiar. Ambas pueden mezclar tipos de datos.
 
 C) Las listas tienen acceso por índice; las tuplas no.
 
@@ -209,6 +227,8 @@ muestra = df_filtrado.limit(10).collect()
 A) Guarda `df_filtrado` en disco como archivo temporal.
 
 B) Almacena `df_filtrado` en memoria para evitar recalcularlo en cada acción posterior. ✅
+
+> `.cache()` persiste el DataFrame en memoria (o disco si no hay suficiente RAM). Tras la primera acción, reutiliza el resultado cacheado sin recalcular el filtro. Mejora el rendimiento en múltiples acciones.
 
 C) Duplica el DataFrame para tener una copia de seguridad.
 
@@ -238,6 +258,8 @@ B) 2
 
 C) 3 ✅
 
+> `outputs.logits.shape[1]` es 3, indicando 3 clases de salida. Este es el número de etiquetas del problema de clasificación. El modelo fue entrenado para 3 categorías.
+
 D) Depende del texto de entrada.
 
 ---
@@ -263,6 +285,8 @@ A) Devuelve todos los tokens del texto en minúsculas.
 
 B) Devuelve los lemas de las palabras significativas, excluyendo stopwords y puntuación. ✅
 
+> El pipeline: 1) spaCy parsea el texto; 2) itera tokens; 3) filtra: `not token.is_stop` (no stopword), `not token.is_punct` (no puntuación), `token.is_alpha` (solo letras); 4) extrae `.lemma_` de cada token. Resultado: lista de lemas.
+
 C) Devuelve las entidades nombradas del texto.
 
 D) Error: `token.lemma_` no está disponible en modelos de español.
@@ -277,6 +301,8 @@ A) Gephi es más rápido que NetworkX para calcular métricas de red.
 
 B) Gephi ofrece una interfaz interactiva y visual para explorar y personalizar redes grandes sin escribir código. ✅
 
+> **Gephi** es un software de visualización de grafos interactivo. **NetworkX** es una libreria Python programada. Gephi facilita exploración visual, cambio de colores/tamaños, cálculos de instant.
+
 C) Gephi puede analizar grafos dirigidos; NetworkX no.
 
 D) Gephi genera automáticamente informes en PDF con las métricas de la red.
@@ -290,6 +316,8 @@ D) Gephi genera automáticamente informes en PDF con las métricas de la red.
 A) Un modelo que representa el texto como una secuencia ordenada de tokens con sus posiciones.
 
 B) Un modelo que representa un documento como un vector de frecuencias de palabras, ignorando el orden. ✅
+
+> **Bag of Words** trata un documento como una "bolsa" sin orden. Crea un vector donde cada dimensión es una palabra del vocabulario y el valor es la frecuencia. Ignora sintaxis y contexto.
 
 C) Un modelo neuronal que genera embeddings contextuales para cada token.
 
@@ -317,6 +345,8 @@ B) `(4, 3)` porque conserva todos los IDs de ambos DataFrames.
 
 C) `(3, 3)` porque conserva todas las filas de `df1`, con NaN donde no hay match en `df2`. ✅
 
+> **Left join** (`how='left'`) conserva todas las filas de `df1`. IDs [1,2,3] se mantienen. ID 4 de `df2` se ignora. Más: (3 filas de df1, 3 columnas: id, a, b). Las filas sin match en df2 tienen NaN.
+
 D) Error: `how='left'` no está soportado en `pd.merge`.
 
 ---
@@ -328,6 +358,8 @@ Usamos la API de Reddit para recopilar datos. ¿Qué tipo de autenticación usa 
 A) Autenticación básica con usuario y contraseña en cada petición.
 
 B) OAuth 2.0 con `client_id`, `client_secret` y `user_agent`. ✅
+
+> **Praw** usa OAuth 2.0 para autenticar aplicaciones. Script apps de solo lectura requieren estas credenciales para autorizar la aplicación y limitar el acceso por API.
 
 C) API key enviada en la cabecera HTTP `X-Api-Key`.
 
@@ -351,6 +383,8 @@ with torch.no_grad():
 A) Para evitar que el modelo actualice sus pesos durante la inferencia.
 
 B) Para desactivar el cálculo del grafo de gradientes, reduciendo el uso de memoria y acelerando la inferencia. ✅
+
+> `torch.no_grad()` es un context manager que detiene el rastreo del grafo computacional. En inferencia no necesitamos gradientes (no actualizamos pesos), así que esto reduce memoria y acelera.
 
 C) Para que el modelo use CPU en lugar de GPU durante la predicción.
 
@@ -402,6 +436,8 @@ A) Imprime solo los nodos origen de cada arista.
 
 B) Imprime cada arista con su nodo origen, nodo destino y diccionario de atributos (como el peso). ✅
 
+> `.edges(data=True)` itera aristas con atributos. Imprime: ('Alice', 'Bob', {'weight': 5}), ('Bob', 'Alice', {'weight': 2}), ('Alice', 'Carol', {}). DiGraph es dirigido, así que A->B es distinto de B->A.
+
 C) Error: `data=True` solo funciona en grafos no dirigidos.
 
 D) Imprime las aristas sin atributos porque `data=True` es ignorado.
@@ -427,6 +463,8 @@ B) Un valor negativo, que indica que las palabras del tópico son muy distintas 
 
 C) Un valor más alto (cercano a 1), que indica mayor coherencia semántica entre las palabras de cada tópico. ✅
 
+> La **coherencia c_v** va de 0 a 1. Valores altos (>0.6) indican tópicos bien definidos con palabras muy correlacionadas semánticamente. Valores bajos indican tópicos con palabras no relacionadas (modelo pobre).
+
 D) El valor de coherencia no tiene interpretación clara; solo sirve para comparar modelos entre sí de forma relativa.
 
 ---
@@ -440,6 +478,8 @@ A) `setup.py`
 B) `requirements.txt`
 
 C) `__init__.py` ✅
+
+> Python reconoce un directorio como paquete si contiene `__init__.py` (puede estar vacío). Este archivo marca el directorio como un paquete importable. Sin él, Python no lo reconoce como tal.
 
 D) `main.py`
 
@@ -470,6 +510,8 @@ A) Más de 100, porque la API pagina automáticamente.
 
 B) Exactamente los tweets devueltos en la única página de respuesta, hasta un máximo de 100. ✅
 
+> `max_results=100` limita a 100 tweets por petición. La API devuelve una réplica con esos tweets (o menos si no hay 100 disponibles recientes). Sin paginación manual, solo obtenemos una página.
+
 C) Exactamente 100, porque `max_results=100` garantiza siempre ese número.
 
 D) Error: `csv.writer` no puede escribir objetos `Tweet` de Tweepy.
@@ -496,6 +538,8 @@ A) Clasifica el texto de entrada en una de las categorías del modelo.
 
 B) Genera una continuación del texto de entrada de hasta 30 tokens nuevos con muestreo estocástico. ✅
 
+> `.generate()` es la método de generación de texto. `max_new_tokens=30` limita tokens generados. `do_sample=True` permite muestreo probabilístico en lugar de greedy. `temperature=0.7` controla la aleatoriedad.
+
 C) Traduce el texto al inglés usando el modelo GPT-2.
 
 D) Error: GPT-2 no soporta el parámetro `temperature`.
@@ -509,7 +553,7 @@ D) Error: GPT-2 no soporta el parámetro `temperature`.
 A) Palabras que causan errores en los tokenizadores por su longitud.
 
 B) Palabras de alta frecuencia y bajo contenido semántico (artículos, preposiciones, conjunciones) que habitualmente se eliminan en el preprocesado. ✅
-
+> **Stopwords** son palabras muy comunes pero poco informativos: "el", "de", "y", "a", etc. Eliminarlas reduce ruido y enfatiza palabras más significativas. NLTK cubre más de 20 idiomas.
 C) Palabras fuera del vocabulario del modelo (OOV tokens).
 
 D) Palabras que contienen caracteres especiales o números.
@@ -533,6 +577,8 @@ A) Nodos con degree muy bajo, porque hacen pocas transacciones.
 
 B) Nodos con muy alta betweenness centrality, ya que actúan como intermediarios en un número inusualmente alto de flujos de dinero. ✅
 
+> **Betweenness centrality** alto significa que muchos caminos más cortos (transacciones indirectas) pasan por ese nodo. En fraude, puede indicar a un intermediario moviendo dinero para ocultar la fuente/destino.
+
 C) Nodos que solo tienen aristas entrantes (in-degree > 0, out-degree == 0).
 
 D) Nodos pertenecientes a la comunidad más grande de la red.
@@ -546,6 +592,8 @@ Construimos un sistema de resumen. ¿Qué diferencia hay entre un resumen **extr
 A) El extractivo usa modelos de deep learning; el abstractivo usa reglas estadísticas.
 
 B) El extractivo selecciona y devuelve oraciones del texto original; el abstractivo genera texto nuevo que puede no aparecer literalmente en el original. ✅
+
+> **Extractivo**: selecciona oraciones existentes (más simple, determinista). **Abstractivo**: genera nuevo texto parafraseando ideas (más complejo, requiere modelos seq2seq/Transformers).
 
 C) El extractivo resume textos cortos; el abstractivo solo funciona con documentos largos.
 
@@ -574,6 +622,8 @@ B) `'C'`
 
 C) `'A'` ✅
 
+> Pipeline: 1) `group_by('producto')` agrupa A, B, C; 2) `.agg(pl.col('unidades').sum())` suma: A=18, B=8, C=12; 3) `.sort('unidades', descending=True)` ordena de mayor a menor: A(18), C(12), B(8); 4) `['producto'][0]` obtiene el primer producto: 'A'.
+
 D) Error: `group_by` y `sort` no pueden encadenarse en Polars.
 
 ---
@@ -599,6 +649,8 @@ for url in urls:
 A) El scraper será más lento porque las peticiones se encolan.
 
 B) El servidor puede detectar el tráfico automatizado y bloquear nuestra IP por exceso de peticiones. ✅
+
+> Sin `time.sleep()` entre peticiones, hacemos 99 peticiones muy rápidamente. El servidor detecta patrón de bot y puede: bloquear IP, pedir CAPTCHA, o retornar 429 (Too Many Requests).
 
 C) Los datos extraídos serán incorrectos porque las páginas no tendrán tiempo de cargarse.
 
@@ -626,6 +678,8 @@ A) Evalúa el modelo una única vez al final del entrenamiento completo.
 
 B) Evalúa el modelo al final de cada época sobre el conjunto de validación. ✅
 
+> `evaluation_strategy='epoch'` ejecuta validación después de cada época completa. Permite monitoreo del desempeño y decisión de early stopping. Con `save_strategy='epoch'`, guarda checkpoints cada época.
+
 C) Evalúa el modelo cada 100 steps independientemente del número de epochs.
 
 D) Error: `evaluation_strategy` y `save_strategy` no pueden tener el mismo valor.
@@ -648,6 +702,8 @@ A) `'2024-05-12'`
 
 B) `'ERROR'` ✅
 
+> `.group(2)` refiere al 2º grupo de captura: `(ERROR|WARN|INFO)`. El logo coincide; grupo 1="2024-05-12", grupo 2="ERROR", grupo 3="conexión rechazada en puerto 8080".
+
 C) `'conexión rechazada en puerto 8080'`
 
 D) `'2024-05-12 ERROR: conexión rechazada en puerto 8080'`
@@ -661,6 +717,8 @@ D) `'2024-05-12 ERROR: conexión rechazada en puerto 8080'`
 A) El número de comunidades a las que pertenece el nodo.
 
 B) La proporción de vecinos del nodo que también están conectados entre sí. ✅
+
+> **Clustering coefficient** mide trilaterales: si A conecta con B y C, ¿B y C están conectados? Valores altos indican gráficos densos alrededor del nodo (cliques locales).
 
 C) La distancia media del nodo al resto de la red.
 
@@ -684,6 +742,8 @@ X = vectorizer.fit_transform(corpus)
 A) Tokeniza el texto y devuelve una lista de listas de tokens.
 
 B) Convierte cada documento en un vector numérico ponderando las palabras por su frecuencia en el documento y su rareza en el corpus. ✅
+
+> **TF-IDF** = Term Frequency × Inverse Document Frequency. Cada documento → vector denso donde dimensión i = frecuencia palabra i × peso log(N/N_i). Palabras comunes tienen peso bajo; palabras raras, peso alto.
 
 C) Genera embeddings densos de 300 dimensiones para cada documento.
 
@@ -715,6 +775,8 @@ A) Solo imprime `7`.
 
 B) Imprime `Llamando a sumar`, luego `Finalizado sumar`. ✅
 
+> El decorador `logger` envuelve `sumar()`. Al llamar, antes de ejecutar imprime "Llamando...", luego ejecuta (suma=7), después imprime "Finalizado...", finalmente devuelve 7.
+
 C) Error: los decoradores no pueden aplicarse a funciones con argumentos.
 
 D) Imprime `Llamando a wrapper` y `Finalizado wrapper`.
@@ -730,6 +792,8 @@ A) `count()` devuelve una lista con todos los registros; `collect()` devuelve un
 B) No hay diferencia: ambos traen todos los datos al driver.
 
 C) `count()` devuelve el número de filas sin traer datos al driver; `collect()` trae todos los registros al driver como lista de Python. ✅
+
+> **`count()`** es una acción lazy que retorna un entero (número). Se calcula distribuido sin mover datos al driver. **`collect()`** trae todo el RDD/DataFrame al driver RAM como colección de Python.
 
 D) `collect()` solo funciona con DataFrames de menos de 1 GB.
 
@@ -754,6 +818,8 @@ B) Compila el modelo con TensorRT para acelerar la inferencia en GPU.
 
 C) Mueve los tensores del modelo a la memoria de la GPU si hay una disponible, o los mantiene en CPU en caso contrario. ✅
 
+> `.to(device)` asigna tensores al dispositivo especificado. Si CUDA está disponible, envía al GPU; si no, permanece en CPU. Esencial para aprovechar aceleración de GPU.
+
 D) Error: `.to(device)` solo está disponible en PyTorch >= 2.0.
 
 ---
@@ -765,6 +831,8 @@ Procesamos un corpus con Pandas y aplicamos minería de texto. ¿Qué hace `df['
 A) Reemplaza todos los números del texto por un token especial.
 
 B) Devuelve una Serie booleana indicando qué filas contienen al menos un número. ✅
+
+> `.str.contains(regex=True)` busca el patrón regex en cada string. `\d+` coincide 1+ dígitos. Devuelve una Serie de booleans: True si hay números, False si no.
 
 C) Extrae todos los números de cada celda de texto.
 
@@ -779,6 +847,8 @@ Construimos un sistema de recomendación basado en grafos. ¿Qué técnica usar�
 A) Betweenness centrality sobre el grafo de productos.
 
 B) Filtrado colaborativo mediante la similitud entre nodos-usuario en el grafo bipartito usuarios-productos. ✅
+
+> En un grafo bipartito usuarios-productos con aristas "compró", encontrar usuarios cercanos al usuario X → ver qué productos compraron → recomendar esos productos. Es **collaborative filtering** en forma de grafo.
 
 C) Detección de comunidades para agrupar productos del mismo tipo.
 
@@ -802,6 +872,8 @@ for token in doc:
 A) La categoría morfológica del token (sustantivo, verbo, etc.).
 
 B) La etiqueta de dependencia sintáctica del token respecto a su cabeza (sujeto, objeto, etc.). ✅
+
+> `token.dep_` es la relación de dependencia: "nsubj" (sujeto nominal), "dobj" (objeto directo), "prep" (preposición), etc. `.head` es el token padre. `token.pos_` es POS tag (sustantivo/verbo/etc.).
 
 C) La entidad nombrada a la que pertenece el token.
 
@@ -833,6 +905,8 @@ B) Solo `"Proceso finalizado"`.
 
 C) `"No se puede convertir"` y luego `"Proceso finalizado"`. ✅
 
+> El bloque `try` intenta `int("texto")` → lanza `ValueError`. El `except` lo captura, imprime el mensaje. El `finally` **siempre** se ejecuta, imprimiendo "Proceso finalizado". Luego devuelve `None`.
+
 D) Error no capturado: `int("texto")` lanza TypeError, no ValueError.
 
 ---
@@ -856,6 +930,8 @@ A) Divide los tweets en páginas de 500 para almacenarlos más eficientemente.
 
 B) Itera automáticamente sobre múltiples páginas de resultados hasta alcanzar los 500 tweets indicados en `limit`. ✅
 
+> **Paginator** maneja paginación: hace múltiples peticiones a la API automáticamente. `.flatten()` convierte el generador de páginas en un generador de tweets individuales. `limit=500` detiene cuando ha obtenido 500 tweets.
+
 C) Descarga los 500 tweets más recientes en una sola petición a la API.
 
 D) Error: `flatten` no está disponible en `tweepy.Paginator`.
@@ -871,6 +947,8 @@ A) Un tokenizador que divide el texto en palabras completas usando espacios en b
 B) Un tokenizador basado en caracteres que representa cada letra por separado.
 
 C) Un algoritmo que divide el texto en subpalabras frecuentes, fusionando iterativamente los pares de bytes más comunes del corpus de entrenamiento. ✅
+
+> **BPE** es un algoritmo de comprensión de datos adaptado para tokenización. Comienza con caracteres, repetidamente fusiona los pares más frecuentes hasta alcan zar un tamaño de vocabulario objetivo. Resulta en subpalabras balanceadas.
 
 D) Un tokenizador que asigna un ID único a cada oración del corpus.
 
@@ -890,6 +968,8 @@ print(blob.noun_phrases)
 A) Una lista con todos los sustantivos del texto.
 
 B) Una lista de frases nominales (grupos de palabras centrados en un sustantivo). ✅
+
+> `.noun_phrases` en TextBlob detecta sintagmas nominales: "quick brown fox", "lazy dog", "river bank". Son grupos de adjetivos+sustantivos sin verbos. Más ríico que solo sustantivos.
 
 C) Una lista con los adjetivos y sustantivos por separado.
 
@@ -914,6 +994,8 @@ B) `"   Hola   mundo   con   espacios   "` (sin cambios)
 
 C) `"Hola mundo con espacios"` ✅
 
+> `re.sub(r'\s+', ' ', ...)` reemplaza 1+ espacios por 1 espacio. `"   Hola   mundo..."` → `" Hola mundo con espacios "`. `.strip()` elimina espacios al inicio/final → `"Hola mundo con espacios"`.
+
 D) Error: `\s+` no captura múltiples espacios seguidos.
 
 ---
@@ -925,6 +1007,8 @@ Analizamos la red del caso Enron. ¿Qué indica un valor alto de **eigenvector c
 A) Que el nodo es un puente entre comunidades separadas.
 
 B) Que el nodo tiene muchas conexiones con nodos que a su vez tienen muchas conexiones (influencia global en la red). ✅
+
+> **Eigenvector centrality** propaga importancia: un nodo es importante si se conecta con nodos importantes. Diferente de degree (solo cuenta grado). Identifica nodos influyentes globales, no solo locales.
 
 C) Que el nodo ha enviado el mayor número total de emails.
 
@@ -950,6 +1034,8 @@ spark.stop()
 A) Un único archivo Parquet con todos los datos.
 
 B) Una carpeta por cada valor único de `fecha`, con formato `fecha=YYYY-MM-DD/`, cada una con archivos part-*.parquet. ✅
+
+> `partitionBy('fecha')` crea subdirectorios por valor de fecha. Parquet se escribe en múltiples archivos part-xxxxx.parquet dentro de cada partición, optimizando lectura y paralelismo.
 
 C) Una carpeta llamada `timestamp/` con los datos agrupados por hora.
 

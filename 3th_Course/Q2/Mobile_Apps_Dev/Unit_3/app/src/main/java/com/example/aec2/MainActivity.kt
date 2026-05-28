@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.aec2.ui.theme.AEC2Theme
 
 // Color corporativo U-tad (Azul vivo)
@@ -31,7 +32,7 @@ class MainActivity : ComponentActivity() {
             AEC2Theme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    containerColor = Color(0xFFF0F0F0) // Fondo gris claro
+                    containerColor = Color.White // Fondo super blanco
                 ) { innerPadding ->
                     CalculatorScreen(modifier = Modifier.padding(innerPadding))
                 }
@@ -54,12 +55,12 @@ fun CalculatorScreen(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Logo U-tad
-        Text(
-            text = "u-tad",
-            color = UtadBlue,
-            fontSize = 32.sp,
-            fontWeight = FontWeight.ExtraBold,
-            modifier = Modifier.padding(bottom = 16.dp)
+        AsyncImage(
+            model = "https://openexpoeurope.com/wp-content/uploads/2018/05/Logo-U-tad.jpg",
+            contentDescription = "Logo U-tad",
+            modifier = Modifier
+                .height(60.dp)
+                .padding(bottom = 16.dp)
         )
 
         // Casio Style Display
@@ -163,6 +164,21 @@ fun CalculatorScreen(modifier: Modifier = Modifier) {
                 }
             }
         }
+
+        // Detalles azules por abajo (Barra decorativa U-tad)
+        Spacer(modifier = Modifier.height(16.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(4.dp)
+                .background(UtadBlue)
+        )
+        Text(
+            text = "Centro Universitario de Tecnología y Arte Digital",
+            color = UtadBlue,
+            fontSize = 10.sp,
+            modifier = Modifier.padding(top = 4.dp)
+        )
     }
 }
 

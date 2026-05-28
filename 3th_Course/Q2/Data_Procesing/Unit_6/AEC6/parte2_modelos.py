@@ -1,9 +1,17 @@
-"""
-AEC6 - Parte 2: Modelos ML para predicción de retrasos de vuelos
-Dataset: departuredelays.csv (Databricks / Learning Spark v2)
-Columnas: date (MMDDHHMM), delay, distance, origin, destination
-Modelos: Regresión Logística vs Random Forest (MLlib)
-"""
+#====================================================================================================#
+#                                                                                                    #
+#                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        #
+#      AEC2 - PRDT                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       #
+#                                                        ██║   ██║█████╗██║   ███████║██║  ██║       #
+#      created:        19/05/2026  -  21:45:15           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
+#      last change:    22/05/2026  -  00:55:42           ╚██████╔╝      ██║   ██║  ██║██████╔╝       #
+#                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        #
+#                                                                                                    #
+#      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             #
+#                                                                                                    #
+#      Github:                                           https://github.com/ismaelucky342            #
+#                                                                                                    #
+#====================================================================================================#
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, when, isnull, substring, lpad

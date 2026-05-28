@@ -20,6 +20,8 @@ C) Entero
 
 D) Lista ✅
 
+> En Python, las claves de un diccionario deben ser tipos **hashable** (inmutables). Las listas son mutables, por lo que no pueden ser claves. Las tuplas, strings e integers son inmutables y sí pueden serlo.
+
 ---
 
 **Pregunta 2**
@@ -39,6 +41,8 @@ A) Error: zip no funciona con listas de diferente tipo.
 B) 2
 
 C) 6 ✅
+
+> El comprensión de diccionarios crea `{'a': 1, 'b': 2, 'c': 3}`. Al acceder con `datos['b']` obtenemos 2, y al multiplicacio por 3 resulta 6. Se trata de aritmética con enteros, no concatenación de strings.
 
 D) 'bbb'
 
@@ -61,6 +65,8 @@ A) [1] y [2]
 
 B) [1] y [1, 2] ✅
 
+> Los argumentos mutables como valor por defecto persisten entre llamadas (es una **trampa de Python**). La lista `[]` se crea una sola vez; ambas llamadas la modifican. Primera: `[1]`. Segunda: `[1, 2]`.
+
 C) Error: los argumentos mutables no están permitidos como valor por defecto.
 
 D) [1, 2] y [1, 2]
@@ -74,6 +80,8 @@ D) [1, 2] y [1, 2]
 A) CSV soporta tipos complejos; Parquet no.
 
 B) Parquet almacena datos en formato columnar y aplica compresión eficiente. ✅
+
+> Parquet es un formato columnar binario optimizado para análisis. CSV es texto sin compresión ni estructura columnar. Parquet es mucho más rápido y compacto para grandes volúmenes de datos.
 
 C) CSV es más rápido para consultas analíticas sobre columnas.
 
@@ -107,6 +115,8 @@ B) Devuelve None.
 
 C) Lanza FileNotFoundError. ✅
 
+> Cuando `pd.read_csv()` intenta abrir un archivo que no existe, Python lanza `FileNotFoundError`. Las otras opciones no son el comportamiento estándar de Pandas.
+
 D) Lanza un ValueError.
 
 ---
@@ -120,6 +130,8 @@ A) `df.tail()`
 B) `df.info()`
 
 C) `df.head()` ✅
+
+> `head()` muestra las primeras 5 filas por defecto; `tail()` las últimas; `info()` y `describe()` ofrecen estadísticas. Estos son métodos estándar para exploración inicial de datos.
 
 D) `df.describe()`
 
@@ -143,6 +155,8 @@ B) Elimina la columna 'importe'.
 
 C) Selecciona solo las filas donde 'importe' es mayor que 1000. ✅
 
+> `filter()` en Polars es equivalente a WHERE en SQL. Retorna un nuevo DataFrame con solo las filas que cumplen la condición. Es diferente de `select()` que se usa para columnas.
+
 D) Crea una nueva columna llamada 'resultado'.
 
 ---
@@ -154,6 +168,8 @@ Necesitamos instalar la librería `scikit-learn` en un entorno virtual. ¿Cuál 
 A) `python install scikit-learn`
 
 B) `pip install scikit-learn` ✅
+
+> `pip install` es el comando estándar del gestor de paquetes Python. `pip download` solo descarga sin instalar; `python install` y `conda get` no existen.
 
 C) `pip download scikit-learn`
 
@@ -177,6 +193,8 @@ resultado = re.findall(r'\b\w+\b', texto)
 ```
 
 A) Una lista con todas las palabras y números del texto. ✅
+
+> El regex `\b\w+\b` busca secuencias de caracteres "palabra" (`\w` = letras, dígitos, _) delimitadas por bordes de palabra (`\b`). Incluye tanto palabras como números.
 
 B) Una lista con solo las palabras en mayúscula.
 
@@ -209,6 +227,8 @@ A) Tokeniza el texto por oraciones.
 
 B) Limpia el texto eliminando URLs y caracteres no alfabéticos, pasándolo a minúsculas. ✅
 
+> El código implementa tres pasos: 1) `lower()` pasa a minúsculas; 2) `re.sub(r'http\S+', ...)` elimina URLs; 3) `re.sub(r'[^a-záéíóúüñ\s]', ...)` elimina todo excepto letras españolas y espacios.
+
 C) Elimina stopwords del texto.
 
 D) Convierte el texto a encoding UTF-8.
@@ -233,6 +253,8 @@ A) [('gato', 1)]
 
 B) [('el', 3)] ✅
 
+> Tokenizando el texto obtenemos: ['el', 'gato', 'come', 'el', 'ratón', 'el', 'gato', 'duerme']. FreqDist cuenta frecuencias: 'el' aparece 3 veces (más que 'gato' con 2). `most_common(1)` devuelve la palabra más frecuente.
+
 C) Error: FreqDist requiere un corpus descargado.
 
 D) [('el', 2)]
@@ -246,6 +268,8 @@ D) [('el', 2)]
 A) El stemming usa un vocabulario; la lematización trunca por reglas fijas.
 
 B) El stemming trunca la palabra por reglas morfológicas; la lematización devuelve la forma canónica del diccionario. ✅
+
+> **Stemming** (p.ej., "corriendo" → "corr") usa reglas heurísticas. **Lematización** (p.ej., "corriendo" → "correr") usa diccionarios y análisis gramatical para devolver formas válidas.
 
 C) No hay diferencia: ambas técnicas son equivalentes.
 
@@ -262,6 +286,8 @@ A) `token.dep_`
 B) `token.lemma_`
 
 C) `token.pos_` ✅
+
+> En spaCy, `token.pos_` devuelve la categoría gramatical (POS tag) en formato string. `dep_` es la relación de dependencia; `lemma_` es el lema; `ent_type_` es el tipo de entidad nombrada.
 
 D) `token.ent_type_`
 
@@ -287,6 +313,8 @@ A) Una nube de palabras donde todas las palabras tienen el mismo tamaño.
 
 B) Una nube de palabras donde el tamaño de cada palabra es proporcional a su frecuencia. ✅
 
+> WordCloud visualiza la importancia mediante el tamaño. `generate_from_frequencies()` mapea cada palabra a un tamaño proporcional a su valor de frecuencia. «Python» (50) será más grande que «modelo» (20).
+
 C) Error: `generate_from_frequencies` no existe en WordCloud.
 
 D) Una nube de palabras ordenada alfabéticamente.
@@ -311,6 +339,8 @@ B) Convierte cada texto a lista de caracteres.
 
 C) Cuenta el número de palabras de cada texto. ✅
 
+> `df['texto'].str.split()` divide cada string por espacios; `.str.len()` cuenta elementos. «Hola Mundo» → 2, «Python es genial» → 3. Esto calcula la longitud del texto en palabras.
+
 D) Elimina los espacios de cada texto.
 
 ---
@@ -324,6 +354,8 @@ A) ASCII
 B) ISO-8859-1
 
 C) Unicode (UTF-8) ✅
+
+> **ASCII** solo cubre 128 caracteres; **ISO-8859-1** amplía esto pero es limitado. **Unicode (UTF-8)** es un estándar universal que codifica cualquier carácter de cualquier idioma del mundo. **Base64** es solo un mecanismo de codificación, no un estándar de caracteres.
 
 D) Base64
 
@@ -360,6 +392,8 @@ B) 1
 
 C) 2 ✅
 
+> `find_all()` retorna una lista. El HTML tiene dos elementos `<p class="resumen">`, por eso la lista tiene longitud 2. El parámetro `class_` (con underscore) evita conflicto con la palabra clave.
+
 D) Error: `class` es una palabra reservada de Python.
 
 ---
@@ -373,6 +407,8 @@ A) BeautifulSoup directamente sobre `requests.get()`.
 B) Solo el módulo `re` para parsear el HTML.
 
 C) Selenium, porque puede interactuar con el DOM tras la ejecución de JavaScript. ✅
+
+> **BeautifulSoup** solo parsea HTML estático. Para contenido dinámico (JavaScript), necesitamos un navegador automatizado como **Selenium** que ejecute JS y acceda al DOM actualizado.
 
 D) Pandas `read_html()`, que maneja JavaScript automáticamente.
 
@@ -393,6 +429,8 @@ spark.stop()
 
 A) Carga todos los JSON, filtra los tweets en español y devuelve su conteo. ✅
 
+> `spark.read.json()` con wildcard (`*.json`) carga múltiples archivos en paralelo. `filter()` aplica la condición; `.count()` ejecuta la acción y retorna un entero con el número de tweets en español.
+
 B) Escribe los tweets en español en un nuevo archivo JSON.
 
 C) Devuelve el número total de archivos JSON en el directorio.
@@ -408,6 +446,8 @@ D) Error: PySpark no puede leer múltiples JSON con wildcard.
 A) PySpark usa menos memoria porque elimina columnas automáticamente.
 
 B) PySpark permite procesar datos distribuidos en un clúster sin cargar todo en memoria. ✅
+
+> PySpark es un framework distribuido que particiona datos entre múltiples máquinas. Procesa por lotes (batching) sin necesidad de cargar el dataset completo. Pandas carga todo en RAM de una sola máquina.
 
 C) PySpark carga automáticamente los datos en GPU.
 
@@ -434,6 +474,8 @@ B) 4
 
 C) 2 ✅
 
+> `merge()` con `how='inner'` devuelve solo filas con id coincidentes. df1 tiene IDs [1,2,3]; df2 tiene [2,3,4]. Coinciden: [2,3] → 2 filas resultado. El parámetro por defecto es 'inner'.
+
 D) 6
 
 ---
@@ -453,6 +495,8 @@ for submission in reddit.subreddit('python').hot(limit=10):
 A) Descarga los 10 comentarios más votados del subreddit 'python'.
 
 B) Imprime los títulos de los 10 posts más populares del subreddit 'python'. ✅
+
+> `.hot()` retorna los posts ordenados por popularidad (hot submissions). `.title` accede al título de cada post. `limit=10` limita a 10 resultados. No obtiene comentarios ni usuarios.
 
 C) Busca los 10 usuarios más activos del subreddit 'python'.
 
@@ -474,6 +518,8 @@ df2 = df.with_columns(pl.col('precio') * 1.21)
 A) En Polars, `with_columns` modifica el DataFrame original `df`.
 
 B) En Polars, el DataFrame es inmutable: `with_columns` devuelve un nuevo DataFrame sin modificar `df`. ✅
+
+> Polars está diseñado alrededor de la **inmutabilidad**. `with_columns()` crea un nuevo DataFrame; no modifica el original. Esto favorece optimizaciones y evita efectos secundarios sorpresivos.
 
 C) Error: Polars no tiene el método `with_columns`.
 
@@ -501,6 +547,8 @@ A) Una lista de strings con los documentos originales.
 
 B) Una lista de listas donde cada elemento es un par (id_palabra, frecuencia) por documento. ✅
 
+> `doc2bow()` convierte cada documento a «Bag of Words»: una lista de tuplas `(word_id, frequency)`. Gensim usa esta representación compacta y eficiente como entrada para LDA.
+
 C) Una matriz TF-IDF de todos los documentos.
 
 D) Error: `doc2bow` solo acepta un documento, no una lista.
@@ -523,6 +571,8 @@ B) `id2word`
 
 C) `num_topics` ✅
 
+> `num_topics` especifica cuántos tópicos LDA debe descubrir. `passes` es el número de iteraciones sobre el corpus; `corpus` y `id2word` son datos de entrada, no hiperparámetros de modelo.
+
 D) `corpus`
 
 ---
@@ -536,6 +586,8 @@ A) Un valor positivo cercano a 1.
 B) Un valor exactamente igual a 0.
 
 C) Un valor negativo. ✅
+
+> TextBlob analiza sentimientos en escala [-1, 1]. La frase es claramente negativa: «absolutely terrible» es una expresión fuertemente negativa. El score será algún valor cercano a -1.
 
 D) Error: TextBlob no analiza frases negativas con "absolutely".
 
@@ -559,6 +611,8 @@ B) Se etiqueta como "negative".
 
 C) Se etiqueta como "positive". ✅
 
+> La condición es `p >= 0`, que incluye p=0. El operador `>=` es mayor o igual. Por tanto, polarity exactamente 0 satisface la condición y se etiqueta como "positive".
+
 D) Se etiqueta como "neutral".
 
 ---
@@ -570,6 +624,8 @@ Usamos NLTK para parsing de dependencias. ¿Qué analiza un `DependencyGraph`?
 A) Las frecuencias de aparición de cada token.
 
 B) Las relaciones gramaticales entre palabras de una oración (sujeto, objeto, etc.). ✅
+
+> Un `DependencyGraph` parsea la **estructura sintáctica** de una oración: quién es el sujeto, quién el objeto, relaciones de dependencia. Se usa en parse de dependencias, no para tópicos ni frecuencias.
 
 C) Los tópicos latentes de un corpus completo.
 
@@ -603,6 +659,8 @@ A) Genera un resumen abstractivo reescribiendo las frases más importantes.
 
 B) Devuelve las 3 oraciones con mayor densidad de palabras frecuentes. ✅
 
+> El algoritmo realiza **resumen extractivo**: cuenta frecuencias de palabras, puntúa cada oración por la suma de frecuencias de sus palabras, y devuelve las n oraciones con mayor puntuación. Es un enfoque basado en densidad de palabras importantes.
+
 C) Devuelve las 3 oraciones más largas del texto.
 
 D) Aplica LDA para encontrar las oraciones más representativas de cada tópico.
@@ -629,6 +687,8 @@ A) 10
 B) 0
 
 C) 4 ✅
+
+> El código busca en `sent.text` (cada oración) si la palabra "datos" aparece. 4 de 10 oraciones contienen "datos", entonces `sum()` cuenta 4 oraciones. `doc.sents` está disponible con el modelo cargado por defecto.
 
 D) Error: `doc.sents` no está disponible sin el componente `sentencizer`.
 
@@ -657,6 +717,8 @@ B) 4 nodos, 2 aristas.
 
 C) 4 nodos, 3 aristas. ✅
 
+> Se añaden 4 nodos: [1, 2, 3, 4]. Se añaden 3 aristas: (1,2), (1,3), (2,4). `number_of_nodes()` retorna 4, `number_of_edges()` retorna 3. Añadir nodos y aristas por separado es perfectamente válido.
+
 D) Error: no se pueden añadir nodos y aristas por separado.
 
 ---
@@ -670,6 +732,8 @@ A) El número de conexiones directas que tiene un nodo.
 B) La cercanía media del nodo al resto de nodos de la red.
 
 C) La frecuencia con la que un nodo aparece en los caminos más cortos entre otros pares de nodos. ✅
+
+> **Betweenness centrality** mide la importancia de un nodo como «puente» en la red. Nodos con alta betweenness son cuellos de botella que conectan diferentes partes de la red.
 
 D) El porcentaje de vecinos comunes con el resto de nodos.
 
@@ -696,6 +760,8 @@ B) 0
 
 C) 1 ✅
 
+> En un grafo dirigido (`DiGraph`), `in_degree` cuenta aristas **entrantes**. Bob recibe un email de Alice (arista 'alice' → 'bob'), así que in_degree es 1. El envío de Bob a Alice es saliente.
+
 D) Error: `DiGraph` no tiene el método `in_degree`.
 
 ---
@@ -707,6 +773,8 @@ Queremos detectar comunidades en una red. ¿Qué algoritmo es el más habitual e
 A) PageRank
 
 B) Algoritmo de Louvain (greedy modularity communities). ✅
+
+> El **algoritmo de Louvain** es el más popular en NetworkX para detectar comunidades mediante optimización de modularidad. PageRank calcula centralidad; Dijkstra encuentra caminos mínimos; BFS es un recorrido simple.
 
 C) Dijkstra
 
@@ -731,6 +799,8 @@ B) El nodo con mayor número de conexiones.
 
 C) La proporción de aristas existentes respecto al máximo posible. ✅
 
+> **Densidad** = aristas reales / máximo de aristas posibles. Para un grafo completo, densidad = 1. Para un grafo vacío, densidad = 0. Mide cuán conectado está el grafo.
+
 D) El diámetro máximo del grafo.
 
 ---
@@ -753,6 +823,8 @@ A) El color de los nodos.
 
 B) La posición (coordenadas x, y) de cada nodo en el dibujo. ✅
 
+> `pos = nx.spring_layout(G)` calcula coordenadas (x, y) para cada nodo usando un algoritmo de fuerzas. `nx.draw()` usa `pos` para posicionar nodos en el gráfico. Sin `pos`, usa una posición por defecto.
+
 C) El tamaño de los nodos.
 
 D) El algoritmo de detección de comunidades.
@@ -768,6 +840,8 @@ A) `nx.Graph()`, porque los emails son conexiones simétricas.
 B) `nx.MultiGraph()`, porque puede haber múltiples emails entre el mismo par.
 
 C) `nx.DiGraph()`, porque la dirección del envío es relevante. ✅
+
+> En una red de emails, la dirección importa: Alice → Bob es diferente de Bob → Alice. `DiGraph` (grafo dirigido) modela esto correctamente. `Graph` sería para conexiones simétricas.
 
 D) `nx.BiGraph()`, para separar remitentes y destinatarios.
 
@@ -793,6 +867,8 @@ A) Un float con el valor de polaridad entre -1 y 1.
 
 B) Una lista con el label predicho y su score de confianza. ✅
 
+> `pipeline('sentiment-analysis')` retorna una lista con objetos. Cada objeto contiene `{'label': 'POSITIVE', 'score': 0.9995}`. No devuelve un float o embedding, sino un diccionario con predicción y confianza.
+
 C) Un embedding vectorial de la frase.
 
 D) Error: `pipeline` requiere indicar explícitamente el nombre del modelo.
@@ -817,6 +893,8 @@ A) Un módulo que convierte el texto en embeddings directamente.
 
 B) Un módulo que convierte el texto en IDs de tokens y máscaras de atención que el modelo puede procesar. ✅
 
+> El **tokenizer** realiza preprocesamiento: divide el texto en subpalabras, las mapea a IDs de vocabulario, crea máscaras de atención. El modelo BERT requiere esta representación estructurada como entrada.
+
 C) El módulo de decodificación que convierte las salidas del modelo en texto legible.
 
 D) Un módulo que realiza la predicción de la tarea final (clasificación, NER, etc.).
@@ -830,6 +908,8 @@ D) Un módulo que realiza la predicción de la tarea final (clasificación, NER,
 A) Las GPUs tienen mayor capacidad de almacenamiento en disco.
 
 B) Las GPUs ejecutan operaciones matriciales en paralelo masivo, reduciendo drásticamente los tiempos de cómputo. ✅
+
+> Las GPUs tienen miles de núcleos de bajo nivel optimizados para álgebra lineal. LLMs son principalmente multiplicaciones de matrices, donde GPUs aceleran 10-100x frente a CPU. CPUs sí soportan PyTorch, pero son lentas para esto.
 
 C) Las CPUs no soportan librerías como PyTorch o TensorFlow.
 
@@ -853,6 +933,8 @@ model = Sequential([
 ```
 
 A) Convierte los IDs de tokens en vectores densos de dimensión 64. ✅
+
+> La capa `Embedding` es una tabla de búsqueda: mapea cada ID de token (0 a 9999) a un vector denso de 64 dimensiones. Los tokens se representan como números antes de este paso; la capa crea representaciones numéricas ricas.
 
 B) Aplica atención multi-cabeza sobre los tokens.
 
@@ -881,6 +963,8 @@ A) Divide el dataset en 3 particiones para validación cruzada.
 
 B) Indica que el modelo recorrerá el conjunto de entrenamiento completo 3 veces. ✅
 
+> `num_train_epochs=3` especifica que el algoritmo de optimización hará 3 pasadas sobre todo el dataset de entrenamiento. Una época = un recorrido completo. Más épocas = más entrenamiento.
+
 C) Limita el entrenamiento a 3 batches por época.
 
 D) Guarda el modelo cada 3 pasos de entrenamiento.
@@ -906,6 +990,8 @@ A) Reinicia los parámetros del modelo a sus valores iniciales.
 
 B) Limpia los gradientes acumulados del paso anterior para que no interfieran en el cálculo actual. ✅
 
+> En PyTorch, `.backward()` **acumula** gradientes. Sin `zero_grad()`, los gradientes se suman al paso anterior. Es crítico limpiarlos cada iteración para actualizar correctamente los parámetros.
+
 C) Detiene el cálculo del gradiente para los parámetros congelados.
 
 D) Pone a cero la función de pérdida acumulada.
@@ -927,6 +1013,8 @@ A) Descarga el modelo 'clasificador-sentimientos' desde el Hub al directorio loc
 
 B) Publica el modelo local en el Hub de Hugging Face bajo el nombre indicado, haciéndolo accesible públicamente. ✅
 
+> `push_to_hub()` sube el modelo entrenado al repositorio remoto de Hugging Face. Requiere token de autenticación. Facilita compartir y reutilizar el modelo por otros usuarios.
+
 C) Crea una copia de seguridad local del modelo en formato ONNX.
 
 D) Error: `push_to_hub` solo está disponible para tokenizadores, no para modelos.
@@ -940,6 +1028,8 @@ Comparamos TensorFlow y PyTorch para NLP. ¿Cuál de las siguientes afirmaciones
 A) PyTorch no puede usarse en producción; es solo para investigación.
 
 B) TensorFlow usa grafos de computación dinámicos por defecto desde la versión 2.x; PyTorch siempre ha usado grafos dinámicos (eager execution). ✅
+
+> En **TensorFlow 1.x**: grafos estáticos (define → run). En **TensorFlow 2.x** y **PyTorch**: ejecución eager (dinámica), similar a código Python normal. Ambos son compatibles con Transformers.
 
 C) Solo TensorFlow es compatible con Hugging Face Transformers.
 
