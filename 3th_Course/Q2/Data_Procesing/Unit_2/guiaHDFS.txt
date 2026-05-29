@@ -1,0 +1,55 @@
+PASOS BÁSICOS HDFS (Hadoop)
+
+1. cd /home/bigdata/hadoop-3.3.6/
+   → Cambia al directorio donde está instalado Hadoop.
+
+2. sbin/start-dfs.sh
+   → Inicia el sistema de archivos HDFS.
+
+3. bin/hdfs dfs -help
+   → Muestra ayuda sobre comandos de HDFS.
+
+4. bin/hdfs dfs -ls /
+   → Lista archivos en el directorio raíz de HDFS.
+
+5. bin/hdfs dfs -mkdir /ebooks
+   → Crea un directorio en HDFS.
+
+6. wget URL -P destino/
+   → Descarga un archivo desde Internet.
+
+7. bin/hdfs dfs -put local_path hdfs_path
+   → Sube archivo local a HDFS.
+
+8. bin/hdfs dfs -copyFromLocal local_path hdfs_path
+   → Copia archivo local a HDFS.
+
+9. bin/hdfs dfs -get hdfs_path local_path
+   → Descarga archivo desde HDFS al sistema local.
+
+10. bin/hdfs dfs -cat hdfs_path
+    → Muestra contenido de un archivo en HDFS.
+
+11. bin/hdfs dfs -rm hdfs_path
+    → Elimina un archivo en HDFS.
+
+12. bin/hdfs dfs -mv old_path new_path
+    → Mueve o renombra archivos en HDFS.
+
+13. bin/hdfs dfs -du -h hdfs_path
+    → Muestra uso de espacio en HDFS.
+
+14. bin/hdfs dfs -count hdfs_path
+    → Muestra número de archivos y tamaño en HDFS.
+
+15. bin/hdfs dfs -find / -name file_name
+    → Busca un archivo en HDFS.
+
+16. bin/hdfs dfs -head hdfs_path
+    → Muestra primeras 10 líneas de un archivo.
+
+17. bin/hdfs dfs -tail hdfs_path
+    → Muestra últimas líneas de un archivo.
+
+18. sbin/stop-dfs.sh
+    → Detiene HDFS.
