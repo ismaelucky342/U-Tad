@@ -1,0 +1,530 @@
+# Mini diccionario Java Streams → Scala Collections
+
+## map
+Transforma cada elemento en otro.
+
+Scala:
+lista.map(_ * 2)
+
+Java:
+stream.map(x -> x * 2)
+
+Ejemplo:
+List(1,2,3).map(_ * 2)
+=> List(2,4,6)
+
+
+--------------------------------------------------
+
+## filter
+Filtra elementos según una condición.
+
+Scala:
+lista.filter(_ > 5)
+
+Java:
+stream.filter(x -> x > 5)
+
+Ejemplo:
+List(1,7,3,9).filter(_ > 5)
+=> List(7,9)
+
+
+--------------------------------------------------
+
+## flatMap
+Transforma y aplana colecciones.
+
+Scala:
+frases.flatMap(_.split(" "))
+
+Java:
+stream.flatMap(...)
+
+Ejemplo:
+List("hola mundo", "scala java")
+.flatMap(_.split(" "))
+
+=> List(hola, mundo, scala, java)
+
+Diferencia:
+map => List(List(...))
+flatMap => List(...)
+
+
+--------------------------------------------------
+
+## foreach
+Recorre elementos.
+
+Scala:
+lista.foreach(println)
+
+Java:
+forEach(...)
+
+Ejemplo:
+List(1,2,3).foreach(println)
+
+
+--------------------------------------------------
+
+## groupBy
+Agrupa elementos por una clave.
+
+Scala:
+lista.groupBy(_.categoria)
+
+Java:
+Collectors.groupingBy(...)
+
+Ejemplo:
+List("Ana", "Alberto", "Luis")
+.groupBy(_.charAt(0))
+
+=> Map(
+     A -> List(Ana, Alberto),
+     L -> List(Luis)
+   )
+
+
+--------------------------------------------------
+
+## toMap
+Convierte lista de tuplas en Map.
+
+Scala:
+lista.toMap
+
+Ejemplo:
+List(("a",1), ("b",2)).toMap
+
+=> Map(a -> 1, b -> 2)
+
+
+--------------------------------------------------
+
+## ->
+Crea una tupla clave -> valor.
+
+Scala:
+"hola" -> 5
+
+Equivale a:
+("hola", 5)
+
+Muy usado antes de toMap.
+
+
+--------------------------------------------------
+
+## sortBy
+Ordena según un criterio.
+
+Scala:
+lista.sortBy(_.edad)
+
+Java:
+sorted(Comparator.comparing(...))
+
+Ejemplo:
+alumnos.sortBy(_.nota)
+
+Descendente:
+alumnos.sortBy(-_.nota)
+
+
+--------------------------------------------------
+
+## sorted
+Orden natural automática.
+
+Scala:
+lista.sorted
+
+Ejemplo:
+List(5,1,9).sorted
+=> List(1,5,9)
+
+
+--------------------------------------------------
+
+## mapValues
+Transforma SOLO los valores de un Map.
+
+Scala:
+map.view.mapValues(_.size).toMap
+
+Ejemplo:
+Map(
+  "A" -> List(1,2),
+  "B" -> List(3)
+)
+
+=> Map(
+     "A" -> 2,
+     "B" -> 1
+   )
+
+
+--------------------------------------------------
+
+## identity
+Devuelve el mismo elemento.
+
+Scala:
+.groupBy(identity)
+
+Equivale a:
+.groupBy(x => x)
+
+Muy útil para contar ocurrencias.
+
+
+--------------------------------------------------
+
+## sum
+Suma elementos numéricos.
+
+Scala:
+lista.sum
+
+Ejemplo:
+List(1,2,3).sum
+=> 6
+
+
+--------------------------------------------------
+
+## size
+Cantidad de elementos.
+
+Scala:
+lista.size
+
+Ejemplo:
+List(1,2,3).size
+=> 3
+
+
+--------------------------------------------------
+
+## head
+Primer elemento.
+
+Scala:
+lista.head
+
+Ejemplo:
+List("Ana","Luis").head
+=> "Ana"
+
+
+--------------------------------------------------
+
+## tail
+Todos menos el primero.
+
+Scala:
+lista.tail
+
+Ejemplo:
+List(1,2,3).tail
+=> List(2,3)
+
+
+--------------------------------------------------
+
+## take
+Primeros N elementos.
+
+Scala:
+lista.take(3)
+
+Ejemplo:
+List(1,2,3,4,5).take(2)
+=> List(1,2)
+
+
+--------------------------------------------------
+
+## drop
+Elimina primeros N elementos.
+
+Scala:
+lista.drop(2)
+
+Ejemplo:
+List(1,2,3,4).drop(2)
+=> List(3,4)
+
+
+--------------------------------------------------
+
+## mkString
+Une elementos en String.
+
+Scala:
+lista.mkString(", ")
+
+Ejemplo:
+List("a","b","c").mkString(", ")
+=> "a, b, c"
+
+
+--------------------------------------------------
+
+## case class
+Versión Scala de POJO Java.
+
+Scala:
+case class Alumno(nombre: String, nota: Double)
+
+Ventajas:
+- constructor automático
+- getters automáticos
+- toString automático
+- equals/hashCode automáticos
+
+
+--------------------------------------------------
+
+## _
+Shorthand de parámetro automático.
+
+Scala:
+_.nombre
+
+Equivale a:
+x => x.nombre
+
+Ejemplos:
+.map(_.toUpperCase)
+.filter(_.length > 3)
+.sortBy(_.nota)
+
+
+--------------------------------------------------
+
+## case (a,b)
+Destructuring / pattern matching de tuplas.
+
+Scala:
+foreach { case (k,v) =>
+  println(k + v)
+}
+
+Equivale a:
+foreach(par => {
+  val k = par._1
+  val v = par._2
+})
+
+
+--------------------------------------------------
+
+## view
+Crea vista lazy temporal.
+
+Scala:
+map.view.mapValues(...).toMap
+
+Se usa para evitar copias intermedias.
+
+
+--------------------------------------------------
+
+## groupMapReduce
+Agrupa + transforma + reduce en una sola operación.
+
+Scala:
+.groupMapReduce(identity)(_ => 1)(_ + _)
+
+Muy funcional y compacto.
+
+Ejemplo:
+Contar palabras.
+
+
+--------------------------------------------------
+
+## Option
+Evita null.
+
+Scala:
+Option(valor)
+
+Tipos:
+Some(x)
+None
+
+Muy importante en Scala real.
+
+
+--------------------------------------------------
+
+## foldLeft
+Acumulador funcional.
+
+Scala:
+lista.foldLeft(0)(_ + _)
+
+Ejemplo:
+List(1,2,3).foldLeft(0)(_ + _)
+=> 6
+
+Equivale a acumulador manual.
+
+
+--------------------------------------------------
+
+## collect
+Filter + map con pattern matching.
+
+Scala:
+lista.collect {
+  case x if x > 5 => x * 2
+}
+
+Muy típico en Scala avanzado.
+
+
+--------------------------------------------------
+
+## zip
+Une dos listas.
+
+Scala:
+lista1.zip(lista2)
+
+Ejemplo:
+List("a","b").zip(List(1,2))
+
+=> List(
+     ("a",1),
+     ("b",2)
+   )
+
+
+--------------------------------------------------
+
+## unzip
+Separa lista de tuplas.
+
+Scala:
+lista.unzip
+
+
+--------------------------------------------------
+
+## distinct
+Elimina duplicados.
+
+Scala:
+lista.distinct
+
+
+--------------------------------------------------
+
+## exists
+Comprueba si ALGUNO cumple condición.
+
+Scala:
+lista.exists(_ > 5)
+
+
+--------------------------------------------------
+
+## forall
+Comprueba si TODOS cumplen condición.
+
+Scala:
+lista.forall(_ > 0)
+
+
+--------------------------------------------------
+
+## find
+Devuelve primer elemento que cumple condición.
+
+Scala:
+lista.find(_ > 5)
+
+Devuelve:
+Option
+
+
+--------------------------------------------------
+
+## reduce
+Reduce colección a un único valor.
+
+Scala:
+lista.reduce(_ + _)
+
+Ejemplo:
+List(1,2,3).reduce(_ + _)
+=> 6
+
+
+--------------------------------------------------
+
+## fold vs reduce
+
+reduce:
+- usa primer elemento como acumulador
+
+fold:
+- empieza con valor inicial
+
+Scala:
+lista.foldLeft(0)(_ + _)
+
+
+--------------------------------------------------
+
+## Java Stream equivalencias rápidas
+
+.stream()
+=> nada
+
+.collect(Collectors.toList())
+=> nada
+
+.collect(Collectors.toMap())
+=> .toMap
+
+Collectors.groupingBy(...)
+=> .groupBy(...)
+
+Comparator.comparing(...)
+=> .sortBy(...)
+
+x -> x
+=> identity o _
+
+x -> x.prop
+=> _.prop
+
+Arrays.asList(...)
+=> List(...)
+
+forEach(...)
+=> foreach(...)
+
+
+--------------------------------------------------
+
+## Patrón mental típico
+
+Java:
+stream
+  .filter(...)
+  .map(...)
+  .collect(...)
+
+Scala:
+lista
+  .filter(...)
+  .map(...)
+  ...
