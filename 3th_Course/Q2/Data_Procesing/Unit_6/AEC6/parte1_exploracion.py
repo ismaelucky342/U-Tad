@@ -45,7 +45,7 @@ df_raw = spark.read \
     .format("csv") \
     .option("header", True) \
     .option("inferSchema", True) \
-    .load("hdfs:///user/bigdata/aec6/data/departuredelays.csv")
+    .load("data/departuredelays.csv")
 
 # Casteamos 'date' a String (inferSchema lo lee como Long) y extraemos
 # mes, día y hora como columnas derivadas para enriquecer el análisis.
