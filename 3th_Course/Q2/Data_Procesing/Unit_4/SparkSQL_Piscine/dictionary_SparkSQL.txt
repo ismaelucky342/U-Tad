@@ -1,0 +1,270 @@
+SPARK SQL — Diccionario rápido
+
+CARGA DE DATOS
+
+spark.read
+→ Permite leer datos y crear un DataFrame.
+
+.option("header","true")
+→ Usa la primera fila como nombres de columnas.
+
+.option("inferSchema","true")
+→ Intenta detectar automáticamente el tipo de dato.
+
+.option("delimiter","|")
+→ Define separador personalizado.
+
+.csv("ruta")
+→ Carga un CSV.
+
+.load("ruta")
+→ Carga datos genéricos.
+
+EXPLORACIÓN
+
+show()
+→ Muestra filas del DataFrame.
+
+show(5)
+→ Muestra solo 5 filas.
+
+printSchema()
+→ Muestra estructura y tipos.
+
+columns
+→ Devuelve nombres de columnas.
+
+dtypes
+→ Devuelve columnas + tipos.
+
+count()
+→ Cuenta filas.
+
+describe()
+→ Estadísticas básicas.
+
+distinct()
+→ Elimina duplicados.
+
+dropDuplicates()
+→ Elimina filas repetidas.
+
+SELECCIÓN Y FILTROS
+
+select("col")
+→ Selecciona columnas.
+
+col("edad")
+→ Referencia una columna.
+
+filter(condición)
+→ Filtra filas.
+
+where(condición)
+→ Igual que filter.
+
+isin()
+→ Comprueba pertenencia.
+
+isNull()
+→ Detecta nulos.
+
+isNotNull()
+→ Detecta no nulos.
+
+ORDENACIÓN
+
+orderBy("edad")
+→ Ordena ascendente.
+
+sort("edad")
+→ Igual que orderBy.
+
+asc()
+→ Orden ascendente.
+
+desc()
+→ Orden descendente.
+
+TRANSFORMACIONES
+
+withColumn()
+→ Crear/modificar columna.
+
+drop()
+→ Eliminar columna.
+
+withColumnRenamed()
+→ Renombrar columna.
+
+alias()
+→ Alias temporal.
+
+lit(valor)
+→ Crear valor constante.
+
+CONDICIONES
+
+when(condición,valor)
+→ IF.
+
+otherwise(valor)
+→ ELSE.
+
+Ejemplo:
+
+when(col("nota")>=5,"Apto")
+.otherwise("Suspenso")
+
+AGRUPACIONES
+
+groupBy()
+→ Agrupar datos.
+
+agg()
+→ Aplicar agregaciones.
+
+count()
+→ Contar.
+
+sum()
+→ Sumar.
+
+mean()
+→ Media.
+
+avg()
+→ Media.
+
+max()
+→ Máximo.
+
+min()
+→ Mínimo.
+
+stddev()
+→ Desviación típica.
+
+FUNCIONES NUMÉRICAS
+
+abs()
+→ Valor absoluto.
+
+round()
+→ Redondear.
+
+sqrt()
+→ Raíz cuadrada.
+
+pow()
+→ Potencia.
+
+FUNCIONES DE TEXTO
+
+lower()
+→ Minúsculas.
+
+upper()
+→ Mayúsculas.
+
+length()
+→ Longitud texto.
+
+concat()
+→ Unir textos.
+
+substring()
+→ Extraer texto.
+
+trim()
+→ Eliminar espacios.
+
+RDD
+
+rdd
+→ Convierte DataFrame a RDD.
+
+map()
+→ Transformar elementos.
+
+filter()
+→ Filtrar.
+
+reduceByKey()
+→ Reducir por clave.
+
+collect()
+→ Traer resultados.
+
+collectAsMap()
+→ Convertir a mapa.
+
+first()
+→ Primer elemento.
+
+SQL
+
+createOrReplaceTempView("tabla")
+→ Crear tabla temporal.
+
+spark.sql("SELECT ...")
+→ Ejecutar SQL.
+
+WINDOWS
+
+Window.partitionBy()
+→ Agrupar ventanas.
+
+Window.orderBy()
+→ Ordenar ventana.
+
+over()
+→ Aplicar ventana.
+
+ntile(4)
+→ Dividir en cuartiles.
+
+ESTADÍSTICAS
+
+stat.corr()
+→ Correlación.
+
+stat.approxQuantile()
+→ Cuartiles aproximados.
+
+JOINS
+
+join()
+→ Unir DataFrames.
+
+inner
+→ Coincidencias.
+
+left
+→ Todo izquierda.
+
+right
+→ Todo derecha.
+
+outer
+→ Todo.
+
+HDFS
+
+start-dfs.sh
+→ Arrancar HDFS.
+
+hdfs dfs -mkdir -p ruta
+→ Crear directorio.
+
+hdfs dfs -put archivo ruta
+→ Subir archivo.
+
+hdfs dfs -ls ruta
+→ Listar contenido.
+
+hdfs dfs -cat archivo
+→ Mostrar contenido.
+
+hdfs dfs -rm archivo
+→ Eliminar archivo.
