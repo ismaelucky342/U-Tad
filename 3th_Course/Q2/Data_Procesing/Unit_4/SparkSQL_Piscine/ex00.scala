@@ -49,7 +49,6 @@
 //
 // =======================================
 
-
 // cargamos el fichero como DataFrame
 val moviesDF = spark.read
     .option("header", "true") // Indicar que la primera fila es la cabecera

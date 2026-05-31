@@ -1,18 +1,19 @@
-# Environment & Credentials
+# --- Entornos Virtuales y Configuración ---
 .env
+.venv/
+venv/
+env/
 .env.local
-*.pem
-*.key
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Python
+# --- Python ---
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-env/
-venv/
-ENV/
 build/
 develop-eggs/
 dist/
@@ -28,47 +29,28 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# Jupyter Notebook
-.ipynb_checkpoints
-*.ipynb_checkpoints
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+# Si quieres ignorar los outputs de los notebooks, usa esto (opcional):
+# *.ipynb
 
-# IDE
+# --- Datos y Resultados (Crucial para no subir Gigas a GitHub) ---
+data/
+*.csv
+*.json
+*.xlsx
+*.parquet
+output/
+*.log
+
+# --- IDEs y Editores ---
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
-.DS_Store
 
-# Data & Models
-*.csv
-*.json
-Bitcoin_tweets.csv
-tweets.csv
-sample_tweets.csv
-*.bin
-*.safetensors
-*.pt
-cache/
-models/
-huggingface/
-
-# Results (pero podría mantenerse con .gitkeep)
-results/
-output/
-outputs/
-*.txt
-!README.md
-!requirements.txt
-
-# OS
+# --- Sistema Operativo ---
 .DS_Store
 Thumbs.db
-
-# Temporary
-*.tmp
-*.temp
-*.log
-*.bak

@@ -1,529 +1,357 @@
-# AEC3 – Análisis de Redes Sociales + Integración LLM
+# AEC3 – Análisis de Redes e Integración de LLMs: Arquitectura Inteligente para Análisis de Datos
 
-## Introducción
+## 1. Introducción
 
-En esta actividad me propongo extender la práctica anterior (AEC2 de Unidad 4) con dos nuevos componentes principales que permitan ir más allá del análisis de sentimiento tradicional. 
+Este proyecto representa la evolución final del pipeline iniciado en AEC1 y ampliado en AEC2. Mientras que las entregas anteriores estaban orientadas principalmente a la extracción, limpieza y análisis descriptivo de datos, esta iteración incorpora una arquitectura orientada al análisis estructural y razonamiento asistido mediante inteligencia artificial.
 
-El primer componente es un análisis de redes sociales usando NetworkX, que construye grafos de interacciones a partir de menciones en tweets, calcula métricas de centralidad para identificar nodos influyentes, y detecta comunidades usando el algoritmo de Louvain.
+El objetivo principal consiste en transformar datos no estructurados procedentes de redes sociales en conocimiento interpretable mediante una combinación de:
 
-El segundo componente integra modelos de lenguaje de gran tamaño (LLMs). La idea es que los insights extraídos del grafo se conviertan en prompts contextualizados que el LLM puede analizar e interpretar de forma cualitativa, proporcionando insights que van más allá de las métricas numéricas.
+* Ingeniería de datos modular.
+* Procesamiento de lenguaje natural.
+* Teoría de grafos.
+* Modelos de lenguaje ejecutados localmente.
 
-Mantengo el enfoque de centralizar toda la lógica en la clase `DataExtractor`, ahora extendida con nuevos métodos, pero esta vez he decidido modularizar el código en archivos separados para mantener la legibilidad y facilitar el mantenimiento.
+La propuesta no se limita únicamente a obtener estadísticas o visualizaciones. El sistema busca responder preguntas más complejas:
+
+* ¿Qué usuarios poseen mayor capacidad de influencia?
+* ¿Qué comunidades aparecen dentro de una red?
+* ¿Qué relaciones existen entre distintos grupos?
+* ¿Cómo puede un modelo de lenguaje interpretar esas estructuras?
+
+Para resolver estas cuestiones, el proyecto incorpora una capa de análisis semántico basada en modelos LLM ejecutados localmente mediante Ollama.
 
 ---
 
-## Estructura del Proyecto
+## 2. Objetivos del proyecto
 
-Decidí separar el código en módulos para mejorar la mantenibilidad:
+Los objetivos planteados para esta entrega son:
 
-```
+### Objetivos funcionales
+
+* Centralizar toda la lógica de negocio mediante una arquitectura modular.
+* Construir grafos de interacción a partir de datos sociales.
+* Detectar usuarios relevantes mediante métricas de centralidad.
+* Identificar comunidades automáticamente.
+* Integrar un modelo de lenguaje local capaz de interpretar resultados.
+* Proporcionar una interfaz visual interactiva mediante Streamlit.
+
+### Objetivos técnicos
+
+* Diseñar un sistema mantenible y escalable.
+* Reducir dependencias externas.
+* Garantizar privacidad mediante ejecución local.
+* Permitir reutilización futura del código desarrollado.
+
+---
+
+## 3. Arquitectura general del sistema
+
+La arquitectura ha sido rediseñada respecto a las entregas anteriores siguiendo principios de separación de responsabilidades.
+
+La clase principal `DataExtractor` deja de asumir toda la lógica y pasa a funcionar como orquestador del sistema.
+
+```text
 AEC3/
-├── data_extractor.py           # Clase base que orquesta todo
-├── network_analysis.py         # Métodos de NetworkX (grafo, centralidad, comunidades)
-├── llm_integration.py          # Métodos de LLM (prompts, generación, fallback)
-├── utils.py                    # Funciones auxiliares (exportación, validación)
-├── AEC3_Network_LLM_Analysis.ipynb  # Notebook con ejemplos
-├── requirements.txt            # Dependencias
-├── .env.example               # Plantilla de configuración
-├── .gitignore                 # Prevenir subir credenciales
-└── README.md                  # Este archivo
+├── dashboard/
+│   └── app.py
+│
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   └── output/
+│
+├── src/
+│   ├── __init__.py
+│   ├── data_extractor.py
+│   ├── network_core.py
+│   ├── llm_core.py
+│   └── nlp_core.py
+│
+├── AEC3_DataExtractor.ipynb
+├── requirements.txt
+├── .env.example
+└── README.md
 ```
 
-### Decisión de Modularización
+Cada módulo posee una responsabilidad específica:
 
-En AEC2 tenía toda la lógica en un único archivo `data_extractor.py`, lo cual funcionaba bien para ese alcance. Sin embargo, con los nuevos métodos de NetworkX e integración de LLM, el archivo crecería a más de 800 líneas, haciendo el código difícil de navegar.
+| Módulo            | Responsabilidad                      |
+| ----------------- | ------------------------------------ |
+| data_extractor.py | Orquestación global del pipeline     |
+| nlp_core.py       | Limpieza y procesamiento lingüístico |
+| network_core.py   | Construcción y análisis de grafos    |
+| llm_core.py       | Comunicación con Ollama              |
+| dashboard         | Interfaz interactiva                 |
 
-He extraído en módulos separados pero mantengo `DataExtractor` como clase orquestadora que importa y expone todos los métodos. De esta forma:
-- **data_extractor.py**: Interfaz pública (toda la lógica accesible desde la clase)
-- **network_analysis.py**: Métodos especializados en análisis de redes
-- **llm_integration.py**: Métodos especializados en LLM
-- **utils.py**: Funciones reutilizables
+Esta organización mejora la mantenibilidad y reduce el acoplamiento entre componentes.
 
 ---
 
-## Instalación
+## 4. Flujo metodológico
 
-### 1. Clonar o descargar el proyecto
+El procesamiento sigue una secuencia estructurada:
 
-```bash
-cd Unit_6/AEC3
+```text
+Extracción de datos
+        ↓
+Limpieza y normalización
+        ↓
+Procesamiento NLP
+        ↓
+Construcción del grafo
+        ↓
+Cálculo de métricas
+        ↓
+Detección de comunidades
+        ↓
+Generación de contexto
+        ↓
+Análisis mediante LLM
+        ↓
+Visualización interactiva
 ```
 
-### 2. Crear y activar entorno virtual
+Cada etapa produce información utilizada por la siguiente, permitiendo construir progresivamente conocimiento a partir de datos inicialmente no estructurados.
 
-Con venv:
+---
+
+## 5. Construcción y análisis de redes
+
+Uno de los elementos centrales de AEC3 consiste en representar las interacciones sociales como grafos dirigidos.
+
+Definición utilizada:
+
+* Nodo → usuario.
+* Arista → mención entre usuarios.
+* Peso → frecuencia de interacción.
+
+La representación mediante grafos permite aplicar métricas de teoría de redes imposibles de obtener mediante análisis tradicionales.
+
+Métricas implementadas:
+
+| Métrica     | Interpretación                  |
+| ----------- | ------------------------------- |
+| In-degree   | Número de menciones recibidas   |
+| Out-degree  | Número de menciones realizadas  |
+| Betweenness | Capacidad de actuar como puente |
+| PageRank    | Influencia global relativa      |
+| Louvain     | Detección de comunidades        |
+
+Estas métricas permiten identificar:
+
+* líderes de opinión;
+* usuarios puente;
+* comunidades altamente conectadas;
+* patrones de comportamiento colectivos.
+
+---
+
+## 6. Integración de Inteligencia Artificial Generativa
+
+La principal evolución respecto a las entregas anteriores consiste en incorporar una capa de razonamiento contextual mediante modelos de lenguaje (LLMs). Hasta este punto, el pipeline era capaz de extraer información, transformarla y generar métricas descriptivas; sin embargo, seguía existiendo una limitación importante: los resultados cuantitativos requerían interpretación manual.
+
+Por ejemplo, detectar que un usuario presenta un PageRank elevado o que una comunidad posee una alta densidad de conexiones aporta información relevante, pero no explica necesariamente qué significa dicho comportamiento dentro del contexto social analizado.
+
+Para resolver esta limitación se introduce un modelo de lenguaje local capaz de actuar como una capa interpretativa adicional.
+
+El flujo implementado sigue la siguiente lógica:
+
+1. Se calculan métricas estructurales sobre el grafo.
+2. Los resultados se condensan en un contexto semántico.
+3. El contexto generado se transforma en un prompt estructurado.
+4. El modelo procesa esa información.
+5. Se obtiene una explicación contextual de los patrones encontrados.
+
+La finalidad no es sustituir algoritmos clásicos mediante inteligencia artificial, sino combinar ambos enfoques.
+
+Los algoritmos tradicionales proporcionan precisión matemática y capacidad analítica. El modelo de lenguaje añade interpretación, contextualización y capacidad explicativa.
+
+Este enfoque híbrido permite pasar de una simple descripción estadística a una comprensión más cercana a un proceso real de análisis y toma de decisiones.
+
+---
+
+## 7. Justificación tecnológica: elección de Ollama frente a Hugging Face
+
+Uno de los requisitos propuestos para esta entrega consistía en incorporar modelos de lenguaje mediante Hugging Face. Sin embargo, tras analizar distintas alternativas, decidí utilizar Ollama como capa de inferencia local manteniendo la misma filosofía funcional, pero modificando la forma de integración.
+
+Esta decisión no responde a una incompatibilidad con Hugging Face ni a una limitación técnica; de hecho, Hugging Face constituye actualmente uno de los ecosistemas más importantes dentro del desarrollo de aplicaciones basadas en inteligencia artificial. Su catálogo de modelos y herramientas resulta extremadamente amplio y flexible.
+
+La elección se realizó principalmente por cuestiones relacionadas con arquitectura, mantenibilidad y experiencia práctica de desarrollo.
+
+### Simplificación de la gestión de modelos
+
+Una integración tradicional mediante Hugging Face suele requerir gestionar múltiples elementos:
+
+* descarga manual del modelo;
+* carga de tokenizadores;
+* gestión de precisión numérica;
+* asignación de memoria;
+* configuración de GPU;
+* optimizaciones de inferencia.
+
+Aunque este enfoque proporciona un alto nivel de control, introduce una complejidad adicional que no aporta valor directo a los objetivos de esta práctica.
+
+Ollama abstrae gran parte de estos procesos y proporciona una interfaz basada en API REST extremadamente sencilla de integrar desde Python.
+
+Por tanto, la interacción con el modelo queda reducida a peticiones HTTP estándar sin necesidad de administrar internamente el ciclo completo de inferencia.
+
+### Reutilización de conocimientos y experiencia práctica
+
+Otro factor relevante es que actualmente utilizo Ollama en proyectos personales y entornos de desarrollo propios relacionados con inteligencia artificial.
+
+Trabajar con herramientas empleadas fuera del contexto académico permite reutilizar conocimientos previos y aproximar la implementación a escenarios reales de producción.
+
+Esto facilita construir soluciones más cercanas a arquitecturas que posteriormente podrían escalar o reutilizarse en proyectos futuros.
+
+### Independencia y privacidad
+
+La ejecución local aporta ventajas adicionales:
+
+* ausencia de costes por uso;
+* independencia de servicios externos;
+* menor dependencia de cambios de APIs;
+* privacidad de los datos procesados.
+
+Toda la información permanece dentro del entorno local y no necesita enviarse a servicios externos para realizar inferencia.
+
+### Sustitución sencilla de modelos
+
+La arquitectura implementada desacopla completamente la lógica de negocio del modelo utilizado.
+
+Actualmente el proyecto emplea `gemma3`, pero el sistema permite sustituirlo fácilmente por alternativas como:
+
+* Llama
+* Mistral (actual favorito)
+* Qwen
+
+sin modificar el resto del pipeline.
+
+Por tanto, la decisión de utilizar Ollama no supone reemplazar las capacidades de Hugging Face, sino utilizar una capa de ejecución que simplifica considerablemente la integración y se adapta mejor a los objetivos y contexto técnico del proyecto.
+
+
+## 8. Dashboard interactivo
+
+El proyecto incorpora una interfaz desarrollada mediante Streamlit para explorar resultados visualmente.
+
+Funcionalidades principales:
+
+* análisis de hashtags;
+* nubes de palabras;
+* evolución temporal;
+* detección de bots;
+* exploración de redes;
+* análisis de comunidades;
+* interacción mediante chat contextual con LLM.
+
+Ejecución:
+
 ```bash
-python3.11 -m venv venv
-source venv/bin/activate  # Linux/Mac
-venv\Scripts\activate     # Windows
+streamlit run dashboard/app.py
 ```
 
-Con conda:
+---
+
+## 9. Instalación y despliegue
+
+### Crear entorno virtual
+
 ```bash
-conda create -n aec3 python=3.11
-conda activate aec3
+python -m venv venv
+source venv/bin/activate
+
+# Windows
+venv\Scripts\activate
 ```
 
-### 3. Instalar dependencias
+### Instalar dependencias
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Para GPU (NVIDIA):
+### Configurar variables de entorno
+
+Crear archivo `.env`
+
+```env
+RAPIDAPI_KEY=tu_clave
+OLLAMA_URL=http://localhost:11434
+LLM_MODEL=gemma3
+```
+
+### Inicializar Ollama
+
 ```bash
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-```
-
-### 4. Descargar modelos de spacy
-
-```bash
-python -m spacy download en_core_web_sm
-```
-
-### 5. Configurar credenciales
-
-```bash
-cp .env.example .env
-# Editar .env con tus credenciales
-```
-
-En `.env`:
-```
-RAPIDAPI_KEY=tu_clave_aqui
-GOOGLE_API_KEY=tu_clave_google_ai_aqui
+ollama serve
+ollama pull gemma3
 ```
 
 ---
 
-## Uso
-
-### Opción 1: Ejecutar el Notebook (Recomendado)
-
-```bash
-jupyter notebook AEC3_Network_LLM_Analysis.ipynb
-```
-
-Este notebook ejecuta paso a paso el pipeline completo:
-1. Carga de datos desde CSV local
-2. Construcción del grafo de interacciones
-3. Análisis de métricas de centralidad
-4. Generación de prompts contextualizados
-5. Ejecución del modelo LLM
-6. Exportación de resultados
-
-### Opción 2: Uso programático
+## 10. Ejemplo completo de uso
 
 ```python
-from data_extractor import DataExtractor
+from src import DataExtractor
 
-# 1. Cargar datos
-ext = DataExtractor(source="Bitcoin_tweets.csv")
-ext.load_data()
+ext = DataExtractor()
 
-# 2. Construir grafo
-G = ext.build_interaction_graph(mention_extraction=True)
+ext.load_data_api(
+    query="#bitcoin",
+    max_results=200
+)
 
-# 3. Analizar red
-analysis = ext.analyze_network(G, top_k=3)
-
-# 4. Generar prompt
-prompt = ext.generate_prompt_from_network(G, analysis)
-
-# 5. Ejecutar LLM
-response = ext.chat_local_llm(prompt=prompt, use_gpu=True)
-print(response)
-
-# 6. Exportar resultados
-ext.export_network_analysis(output_dir="output", G=G, analysis=analysis)
-```
-
----
-
-## API de la Clase DataExtractor
-
-### Métodos Nuevos (Unidad 6)
-
-Implementé 4 métodos principales para el análisis de redes e integración LLM:
-
-#### build_interaction_graph(mention_extraction=True) → nx.DiGraph
-
-Construye un grafo dirigido de interacciones a partir de los tweets.
-
-```python
 G = ext.build_interaction_graph()
-```
 
-Los nodos son usuarios y hashtags. Las aristas representan interacciones:
-- Menciones (@usuario) entre usuarios
-- Uso de hashtags por parte de usuarios
+metrics = ext.analyze_network(G)
 
-El peso de cada arista representa la frecuencia de la interacción.
+prompt = ext.generate_prompt_from_network(
+    G,
+    metrics
+)
 
-**Decisión de diseño**: Usé DiGraph (dirigido) en lugar de Graph (no dirigido) porque las menciones tienen dirección natural. De esta forma puedo calcular influencia de forma asimétrica.
-
----
-
-#### analyze_network(G=None, top_k=3) → dict
-
-Calcula métricas de centralidad y detecta comunidades usando Louvain.
-
-```python
-analysis = ext.analyze_network(G, top_k=5)
-```
-
-Retorna un diccionario con:
-- Estadísticas globales (número de nodos, aristas, densidad)
-- Top k nodos por degree centrality
-- Top k nodos por betweenness centrality (intermediación)
-- Top k nodos por closeness centrality
-- Comunidades detectadas y sus tamaños
-
-**Métricas calculadas**:
-- **Degree**: Número de conexiones directas
-- **Betweenness**: Qué tan importante es el nodo como "puente" entre otros
-- **Closeness**: Distancia promedio a otros nodos en la red
-- **Communities**: Grupos densamente conectados dentro de la red
-
----
-
-#### generate_prompt_from_network(G=None, analysis=None) → str
-
-Genera un prompt contextualizado a partir del análisis del grafo para ser enviado al LLM.
-
-```python
-prompt = ext.generate_prompt_from_network(G, analysis)
-```
-
-El prompt incluye:
-- Estadísticas de la red (nodos, aristas, densidad)
-- Top 3 nodos más influyentes
-- Hashtags más frecuentes del corpus
-- Información sobre comunidades detectadas
-- Una pregunta específica pidiendo análisis interpretativo
-
-El objetivo es que el LLM no solo vea números, sino que entienda el contexto de la red social.
-
----
-
-#### chat_local_llm(prompt=None, model_name="google/gemma-2b-it", use_gpu=True) → str
-
-Ejecuta un modelo LLM local para generar análisis interpretativo.
-
-```python
-response = ext.chat_local_llm(
+ext.chat_local_llm(
     prompt=prompt,
-    model_name="google/gemma-2b-it",
-    use_gpu=True,
-    temperature=0.7
+    model="gemma3"
 )
 ```
 
-Parámetros:
-- `prompt`: Texto a procesar. Si es None, se genera automáticamente
-- `model_name`: Modelo de Hugging Face ("google/gemma-2b-it", "mistralai/Mistral-7B-v0.1", etc.)
-- `use_gpu`: Usar CUDA si está disponible
-- `temperature`: Creatividad del modelo (0.0=determinístico, 1.0=creativo)
-- `max_tokens`: Longitud máxima de la respuesta
+---
 
-**Modelos soportados**:
-- google/gemma-2b-it (2B parámetros, requiere ~4 GB VRAM)
-- google/gemma-7b-it (7B parámetros, requiere ~14 GB VRAM)
-- mistralai/Mistral-7B-v0.1
-- facebook/opt-6.7b
+## 11. Limitaciones actuales
 
-**Fallback automático**: Si no hay GPU disponible o hay error al cargar el modelo local, intenta usar Google Generative AI API de forma automática.
+Las principales limitaciones identificadas son:
+
+* limitaciones de la API gratuita utilizada;
+* tamaño reducido de algunos datasets;
+* tiempos elevados en CPU sin GPU;
+* calidad dependiente del modelo local utilizado.
+
+Estas restricciones podrían mitigarse mediante datasets más extensos o modelos de mayor tamaño.
 
 ---
 
-#### export_network_analysis(output_dir="output", G=None, analysis=None) → None
-
-Exporta todos los resultados del análisis a archivos.
-
-```python
-ext.export_network_analysis(output_dir="results")
-```
-
-Genera los siguientes archivos:
-- `network_stats.json`: Métricas de centralidad en formato estructurado
-- `communities.json`: Estructura de las comunidades detectadas
-- `network_prompt.txt`: Prompt enviado al LLM (para auditoría)
-- `network_graph.gexf`: Grafo en formato GEXF (importable en Gephi para visualización)
-- `llm_response.txt`: Respuesta completa del modelo
-- Todos los outputs de export_results() de AEC2
-
----
-
-### Métodos Heredados (Unidad 4)
-
-La clase sigue exponiendo todos los métodos de AEC2:
-- load_data() / load_data_api()
-- clean_text()
-- extract_hashtags()
-- analytics_hashtags_extended()
-- model_topics() con LDA
-- analyze_sentiment()
-- parse_and_summarize()
-- export_results()
-
----
-
-## Ejemplo Completo
-
-Aquí muestro un flujo completo de análisis:
-
-```python
-from data_extractor import DataExtractor
-
-# Cargar datos
-ext = DataExtractor(source="Bitcoin_tweets.csv")
-ext.load_data()
-print(f"Cargados {len(ext.data)} tweets")
-
-# Análisis de redes
-G = ext.build_interaction_graph()
-print(f"Grafo: {G.number_of_nodes()} nodos, {G.number_of_edges()} aristas")
-
-# Métricas
-analysis = ext.analyze_network(G, top_k=3)
-influencers = [node for node, _ in analysis['top_degree_centrality']]
-print(f"Top influencers: {influencers}")
-
-# Generar context para LLM
-prompt = ext.generate_prompt_from_network(G, analysis)
-
-# Obtener análisis interpretativo
-response = ext.chat_local_llm(prompt, use_gpu=True)
-print("\nAnálisis del modelo LLM:")
-print(response)
-
-# Guardar todo
-ext.export_network_analysis(output_dir="resultados")
-```
-
-Output esperado:
-```
-Cargados 10000 tweets
-Grafo: 2847 nodos, 8923 aristas
-Top influencers: ['@bitcoin_pro', '@crypto_daily', '@mining_pool']
-
-Análisis del modelo LLM:
-Based on the network analysis, the Bitcoin community exhibits several
-distinct patterns. The high centrality of specific nodes suggests
-concentrated influence...
-
-Resultados exportados a: resultados/
-```
-
----
-
-## Decisiones Técnicas
-
-### Por qué NetworkX
-
-Elegí NetworkX porque:
-- Es la librería estándar en Python para gráfos
-- Bien documentada y mantenida activamente
-- Eficiente para grafos de ~10k nodos
-- Ofrece múltiples algoritmos de análisis listos para usar
-
-Alternativas que consideré:
-- GraphX (Apache Spark): Overkill para el tamaño de datos
-- igraph: Menos Pythonic, requiere dependencias externas
-- Custom implementation: Demasiado tiempo, reinventar la rueda
-
-### Por qué Louvain para comunidades
-
-Comparación de algoritmos:
-
-- **Girvan-Newman**: Muy preciso pero O(n³), prohibitivo para >1000 nodos
-- **Label Propagation**: Muy rápido pero resultados menos estables
-- **Louvain**: O(n log n), escalable, resultados interpretables, ampliamente usado
-- **Spectral Clustering**: Requiere cálculos de eigenvalores, más lento
-
-Louvain es el balance perfecto entre velocidad y calidad.
-
-### Modelos LLM Local vs API
-
-He implementado soporte para ambos:
-
-**Modelo Local**:
-- Privacidad total (datos no abandonan la máquina)
-- Sin costos recurrentes
-- Requiere GPU para velocidad
-- Control total sobre parámetros
-
-**API (Google/OpenAI)**:
-- Modelos más potentes
-- No requiere GPU local
-- Costo por uso
-- Menos privacidad
-
-Mi solución intenta local primero, fallback automático a API si falla.
-
-### Prompt Engineering
-
-Pasé tiempo optimizando cómo generar prompts. El LLM responde mejor cuando:
-1. El contexto es específico (no genérico)
-2. Incluye datos numéricos de la red
-3. Plantea preguntas claras
-4. Solicita análisis interpretativo, no solo descriptivo
-
-Por eso `generate_prompt_from_network()` construye prompts contextualizados.
-
----
-
-## Requerimientos de Hardware
-
-| Componente | CPU | GPU | RAM Mínima | Notas |
-|---|---|---|---|---|
-| Cargar 10k tweets | 1-2 min | NA | 1 GB | Depende de tamaño del archivo |
-| Construir grafo | 10-30 s | NA | 500 MB | NetworkX es eficiente |
-| LLM local (2B) | 30 min | 3 min | 8 GB | Sin GPU es muy lento |
-| LLM local (7B) | Infeasible | 10 min | 16 GB | Requiere GPU sí o sí |
-| API (Google) | 10 s | NA | 500 MB | Red requerida, clave necesaria |
-
-Mi recomendación: Si tienes GPU, úsala. Si no, la API gratuita de Google es suficiente.
-
----
-
-## Troubleshooting
-
-### Error: "No module named 'torch'"
-
-```bash
-pip install torch --upgrade
-```
-
-Para GPU (NVIDIA CUDA 12.1):
-```bash
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-```
-
-### Error: "CUDA out of memory"
-
-Soluciones en orden de preferencia:
-
-1. Usar modelo más pequeño:
-```python
-ext.chat_local_llm(model_name="google/gemma-2b-it")
-```
-
-2. Usar CPU (más lento pero posible):
-```python
-ext.chat_local_llm(use_gpu=False)
-```
-
-3. Usar API externa (sin GPU requerida):
-```python
-response = ext._chat_google_ai(prompt)
-```
-
-### Error: "transformers ModuleNotFoundError"
-
-```bash
-pip install transformers>=4.35.0
-```
-
-### El grafo tiene muy pocos nodos (solo 10)
-
-Probablemente los tweets no contienen menciones. Verifica:
-
-```python
-import re
-mention_pattern = re.compile(r'@\w+')
-for text in ext.data['text'][:10]:
-    mentions = mention_pattern.findall(text)
-    print(f"{text[:50]}: {mentions}")
-```
-
-Si no hay menciones, prueba ajustar el tipo de datos o verificar que el dataset sea adecuado.
-
-### Error: "RAPIDAPI_KEY not found in environment"
-
-Verifica que `.env` esté en la carpeta actual:
-```bash
-ls -la | grep .env
-# Debe mostrar .env
-```
-
-Verifica que Python puede leerlo:
-```python
-from dotenv import load_dotenv
-import os
-load_dotenv()
-print(os.getenv('RAPIDAPI_KEY'))
-# Debe mostrar tu clave, no None
-```
-
-## Optimizaciones Futuras
-
-1. Visualización interactiva: Dashboard con Streamlit
-2. Análisis temporal: Evolución del grafo en el tiempo
-3. Detección de bots: Patrones de comportamiento
-4. Fine-tuning: Entrenar LLM con datos específicos
-5. Paralelización: Procesar múltiples consultas en paralelo
-
----
-
-## Estructura Modular del Código
-
-He separé el código en módulos para mejorar la mantenibilidad:
-
-- **data_extractor.py**: Clase orquestadora que expone toda la API pública
-- **network_analysis.py**: Métodos especializados en análisis de redes (NetworkX)
-- **llm_integration.py**: Métodos especializados en integración LLM (Transformers)
-- **utils.py**: Funciones auxiliares de exportación y validación
-
-La clase `DataExtractor` importa desde estos módulos, manteniendo una interfaz simple para el usuario final mientras que internamente delega las operaciones especializadas.
-
----
-
-## 📚 Referencias
-
-### Papers y Documentación
-- **NetworkX**: https://networkx.org/documentation/
-- **Louvain Algorithm**: Blondel et al. (2008) - Fast unfolding of communities in large networks
-- **Transformers**: https://huggingface.co/docs/transformers/
-- **Gemma**: https://ai.google.dev/gemma/
-
-### Recursos Externos
-- **Hugging Face Model Hub**: https://huggingface.co/models
-- **RapidAPI Twitter API**: https://rapidapi.com/alexanderxbx/api/twitter-api45
-- **Google Generative AI Studio**: https://aistudio.google.com
-
-### Entregas Relacionadas
-- **AEC2 (Unidad 4)**: Análisis de sentimiento y tendencias
-- **AEC1 (Unidad 3)**: Extracción básica de tweets
-
----
-
-## 📝 Notas Importantes
-
-1. **Gestión de Credenciales**:
-   - NUNCA commits `.env` con credenciales reales
-   - Usar `git-secrets` o `pre-commit` para prevenir fugas
-
-2. **Reproducibilidad**:
-   - Guardar versiones exactas de modelos (`model.safetensors`)
-   - Documentar hyper-parámetros (temperature, top_p, etc.)
-   - Usar random seed fijo para resultados consistentes
-
-3. **Ética**:
-   - Respetar privacidad en datasets de redes sociales
-   - Documentar sesgos en modelos LLM
-   - No usar para amplifikación de spam/desinformación
-
----
-
-## 🙏 Agradecimientos
-
-- Universidad U-Tad por el contexto académico
-- Comunidad de Hugging Face por modelos accesibles
-- NetworkX team por librería robusta
-
----
-
-**Última actualización**: Mayo 2026  
-**Versión**: 1.0  
-**Autor**: Análisis Automático
+## 12. Referencias y documentación
+
+### Referencias heredadas (AEC1–AEC2)
+
+* 42 AI — fundamentos metodológicos del pipeline.
+* RapidAPI — extracción de información en tiempo real.
+* Pandas — manipulación de datos.
+* NLTK — procesamiento lingüístico.
+* TextBlob — análisis de sentimiento.
+* spaCy — NLP avanzado.
+* Gensim — modelado de tópicos.
+* WordCloud — visualización textual.
+* Matplotlib — visualización de datos.
+* Streamlit — dashboards interactivos.
+
+### Referencias específicas AEC3
+
+* NetworkX Documentation
+* Network Science — Albert-László Barabási
+* Community Detection Algorithms
+* PageRank: The Anatomy of a Large Scale Hypertextual Web Search Engine
+* python-louvain
+* Ollama Documentation
+* Gemma Technical Report
+* Google Research Documentation

@@ -1,0 +1,280 @@
+Diccionario Spark RDD (Scala) - Transformaciones y acciones
+
+map()
+
+Definición: Transforma cada elemento del RDD en otro elemento.
+
+Ejemplo:
+
+    val nums = sc.parallelize(List(1,2,3))
+    nums.map(x => x*2)
+
+Resultado: 2,4,6
+
+Uso típico: - pasar a minúsculas - crear tuplas - modificar datos
+
+------------------------------------------------------------------------
+
+flatMap()
+
+Definición: Transforma un elemento en cero, uno o varios elementos.
+
+Ejemplo:
+
+    texto.flatMap(linea => linea.split(" "))
+
+Uso típico: - separar palabras - separar caracteres - dividir frases
+
+------------------------------------------------------------------------
+
+filter()
+
+Definición: Conserva solo elementos que cumplen una condición.
+
+Ejemplo:
+
+    nums.filter(x => x%2==0)
+
+Resultado: 2
+
+Uso típico: - eliminar vacíos - palabras largas - solo vocales
+
+------------------------------------------------------------------------
+
+distinct()
+
+Definición: Elimina duplicados.
+
+Ejemplo:
+
+    sc.parallelize(List(1,1,2,3,3)).distinct()
+
+Resultado: 1,2,3
+
+------------------------------------------------------------------------
+
+reduce()
+
+Definición: Reduce todos los elementos a un único resultado.
+
+Ejemplo:
+
+    nums.reduce(_+_)
+
+Resultado: 6
+
+------------------------------------------------------------------------
+
+reduceByKey()
+
+Definición: Agrupa claves y reduce valores.
+
+Ejemplo:
+
+    palabras.map(x=>(x,1)).reduceByKey(_+_)
+
+Uso típico: Contar palabras
+
+------------------------------------------------------------------------
+
+groupByKey()
+
+Definición: Agrupa todos los valores con la misma clave.
+
+Ejemplo:
+
+    rdd.groupByKey()
+
+Resultado: (a,(1,1,1))
+
+------------------------------------------------------------------------
+
+groupBy()
+
+Definición: Agrupa por una función.
+
+Ejemplo:
+
+    palabras.groupBy(_.length)
+
+Uso típico: Agrupar por longitud
+
+------------------------------------------------------------------------
+
+mapValues()
+
+Definición: Modifica solo el valor de una tupla.
+
+Ejemplo:
+
+    rdd.mapValues(_.size)
+
+------------------------------------------------------------------------
+
+keys()
+
+Definición: Obtiene las claves.
+
+Ejemplo:
+
+    rdd.keys
+
+------------------------------------------------------------------------
+
+values()
+
+Definición: Obtiene valores.
+
+Ejemplo:
+
+    rdd.values
+
+------------------------------------------------------------------------
+
+sortBy()
+
+Definición: Ordena según una función.
+
+Ejemplo:
+
+    rdd.sortBy(_._2,false)
+
+false → descendente
+
+------------------------------------------------------------------------
+
+sortByKey()
+
+Definición: Ordena por clave.
+
+Ejemplo:
+
+    rdd.sortByKey()
+
+------------------------------------------------------------------------
+
+union()
+
+Definición: Une dos RDD.
+
+Ejemplo:
+
+    rdd1.union(rdd2)
+
+------------------------------------------------------------------------
+
+intersection()
+
+Definición: Obtiene elementos comunes.
+
+Ejemplo:
+
+    rdd1.intersection(rdd2)
+
+------------------------------------------------------------------------
+
+subtract()
+
+Definición: Quita elementos de otro RDD.
+
+Ejemplo:
+
+    rdd1.subtract(rdd2)
+
+------------------------------------------------------------------------
+
+join()
+
+Definición: Une dos RDD por clave.
+
+Ejemplo:
+
+    rdd1.join(rdd2)
+
+------------------------------------------------------------------------
+
+cache()
+
+Definición: Guarda un RDD en memoria.
+
+Ejemplo:
+
+    rdd.cache()
+
+Uso: cuando reutilizas varias veces
+
+------------------------------------------------------------------------
+
+Acciones
+
+collect()
+
+Trae todos los elementos.
+
+    rdd.collect()
+
+count()
+
+Cuenta elementos.
+
+    rdd.count()
+
+take(n)
+
+Obtiene n elementos.
+
+    rdd.take(10)
+
+first()
+
+Primer elemento.
+
+    rdd.first()
+
+foreach()
+
+Recorre elementos.
+
+    rdd.foreach(println)
+
+takeOrdered()
+
+Obtiene n ordenados.
+
+    rdd.takeOrdered(5)
+
+mean()
+
+Media.
+
+    rdd.mean()
+
+------------------------------------------------------------------------
+
+Plantilla universal para textos
+
+    val palabras = texto
+    .map(_.toLowerCase())
+    .map(_.replaceAll("[^\p{L}\s]"," "))
+    .flatMap(_.split("\\s+"))
+    .filter(_.nonEmpty)
+
+Patrones típicos:
+
+Contar palabras:
+
+    palabras.map(x=>(x,1))
+    .reduceByKey(_+_)
+
+Top 10:
+
+    .sortBy(_._2,false)
+    .take(10)
+
+Palabras únicas:
+
+    palabras.distinct()
+
+Palabras largas:
+
+    palabras.filter(_.length>7)

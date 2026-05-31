@@ -65,4 +65,3 @@ println(s"Número de películas con rating superior a 8: $countHighRating")
 
 // Apartado 4: Mostrar las películas ordenadas por rating de mayor a menor
 moviesDF.orderBy(moviesDF("rating").desc).show()
-

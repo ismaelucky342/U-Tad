@@ -3,19 +3,19 @@
 #                                                        ██╗   ██╗   ████████╗ █████╗ ██████╗        #
 #      AEC3 - BAIN                                       ██║   ██║   ╚══██╔══╝██╔══██╗██╔══██╗       #
 #                                                        ██║   ██║█████╗██║   ███████║██║  ██║       #
-#      created:        08/04/2026  -  01:00:51           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
-#      last change:    31/05/2026  -  00:00:00           ╚██████╔╝      ██║   ██║  ██║██████╔╝       #
+#      created:        22/05/2026  -  01:00:51           ██║   ██║╚════╝██║   ██╔══██║██║  ██║       #
+#      last change:    31/05/2026  -  22:14:43           ╚██████╔╝      ██║   ██║  ██║██████╔╝       #
 #                                                         ╚═════╝       ╚═╝   ╚═╝  ╚═╝╚═════╝        #
 #                                                                                                    #
 #      Ismael Hernandez Clemente                         ismael.hernandez@live.u-tad.com             #
 #                                                                                                    #
 #      Github:                                           https://github.com/ismaelucky342            #
 #                                                                                                    #
-#====================================================================================================#
+#====================================================================================================# 
 
 import tempfile
 import os
-
+import io
 import pandas as pd
 import networkx as nx
 import requests
@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from wordcloud import WordCloud
 
-from data_extractor import DataExtractor
+from src import DataExtractor
 
 
 # ─────────────────────────────────────────────────────────────────────────────

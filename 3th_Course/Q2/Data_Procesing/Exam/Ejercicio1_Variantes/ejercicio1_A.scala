@@ -1,6 +1,5 @@
 /* original modelo 24/25
- Vamos a crear un ejemplo sencillo en Scala para demostrar que **el alumno sabe ejecutar un código Scala tanto en Ejecución interactiva desde la consola REPL (Modo Dinámico) como en ejecución de un archivo .scala compilado (Modo Estático).**
- 
+ Vamos a crear un ejemplo sencillo en Scala para demostrar que **el alumno sabe ejecutar un código Scala tanto en Ejecución interact 
  Escribe un programa en Scala que **lea un archivo de texto llamado `frasescelebres.txt`, convierta cada línea a minúsculas, invierta el orden de los caracteres de cada línea y guarde el resultado en un nuevo archivo llamado `output.txt`** para la opción 1 que se comenta abajo y `output2.txt` para la opción 2. **La ruta y nombre de los ficheros de entrada y salida tienen que ser variables de tipo `val`.**
  
  **Pista:** usa las funciones `toLowerCase` para convertir a minúsculas y `reverse` para invertir el orden de los caracteres en cada línea.
