@@ -1,0 +1,182 @@
+Funciones de orden superior comunes en listas en Scala
+
+1. map
+
+Definición: Aplica una función a cada elemento y devuelve una nueva
+lista.
+
+Ejemplo:
+
+    List(1,2,3).map(x => x * 2)
+    // Resultado: List(2,4,6)
+
+2. filter
+
+Definición: Mantiene solo los elementos que cumplen una condición.
+
+Ejemplo:
+
+    List(1,2,3,4).filter(_ % 2 == 0)
+    // Resultado: List(2,4)
+
+3. reduce
+
+Definición: Combina todos los elementos en un único valor.
+
+Ejemplo:
+
+    List(1,2,3,4).reduce(_ + _)
+    // Resultado: 10
+
+4. foldLeft
+
+Definición: Reduce usando un valor inicial desde izquierda a derecha.
+
+Ejemplo:
+
+    List(1,2,3).foldLeft(0)(_ + _)
+    // Resultado: 6
+
+5. foldRight
+
+Definición: Igual que foldLeft pero desde derecha a izquierda.
+
+Ejemplo:
+
+    List(1,2,3).foldRight(0)(_ + _)
+    // Resultado: 6
+
+6. flatMap
+
+Definición: Aplica una función y aplana los resultados.
+
+Ejemplo:
+
+    List("Hola mundo","Scala").flatMap(_.split(" "))
+    // Resultado: List(Hola,mundo,Scala)
+
+7. foreach
+
+Definición: Ejecuta una acción para cada elemento.
+
+Ejemplo:
+
+    List(1,2,3).foreach(println)
+
+8. find
+
+Definición: Devuelve el primer elemento que cumple una condición.
+
+Ejemplo:
+
+    List(2,4,7,8).find(_ > 5)
+    // Resultado: Some(7)
+
+9. exists
+
+Definición: Comprueba si algún elemento cumple una condición.
+
+Ejemplo:
+
+    List(1,2,3).exists(_ > 2)
+    // Resultado: true
+
+10. forall
+
+Definición: Comprueba si todos cumplen una condición.
+
+Ejemplo:
+
+    List(2,4,6).forall(_ % 2 == 0)
+    // Resultado: true
+
+11. count
+
+Definición: Cuenta elementos que cumplen una condición.
+
+Ejemplo:
+
+    List(1,2,3,4).count(_ % 2 == 0)
+    // Resultado: 2
+
+12. collect
+
+Definición: Filtra y transforma usando patrones.
+
+Ejemplo:
+
+    List(1,"hola",2).collect{
+     case x:Int => x*2
+    }
+    // Resultado: List(2,4)
+
+13. groupBy
+
+Definición: Agrupa elementos según una regla.
+
+Ejemplo:
+
+    List(1,2,3,4).groupBy(_ % 2)
+    // Resultado: Map(1 -> List(1,3), 0 -> List(2,4))
+
+14. sortBy
+
+Definición: Ordena según un criterio.
+
+Ejemplo:
+
+    List(4,1,8,2).sortBy(x => x)
+    // Resultado: List(1,2,4,8)
+
+15. partition
+
+Definición: Divide una lista en dos según una condición.
+
+Ejemplo:
+
+    List(1,2,3,4).partition(_ % 2 == 0)
+
+16. take
+
+Definición: Obtiene los primeros N elementos.
+
+Ejemplo:
+
+    List(1,2,3,4).take(2)
+    // Resultado: List(1,2)
+
+17. drop
+
+Definición: Elimina los primeros N elementos.
+
+Ejemplo:
+
+    List(1,2,3,4).drop(2)
+    // Resultado: List(3,4)
+
+18. zip
+
+Definición: Une dos listas por posición.
+
+Ejemplo:
+
+    List("A","B").zip(List(1,2))
+    // Resultado: List((A,1),(B,2))
+
+19. sliding
+
+Definición: Crea ventanas móviles.
+
+Ejemplo:
+
+    List(1,2,3,4).sliding(2).toList
+    // Resultado: List(List(1,2),List(2,3),List(3,4))
+
+20. distinct
+
+Definición: Elimina duplicados.
+
+Ejemplo:
+
+    List(1,1,2,2,3).distinct
+    // Resultado: List(1,2,3)
