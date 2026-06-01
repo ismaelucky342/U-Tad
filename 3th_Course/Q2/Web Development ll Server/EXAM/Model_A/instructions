@@ -1,0 +1,115 @@
+EXAMEN - API DE DATOS METEOROLÓGICOS
+
+En este examen se busca que el alumno demuestre de forma práctica el conocimiento adquirido acerca de la construcción de APIs.
+
+Está permitido el acceso a apuntes, material de la asignatura y búsquedas en Internet. Se encuentra restringido el uso de herramientas de Inteligencia Artificial y herramientas de comunicación como WhatsApp, Telegram, Discord, etc.
+
+FORMATO DE ENTREGA
+
+La entrega consistirá en un archivo ZIP que contenga todo el proyecto empaquetado, exceptuando las carpetas de dependencias generadas (como node_modules).
+
+====================================================
+EJERCICIO 1 (10 puntos)
+====================================================
+
+Se propone desarrollar una API orientada a la publicación de datos meteorológicos.
+
+Características requeridas:
+
+1. RUTAS CRUD
+
+Se deben implementar dos rutas CRUD:
+
+- /users
+- /data
+
+Las rutas deben permitir lo siguiente:
+
+1.1 Ruta /users
+
+Debe permitir:
+
+- Login de usuarios existentes.
+- Operaciones exclusivas para administradores (usuarios autenticados):
+
+  * Obtener todos los usuarios.
+  * Obtener usuario por ID.
+  * Crear nuevos usuarios.
+  * Actualizar información de usuarios.
+  * Eliminar usuarios.
+
+1.2 Ruta /data
+
+Debe permitir:
+
+- Obtener registros meteorológicos (acceso público):
+
+  * Obtener todos los registros.
+  * Obtener registros por ID.
+
+- Operaciones exclusivas para administradores autenticados:
+
+  * Crear registros.
+  * Actualizar registros existentes.
+  * Eliminar registros.
+
+====================================================
+INFORMACIÓN A GESTIONAR
+====================================================
+
+Usuarios:
+
+- Nombre de usuario
+- Correo electrónico
+- Nombre completo
+- Contraseña
+
+Datos meteorológicos:
+
+- Fecha del registro
+- Usuario que ha subido el registro
+- Coordenadas de la estación que notifica el registro
+- Porcentaje de probabilidad de lluvia
+- Cantidad de litros por metro cuadrado precipitados
+- Velocidad de rachas de viento
+- Temperatura mínima
+- Temperatura máxima
+- Temperatura actual
+
+====================================================
+REQUISITOS TÉCNICOS
+====================================================
+
+- El enrutado será realizado mediante Express.
+- Las peticiones a la API deberán validarse correctamente mediante express-validator.
+- El almacenamiento de datos se realizará mediante Sequelize o Mongoose (a elección del alumno).
+- La autenticación se realizará mediante JWT y bcrypt.
+- Se desarrollará una documentación básica utilizando Swagger.
+
+====================================================
+CRITERIOS DE EVALUACIÓN
+====================================================
+
+[1 punto] Pregunta 1:
+Las rutas y sus correspondientes endpoints se han creado y configurado correctamente.
+
+[1,5 puntos] Pregunta 2:
+Se ha utilizado un ORM y un modelo de base de datos siguiendo las pautas establecidas.
+
+[2 puntos] Pregunta 3:
+Se han desarrollado las funcionalidades necesarias en los controladores.
+
+[1 punto] Pregunta 4:
+Todos los puntos de entrada de datos han sido validados correctamente.
+
+[1,5 puntos] Pregunta 5:
+Se ha desarrollado un sistema de login y creación de usuarios utilizando JWT y bcrypt.
+
+[1 punto] Pregunta 6:
+Se ha desarrollado correctamente el sistema de permisos de la API.
+
+[1 punto] Pregunta 7:
+Se ha implementado documentación de la API con Swagger.
+
+[1 punto] Pregunta 8:
+Se han aplicado buenas prácticas de desarrollo y comprobación de errores.

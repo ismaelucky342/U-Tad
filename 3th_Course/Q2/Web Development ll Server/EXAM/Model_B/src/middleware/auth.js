@@ -1,0 +1,37 @@
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+
+// Middleware: verifica que el token JWT sea válido
+const verifyToken = async (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Token no proporcionado. Acceso denegado.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findByPk(decoded.id);
+
+    if (!user) {
+      return res.status(401).json({ error: 'Usuario no encontrado. Token inválido.' });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: 'Token inválido o expirado.' });
+  }
+};
+
+// Middleware: verifica que el usuario sea administrador
+const verifyAdmin = (req, res, next) => {
+  if (!req.user || !req.user.isAdmin) {
+    return res.status(403).json({ error: 'Acceso denegado. Se requieren permisos de administrador.' });
+  }
+  next();
+};
+
+module.exports = { verifyToken, verifyAdmin };

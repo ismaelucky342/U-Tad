@@ -1,0 +1,30 @@
+{
+  "name": "library-api",
+  "version": "1.0.0",
+  "description": "API de gestión de biblioteca digital con Express, Sequelize, JWT y Swagger",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.2",
+    "express-validator": "^7.3.2",
+    "jsonwebtoken": "^9.0.3",
+    "reflect-metadata": "^0.2.2",
+    "sequelize": "^6.37.8",
+    "sequelize-mock": "^0.10.2",
+    "sequelize-pool": "^7.1.0",
+    "sql.js": "^1.14.1",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1",
+    "tedious": "^18.2.1",
+    "typeorm": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

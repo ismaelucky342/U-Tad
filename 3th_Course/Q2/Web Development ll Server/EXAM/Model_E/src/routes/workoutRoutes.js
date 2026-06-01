@@ -1,0 +1,12 @@
+const express = require('express');
+const router = express.Router();
+const { verifyToken, verifyAdmin } = require('../middleware/auth');
+const { handleValidationErrors } = require('../middleware/validationHandler');
+const { getAllWorkouts, getWorkoutById, createWorkout, updateWorkout, deleteWorkout } = require('../controllers/workoutController');
+const { createWorkoutValidators, updateWorkoutValidators, idParamValidator } = require('../validators/workoutValidators');
+router.get('/', getAllWorkouts);
+router.get('/:id', idParamValidator, handleValidationErrors, getWorkoutById);
+router.post('/', verifyToken, verifyAdmin, createWorkoutValidators, handleValidationErrors, createWorkout);
+router.put('/:id', verifyToken, verifyAdmin, updateWorkoutValidators, handleValidationErrors, updateWorkout);
+router.delete('/:id', verifyToken, verifyAdmin, idParamValidator, handleValidationErrors, deleteWorkout);
+module.exports = router;

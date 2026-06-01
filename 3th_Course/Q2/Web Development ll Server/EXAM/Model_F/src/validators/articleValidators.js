@@ -1,0 +1,5 @@
+const { body, param } = require('express-validator');
+const createArticleValidators = [body('title').trim().notEmpty().isLength({ min: 5, max: 300 }), body('subtitle').optional().trim(), body('body').notEmpty(), body('category').trim().notEmpty().isLength({ min: 2, max: 100 }), body('publishedDate').notEmpty().isISO8601(), body('featuredImageUrl').optional().isURL(), body('tags').optional().isArray(), body('status').optional().isIn(['borrador', 'publicado'])];
+const updateArticleValidators = [param('id').isInt({ min: 1 }), body('title').optional().trim().isLength({ min: 5, max: 300 }), body('subtitle').optional().trim(), body('body').optional(), body('category').optional().trim().isLength({ min: 2, max: 100 }), body('publishedDate').optional().isISO8601(), body('featuredImageUrl').optional().isURL(), body('tags').optional().isArray(), body('status').optional().isIn(['borrador', 'publicado'])];
+const idParamValidator = [param('id').isInt({ min: 1 })];
+module.exports = { createArticleValidators, updateArticleValidators, idParamValidator };

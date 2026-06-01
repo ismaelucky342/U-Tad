@@ -1,0 +1,5 @@
+const { body, param } = require('express-validator');
+const createWorkoutValidators = [body('date').notEmpty().isISO8601(), body('activityType').notEmpty().isIn(['carrera', 'ciclismo', 'natación', 'pesas', 'otro']), body('duration').notEmpty().isInt({ min: 1 }), body('distance').optional().isFloat({ min: 0 }), body('caloriesBurned').notEmpty().isFloat({ min: 0 }), body('avgHeartRate').notEmpty().isInt({ min: 0 }), body('notes').optional().isString()];
+const updateWorkoutValidators = [param('id').isInt({ min: 1 }), body('date').optional().isISO8601(), body('activityType').optional().isIn(['carrera', 'ciclismo', 'natación', 'pesas', 'otro']), body('duration').optional().isInt({ min: 1 }), body('distance').optional().isFloat({ min: 0 }), body('caloriesBurned').optional().isFloat({ min: 0 }), body('avgHeartRate').optional().isInt({ min: 0 }), body('notes').optional().isString()];
+const idParamValidator = [param('id').isInt({ min: 1 })];
+module.exports = { createWorkoutValidators, updateWorkoutValidators, idParamValidator };

@@ -1,0 +1,12 @@
+const express = require('express');
+const router = express.Router();
+const { verifyToken, verifyAdmin } = require('../middleware/auth');
+const { handleValidationErrors } = require('../middleware/validationHandler');
+const { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('../controllers/productController');
+const { createProductValidators, updateProductValidators, idParamValidator } = require('../validators/productValidators');
+router.get('/', getAllProducts);
+router.get('/:id', idParamValidator, handleValidationErrors, getProductById);
+router.post('/', verifyToken, verifyAdmin, createProductValidators, handleValidationErrors, createProduct);
+router.put('/:id', verifyToken, verifyAdmin, updateProductValidators, handleValidationErrors, updateProduct);
+router.delete('/:id', verifyToken, verifyAdmin, idParamValidator, handleValidationErrors, deleteProduct);
+module.exports = router;
