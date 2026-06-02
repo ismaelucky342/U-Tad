@@ -1,0 +1,249 @@
+===============================================================================
+                    EXAMEN PROCESAMIENTO DE DATOS - JUNIO 2026
+                              MODELO COMPLETO A
+===============================================================================
+Duración: 2 horas 15 minutos
+Puntuación: 10 puntos
+
+INSTRUCCIONES GENERALES:
+- Responde a los 6 ejercicios propuestos
+- Puedes usar cualquier notebook, IDE o terminal
+- Se evaluará correctitud, eficiencia y claridad del código
+- Incluye comentarios en el código explicando la lógica principal
+
+===============================================================================
+EJERCICIO 1 (1.5 puntos) - SCALA BÁSICO: PROCESAMIENTO DE ARCHIVOS
+===============================================================================
+
+Se proporciona un archivo "temperaturas.txt" con lecturas de temperatura en 
+grados Celsius, una temperatura por línea.
+
+TAREA:
+Implementa un programa Scala que:
+1. Lea todas las temperaturas del archivo
+2. Convierta cada temperatura de Celsius a Fahrenheit (F = C * 9/5 + 32)
+3. Guarde el resultado en "temperaturas_fahrenheit.txt" con el formato:
+   "X°C = Y°F" (una conversión por línea)
+4. Mostrar en consola: temperatura mínima, máxima y promedio en Fahrenheit
+
+EJEMPLO DE ENTRADA (temperaturas.txt):
+20
+25
+15
+30
+
+EJEMPLO DE SALIDA (temperaturas_fahrenheit.txt):
+20°C = 68.0°F
+25°C = 77.0°F
+15°C = 59.0°F
+30°C = 86.0°F
+
+Consola:
+Mín: 59.0°F, Máx: 86.0°F, Promedio: 72.5°F
+
+PISTAS:
+- Usa scala.io.Source.fromFile() para leer
+- Usa map() para transformar
+- No olvides cerrar los recursos
+
+===============================================================================
+EJERCICIO 2 (1.5 puntos) - SPARK RDD: TRANSFORMACIONES Y ACCIONES
+===============================================================================
+
+Se proporciona un archivo "productos.txt" con datos de ventas en formato:
+producto_id,cantidad,precio_unitario
+
+TAREA:
+Implementa un programa Spark que:
+1. Cargue los datos con sc.textFile()
+2. Calcule el monto total de cada producto (cantidad * precio)
+3. Use reduceByKey() para sumar montos por producto_id
+4. Muestre los 5 productos con mayor monto de ventas
+5. Calcula el monto total de TODAS las ventas
+
+EJEMPLO DE ENTRADA (productos.txt):
+A001,5,10.50
+B002,3,20.00
+A001,2,10.50
+C003,7,15.00
+B002,1,20.00
+
+SALIDA ESPERADA:
+Producto A001: $105.00 (7 unidades)
+Producto C003: $105.00 (7 unidades)
+Producto B002: $80.00 (4 unidades)
+Monto total de ventas: $290.00
+
+PISTAS:
+- Parse cada línea: split(",") y conversión a tipos numéricos
+- Crea tuplas (producto_id, monto)
+- Use reduceByKey() para agregar por producto
+- Use sortBy() para ordenar descendente
+
+===============================================================================
+EJERCICIO 3 (1.5 puntos) - SCALA AVANZADO: CASE CLASSES Y PATTERN MATCHING
+===============================================================================
+
+TAREA:
+Define un case class "Venta" con: producto (String), cantidad (Int), precio (Double)
+
+Implementa funciones que:
+1. Cree una lista de 5 ventas de productos variados
+2. Use un for-comprehension con filter para obtener:
+   - Todas las ventas con cantidad > 3
+   - Todas las ventas con monto_total (cantidad * precio) > 100
+3. Implementa una función que use pattern matching para clasificar ventas:
+   - "Venta pequeña" si monto < 50
+   - "Venta normal" si 50 <= monto < 200
+   - "Venta grande" si monto >= 200
+4. Calcula el promedio de precio usando foldLeft()
+
+EJEMPLO:
+val ventas = List(
+  Venta("Laptop", 1, 800.0),
+  Venta("Monitor", 2, 150.0),
+  Venta("Teclado", 5, 30.0),
+  ...
+)
+
+SALIDA ESPERADA:
+Venta grande: Laptop ($800.00)
+Venta normal: Monitor ($300.00)
+Venta normal: Teclado ($150.00)
+Promedio de precio: $293.33
+
+PISTAS:
+- Case class syntax: case class Nombre(campo1: Tipo, campo2: Tipo, ...)
+- Pattern matching con match/case
+- FoldLeft para reducción: lista.foldLeft(inicial)((acum, elem) => ...)
+
+===============================================================================
+EJERCICIO 4 (1.5 puntos) - KAFKA: CONCEPTOS Y CONFIGURACIÓN
+===============================================================================
+
+Se necesita configurar un sistema Kafka para procesar eventos de sensores IoT:
+- 100 sensores distribuidos geográficamente
+- Cada sensor envía un evento cada 5 segundos
+- Los sensores pueden fallar e intentar reconectarse
+
+PREGUNTAS CONCEPTUALES (sinresponder código, solo explicación):
+
+4.1) ¿Cuántas particiones recomendarías para el topic "sensores"?
+     Justifica tu respuesta considerando: escalabilidad, latencia, consumidores.
+
+4.2) ¿Qué configuración de acks elegirías? (acks=0, acks=1, o acks=all)
+     ¿Por qué? ¿Qué tradeoff existe?
+
+4.3) Si un sensor falla, ¿cómo garantizarías que no se pierden sus eventos?
+     (Menciona configuración de Kafka y reintentos)
+
+4.4) ¿Cómo harías para que cada sensor SOLO consuma sus propios eventos?
+     (Menciona key, partición, consumer group)
+
+COMANDOS ÚTILES (referencia):
+Crear topic:
+kafka-topics.sh --create --topic sensores --partitions 10 --replication-factor 3
+
+Productor:
+kafka-console-producer.sh --broker-list localhost:9092 --topic sensores
+
+Consumidor:
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic sensores
+
+===============================================================================
+EJERCICIO 5 (2 puntos) - STREAMING: VENTANAS Y SEMÁNTICA
+===============================================================================
+
+PARTE A: CÁLCULO DE VENTANAS (1 punto)
+Se reciben eventos de clicks en un sitio web cada 50-200ms.
+Los datos son: timestamp, usuario_id, página
+
+Dados estos eventos (timestamp en segundos.milisegundos):
+Event 0: 10:00.050, user1, /home
+Event 1: 10:00.120, user2, /productos
+Event 2: 10:00.180, user1, /carrito
+Event 3: 10:00.450, user3, /pago
+Event 4: 10:00.890, user2, /checkout
+Event 5: 10:01.100, user1, /confirmacion
+Event 6: 10:01.350, user2, /factura
+Event 7: 10:01.900, user3, /gracias
+
+Calcula cuántos clicks hay en cada ventana:
+a) Ventana Temporal (Tumbling): 1 segundo
+b) Ventana Deslizante (Sliding): 500ms cada 200ms
+c) Ventana de Sesión: con gap inactividad 300ms
+
+PARTE B: SEMÁNTICA DE ENTREGA (1 punto)
+Para cada escenario, elige la semántica más apropiada y justifica:
+
+B1) Sistema de contadores inteligentes (electricidad):
+    - At-most-once / At-least-once / Exactly-once
+    - ¿Por qué?
+
+B2) Sistema de alertas de seguridad (detección de intrusos):
+    - At-most-once / At-least-once / Exactly-once
+    - ¿Por qué?
+
+B3) Sistema de pagos en E-commerce:
+    - At-most-once / At-least-once / Exactly-once
+    - ¿Por qué?
+
+===============================================================================
+EJERCICIO 6 (2 puntos) - SPARK SQL Y HDFS: ETL COMPLETO
+===============================================================================
+
+DATOS DE ENTRADA:
+1. users.csv: user_id, nombre, país
+2. transacciones.json: transaccion_id, user_id, producto, cantidad, precio
+3. productos.parquet: producto_id, categoria, stock
+
+TAREA:
+Implementa un pipeline Spark SQL que:
+
+1. Cargue los 3 datasets (CSV, JSON, Parquet)
+2. Realice un JOIN:
+   - transacciones con users (para obtener país)
+   - resultado con productos (para obtener categoría)
+3. Cree una vista SQL "venta_completa" con columnas:
+   user_id, nombre, país, producto, categoria, cantidad, precio, monto_total
+
+4. Ejecute análisis SQL:
+   a) Total de ventas por país (GROUP BY país, ORDER BY total DESC)
+   b) Producto más vendido por categoría
+   c) Cliente (user_id) que más gastó en total
+
+5. Guarde el resultado enriquecido en Parquet con particiones por país
+
+EJEMPLO DE SALIDA SQL:
+Query 1 - Ventas por país:
+| país       | total_vendas |
+| USA        | 15000.00     |
+| España     | 8500.00      |
+| Alemania   | 7200.00      |
+
+Query 2 - Producto más vendido por categoría:
+| categoría   | producto      | cantidad |
+| Electrónica | Laptop        | 45       |
+| Ropa        | Camiseta      | 120      |
+
+Query 3 - Cliente top:
+| user_id | nombre    | gasto_total |
+| 42      | Juan López| 3500.00     |
+
+PISTAS:
+- Usa SparkSession.read.csv/json/parquet/option()
+- SQL JOIN: SELECT a.*, b.* FROM tabla_a JOIN tabla_b ON a.id = b.id
+- GROUP BY y ORDER BY para agregaciones
+- write.mode("overwrite").parquet(path) para guardar
+
+===============================================================================
+NOTAS IMPORTANTES:
+- El código debe compilar y ejecutar sin errores
+- Usa nombres de variables descriptivos
+- Incluye manejo de errores donde sea relevante
+- Comentarios en partes complejas
+- Prueba con datos de ejemplo antes de enviar
+
+===============================================================================
+FIN DEL EXAMEN
+===============================================================================
