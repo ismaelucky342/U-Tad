@@ -1,0 +1,155 @@
+KAFKA — CHULETA TEÓRICA RÁPIDA
+
+1. Estructura básica
+
+Productor → Topic → Particiones → Consumidores
+
+* Topic = conjunto de mensajes
+* Partición = división del topic
+* Consumer Group = grupo que reparte trabajo
+
+---
+
+2. Particiones vs consumidores
+
+Regla:
+
+Consumidores activos máximos = nº particiones
+
+Casos:
+
+3P + 2C
+→ C1(P0,P1)
+→ C2(P2)
+
+3P + 5C
+→ C1(P0)
+→ C2(P1)
+→ C3(P2)
+→ C4 y C5 inactivos
+
+Pregunta típica:
+¿Procesan todos?
+→ No.
+
+---
+
+3. Orden
+
+* Kafka NO mantiene orden global
+* Kafka mantiene orden por partición
+* Misma key → misma partición → mismo orden
+
+---
+
+4. Keys
+
+Kafka:
+
+hash(key) % nº_particiones
+
+Problema al aumentar particiones:
+
+* cambia el cálculo
+* la key puede ir a otra partición
+* puede afectar orden esperado
+
+---
+
+5. Rebalanceo
+
+Ocurre cuando:
+
+* entra consumidor
+* sale consumidor
+* cae consumidor
+* cambian particiones
+
+Proceso:
+
+Pausa → redistribuye → continúa
+
+Efecto:
+
+* pausa temporal
+* más latencia
+
+Respuesta examen:
+
+Kafka ejecuta un Consumer Group Rebalance.
+
+---
+
+6. Escalado de particiones
+
+3 → 6 particiones
+
+Ventajas:
+
+* más paralelismo
+* más rendimiento
+
+Problemas:
+
+* rebalance
+* cambio de keys
+
+Importante:
+
+Los mensajes antiguos NO se mueven.
+
+---
+
+7. Replication factor
+
+* Define copias de una partición
+* 1 líder
+* resto followers
+
+Regla:
+
+Replication factor ≤ nº brokers
+
+---
+
+8. Offset y LAG
+
+Offset:
+posición actual consumida
+
+LAG:
+
+Último offset − offset consumidor
+
+Ejemplo:
+
+120−110=10
+
+LAG alto:
+
+→ consumidor lento
+
+---
+
+9. Preguntas trampa
+
+¿Más consumidores que particiones?
+→ algunos quedan inactivos
+
+¿Más particiones que consumidores?
+→ un consumidor recibe varias
+
+¿Dos consumidores mismo grupo leen misma partición?
+→ No
+
+¿Dos grupos distintos leen mismo mensaje?
+→ Sí
+
+¿Añadir particiones mueve mensajes antiguos?
+→ No
+
+¿Orden global?
+→ No
+
+¿Orden por partición?
+→ Sí
