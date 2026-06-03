@@ -1,0 +1,394 @@
+===============================================================================
+EXAMEN PROCESAMIENTO DE DATOS - JUNIO 2026
+MODELO B
+========
+
+Duración: 2 horas 15 minutos
+Puntuación: 10 puntos
+
+INSTRUCCIONES GENERALES:
+
+* Responde a los 6 ejercicios propuestos
+* Puedes usar cualquier notebook, IDE o terminal
+* Se evaluará correctitud, eficiencia y claridad del código
+* Incluye comentarios explicando la lógica principal
+
+===============================================================================
+EJERCICIO 1 (1.5 puntos) - SCALA: PROCESAMIENTO DE ARCHIVOS
+===========================================================
+
+Se proporciona un archivo "temperaturas.txt" con temperaturas en grados
+Celsius, una temperatura por línea.
+
+TAREA:
+Implementa un programa Scala que:
+
+1. Lea todas las temperaturas desde el archivo
+
+2. Convierta cada temperatura a Fahrenheit usando:
+
+   F = (C × 1.8) + 32
+
+3. Guarde los resultados en:
+
+   "temperaturas_convertidas.txt"
+
+   Formato:
+   "Celsius: X -> Fahrenheit: Y"
+
+4. Mostrar por consola:
+
+   * Temperatura media
+   * Temperatura máxima
+   * Cuántas temperaturas superan los 30°C
+   * Cuántas temperaturas están por debajo de 20°C
+
+EJEMPLO DE ENTRADA (temperaturas.txt):
+
+21.5
+18.0
+35.2
+27.3
+15.6
+
+EJEMPLO DE SALIDA (temperaturas_convertidas.txt):
+
+Celsius: 21.5 -> Fahrenheit: 70.7
+Celsius: 18.0 -> Fahrenheit: 64.4
+Celsius: 35.2 -> Fahrenheit: 95.36
+Celsius: 27.3 -> Fahrenheit: 81.14
+Celsius: 15.6 -> Fahrenheit: 60.08
+
+Consola:
+
+Media: 23.52°C
+Máxima: 35.2°C
+Mayores de 30°C: 1
+Menores de 20°C: 2
+
+PISTAS:
+
+* Usa scala.io.Source.fromFile()
+* Usa map(), count() y sum()
+* Convierte String → Double
+
+===============================================================================
+EJERCICIO 2 (1.5 puntos) - SPARK RDD: ANÁLISIS DE VIAJES
+========================================================
+
+Se proporciona un archivo "viajes.txt" con registros:
+
+usuario_id,distancia_km
+
+TAREA:
+
+1. Cargar datos usando:
+
+   sc.textFile()
+
+2. Filtrar viajes mayores a 10 km
+
+3. Calcular kilómetros totales por usuario
+
+4. Obtener:
+
+   * Promedio de kilómetros por usuario
+   * Usuario con mayor distancia recorrida
+   * Número total de usuarios únicos
+
+EJEMPLO DE ENTRADA (viajes.txt):
+
+U001,5
+U002,12
+U001,8
+U003,25
+U002,7
+U001,15
+
+SALIDA ESPERADA:
+
+U001 -> 23 km
+U002 -> 12 km
+U003 -> 25 km
+
+Promedio: 20 km
+Usuario top: U003
+Usuarios únicos: 3
+
+PISTAS:
+
+* Usa reduceByKey()
+* Usa distinct()
+* Usa max()
+
+===============================================================================
+EJERCICIO 3 (1.5 puntos) - SCALA AVANZADO: CASE CLASSES
+=======================================================
+
+TAREA:
+
+Define:
+
+case class Producto(
+nombre:String,
+categoria:String,
+precio:Double,
+stock:Int
+)
+
+Implementa:
+
+1. Crear una lista de 6 productos
+
+2. Usar for-comprehension para obtener:
+
+   * Productos con precio > 50€
+   * Productos con stock < 10
+
+3. Usar pattern matching para clasificar stock:
+
+   0        -> "Sin stock"
+   1-10     -> "Stock bajo"
+   11-50    -> "Stock medio"
+
+   > 50      -> "Stock alto"
+
+4. Calcular precio promedio por categoría usando foldLeft()
+
+5. Encontrar producto más caro
+
+EJEMPLO:
+
+val productos = List(
+Producto("Monitor","Electrónica",220,20),
+Producto("Teclado","Electrónica",45,8),
+Producto("Auriculares","Electrónica",65,15)
+)
+
+SALIDA ESPERADA:
+
+=== CLASIFICACIÓN STOCK ===
+
+Teclado: Stock bajo
+Monitor: Stock medio
+Auriculares: Stock medio
+
+=== PROMEDIO POR CATEGORÍA ===
+
+Electrónica: 110€
+
+=== PRODUCTO MÁS CARO ===
+
+Monitor: 220€
+
+PISTAS:
+
+* Case class con 4 campos
+* Pattern matching por rangos
+* FoldLeft para cálculos
+
+# EJERCICIO 4 (1.5 puntos) - KAFKA: ESCALADO Y CONSUMO
+
+Una aplicación de mensajería instantánea utiliza Kafka para procesar mensajes en tiempo real.
+
+TAREA:
+
+4.1 Crear un tópico llamado:
+
+mensajes-chat
+
+Con:
+
+* 3 particiones
+* replication-factor = 1
+* localhost:9092
+
+4.2 Lanzar dos consumidores dentro del grupo:
+
+chat-grupo
+
+4.3 Crear un productor y enviar:
+
+m1
+m2
+m3
+m4
+m5
+m6
+
+4.4 El tráfico aumenta y se necesita escalar el tópico.
+
+Modificar el tópico para tener:
+
+6 particiones
+
+4.5 Mostrar el estado del grupo de consumidores indicando:
+
+* particiones asignadas
+* offsets
+* LAG
+
+PREGUNTAS:
+
+a) Al pasar de 3 a 6 particiones con consumidores activos:
+
+¿Qué proceso ejecuta Kafka internamente y qué efecto tiene?
+
+b) Si lanzamos 8 consumidores dentro del mismo grupo y el tópico tiene 6 particiones:
+
+¿Los 8 consumidores procesarán mensajes? Justifica.
+
+c) Si todos los mensajes de un usuario utilizan la misma key:
+
+¿Qué problema puede aparecer al aumentar el número de particiones?
+
+PISTAS:
+
+* kafka-topics.sh
+* kafka-console-producer.sh
+* kafka-console-consumer.sh
+* kafka-consumer-groups.sh
+
+
+===============================================================================
+EJERCICIO 5 (2 puntos) - SPARK STREAMING
+========================================
+
+PARTE A: ANÁLISIS DE VENTANAS (1 punto)
+
+Eventos de sensores IoT:
+
+Formato:
+
+timestamp,sensor,valor
+
+Eventos:
+
+Event 0: 0.100,sensor1,24
+Event 1: 0.250,sensor2,30
+Event 2: 0.500,sensor1,26
+Event 3: 0.750,sensor3,18
+Event 4: 1.100,sensor1,29
+Event 5: 1.300,sensor2,35
+Event 6: 1.650,sensor3,21
+Event 7: 1.900,sensor1,32
+
+a) Ventana Tumbling: 1 segundo
+
+* ¿Cuántas ventanas se crean?
+* ¿Cuántos eventos tiene cada una?
+
+b) Ventana Sliding: 800ms cada 400ms
+
+* ¿Cuántas ventanas aparecen?
+* ¿Cuál contiene más eventos?
+
+c) Ventana Sesión: inactividad 300ms
+
+* ¿Cuántas sesiones aparecen?
+* ¿Cuál es la sesión más larga?
+
+---
+
+PARTE B: SEMÁNTICA (1 punto)
+
+Elegir y justificar:
+
+At-most-once
+At-least-once
+Exactly-once
+
+B1) Sistema de notificaciones push
+
+B2) Pago con tarjeta bancaria
+
+B3) Registro de actividad de usuarios
+
+===============================================================================
+EJERCICIO 6 (2 puntos) - SPARK + HDFS: ETL DISTRIBUIDO
+======================================================
+
+DATOS EN HDFS:
+
+1. /data/usuarios.csv
+
+   user_id,nombre,pais
+
+2. /data/ordenes.json
+
+   orden_id,user_id,fecha
+
+3. /data/productos.parquet
+
+   producto_id,orden_id,nombre_producto,unidades,precio
+
+TAREA:
+
+1. LEER DATOS DESDE HDFS
+
+* usuarios.csv
+* ordenes.json
+* productos.parquet
+
+2. TRANSFORMAR
+
+* Join usuarios con ordenes
+* Join resultado con productos
+
+Crear:
+
+importe_total = unidades × precio
+
+3. Crear vista temporal:
+
+"ordenes_completas"
+
+Campos:
+
+orden_id
+fecha
+nombre
+pais
+nombre_producto
+unidades
+precio
+importe_total
+
+4. Ejecutar SQL:
+
+a) Top 5 países por ventas
+
+b) Top 10 productos más vendidos
+
+c) Número de órdenes por país
+
+5. Guardar resultados:
+
+ventas_pais.parquet
+
+productos_top.csv
+
+ordenes_pais.json
+
+6. Guardar dataset completo:
+
+hdfs://namenode:8020/processed/ordenes_completas
+
+Condiciones:
+
+* Particionado por país
+* Formato Parquet
+* Compresión Snappy
+
+===============================================================================
+NOTAS IMPORTANTES:
+
+* El código debe compilar sin errores
+* Usa variables descriptivas
+* Añade comentarios importantes
+* Usa rutas HDFS correctas
+* Ejercicio 6 en un único archivo .scala
+
+===============================================================================
+FIN DEL EXAMEN
+==============
