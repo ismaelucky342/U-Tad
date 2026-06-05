@@ -1,0 +1,279 @@
+TUTORIAL A PRUEBA DE ERRORES – ARRANCAR HDFS (HADOOP) EN LINUX
+
+Objetivo:
+Arrancar HDFS correctamente y verificar que NameNode y DataNode funcionan sin errores.
+
+==================================================
+
+1. COMPROBAR QUE JAVA ESTÁ INSTALADO
+   ==================================================
+
+Ejecuta:
+
+java -version
+
+Debe aparecer algo parecido a:
+
+openjdk version "11.x"
+
+o
+
+openjdk version "8.x"
+
+Si aparece:
+
+command not found
+
+instala Java:
+
+Ubuntu/Debian:
+
+sudo apt update
+sudo apt install openjdk-11-jdk -y
+
+Verifica otra vez:
+
+java -version
+
+==================================================
+2. COMPROBAR VARIABLES DE ENTORNO
+=================================
+
+Abrir:
+
+nano ~/.bashrc
+
+Añadir o revisar:
+
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export HADOOP_HOME=/opt/hadoop
+export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+Guardar:
+
+CTRL + O
+ENTER
+CTRL + X
+
+Aplicar cambios:
+
+source ~/.bashrc
+
+Verificar:
+
+echo $JAVA_HOME
+echo $HADOOP_HOME
+
+Si salen vacíos:
+ERROR → variables mal configuradas.
+
+==================================================
+3. COMPROBAR SI HADOOP RESPONDE
+===============================
+
+Ejecutar:
+
+hadoop version
+
+Debe mostrar:
+
+Hadoop 3.x.x
+
+Si aparece:
+
+command not found
+
+ERROR:
+HADOOP_HOME o PATH mal configurado.
+
+==================================================
+4. CONFIGURAR JAVA EN HADOOP
+============================
+
+Abrir:
+
+nano $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+
+Buscar:
+
+export JAVA_HOME=
+
+Cambiar por:
+
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
+Guardar.
+
+==================================================
+5. FORMATEAR HDFS (SOLO LA PRIMERA VEZ)
+=======================================
+
+ATENCIÓN:
+
+NO ejecutar esto si ya tienes datos en HDFS.
+
+Comando:
+
+hdfs namenode -format
+
+Si todo va bien aparecerá algo parecido a:
+
+Storage directory successfully formatted
+
+Errores comunes:
+
+ERROR:
+
+java.net.BindException
+
+Solución:
+
+Hay otro NameNode ejecutándose:
+
+jps
+
+Matar proceso:
+
+kill -9 PID
+
+==================================================
+6. ARRANCAR HDFS
+================
+
+Ejecutar:
+
+start-dfs.sh
+
+Si sale:
+
+command not found
+
+probar:
+
+$HADOOP_HOME/sbin/start-dfs.sh
+
+==================================================
+7. COMPROBAR QUE LOS SERVICIOS ARRANCARON
+=========================================
+
+Ejecutar:
+
+jps
+
+Debe aparecer algo parecido:
+
+NameNode
+DataNode
+SecondaryNameNode
+Jps
+
+Si faltan procesos:
+
+---
+
+Falta NameNode:
+
+Revisar logs:
+
+cd $HADOOP_HOME/logs
+
+cat *namenode*.log
+
+---
+
+Falta DataNode:
+
+Revisar:
+
+cat *datanode*.log
+
+Error frecuente:
+
+Incompatible clusterIDs
+
+Solución:
+
+Parar HDFS:
+
+stop-dfs.sh
+
+Borrar datos:
+
+rm -rf /tmp/hadoop-*
+
+Volver a formatear:
+
+hdfs namenode -format
+
+Arrancar otra vez:
+
+start-dfs.sh
+
+==================================================
+8. COMPROBAR QUE HDFS FUNCIONA
+==============================
+
+Crear directorio:
+
+hdfs dfs -mkdir /prueba
+
+Verificar:
+
+hdfs dfs -ls /
+
+Debe aparecer:
+
+Found 1 items
+drwxr-xr-x ... /prueba
+
+==================================================
+9. PROBAR SUBIR UN ARCHIVO
+==========================
+
+Crear archivo:
+
+echo "Hola HDFS" > archivo.txt
+
+Subir:
+
+hdfs dfs -put archivo.txt /
+
+Comprobar:
+
+hdfs dfs -ls /
+
+Leer contenido:
+
+hdfs dfs -cat /archivo.txt
+
+Resultado esperado:
+
+Hola HDFS
+
+==================================================
+10. PARAR HDFS
+==============
+
+Cuando termines:
+
+stop-dfs.sh
+
+==================================================
+RESUMEN RÁPIDO
+==============
+
+source ~/.bashrc
+
+hdfs namenode -format
+(una sola vez)
+
+start-dfs.sh
+
+jps
+
+hdfs dfs -ls /
+
+stop-dfs.sh
+
+FIN DEL TUTORIAL

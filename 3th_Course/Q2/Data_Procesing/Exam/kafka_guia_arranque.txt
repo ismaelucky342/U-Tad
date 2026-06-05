@@ -1,0 +1,349 @@
+TUTORIAL A PRUEBA DE ERRORES – ARRANCAR APACHE KAFKA EN LINUX
+
+Objetivo:
+Arrancar Kafka correctamente, verificar que el broker funciona y probar envío/recepción de mensajes sin errores.
+
+NOTA:
+Este tutorial usa Kafka moderno (modo KRaft, sin ZooKeeper), recomendado en versiones recientes de Kafka.
+
+==================================================
+
+1. COMPROBAR QUE JAVA ESTÁ INSTALADO
+   ==================================================
+
+Ejecutar:
+
+java -version
+
+Debe aparecer algo parecido a:
+
+openjdk version "11.x"
+
+o
+
+openjdk version "17.x"
+
+Si aparece:
+
+command not found
+
+instalar Java:
+
+Ubuntu/Debian:
+
+sudo apt update
+sudo apt install openjdk-17-jdk -y
+
+Verificar:
+
+java -version
+
+==================================================
+2. COMPROBAR VARIABLES DE ENTORNO
+=================================
+
+Abrir:
+
+nano ~/.bashrc
+
+Añadir:
+
+export KAFKA_HOME=/opt/kafka
+export PATH=$PATH:$KAFKA_HOME/bin
+
+Guardar:
+
+CTRL + O
+ENTER
+CTRL + X
+
+Aplicar:
+
+source ~/.bashrc
+
+Comprobar:
+
+echo $KAFKA_HOME
+
+Si sale vacío:
+
+ERROR → variable mal configurada.
+
+==================================================
+3. COMPROBAR QUE KAFKA RESPONDE
+===============================
+
+Ejecutar:
+
+kafka-server-start.sh --version
+
+Si aparece:
+
+command not found
+
+ERROR:
+
+PATH incorrecto
+
+Probar:
+
+$KAFKA_HOME/bin/kafka-server-start.sh
+
+==================================================
+4. CONFIGURAR KRaft (SOLO PRIMERA VEZ)
+======================================
+
+Ir al directorio:
+
+cd $KAFKA_HOME
+
+Generar ID del clúster:
+
+KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
+
+Verificar:
+
+echo $KAFKA_CLUSTER_ID
+
+Debe mostrar algo parecido a:
+
+Mkd92lfaXabc123
+
+==================================================
+5. FORMATEAR EL ALMACENAMIENTO
+==============================
+
+Ejecutar:
+
+bin/kafka-storage.sh format 
+-t $KAFKA_CLUSTER_ID 
+-c config/kraft/server.properties
+
+Debe aparecer:
+
+Formatting metadata directory
+
+Errores comunes:
+
+ERROR:
+
+Directory already formatted
+
+Solución:
+
+Ya está inicializado.
+NO volver a formatear.
+
+==================================================
+6. ARRANCAR KAFKA
+=================
+
+Ejecutar:
+
+bin/kafka-server-start.sh config/kraft/server.properties
+
+Si quieres dejarlo en segundo plano:
+
+nohup bin/kafka-server-start.sh 
+config/kraft/server.properties > kafka.log 2>&1 &
+
+==================================================
+7. COMPROBAR QUE EL PROCESO ESTÁ ACTIVO
+=======================================
+
+Ejecutar:
+
+jps
+
+Debe aparecer algo parecido:
+
+Kafka
+
+o
+
+KafkaServer
+
+También:
+
+ps -ef | grep kafka
+
+Debe aparecer un proceso Java.
+
+==================================================
+8. COMPROBAR SI EL PUERTO ESTÁ ESCUCHANDO
+=========================================
+
+Kafka normalmente usa:
+
+9092
+
+Verificar:
+
+netstat -tulnp | grep 9092
+
+o:
+
+ss -tulnp | grep 9092
+
+Debe aparecer:
+
+LISTEN
+
+Errores comunes:
+
+ERROR:
+
+Address already in use
+
+Solución:
+
+Buscar proceso:
+
+lsof -i:9092
+
+Matar proceso:
+
+kill -9 PID
+
+Arrancar otra vez.
+
+==================================================
+9. CREAR UN TOPIC DE PRUEBA
+===========================
+
+Ejecutar:
+
+bin/kafka-topics.sh 
+--create 
+--topic prueba 
+--bootstrap-server localhost:9092
+
+Debe aparecer:
+
+Created topic prueba
+
+Verificar:
+
+bin/kafka-topics.sh 
+--list 
+--bootstrap-server localhost:9092
+
+Debe aparecer:
+
+prueba
+
+==================================================
+10. ENVIAR MENSAJES
+===================
+
+Abrir una terminal:
+
+bin/kafka-console-producer.sh 
+--topic prueba 
+--bootstrap-server localhost:9092
+
+Escribir:
+
+Hola
+Mensaje 1
+Mensaje 2
+
+==================================================
+11. LEER MENSAJES
+=================
+
+Abrir otra terminal:
+
+bin/kafka-console-consumer.sh 
+--topic prueba 
+--from-beginning 
+--bootstrap-server localhost:9092
+
+Debe mostrar:
+
+Hola
+Mensaje 1
+Mensaje 2
+
+==================================================
+12. DETENER KAFKA
+=================
+
+Ejecutar:
+
+bin/kafka-server-stop.sh
+
+Si no funciona:
+
+jps
+
+Buscar PID y matar:
+
+kill -9 PID
+
+==================================================
+ERRORES TÍPICOS Y SOLUCIONES
+============================
+
+ERROR:
+
+Connection to node failed
+
+Posibles causas:
+
+* Kafka no arrancó
+* Puerto incorrecto
+* Firewall bloqueando
+* broker caído
+
+Comprobar:
+
+jps
+ss -tulnp | grep 9092
+
+ERROR:
+
+Timed out waiting for node assignment
+
+Solución:
+
+Esperar unos segundos y reintentar:
+
+bin/kafka-topics.sh --list 
+--bootstrap-server localhost:9092
+
+ERROR:
+
+Port 9092 already in use
+
+Solución:
+
+lsof -i:9092
+kill -9 PID
+
+==================================================
+RESUMEN RÁPIDO
+==============
+
+source ~/.bashrc
+
+cd $KAFKA_HOME
+
+KAFKA_CLUSTER_ID=$(bin/kafka-storage.sh random-uuid)
+
+bin/kafka-storage.sh format 
+-t $KAFKA_CLUSTER_ID 
+-c config/kraft/server.properties
+
+bin/kafka-server-start.sh 
+config/kraft/server.properties
+
+jps
+
+bin/kafka-topics.sh 
+--list 
+--bootstrap-server localhost:9092
+
+bin/kafka-server-stop.sh
+
+FIN DEL TUTORIAL

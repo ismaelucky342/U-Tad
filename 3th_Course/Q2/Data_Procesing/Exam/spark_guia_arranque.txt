@@ -1,0 +1,362 @@
+TUTORIAL A PRUEBA DE ERRORES – ARRANCAR SPARK SHELL (Apache Spark) EN LINUX
+
+Objetivo:
+Arrancar Spark Shell correctamente, verificar que Spark funciona y ejecutar una prueba básica sin errores.
+
+==================================================
+
+1. COMPROBAR QUE JAVA ESTÁ INSTALADO
+   ==================================================
+
+Ejecutar:
+
+java -version
+
+Debe aparecer algo parecido a:
+
+openjdk version "11.x"
+
+o:
+
+openjdk version "17.x"
+
+Si aparece:
+
+command not found
+
+instalar Java:
+
+Ubuntu/Debian:
+
+sudo apt update
+sudo apt install openjdk-11-jdk -y
+
+Comprobar otra vez:
+
+java -version
+
+==================================================
+2. COMPROBAR VARIABLES DE ENTORNO
+=================================
+
+Abrir:
+
+nano ~/.bashrc
+
+Añadir:
+
+export SPARK_HOME=/opt/spark
+export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+
+Guardar:
+
+CTRL + O
+ENTER
+CTRL + X
+
+Aplicar cambios:
+
+source ~/.bashrc
+
+Comprobar:
+
+echo $SPARK_HOME
+
+Si aparece vacío:
+
+ERROR → variable SPARK_HOME mal configurada
+
+==================================================
+3. COMPROBAR QUE SPARK RESPONDE
+===============================
+
+Ejecutar:
+
+spark-shell --version
+
+Debe mostrar algo parecido:
+
+version 3.x.x
+
+Si aparece:
+
+command not found
+
+ERROR:
+
+PATH mal configurado
+
+Probar:
+
+$SPARK_HOME/bin/spark-shell
+
+==================================================
+4. COMPROBAR QUE SCALA EXISTE
+=============================
+
+Ejecutar:
+
+scala -version
+
+Debe aparecer:
+
+Scala code runner version 2.x
+
+Si aparece:
+
+command not found
+
+instalar:
+
+sudo apt install scala -y
+
+NOTA:
+
+Algunas instalaciones de Spark incluyen Scala internamente.
+
+==================================================
+5. ARRANCAR SPARK SHELL
+=======================
+
+Ejecutar:
+
+spark-shell
+
+o:
+
+$SPARK_HOME/bin/spark-shell
+
+Debe aparecer algo parecido a:
+
+Spark context Web UI available at:
+
+http://localhost:4040
+
+Spark session available as 'spark'
+
+Scala prompt:
+
+scala>
+
+==================================================
+6. SI SPARK NO ARRANCA
+======================
+
+ERROR:
+
+JAVA_HOME is not set
+
+Solución:
+
+Abrir:
+
+nano ~/.bashrc
+
+Añadir:
+
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
+Aplicar:
+
+source ~/.bashrc
+
+Verificar:
+
+echo $JAVA_HOME
+
+---
+
+ERROR:
+
+Failed to load class
+
+Solución:
+
+Comprobar instalación:
+
+ls $SPARK_HOME
+
+Deben existir carpetas:
+
+bin
+conf
+jars
+sbin
+
+---
+
+ERROR:
+
+Permission denied
+
+Solución:
+
+Dar permisos:
+
+chmod -R 755 $SPARK_HOME
+
+==================================================
+7. PROBAR QUE SPARK FUNCIONA
+============================
+
+Dentro de spark-shell ejecutar:
+
+val datos = Seq(1,2,3,4,5)
+
+Crear DataFrame:
+
+val df = datos.toDF()
+
+Mostrar:
+
+df.show()
+
+Resultado esperado:
+
++-----+
+|value|
++-----+
+|1|
+|2|
+|3|
+|4|
+|5|
++-----+
+
+==================================================
+8. PROBAR OPERACIONES BÁSICAS
+=============================
+
+Contar registros:
+
+df.count()
+
+Resultado esperado:
+
+5
+
+Filtrar:
+
+df.filter($"value" > 3).show()
+
+Resultado esperado:
+
++-----+
+|value|
++-----+
+|4|
+|5|
++-----+
+
+==================================================
+9. COMPROBAR PROCESOS
+=====================
+
+Abrir otra terminal:
+
+jps
+
+Puede aparecer:
+
+SparkSubmit
+SparkShell
+
+o procesos Java relacionados
+
+==================================================
+10. ABRIR INTERFAZ WEB
+======================
+
+Abrir navegador:
+
+http://localhost:4040
+
+Debe aparecer:
+
+Spark Jobs UI
+
+Si no abre:
+
+Comprobar:
+
+netstat -tulnp | grep 4040
+
+o:
+
+ss -tulnp | grep 4040
+
+==================================================
+11. SALIR DE SPARK SHELL
+========================
+
+Dentro de la consola:
+
+:quit
+
+o:
+
+CTRL + D
+
+==================================================
+ERRORES TÍPICOS Y SOLUCIONES
+============================
+
+ERROR:
+
+Exception in thread main
+
+Posibles causas:
+
+* Java incompatible
+* Variables incorrectas
+* Spark mal instalado
+
+Verificar:
+
+java -version
+echo $JAVA_HOME
+echo $SPARK_HOME
+
+---
+
+ERROR:
+
+Address already in use:4040
+
+Solución:
+
+Buscar proceso:
+
+lsof -i:4040
+
+Matar proceso:
+
+kill -9 PID
+
+---
+
+ERROR:
+
+OutOfMemoryError
+
+Solución:
+
+Arrancar con más memoria:
+
+spark-shell --driver-memory 2g
+
+==================================================
+RESUMEN RÁPIDO
+==============
+
+source ~/.bashrc
+
+spark-shell
+
+val datos=Seq(1,2,3)
+
+datos.toDF().show()
+
+:quit
+
+FIN DEL TUTORIAL
