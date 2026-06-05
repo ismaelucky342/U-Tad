@@ -1,0 +1,10 @@
+Scala -> 5 caracteres
+La vida es bella -> 16 caracteres
+Aprender lleva tiempo -> 21 caracteres
+Datos -> 5 caracteres
+Big Data transforma empresas -> 28 caracteres
+La practica mejora el codigo -> 28 caracteres
+Spark procesa datos distribuidos -> 32 caracteres
+El error es un buen profesor -> 28 caracteres
+Programar es pensar con precision -> 33 caracteres
+Nunca pares de aprender -> 23 caracteres
