@@ -141,7 +141,7 @@ weather-api/
 │   │   └── validationHandler.js   # Manejo de errores de validación
 │   ├── models/
 │   │   ├── User.js           # Modelo de usuario
-│   │   └── WeatherData.js    # Modelo de datos meteorológicos
+│   │   └── Pedidos.js    # Modelo de datos meteorológicos
 │   ├── routes/
 │   │   ├── userRoutes.js     # Rutas de usuarios
 │   │   └── weatherRoutes.js  # Rutas de datos meteorológicos

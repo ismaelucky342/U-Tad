@@ -7,11 +7,11 @@ const sequelize = require('./config/database');
 
 // Importar modelos para que Sequelize los registre y cree las tablas
 require('./models/User');
-require('./models/WeatherData');     // CAMBIA ESTO: importa tu modelo de dominio
+require('./models/Pedidos');     // CAMBIA ESTO: importa tu modelo de dominio
 
 // Importar rutas
 const userRoutes = require('./routes/userRoutes');
-const dataRoutes = require('./routes/dataRoutes');   // CAMBIA ESTO: importa tus rutas
+const deliverRoutes = require('./routes/deliverRoutes');   // CAMBIA ESTO: importa tus rutas
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,18 +22,18 @@ app.use(express.urlencoded({ extended: true }));
 
 // ─── Documentación Swagger ───────────────────────────────────
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
-  customSiteTitle: 'API Meteorológica - Docs',
+  customSiteTitle: 'API delivery- Docs',
 }));
 
 // ─── Rutas ───────────────────────────────────────────────────
 // CAMBIA ESTO: Ajusta los prefijos de ruta según el enunciado
 app.use('/users', userRoutes);
-app.use('/data', dataRoutes);   // CAMBIA ESTO: cambia '/data' por tu ruta
+app.use('/data', deliverRoutes);   // CAMBIA ESTO: cambia '/data' por tu ruta
 
 // ─── Ruta raíz informativa ───────────────────────────────────
 app.get('/', (req, res) => {
   res.json({
-    message: 'API Meteorológica en funcionamiento',
+    message: 'API deliveryen funcionamiento',
     docs: `http://localhost:${PORT}/api-docs`,
     endpoints: {
       users: `http://localhost:${PORT}/users`,

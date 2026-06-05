@@ -1,10 +1,10 @@
-const WeatherData = require('../models/WeatherData');
+const Pedidos = require('../models/Pedidos');
 const User = require('../models/User');
 
 // GET /data — Obtener todos los registros meteorológicos (público)
 const getAllData = async (req, res) => {
   try {
-    const records = await WeatherData.findAll({
+    const records = await Pedidos.findAll({
       include: [{
         model: User,
         as: 'uploader',
@@ -22,7 +22,7 @@ const getAllData = async (req, res) => {
 const getDataById = async (req, res) => {
   const { id } = req.params;
   try {
-    const record = await WeatherData.findByPk(id, {
+    const record = await Pedidos.findByPk(id, {
       include: [{
         model: User,
         as: 'uploader',
@@ -47,7 +47,7 @@ const createData = async (req, res) => {
   } = req.body;
 
   try {
-    const newRecord = await WeatherData.create({
+    const newRecord = await Pedidos.create({
       date,
       userId: req.user.id,
       latitude,
@@ -79,7 +79,7 @@ const updateData = async (req, res) => {
   } = req.body;
 
   try {
-    const record = await WeatherData.findByPk(id);
+    const record = await Pedidos.findByPk(id);
     if (!record) {
       return res.status(404).json({ error: `Registro meteorológico con ID ${id} no encontrado.` });
     }
@@ -111,7 +111,7 @@ const deleteData = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const record = await WeatherData.findByPk(id);
+    const record = await Pedidos.findByPk(id);
     if (!record) {
       return res.status(404).json({ error: `Registro meteorológico con ID ${id} no encontrado.` });
     }

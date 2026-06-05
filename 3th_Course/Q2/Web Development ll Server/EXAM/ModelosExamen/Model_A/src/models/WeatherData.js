@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const User = require('./User');
 
-const WeatherData = sequelize.define('WeatherData', {
+const Pedidos = sequelize.define('Pedidos', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -76,7 +76,7 @@ const WeatherData = sequelize.define('WeatherData', {
 });
 
 // Asociaciones
-User.hasMany(WeatherData, { foreignKey: 'userId', as: 'weatherRecords' });
-WeatherData.belongsTo(User, { foreignKey: 'userId', as: 'uploader' });
+User.hasMany(Pedidos, { foreignKey: 'userId', as: 'weatherRecords' });
+Pedidos.belongsTo(User, { foreignKey: 'userId', as: 'uploader' });
 
-module.exports = WeatherData;
+module.exports = Pedidos;

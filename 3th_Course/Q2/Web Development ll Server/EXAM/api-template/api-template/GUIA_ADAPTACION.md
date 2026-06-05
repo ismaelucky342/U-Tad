@@ -7,7 +7,7 @@ Para adaptarla a **cualquier otro enunciado** solo tienes que tocar **4 archivos
 
 ## ✅ LAS 4 COSAS QUE CAMBIAS (y nada más)
 
-### 1. 📦 `src/models/WeatherData.js` → Tu modelo de dominio
+### 1. 📦 `src/models/Pedidos.js` → Tu modelo de dominio
 **Renombra el archivo** y cambia los campos del `DataTypes` por los de tu enunciado.
 
 | Enunciado dice... | Tú pones en el modelo |
@@ -84,9 +84,9 @@ Cambia el prefijo de la ruta y las importaciones:
 
 ```js
 // Antes:
-require('./models/WeatherData');
-const dataRoutes = require('./routes/dataRoutes');
-app.use('/data', dataRoutes);
+require('./models/Pedidos');
+const deliverRoutes = require('./routes/deliverRoutes');
+app.use('/data', deliverRoutes);
 
 // Después (para libros):
 require('./models/Book');
@@ -94,9 +94,9 @@ const bookRoutes = require('./routes/bookRoutes');
 app.use('/books', bookRoutes);
 ```
 
-Y en `src/routes/dataRoutes.js` actualiza el nombre del tag de Swagger:
+Y en `src/routes/deliverRoutes.js` actualiza el nombre del tag de Swagger:
 ```js
-// @swagger tags:  name: Books  (en lugar de WeatherData)
+// @swagger tags:  name: Books  (en lugar de Pedidos)
 ```
 
 ---

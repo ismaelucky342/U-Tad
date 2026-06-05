@@ -1,4 +1,4 @@
-// src/models/WeatherData.js
+// src/models/Pedidos.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const User = require('./User');
@@ -9,7 +9,7 @@ const User = require('./User');
 // Renombra el modelo y cambia TODOS los campos por los del tuyo.
 // Ejemplos: Producto, Libro, Pelicula, Sensor, Evento...
 // ============================================================
-const WeatherData = sequelize.define('WeatherData', {
+const Pedidos = sequelize.define('Pedidos', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -68,7 +68,7 @@ const WeatherData = sequelize.define('WeatherData', {
 });
 
 // Relación: Un usuario puede tener muchos registros
-User.hasMany(WeatherData, { foreignKey: 'userId', as: 'weatherData' });
-WeatherData.belongsTo(User, { foreignKey: 'userId', as: 'uploader' });
+User.hasMany(Pedidos, { foreignKey: 'userId', as: 'Pedidos' });
+Pedidos.belongsTo(User, { foreignKey: 'userId', as: 'uploader' });
 
-module.exports = WeatherData;
+module.exports = Pedidos;

@@ -56,7 +56,7 @@ Esta API usa **JWT Bearer Token**. Para acceder a los endpoints protegidos:
             updatedAt: { type: 'string', format: 'date-time' },
           },
         },
-        WeatherData: {
+        Pedidos: {
           type: 'object',
           properties: {
             id: { type: 'integer', example: 1 },

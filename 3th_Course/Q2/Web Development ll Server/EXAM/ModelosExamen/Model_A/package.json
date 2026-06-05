@@ -1,7 +1,7 @@
 {
   "name": "weather-api",
   "version": "1.0.0",
-  "description": "API meteorológica con Express, Sequelize, JWT y Swagger",
+  "description": "API deliverycon Express, Sequelize, JWT y Swagger",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",

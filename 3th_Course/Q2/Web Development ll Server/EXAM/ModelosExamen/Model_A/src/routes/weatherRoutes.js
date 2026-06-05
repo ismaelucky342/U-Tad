@@ -19,7 +19,7 @@ const {
 /**
  * @swagger
  * tags:
- *   name: WeatherData
+ *   name: Pedidos
  *   description: Gestión de datos meteorológicos
  */
 
@@ -28,7 +28,7 @@ const {
  * /data:
  *   get:
  *     summary: Obtener todos los registros meteorológicos
- *     tags: [WeatherData]
+ *     tags: [Pedidos]
  *     responses:
  *       200:
  *         description: Lista de registros meteorológicos.
@@ -40,7 +40,7 @@ router.get('/', getAllData);
  * /data/{id}:
  *   get:
  *     summary: Obtener registro meteorológico por ID
- *     tags: [WeatherData]
+ *     tags: [Pedidos]
  *     parameters:
  *       - in: path
  *         name: id
@@ -61,7 +61,7 @@ router.get('/:id', idParamValidator, handleValidationErrors, getDataById);
  * /data:
  *   post:
  *     summary: Crear nuevo registro meteorológico
- *     tags: [WeatherData]
+ *     tags: [Pedidos]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -126,7 +126,7 @@ router.post('/', verifyToken, verifyAdmin, createWeatherValidators, handleValida
  * /data/{id}:
  *   put:
  *     summary: Actualizar registro meteorológico
- *     tags: [WeatherData]
+ *     tags: [Pedidos]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -179,7 +179,7 @@ router.put('/:id', verifyToken, verifyAdmin, updateWeatherValidators, handleVali
  * /data/{id}:
  *   delete:
  *     summary: Eliminar registro meteorológico
- *     tags: [WeatherData]
+ *     tags: [Pedidos]
  *     security:
  *       - bearerAuth: []
  *     parameters:

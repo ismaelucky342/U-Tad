@@ -1,9 +1,9 @@
-// src/controllers/dataController.js
-const WeatherData = require('../models/WeatherData');
+// src/controllers/deliveryController.js
+const Pedidos = require('../models/Pedidos');
 const User = require('../models/User');
 
 // ============================================================
-// CAMBIA ESTO: Importa tu modelo de dominio en lugar de WeatherData.
+// CAMBIA ESTO: Importa tu modelo de dominio en lugar de Pedidos.
 // Ajusta los campos en createData y updateData según tu modelo.
 // El resto de la estructura (getAll, getById, delete) es genérica.
 // ============================================================
@@ -11,7 +11,7 @@ const User = require('../models/User');
 /** GET /data - Obtener todos los registros (público) */
 const getAllData = async (req, res) => {
   try {
-    const records = await WeatherData.findAll({
+    const records = await Pedidos.findAll({
       include: [{
         model: User,
         as: 'uploader',
@@ -30,7 +30,7 @@ const getAllData = async (req, res) => {
 /** GET /data/:id - Obtener registro por ID (público) */
 const getDataById = async (req, res) => {
   try {
-    const record = await WeatherData.findByPk(req.params.id, {
+    const record = await Pedidos.findByPk(req.params.id, {
       include: [{
         model: User,
         as: 'uploader',
@@ -68,7 +68,7 @@ const createData = async (req, res) => {
     } = req.body;
 
     // El userId viene del token JWT (req.user.id)
-    const newRecord = await WeatherData.create({
+    const newRecord = await Pedidos.create({
       recordDate: recordDate || new Date(),
       latitude,
       longitude,
@@ -95,7 +95,7 @@ const createData = async (req, res) => {
 /** PUT /data/:id - Actualizar registro (solo admins) */
 const updateData = async (req, res) => {
   try {
-    const record = await WeatherData.findByPk(req.params.id);
+    const record = await Pedidos.findByPk(req.params.id);
     if (!record) {
       return res.status(404).json({ success: false, message: 'Registro no encontrado' });
     }
@@ -129,7 +129,7 @@ const updateData = async (req, res) => {
 /** DELETE /data/:id - Eliminar registro (solo admins) */
 const deleteData = async (req, res) => {
   try {
-    const record = await WeatherData.findByPk(req.params.id);
+    const record = await Pedidos.findByPk(req.params.id);
     if (!record) {
       return res.status(404).json({ success: false, message: 'Registro no encontrado' });
     }

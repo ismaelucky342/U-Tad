@@ -1,4 +1,4 @@
-// src/routes/dataRoutes.js
+// src/routes/deliverRoutes.js
 const express = require('express');
 const router = express.Router();
 const { verifyToken, isAdmin } = require('../middleware/auth');
@@ -6,7 +6,7 @@ const handleValidation = require('../middleware/handleValidation');
 const { validateCreateData, validateUpdateData } = require('../validators/dataValidators');
 const {
   getAllData, getDataById, createData, updateData, deleteData,
-} = require('../controllers/dataController');
+} = require('../controllers/deliveryController');
 
 // ============================================================
 // CAMBIA POCO: Ajusta los validators y el nombre de la sección Swagger.
@@ -16,7 +16,7 @@ const {
 /**
  * @swagger
  * tags:
- *   name: WeatherData
+ *   name: Pedidos
  *   description: Gestión de registros meteorológicos
  */
 
@@ -25,7 +25,7 @@ const {
  * /data:
  *   get:
  *     summary: Obtener todos los registros meteorológicos (público)
- *     tags: [WeatherData]
+ *     tags: [Pedidos]
  *     security: []
  *     responses:
  *       200:
@@ -38,7 +38,7 @@ router.get('/', getAllData);
  * /data/{id}:
  *   get:
  *     summary: Obtener registro por ID (público)
- *     tags: [WeatherData]
+ *     tags: [Pedidos]
  *     security: []
  *     parameters:
  *       - in: path
@@ -59,7 +59,7 @@ router.get('/:id', getDataById);
  * /data:
  *   post:
  *     summary: Crear nuevo registro meteorológico (solo admins)
- *     tags: [WeatherData]
+ *     tags: [Pedidos]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -112,7 +112,7 @@ router.post('/', verifyToken, isAdmin, validateCreateData, handleValidation, cre
  * /data/{id}:
  *   put:
  *     summary: Actualizar registro meteorológico (solo admins)
- *     tags: [WeatherData]
+ *     tags: [Pedidos]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -144,7 +144,7 @@ router.put('/:id', verifyToken, isAdmin, validateUpdateData, handleValidation, u
  * /data/{id}:
  *   delete:
  *     summary: Eliminar registro meteorológico (solo admins)
- *     tags: [WeatherData]
+ *     tags: [Pedidos]
  *     security:
  *       - bearerAuth: []
  *     parameters:

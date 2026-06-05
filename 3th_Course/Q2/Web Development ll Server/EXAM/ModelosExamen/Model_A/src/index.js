@@ -9,7 +9,7 @@ const swaggerSpec = require('./config/swagger');
 
 // Importar modelos (el orden importa para las asociaciones)
 const User = require('./models/User');
-const WeatherData = require('./models/WeatherData');
+const Pedidos = require('./models/Pedidos');
 
 // Importar rutas
 const userRoutes = require('./routes/userRoutes');
@@ -90,10 +90,10 @@ const startServer = async () => {
     }
 
     // Crear datos meteorológicos de ejemplo si no existen
-    const dataCount = await WeatherData.count();
+    const dataCount = await Pedidos.count();
     if (dataCount === 0) {
       const admin = await User.findOne({ where: { email: 'admin@weather.com' } });
-      await WeatherData.bulkCreate([
+      await Pedidos.bulkCreate([
         {
           date: '2024-03-15',
           userId: admin.id,
