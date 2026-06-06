@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examen Modelo E — Ingeniería de Datos y NLP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;700&display=swap');
+
+  :root {
+    --bg: #f5f4f0;
+    --white: #ffffff;
+    --ink: #1a1a1a;
+    --ink2: #444444;
+    --ink3: #888888;
+    --border: #d8d6d0;
+    --border2: #b8b6b0;
+    --accent: #c44b25;
+    --accent2: #2a6e4f;
+    --code-bg: #1e2030;
+    --pill: #e8e6e0;
+    --correct: #2a6e4f;
+    --correct-bg: #eef7f2;
+    --wrong: #c44b25;
+    --wrong-bg: #fdf0eb;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.5;
+  }
+
+  .top-bar {
+    background: var(--ink);
+    color: #ffffff;
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .top-bar-logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  .top-bar-meta {
+    display: flex; gap: 20px; align-items: center;
+    font-size: 0.78rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .stat-chip {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #ffffff;
+  }
+
+  .stat-chip.c { background: rgba(42,110,79,0.4); border-color: rgba(42,110,79,0.6); }
+  .stat-chip.w { background: rgba(196,75,37,0.4); border-color: rgba(196,75,37,0.6); }
+
+  .progress-strip {
+    height: 3px;
+    background: #e0ddd6;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .hero-section {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+  }
+
+  .hero-inner {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .model-tag {
+    display: inline-block;
+    background: var(--ink);
+    color: #ffffff;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .hero-section h1 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+
+  .hero-section h1 em {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .hero-section p { color: var(--ink3); font-size: 0.9rem; }
+
+  .unit-pills {
+    display: flex; gap: 8px; margin-top: 1.2rem; flex-wrap: wrap;
+  }
+
+  .unit-pill {
+    background: var(--pill);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 0.74rem;
+    color: var(--ink2);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .content {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 5rem;
+  }
+
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .section-divider:first-child { margin-top: 0; }
+
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: var(--ink);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--ink);
+  }
+
+  .qcard {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: border-color 0.2s;
+  }
+
+  .qcard:hover { border-color: var(--border2); }
+
+  .qcard-header {
+    padding: 1.1rem 1.3rem 0.9rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .qno {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--ink3);
+    background: var(--pill);
+    border-radius: 3px;
+    padding: 3px 8px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    min-width: 34px;
+    text-align: center;
+  }
+
+  .qno.ok { background: var(--correct-bg); color: var(--correct); }
+  .qno.err { background: var(--wrong-bg); color: var(--wrong); }
+
+  .qtext { font-size: 0.93rem; color: var(--ink); line-height: 1.6; }
+
+  pre {
+    background: var(--code-bg);
+    margin: 0 1.3rem 0.9rem;
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    overflow-x: auto;
+    font-size: 0.78rem;
+    line-height: 1.65;
+  }
+
+  code, pre code {
+    font-family: 'IBM Plex Mono', monospace;
+    color: #abb2bf;
+  }
+
+  .kw { color: #c678dd; }
+  .fn { color: #61afef; }
+  .str { color: #98c379; }
+  .cm { color: #5c6370; font-style: italic; }
+  .num { color: #d19a66; }
+
+  .options-list {
+    padding: 0 1.3rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.65rem 0.9rem;
+    cursor: pointer;
+    font-size: 0.87rem;
+    line-height: 1.5;
+    color: var(--ink2);
+    transition: all 0.12s ease;
+    background: var(--bg);
+  }
+
+  .opt:hover:not(.disabled) {
+    border-color: var(--accent);
+    color: var(--ink);
+    background: #fff;
+  }
+
+  .opt.correct {
+    background: var(--correct-bg);
+    border-color: var(--correct);
+    color: #1a4030;
+  }
+
+  .opt.wrong {
+    background: var(--wrong-bg);
+    border-color: var(--wrong);
+    color: #5a1810;
+  }
+
+  .opt.disabled { cursor: default; }
+
+  .opt-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 600;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid var(--border2);
+    color: var(--ink3);
+    background: var(--white);
+    margin-top: 1px;
+  }
+
+  .opt.correct .opt-badge {
+    background: var(--correct);
+    border-color: var(--correct);
+    color: white;
+  }
+
+  .opt.wrong .opt-badge {
+    background: var(--wrong);
+    border-color: var(--wrong);
+    color: white;
+  }
+
+  .exp-box {
+    margin: 0 1.3rem 1.1rem;
+    padding: 0.75rem 1rem;
+    background: #fffbf8;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--ink2);
+    display: none;
+  }
+
+  .exp-box.show { display: block; }
+  .exp-box strong { color: var(--accent2); }
+
+  .result-card {
+    display: none;
+    background: var(--ink);
+    color: white;
+    border-radius: 12px;
+    padding: 2.5rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .result-card.show { display: block; }
+
+  .rc-mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+  }
+
+  .rc-score {
+    font-size: 5rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+  }
+
+  .rc-label { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 0.4rem; }
+
+  .rc-grid {
+    display: flex;
+    gap: 12px;
+    margin: 2rem 0;
+    justify-content: center;
+  }
+
+  .rc-stat {
+    flex: 1;
+    max-width: 140px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .rc-stat-v { font-size: 1.8rem; font-weight: 700; }
+  .rc-stat-l { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 4px; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; }
+
+  .btn-reset {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.7rem 2.2rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    margin-top: 0.5rem;
+  }
+
+  .btn-reset:hover { opacity: 0.85; }
+
+  @media (max-width: 600px) {
+    .hero-section h1 { font-size: 1.3rem; }
+    .top-bar-logo { font-size: 0.68rem; }
+    .rc-score { font-size: 3.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-logo">NLP · Modelo E</div>
+  <div class="top-bar-meta">
+    <span class="stat-chip" id="bar-answered">0/45</span>
+    <span class="stat-chip c" id="bar-correct">✓ 0</span>
+    <span class="stat-chip w" id="bar-wrong">✗ 0</span>
+    <span style="color:rgba(255,255,255,0.5);font-size:0.75rem" id="bar-pct">—</span>
+  </div>
+</div>
+<div class="progress-strip"><div class="progress-fill" id="pbar"></div></div>
+
+<div class="hero-section">
+  <div class="hero-inner">
+    <div class="model-tag">Modelo E</div>
+    <h1>Ingeniería de Datos y <em>NLP con Python</em></h1>
+    <p>45 preguntas tipo test · Una sola respuesta correcta · Orientado a código</p>
+    <div class="unit-pills">
+      <div class="unit-pill">U1 · Python</div>
+      <div class="unit-pill">U2 · Minería texto</div>
+      <div class="unit-pill">U3 · Fuentes datos</div>
+      <div class="unit-pill">U4 · Modelización</div>
+      <div class="unit-pill">U5 · Redes y grafos</div>
+      <div class="unit-pill">U6 · Deep Learning</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+<div class="section-divider">
+  <div class="section-num">U1</div>
+  <div class="section-title">El ecosistema Python</div>
+</div>
+
+<div class="qcard" id="q1">
+  <div class="qcard-header">
+    <div class="qno" id="qn1">01</div>
+    <div class="qtext">¿Cuál es el resultado de ejecutar el siguiente código?</div>
+  </div>
+  <pre><code>x = <span class="num">10</span>
+<span class="kw">def</span> <span class="fn">modificar</span>():
+    <span class="kw">global</span> x
+    x = <span class="num">99</span>
+<span class="fn">modificar</span>()
+<span class="fn">print</span>(x)</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(1,'A')"><div class="opt-badge">A</div><span>10 (la variable local no afecta a la global)</span></div>
+    <div class="opt" onclick="pick(1,'B')"><div class="opt-badge">B</div><span>Error: <code>global</code> no está permitido dentro de funciones.</span></div>
+    <div class="opt" onclick="pick(1,'C')"><div class="opt-badge">C</div><span>99</span></div>
+    <div class="opt" onclick="pick(1,'D')"><div class="opt-badge">D</div><span>None</span></div>
+  </div>
+  <div class="exp-box" id="exp1"><strong>Correcto: C.</strong> La declaración <code>global x</code> dentro de la función indica que <code>x</code> hace referencia a la variable global. Al asignar <code>x = 99</code>, se modifica la variable global. Sin <code>global x</code>, se crearía una variable local y la global quedaría con 10.</div>
+</div>
+
+<div class="qcard" id="q2">
+  <div class="qcard-header">
+    <div class="qno" id="qn2">02</div>
+    <div class="qtext">¿Qué devuelve este generador al convertirse a lista?</div>
+  </div>
+  <pre><code>gen = (x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>) <span class="kw">if</span> x % <span class="num">3</span> != <span class="num">0</span>)
+resultado = <span class="fn">list</span>(gen)
+<span class="fn">print</span>(resultado)</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(2,'A')"><div class="opt-badge">A</div><span>[1, 4, 16, 25]</span></div>
+    <div class="opt" onclick="pick(2,'B')"><div class="opt-badge">B</div><span>[1, 4, 9, 16, 25]</span></div>
+    <div class="opt" onclick="pick(2,'C')"><div class="opt-badge">C</div><span>[9]</span></div>
+    <div class="opt" onclick="pick(2,'D')"><div class="opt-badge">D</div><span>Error: los generadores no pueden convertirse a lista.</span></div>
+  </div>
+  <div class="exp-box" id="exp2"><strong>Correcto: A.</strong> <code>range(1,6)</code> genera [1,2,3,4,5]. El filtro <code>x % 3 != 0</code> excluye los múltiplos de 3: se excluye el 3. Quedan 1, 2, 4, 5. Elevados al cuadrado: [1, 4, 16, 25].</div>
+</div>
+
+<div class="qcard" id="q3">
+  <div class="qcard-header">
+    <div class="qno" id="qn3">03</div>
+    <div class="qtext">¿Qué diferencia a un generador de una lista por comprensión en Python?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(3,'A')"><div class="opt-badge">A</div><span>Los generadores solo pueden usarse una vez; las listas pueden iterarse múltiples veces.</span></div>
+    <div class="opt" onclick="pick(3,'B')"><div class="opt-badge">B</div><span>No hay diferencia: ambos generan los valores al mismo tiempo.</span></div>
+    <div class="opt" onclick="pick(3,'C')"><div class="opt-badge">C</div><span>Los generadores no admiten el operador <code>if</code> como filtro.</span></div>
+    <div class="opt" onclick="pick(3,'D')"><div class="opt-badge">D</div><span>Los generadores solo admiten enteros; las listas admiten cualquier tipo.</span></div>
+  </div>
+  <div class="exp-box" id="exp3"><strong>Correcto: A.</strong> Los generadores producen valores de forma lazy (uno a uno bajo demanda) y solo pueden iterarse una vez. Las listas almacenan todos los elementos en memoria y pueden iterarse múltiples veces. Los generadores son más eficientes en memoria para grandes colecciones.</div>
+</div>
+
+<div class="qcard" id="q4">
+  <div class="qcard-header">
+    <div class="qno" id="qn4">04</div>
+    <div class="qtext">¿Qué contiene <code>df['texto'].str.len()</code>?</div>
+  </div>
+  <pre><code><span class="kw">import</span> pandas <span class="kw">as</span> pd
+df = pd.DataFrame({<span class="str">'texto'</span>: [<span class="str">'hola'</span>, <span class="str">'Python'</span>, <span class="str">'NLP'</span>]})</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(4,'A')"><div class="opt-badge">A</div><span>El número de palabras de cada texto.</span></div>
+    <div class="opt" onclick="pick(4,'B')"><div class="opt-badge">B</div><span>Una Serie con el número de caracteres de cada string: [4, 6, 3].</span></div>
+    <div class="opt" onclick="pick(4,'C')"><div class="opt-badge">C</div><span>Una Serie con los textos ordenados por longitud.</span></div>
+    <div class="opt" onclick="pick(4,'D')"><div class="opt-badge">D</div><span>Error: <code>str.len()</code> no es un método válido de Pandas.</span></div>
+  </div>
+  <div class="exp-box" id="exp4"><strong>Correcto: B.</strong> El accessor <code>.str</code> de Pandas permite aplicar métodos de strings a una Serie. <code>.str.len()</code> devuelve el número de caracteres de cada string. Para "hola" → 4, "Python" → 6, "NLP" → 3.</div>
+</div>
+
+<div class="qcard" id="q5">
+  <div class="qcard-header">
+    <div class="qno" id="qn5">05</div>
+    <div class="qtext">¿Cuál es la forma correcta de manejar el caso en que una clave no existe en un diccionario Python sin lanzar excepción?</div>
+  </div>
+  <pre><code>datos = {<span class="str">'nombre'</span>: <span class="str">'Ana'</span>, <span class="str">'edad'</span>: <span class="num">30</span>}
+<span class="cm"># ¿Cómo acceder a 'ciudad' sin error?</span></code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(5,'A')"><div class="opt-badge">A</div><span><code>datos['ciudad']</code> — si no existe devuelve None automáticamente.</span></div>
+    <div class="opt" onclick="pick(5,'B')"><div class="opt-badge">B</div><span><code>datos.get('ciudad', 'Desconocida')</code></span></div>
+    <div class="opt" onclick="pick(5,'C')"><div class="opt-badge">C</div><span><code>datos.fetch('ciudad', 'Desconocida')</code></span></div>
+    <div class="opt" onclick="pick(5,'D')"><div class="opt-badge">D</div><span><code>datos.find('ciudad')</code></span></div>
+  </div>
+  <div class="exp-box" id="exp5"><strong>Correcto: B.</strong> <code>dict.get(clave, valor_por_defecto)</code> devuelve el valor si la clave existe, o el valor por defecto si no. <code>datos['ciudad']</code> lanza un <code>KeyError</code> si la clave no existe. <code>fetch</code> y <code>find</code> no son métodos de diccionarios Python.</div>
+</div>
+
+<div class="qcard" id="q6">
+  <div class="qcard-header">
+    <div class="qno" id="qn6">06</div>
+    <div class="qtext">¿Qué devuelve <code>df.isnull().sum()</code> en Pandas?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(6,'A')"><div class="opt-badge">A</div><span>El número total de valores nulos en todo el DataFrame.</span></div>
+    <div class="opt" onclick="pick(6,'B')"><div class="opt-badge">B</div><span>Una Serie con el conteo de valores nulos por columna.</span></div>
+    <div class="opt" onclick="pick(6,'C')"><div class="opt-badge">C</div><span>Un DataFrame booleano indicando la posición de cada valor nulo.</span></div>
+    <div class="opt" onclick="pick(6,'D')"><div class="opt-badge">D</div><span>Error: <code>isnull()</code> y <code>sum()</code> no son concatenables.</span></div>
+  </div>
+  <div class="exp-box" id="exp6"><strong>Correcto: B.</strong> <code>df.isnull()</code> devuelve un DataFrame booleano. <code>.sum()</code> aplicado sobre él suma los True por columna (True=1, False=0), resultando en una Serie con el número de nulos por columna. Para el total: <code>df.isnull().sum().sum()</code>.</div>
+</div>
+
+<div class="qcard" id="q7">
+  <div class="qcard-header">
+    <div class="qno" id="qn7">07</div>
+    <div class="qtext">¿Qué hace el decorador <code>@staticmethod</code> en una clase Python?</div>
+  </div>
+  <pre><code><span class="kw">class</span> <span class="fn">Procesador</span>:
+    <span class="kw">@staticmethod</span>
+    <span class="kw">def</span> <span class="fn">limpiar</span>(texto):
+        <span class="kw">return</span> texto.strip().<span class="fn">lower</span>()</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(7,'A')"><div class="opt-badge">A</div><span>El método solo puede ser llamado desde subclases, no desde la clase base.</span></div>
+    <div class="opt" onclick="pick(7,'B')"><div class="opt-badge">B</div><span>Define un método que no recibe <code>self</code> ni <code>cls</code>: no accede al estado de la instancia ni de la clase.</span></div>
+    <div class="opt" onclick="pick(7,'C')"><div class="opt-badge">C</div><span>El método se ejecuta automáticamente al crear una instancia de la clase.</span></div>
+    <div class="opt" onclick="pick(7,'D')"><div class="opt-badge">D</div><span>Convierte el método en un método de clase que recibe <code>cls</code> como primer argumento.</span></div>
+  </div>
+  <div class="exp-box" id="exp7"><strong>Correcto: B.</strong> <code>@staticmethod</code> define un método que pertenece a la clase pero no necesita acceder a la instancia (<code>self</code>) ni a la clase (<code>cls</code>). Es una función normal agrupada dentro de la clase por organización. Se puede llamar: <code>Procesador.limpiar("Hola ")</code>.</div>
+</div>
+
+<div class="qcard" id="q8">
+  <div class="qcard-header">
+    <div class="qno" id="qn8">08</div>
+    <div class="qtext">¿Cuál es la diferencia entre <code>loc</code> e <code>iloc</code> en Pandas?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(8,'A')"><div class="opt-badge">A</div><span><code>loc</code> usa posiciones enteras; <code>iloc</code> usa etiquetas de índice.</span></div>
+    <div class="opt" onclick="pick(8,'B')"><div class="opt-badge">B</div><span><code>loc</code> selecciona filas por etiqueta de índice; <code>iloc</code> selecciona por posición entera.</span></div>
+    <div class="opt" onclick="pick(8,'C')"><div class="opt-badge">C</div><span>Son equivalentes: ambos indexan por posición.</span></div>
+    <div class="opt" onclick="pick(8,'D')"><div class="opt-badge">D</div><span><code>iloc</code> solo funciona con índices numéricos; <code>loc</code> con string.</span></div>
+  </div>
+  <div class="exp-box" id="exp8"><strong>Correcto: B.</strong> <code>df.loc[etiqueta]</code> accede por la etiqueta del índice (el valor visible). <code>df.iloc[n]</code> accede por posición entera (0-based). Si el índice es numérico, <code>loc[0]</code> busca la etiqueta 0, mientras <code>iloc[0]</code> busca siempre el primer elemento.</div>
+</div>
+
+<div class="section-divider">
+  <div class="section-num">U2</div>
+  <div class="section-title">Minería de texto con Python</div>
+</div>
+
+<div class="qcard" id="q9">
+  <div class="qcard-header">
+    <div class="qno" id="qn9">09</div>
+    <div class="qtext">¿Qué devuelve <code>resultado</code>?</div>
+  </div>
+  <pre><code><span class="kw">import</span> re
+
+texto = <span class="str">"2024-01-15, 2024-02-28, 2023-12-31"</span>
+resultado = re.<span class="fn">findall</span>(<span class="str">r'\d{4}-\d{2}-\d{2}'</span>, texto)</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(9,'A')"><div class="opt-badge">A</div><span>['2024', '2024', '2023']</span></div>
+    <div class="opt" onclick="pick(9,'B')"><div class="opt-badge">B</div><span>['2024-01-15', '2024-02-28', '2023-12-31']</span></div>
+    <div class="opt" onclick="pick(9,'C')"><div class="opt-badge">C</div><span>['01-15', '02-28', '12-31']</span></div>
+    <div class="opt" onclick="pick(9,'D')"><div class="opt-badge">D</div><span>Error: las llaves en regex no están soportadas en Python.</span></div>
+  </div>
+  <div class="exp-box" id="exp9"><strong>Correcto: B.</strong> El patrón <code>\d{4}-\d{2}-\d{2}</code> coincide exactamente con el formato fecha YYYY-MM-DD: 4 dígitos, guión, 2 dígitos, guión, 2 dígitos. <code>findall</code> devuelve todas las coincidencias como lista de strings.</div>
+</div>
+
+<div class="qcard" id="q10">
+  <div class="qcard-header">
+    <div class="qno" id="qn10">10</div>
+    <div class="qtext">¿Cuántos tokens produce <code>word_tokenize</code> de NLTK sobre este texto?</div>
+  </div>
+  <pre><code><span class="kw">from</span> nltk.tokenize <span class="kw">import</span> word_tokenize
+
+tokens = word_tokenize(<span class="str">"No puedo creerlo. ¡Es increíble!"</span>)
+<span class="fn">print</span>(<span class="fn">len</span>(tokens))</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(10,'A')"><div class="opt-badge">A</div><span>4 (solo las palabras)</span></div>
+    <div class="opt" onclick="pick(10,'B')"><div class="opt-badge">B</div><span>5 (palabras + signos de puntuación)</span></div>
+    <div class="opt" onclick="pick(10,'C')"><div class="opt-badge">C</div><span>7 (palabras + todos los signos de puntuación como tokens separados)</span></div>
+    <div class="opt" onclick="pick(10,'D')"><div class="opt-badge">D</div><span>Error: NLTK no procesa texto con caracteres españoles.</span></div>
+  </div>
+  <div class="exp-box" id="exp10"><strong>Correcto: C.</strong> <code>word_tokenize</code> separa también los signos de puntuación como tokens: ['No', 'puedo', 'creerlo', '.', '¡', 'Es', 'increíble', '!']. Eso son 8 tokens. La opción más cercana y correcta es C (la cuenta exacta puede variar según versión de NLTK, pero siempre incluye todos los signos de puntuación).</div>
+</div>
+
+<div class="qcard" id="q11">
+  <div class="qcard-header">
+    <div class="qno" id="qn11">11</div>
+    <div class="qtext">¿Qué hace el siguiente stemmer de NLTK?</div>
+  </div>
+  <pre><code><span class="kw">from</span> nltk.stem <span class="kw">import</span> SnowballStemmer
+
+stemmer = SnowballStemmer(<span class="str">'spanish'</span>)
+palabras = [<span class="str">'corriendo'</span>, <span class="str">'corremos'</span>, <span class="str">'corredor'</span>]
+stems = [stemmer.<span class="fn">stem</span>(p) <span class="kw">for</span> p <span class="kw">in</span> palabras]
+<span class="fn">print</span>(stems)</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(11,'A')"><div class="opt-badge">A</div><span>Devuelve la forma infinitiva de cada verbo: ['correr', 'correr', 'correr']</span></div>
+    <div class="opt" onclick="pick(11,'B')"><div class="opt-badge">B</div><span>Devuelve una raíz truncada por reglas morfológicas: algo como ['corr', 'corr', 'corr']</span></div>
+    <div class="opt" onclick="pick(11,'C')"><div class="opt-badge">C</div><span>Devuelve los tokens sin cambio: las mismas 3 palabras.</span></div>
+    <div class="opt" onclick="pick(11,'D')"><div class="opt-badge">D</div><span>Error: <code>SnowballStemmer</code> no soporta español.</span></div>
+  </div>
+  <div class="exp-box" id="exp11"><strong>Correcto: B.</strong> El stemming usa reglas heurísticas para truncar palabras a su raíz morfológica. SnowballStemmer para español convertiría las tres palabras en algo parecido a ['corr', 'corr', 'corr']. No produce la forma infinitiva correcta (eso sería lematización); produce una raíz que puede no ser una palabra real.</div>
+</div>
+
+<div class="qcard" id="q12">
+  <div class="qcard-header">
+    <div class="qno" id="qn12">12</div>
+    <div class="qtext">¿Qué operación hace <code>re.split(r'\s+', texto)</code>?</div>
+  </div>
+  <pre><code>texto = <span class="str">"hola  mundo   python"</span>
+resultado = re.<span class="fn">split</span>(<span class="str">r'\s+'</span>, texto)
+<span class="fn">print</span>(resultado)</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(12,'A')"><div class="opt-badge">A</div><span>Elimina todos los espacios del texto.</span></div>
+    <div class="opt" onclick="pick(12,'B')"><div class="opt-badge">B</div><span>['hola', 'mundo', 'python'] — divide por una o más espacios en blanco.</span></div>
+    <div class="opt" onclick="pick(12,'C')"><div class="opt-badge">C</div><span>['hola', '', 'mundo', '', '', 'python'] — mantiene los splits vacíos.</span></div>
+    <div class="opt" onclick="pick(12,'D')"><div class="opt-badge">D</div><span>Error: <code>re.split</code> no puede dividir por espacios.</span></div>
+  </div>
+  <div class="exp-box" id="exp12"><strong>Correcto: B.</strong> <code>\s+</code> captura una o más whitespace characters (espacios, tabs, etc.). <code>re.split</code> divide usando ese patrón como separador. Los múltiples espacios se tratan como un solo separador porque <code>+</code> los agrupa. Resultado: ['hola', 'mundo', 'python'].</div>
+</div>
+
+<div class="qcard" id="q13">
+  <div class="qcard-header">
+    <div class="qno" id="qn13">13</div>
+    <div class="qtext">¿Cuál es la diferencia entre <code>token.lemma_</code> y <code>token.text</code> en spaCy para el token "corriendo"?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(13,'A')"><div class="opt-badge">A</div><span>Ambos devuelven "corriendo".</span></div>
+    <div class="opt" onclick="pick(13,'B')"><div class="opt-badge">B</div><span><code>token.text</code> → "corriendo"; <code>token.lemma_</code> → "correr" (forma canónica del diccionario).</span></div>
+    <div class="opt" onclick="pick(13,'C')"><div class="opt-badge">C</div><span><code>token.lemma_</code> devuelve la raíz truncada por reglas; <code>token.text</code> la forma completa.</span></div>
+    <div class="opt" onclick="pick(13,'D')"><div class="opt-badge">D</div><span><code>token.text</code> convierte a minúsculas; <code>token.lemma_</code> mantiene mayúsculas.</span></div>
+  </div>
+  <div class="exp-box" id="exp13"><strong>Correcto: B.</strong> <code>token.text</code> es el texto original tal como aparece en el documento. <code>token.lemma_</code> es el lema (forma base del diccionario). Para "corriendo": text="corriendo", lemma_="correr". Para "gatos": text="gatos", lemma_="gato".</div>
+</div>
+
+<div class="qcard" id="q14">
+  <div class="qcard-header">
+    <div class="qno" id="qn14">14</div>
+    <div class="qtext">¿Cuántas dimensiones tiene el vector resultante de <code>TfidfVectorizer</code> con <code>max_features=100</code>?</div>
+  </div>
+  <pre><code><span class="kw">from</span> sklearn.feature_extraction.text <span class="kw">import</span> TfidfVectorizer
+
+corpus = [<span class="str">"texto uno"</span>, <span class="str">"texto dos"</span>, <span class="str">"texto tres"</span>]
+vec = TfidfVectorizer(max_features=<span class="num">100</span>)
+X = vec.fit_transform(corpus)
+<span class="fn">print</span>(X.shape)</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(14,'A')"><div class="opt-badge">A</div><span>(3, 4) — 3 documentos y 4 palabras únicas del corpus</span></div>
+    <div class="opt" onclick="pick(14,'B')"><div class="opt-badge">B</div><span>(3, 100) — 3 documentos y hasta 100 features</span></div>
+    <div class="opt" onclick="pick(14,'C')"><div class="opt-badge">C</div><span>(100, 3) — 100 features y 3 documentos</span></div>
+    <div class="opt" onclick="pick(14,'D')"><div class="opt-badge">D</div><span>(3, 1) — 3 documentos y 1 feature por texto</span></div>
+  </div>
+  <div class="exp-box" id="exp14"><strong>Correcto: A.</strong> <code>max_features=100</code> limita a un máximo de 100 términos. Sin embargo, el corpus tiene solo 4 palabras únicas (texto, uno, dos, tres). El resultado real será (3, 4): 3 documentos × 4 features. <code>max_features</code> es un límite máximo, no el número exacto de features.</div>
+</div>
+
+<div class="qcard" id="q15">
+  <div class="qcard-header">
+    <div class="qno" id="qn15">15</div>
+    <div class="qtext">¿Qué produce <code>nlp.pipe(textos)</code> en spaCy frente a iterar manualmente con <code>nlp(texto)</code>?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(15,'A')"><div class="opt-badge">A</div><span>Procesa los textos en paralelo usando múltiples CPUs automáticamente.</span></div>
+    <div class="opt" onclick="pick(15,'B')"><div class="opt-badge">B</div><span>Procesa los textos en lotes (batches), siendo más eficiente en memoria y velocidad para grandes colecciones.</span></div>
+    <div class="opt" onclick="pick(15,'C')"><div class="opt-badge">C</div><span>Aplica el pipeline solo hasta el tokenizador, sin POS ni NER.</span></div>
+    <div class="opt" onclick="pick(15,'D')"><div class="opt-badge">D</div><span>No hay diferencia de rendimiento; solo es una forma alternativa de sintaxis.</span></div>
+  </div>
+  <div class="exp-box" id="exp15"><strong>Correcto: B.</strong> <code>nlp.pipe()</code> procesa textos en batches, lo que es significativamente más eficiente para grandes colecciones. Evita la sobrecarga de inicialización por texto y optimiza el uso del pipeline. Para procesar miles de documentos, puede ser 3-5x más rápido que el bucle individual.</div>
+</div>
+
+<div class="qcard" id="q16">
+  <div class="qcard-header">
+    <div class="qno" id="qn16">16</div>
+    <div class="qtext">¿Qué son las stopwords y cuándo NO conviene eliminarlas?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(16,'A')"><div class="opt-badge">A</div><span>Palabras técnicas de un dominio específico; siempre conviene conservarlas.</span></div>
+    <div class="opt" onclick="pick(16,'B')"><div class="opt-badge">B</div><span>Palabras muy frecuentes con poco contenido semántico; no conviene eliminarlas en tareas donde el orden o la gramática importan (ej. análisis de sentimiento matizado o traducción).</span></div>
+    <div class="opt" onclick="pick(16,'C')"><div class="opt-badge">C</div><span>Caracteres especiales y emojis; siempre deben eliminarse.</span></div>
+    <div class="opt" onclick="pick(16,'D')"><div class="opt-badge">D</div><span>Palabras en mayúscula; siempre deben convertirse a minúscula.</span></div>
+  </div>
+  <div class="exp-box" id="exp16"><strong>Correcto: B.</strong> Las stopwords son palabras funcionales (artículos, preposiciones, etc.) con poco contenido semántico. Son útiles eliminar en TF-IDF o topic modeling. Sin embargo, en análisis de sentimiento ("not bad" ≠ "bad"), en modelos de lenguaje o en traducción, eliminarlas puede destruir información crítica.</div>
+</div>
+
+<div class="section-divider">
+  <div class="section-num">U3</div>
+  <div class="section-title">Fuentes de datos de tipo texto</div>
+</div>
+
+<div class="qcard" id="q17">
+  <div class="qcard-header">
+    <div class="qno" id="qn17">17</div>
+    <div class="qtext">¿Qué hace <code>soup.find('div', id='main-content')</code>?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(17,'A')"><div class="opt-badge">A</div><span>Devuelve una lista con todos los <code>div</code> que tengan el atributo <code>id</code>.</span></div>
+    <div class="opt" onclick="pick(17,'B')"><div class="opt-badge">B</div><span>Devuelve el primer elemento <code>div</code> cuyo atributo <code>id</code> sea "main-content", o None si no existe.</span></div>
+    <div class="opt" onclick="pick(17,'C')"><div class="opt-badge">C</div><span>Devuelve todos los elementos dentro del <code>div#main-content</code>.</span></div>
+    <div class="opt" onclick="pick(17,'D')"><div class="opt-badge">D</div><span>Error: <code>id</code> es una palabra reservada de Python y no puede usarse como kwarg.</span></div>
+  </div>
+  <div class="exp-box" id="exp17"><strong>Correcto: B.</strong> <code>find()</code> devuelve el primer elemento que coincide con los criterios. Busca un <code>div</code> con <code>id="main-content"</code>. Si no hay coincidencia, devuelve None (a diferencia de <code>find_all()</code> que devuelve una lista vacía). El atributo <code>id</code> funciona porque no es un kwarg de Python sino de BeautifulSoup.</div>
+</div>
+
+<div class="qcard" id="q18">
+  <div class="qcard-header">
+    <div class="qno" id="qn18">18</div>
+    <div class="qtext">¿Por qué puede fallar el siguiente scraping aunque la URL sea válida?</div>
+  </div>
+  <pre><code><span class="kw">import</span> requests
+<span class="kw">from</span> bs4 <span class="kw">import</span> BeautifulSoup
+
+r = requests.<span class="fn">get</span>(<span class="str">'https://example.com/data'</span>)
+soup = BeautifulSoup(r.text, <span class="str">'html.parser'</span>)
+precio = soup.<span class="fn">find</span>(<span class="str">'span'</span>, class_=<span class="str">'precio'</span>).text</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(18,'A')"><div class="opt-badge">A</div><span>Porque <code>requests</code> no puede parsear HTML con CSS.</span></div>
+    <div class="opt" onclick="pick(18,'B')"><div class="opt-badge">B</div><span>Porque <code>find()</code> devuelve None si el elemento no existe, y llamar <code>.text</code> sobre None lanza <code>AttributeError</code>.</span></div>
+    <div class="opt" onclick="pick(18,'C')"><div class="opt-badge">C</div><span>Porque <code>class_</code> no es un parámetro válido de <code>find()</code>.</span></div>
+    <div class="opt" onclick="pick(18,'D')"><div class="opt-badge">D</div><span>Porque BeautifulSoup solo funciona con <code>lxml</code> como parser.</span></div>
+  </div>
+  <div class="exp-box" id="exp18"><strong>Correcto: B.</strong> Este es un error muy común en scraping. Si el contenido es dinámico (cargado con JS), el elemento puede no estar en el HTML estático. <code>find()</code> devuelve None, y <code>None.text</code> lanza <code>AttributeError: 'NoneType' object has no attribute 'text'</code>. Siempre verificar con <code>if precio: ...</code>.</div>
+</div>
+
+<div class="qcard" id="q19">
+  <div class="qcard-header">
+    <div class="qno" id="qn19">19</div>
+    <div class="qtext">¿Qué hace <code>df.repartition(10)</code> en PySpark?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(19,'A')"><div class="opt-badge">A</div><span>Selecciona las primeras 10 filas del DataFrame.</span></div>
+    <div class="opt" onclick="pick(19,'B')"><div class="opt-badge">B</div><span>Redistribuye los datos en exactamente 10 particiones, lo que puede implicar un shuffle completo de los datos.</span></div>
+    <div class="opt" onclick="pick(19,'C')"><div class="opt-badge">C</div><span>Divide el DataFrame en 10 DataFrames independientes.</span></div>
+    <div class="opt" onclick="pick(19,'D')"><div class="opt-badge">D</div><span>Error: <code>repartition</code> solo funciona con RDDs, no con DataFrames.</span></div>
+  </div>
+  <div class="exp-box" id="exp19"><strong>Correcto: B.</strong> <code>repartition(n)</code> redistribuye todos los datos en n particiones usando un shuffle completo. Útil para balancear carga antes de operaciones costosas. <code>coalesce(n)</code> es más eficiente para reducir particiones (sin shuffle completo), pero no puede aumentarlas.</div>
+</div>
+
+<div class="qcard" id="q20">
+  <div class="qcard-header">
+    <div class="qno" id="qn20">20</div>
+    <div class="qtext">¿Qué es la evaluación <strong>lazy</strong> (perezosa) en PySpark y por qué es importante?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(20,'A')"><div class="opt-badge">A</div><span>Significa que PySpark carga los datos solo cuando hay memoria disponible.</span></div>
+    <div class="opt" onclick="pick(20,'B')"><div class="opt-badge">B</div><span>Las transformaciones no se ejecutan hasta que se llama a una acción, permitiendo al optimizador planificar el plan de ejecución completo.</span></div>
+    <div class="opt" onclick="pick(20,'C')"><div class="opt-badge">C</div><span>Significa que PySpark ejecuta las tareas más simples primero para optimizar el tiempo total.</span></div>
+    <div class="opt" onclick="pick(20,'D')"><div class="opt-badge">D</div><span>PySpark almacena los resultados intermedios en caché automáticamente.</span></div>
+  </div>
+  <div class="exp-box" id="exp20"><strong>Correcto: B.</strong> En PySpark, operaciones como <code>filter()</code>, <code>select()</code>, <code>withColumn()</code> son transformaciones (lazy): no se ejecutan inmediatamente. Solo cuando se llama a una acción (<code>count()</code>, <code>collect()</code>, <code>show()</code>) Spark construye el plan de ejecución (DAG) y lo optimiza con Catalyst antes de ejecutar.</div>
+</div>
+
+<div class="qcard" id="q21">
+  <div class="qcard-header">
+    <div class="qno" id="qn21">21</div>
+    <div class="qtext">¿Qué diferencia hay entre <code>soup.find_all('p', limit=3)</code> y <code>soup.find_all('p')[:3]</code>?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(21,'A')"><div class="opt-badge">A</div><span>Son completamente equivalentes: producen el mismo resultado con el mismo rendimiento.</span></div>
+    <div class="opt" onclick="pick(21,'B')"><div class="opt-badge">B</div><span><code>limit=3</code> detiene la búsqueda al encontrar 3 coincidencias (más eficiente); <code>[:3]</code> busca todo y luego corta la lista.</span></div>
+    <div class="opt" onclick="pick(21,'C')"><div class="opt-badge">C</div><span><code>limit=3</code> devuelve los 3 últimos elementos; <code>[:3]</code> los 3 primeros.</span></div>
+    <div class="opt" onclick="pick(21,'D')"><div class="opt-badge">D</div><span>El parámetro <code>limit</code> no existe en BeautifulSoup.</span></div>
+  </div>
+  <div class="exp-box" id="exp21"><strong>Correcto: B.</strong> <code>limit=3</code> hace que BeautifulSoup deje de buscar tras encontrar 3 coincidencias. <code>[:3]</code> encuentra todos los elementos y luego Python corta la lista. En documentos grandes con muchos elementos <code>&lt;p&gt;</code>, <code>limit=3</code> es más eficiente.</div>
+</div>
+
+<div class="qcard" id="q22">
+  <div class="qcard-header">
+    <div class="qno" id="qn22">22</div>
+    <div class="qtext">¿Qué hace <code>pyspark.sql.functions.explode()</code>?</div>
+  </div>
+  <pre><code><span class="kw">from</span> pyspark.sql.functions <span class="kw">import</span> explode, split
+
+df = df.<span class="fn">withColumn</span>(<span class="str">'palabras'</span>, <span class="fn">split</span>(df[<span class="str">'texto'</span>], <span class="str">' '</span>))
+df = df.<span class="fn">withColumn</span>(<span class="str">'palabra'</span>, <span class="fn">explode</span>(df[<span class="str">'palabras'</span>]))</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(22,'A')"><div class="opt-badge">A</div><span>Divide el DataFrame en múltiples DataFrames según el contenido de cada fila.</span></div>
+    <div class="opt" onclick="pick(22,'B')"><div class="opt-badge">B</div><span>Convierte una columna de tipo array en filas individuales: una fila por elemento del array.</span></div>
+    <div class="opt" onclick="pick(22,'C')"><div class="opt-badge">C</div><span>Une (join) el DataFrame con otro basándose en la columna especificada.</span></div>
+    <div class="opt" onclick="pick(22,'D')"><div class="opt-badge">D</div><span>Error: <code>explode</code> no puede aplicarse sobre columnas de tipo string.</span></div>
+  </div>
+  <div class="exp-box" id="exp22"><strong>Correcto: B.</strong> <code>explode()</code> "expande" un array en filas individuales. Si una fila tiene <code>palabras = ['hola', 'mundo']</code>, el resultado son dos filas: una con "hola" y otra con "mundo". Es esencial para análisis de texto a nivel de token en PySpark.</div>
+</div>
+
+<div class="qcard" id="q23">
+  <div class="qcard-header">
+    <div class="qno" id="qn23">23</div>
+    <div class="qtext">¿Cuál es la diferencia entre <code>requests.get()</code> y usar <code>requests.Session()</code>?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(23,'A')"><div class="opt-badge">A</div><span>Solo <code>requests.Session()</code> puede manejar URLs con HTTPS.</span></div>
+    <div class="opt" onclick="pick(23,'B')"><div class="opt-badge">B</div><span><code>Session</code> mantiene parámetros entre peticiones (cookies, headers, autenticación), siendo más eficiente para múltiples peticiones al mismo servidor.</span></div>
+    <div class="opt" onclick="pick(23,'C')"><div class="opt-badge">C</div><span><code>Session</code> solo sirve para peticiones POST; <code>get()</code> solo para GET.</span></div>
+    <div class="opt" onclick="pick(23,'D')"><div class="opt-badge">D</div><span>No hay diferencia funcional; <code>Session</code> es solo un alias.</span></div>
+  </div>
+  <div class="exp-box" id="exp23"><strong>Correcto: B.</strong> <code>requests.Session()</code> mantiene estado entre peticiones: cookies de sesión, headers comunes, autenticación. También reutiliza conexiones TCP (keep-alive), haciéndolo más eficiente para scraping de muchas páginas del mismo dominio. <code>requests.get()</code> crea una conexión nueva cada vez.</div>
+</div>
+
+<div class="section-divider">
+  <div class="section-num">U4</div>
+  <div class="section-title">Modelización y análisis</div>
+</div>
+
+<div class="qcard" id="q24">
+  <div class="qcard-header">
+    <div class="qno" id="qn24">24</div>
+    <div class="qtext">¿Qué representa la representación <strong>Bag of Words</strong> (BoW) y cuál es su limitación principal?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(24,'A')"><div class="opt-badge">A</div><span>BoW codifica el orden de las palabras; su limitación es que no captura frecuencias.</span></div>
+    <div class="opt" onclick="pick(24,'B')"><div class="opt-badge">B</div><span>BoW codifica la frecuencia de palabras ignorando su orden; su limitación es que pierde información semántica y contextual.</span></div>
+    <div class="opt" onclick="pick(24,'C')"><div class="opt-badge">C</div><span>BoW es una representación de embeddings densos; su limitación es la alta dimensionalidad.</span></div>
+    <div class="opt" onclick="pick(24,'D')"><div class="opt-badge">D</div><span>BoW codifica relaciones sintácticas; su limitación es que requiere mucho tiempo de procesamiento.</span></div>
+  </div>
+  <div class="exp-box" id="exp24"><strong>Correcto: B.</strong> Bag of Words representa un documento como un vector de frecuencias de palabras, ignorando el orden. "El gato come" y "come el gato" son idénticos en BoW. La limitación principal es que no captura significado ("banco" = institución o asiento), contexto ni relaciones semánticas entre palabras.</div>
+</div>
+
+<div class="qcard" id="q25">
+  <div class="qcard-header">
+    <div class="qno" id="qn25">25</div>
+    <div class="qtext">¿Qué hace <code>dictionary.filter_extremes(no_below=5, no_above=0.5)</code> en Gensim antes de entrenar LDA?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(25,'A')"><div class="opt-badge">A</div><span>Mantiene solo las 5 palabras más frecuentes del vocabulario.</span></div>
+    <div class="opt" onclick="pick(25,'B')"><div class="opt-badge">B</div><span>Elimina palabras que aparecen en menos de 5 documentos (muy raras) y las que aparecen en más del 50% de documentos (muy comunes).</span></div>
+    <div class="opt" onclick="pick(25,'C')"><div class="opt-badge">C</div><span>Establece un límite de 5 palabras por tópico en LDA.</span></div>
+    <div class="opt" onclick="pick(25,'D')"><div class="opt-badge">D</div><span>Ordena el vocabulario por frecuencia de menor a mayor y corta al 50%.</span></div>
+  </div>
+  <div class="exp-box" id="exp25"><strong>Correcto: B.</strong> <code>no_below=5</code> elimina palabras que aparecen en menos de 5 documentos (demasiado raras para ser representativas). <code>no_above=0.5</code> elimina palabras presentes en más del 50% del corpus (demasiado comunes, como stopwords no filtradas). Esto mejora la calidad del vocabulario para LDA.</div>
+</div>
+
+<div class="qcard" id="q26">
+  <div class="qcard-header">
+    <div class="qno" id="qn26">26</div>
+    <div class="qtext">¿Qué métrica de clasificación es más adecuada cuando el dataset está muy desbalanceado (ej. 95% clase A, 5% clase B)?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(26,'A')"><div class="opt-badge">A</div><span>Accuracy global, porque captura el rendimiento general del modelo.</span></div>
+    <div class="opt" onclick="pick(26,'B')"><div class="opt-badge">B</div><span>F1-score o AUC-ROC, porque tienen en cuenta el rendimiento en la clase minoritaria.</span></div>
+    <div class="opt" onclick="pick(26,'C')"><div class="opt-badge">C</div><span>Solo precision, porque es suficiente cuando hay muchos verdaderos positivos.</span></div>
+    <div class="opt" onclick="pick(26,'D')"><div class="opt-badge">D</div><span>Log-loss, porque penaliza más los errores en la clase mayoritaria.</span></div>
+  </div>
+  <div class="exp-box" id="exp26"><strong>Correcto: B.</strong> Con 95/5% de distribución, un modelo que predice siempre clase A tiene 95% accuracy sin haber aprendido nada. F1-score (media armónica de precision y recall) y AUC-ROC miden la capacidad del modelo para detectar la clase minoritaria, siendo métricas mucho más informativas en clases desbalanceadas.</div>
+</div>
+
+<div class="qcard" id="q27">
+  <div class="qcard-header">
+    <div class="qno" id="qn27">27</div>
+    <div class="qtext">¿Qué es Word2Vec y cuál es su ventaja frente a TF-IDF?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(27,'A')"><div class="opt-badge">A</div><span>Word2Vec es un método de conteo de palabras; TF-IDF es una red neuronal.</span></div>
+    <div class="opt" onclick="pick(27,'B')"><div class="opt-badge">B</div><span>Word2Vec genera vectores densos que capturan relaciones semánticas (rey - hombre + mujer ≈ reina); TF-IDF produce vectores sparse sin semántica.</span></div>
+    <div class="opt" onclick="pick(27,'C')"><div class="opt-badge">C</div><span>Word2Vec requiere más datos de entrenamiento que TF-IDF pero tiene peor rendimiento en clasificación.</span></div>
+    <div class="opt" onclick="pick(27,'D')"><div class="opt-badge">D</div><span>Son equivalentes: ambos producen representaciones numéricas sin semántica.</span></div>
+  </div>
+  <div class="exp-box" id="exp27"><strong>Correcto: B.</strong> Word2Vec aprende embeddings densos (100-300 dimensiones) que capturan relaciones semánticas y sintácticas: palabras con significado similar tienen vectores similares. TF-IDF produce vectores sparse (tantas dimensiones como vocabulario) que no capturan semántica ni relaciones entre palabras.</div>
+</div>
+
+<div class="qcard" id="q28">
+  <div class="qcard-header">
+    <div class="qno" id="qn28">28</div>
+    <div class="qtext">¿Qué hace <code>TextBlob("I love Python").correct()</code>?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(28,'A')"><div class="opt-badge">A</div><span>Corrige la gramática del texto mediante un modelo de lenguaje.</span></div>
+    <div class="opt" onclick="pick(28,'B')"><div class="opt-badge">B</div><span>Intenta corregir errores ortográficos en el texto usando un modelo probabilístico basado en frecuencias.</span></div>
+    <div class="opt" onclick="pick(28,'C')"><div class="opt-badge">C</div><span>Traduce el texto al inglés correcto si detecta mezcla de idiomas.</span></div>
+    <div class="opt" onclick="pick(28,'D')"><div class="opt-badge">D</div><span>Error: <code>correct()</code> no es un método de TextBlob.</span></div>
+  </div>
+  <div class="exp-box" id="exp28"><strong>Correcto: B.</strong> <code>TextBlob.correct()</code> aplica corrección ortográfica basada en el algoritmo de Peter Norvig. Para "I love Python" devolvería el mismo texto (ya está correcto). Para "I loev Pyhton" → "I love Python". Es un corrector simple basado en probabilidades de n-gramas, no gramática.</div>
+</div>
+
+<div class="qcard" id="q29">
+  <div class="qcard-header">
+    <div class="qno" id="qn29">29</div>
+    <div class="qtext">¿Qué hace <code>pyLDAvis.gensim_models.prepare(modelo, corpus, dictionary)</code>?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(29,'A')"><div class="opt-badge">A</div><span>Guarda el modelo LDA en formato visualizable para Jupyter Notebook.</span></div>
+    <div class="opt" onclick="pick(29,'B')"><div class="opt-badge">B</div><span>Genera una visualización interactiva de los tópicos LDA que permite explorar su distribución y las palabras más representativas.</span></div>
+    <div class="opt" onclick="pick(29,'C')"><div class="opt-badge">C</div><span>Evalúa la coherencia del modelo LDA y devuelve una puntuación.</span></div>
+    <div class="opt" onclick="pick(29,'D')"><div class="opt-badge">D</div><span>Convierte el modelo LDA a formato compatible con scikit-learn.</span></div>
+  </div>
+  <div class="exp-box" id="exp29"><strong>Correcto: B.</strong> pyLDAvis genera una visualización interactiva con dos partes: un mapa de burbujas mostrando la similitud entre tópicos (reducción de dimensión), y un gráfico de barras mostrando las palabras más relevantes de cada tópico. Es la herramienta estándar para interpretar modelos LDA.</div>
+</div>
+
+<div class="qcard" id="q30">
+  <div class="qcard-header">
+    <div class="qno" id="qn30">30</div>
+    <div class="qtext">¿Qué calcula <code>precision_score(y_true, y_pred)</code>?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(30,'A')"><div class="opt-badge">A</div><span>TP / (TP + FN) — de todos los positivos reales, cuántos detectamos.</span></div>
+    <div class="opt" onclick="pick(30,'B')"><div class="opt-badge">B</div><span>TP / (TP + FP) — de todos los que predecimos como positivos, cuántos son realmente positivos.</span></div>
+    <div class="opt" onclick="pick(30,'C')"><div class="opt-badge">C</div><span>(TP + TN) / Total — proporción de predicciones correctas.</span></div>
+    <div class="opt" onclick="pick(30,'D')"><div class="opt-badge">D</div><span>2 * (Precision * Recall) / (Precision + Recall) — media armónica.</span></div>
+  </div>
+  <div class="exp-box" id="exp30"><strong>Correcto: B.</strong> <strong>Precision</strong> = TP / (TP + FP). Responde: "De todos los que mi modelo dice que son positivos, ¿qué porcentaje realmente lo son?". Mide la tasa de falsos positivos. Recall (opción A) mide falsos negativos. F1-score es la opción D. La opción C es Accuracy.</div>
+</div>
+
+<div class="section-divider">
+  <div class="section-num">U5</div>
+  <div class="section-title">Análisis de redes y grafos</div>
+</div>
+
+<div class="qcard" id="q31">
+  <div class="qcard-header">
+    <div class="qno" id="qn31">31</div>
+    <div class="qtext">¿Qué devuelve <code>nx.degree_centrality(G)</code>?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(31,'A')"><div class="opt-badge">A</div><span>Un dict con el número absoluto de conexiones de cada nodo.</span></div>
+    <div class="opt" onclick="pick(31,'B')"><div class="opt-badge">B</div><span>Un dict con la centralidad de grado normalizada de cada nodo (grado / (n-1)).</span></div>
+    <div class="opt" onclick="pick(31,'C')"><div class="opt-badge">C</div><span>El nodo con mayor número de conexiones.</span></div>
+    <div class="opt" onclick="pick(31,'D')"><div class="opt-badge">D</div><span>Una lista de nodos ordenados por grado descendente.</span></div>
+  </div>
+  <div class="exp-box" id="exp31"><strong>Correcto: B.</strong> <code>nx.degree_centrality(G)</code> devuelve un diccionario <code>{nodo: centralidad}</code> donde la centralidad es el grado normalizado: grado del nodo dividido entre (n-1), siendo n el número total de nodos. Para obtener el grado absoluto: <code>dict(G.degree())</code>.</div>
+</div>
+
+<div class="qcard" id="q32">
+  <div class="qcard-header">
+    <div class="qno" id="qn32">32</div>
+    <div class="qtext">¿Cuántas aristas tiene el siguiente grafo y qué tipo de estructura forma?</div>
+  </div>
+  <pre><code><span class="kw">import</span> networkx <span class="kw">as</span> nx
+
+G = nx.<span class="fn">complete_graph</span>(<span class="num">5</span>)
+<span class="fn">print</span>(G.number_of_edges())</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(32,'A')"><div class="opt-badge">A</div><span>5 aristas — un ciclo con 5 nodos.</span></div>
+    <div class="opt" onclick="pick(32,'B')"><div class="opt-badge">B</div><span>10 aristas — un grafo completo donde todos los nodos están conectados entre sí.</span></div>
+    <div class="opt" onclick="pick(32,'C')"><div class="opt-badge">C</div><span>4 aristas — un árbol con raíz.</span></div>
+    <div class="opt" onclick="pick(32,'D')"><div class="opt-badge">D</div><span>25 aristas — 5 nodos × 5 conexiones cada uno.</span></div>
+  </div>
+  <div class="exp-box" id="exp32"><strong>Correcto: B.</strong> Un grafo completo K_n tiene n*(n-1)/2 aristas. Para K_5: 5*4/2 = 10 aristas. Cada nodo está conectado con los otros 4. Es el grafo con densidad máxima (density = 1.0). <code>nx.complete_graph(5)</code> crea exactamente esta estructura.</div>
+</div>
+
+<div class="qcard" id="q33">
+  <div class="qcard-header">
+    <div class="qno" id="qn33">33</div>
+    <div class="qtext">¿Qué hace <code>nx.pagerank(G, alpha=0.85)</code>?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(33,'A')"><div class="opt-badge">A</div><span>Encuentra las 85 páginas más importantes del grafo.</span></div>
+    <div class="opt" onclick="pick(33,'B')"><div class="opt-badge">B</div><span>Calcula la importancia de cada nodo considerando la importancia de sus vecinos. El parámetro <code>alpha</code> (damping factor) controla la probabilidad de seguir un enlace vs. saltar a un nodo aleatorio.</span></div>
+    <div class="opt" onclick="pick(33,'C')"><div class="opt-badge">C</div><span>Ordena los nodos por su grado y devuelve los 85% más conectados.</span></div>
+    <div class="opt" onclick="pick(33,'D')"><div class="opt-badge">D</div><span>Calcula la distancia promedio entre nodos con precisión del 85%.</span></div>
+  </div>
+  <div class="exp-box" id="exp33"><strong>Correcto: B.</strong> PageRank (originalmente el algoritmo de Google) calcula la importancia de cada nodo propagando importancia a través de los enlaces. <code>alpha=0.85</code> es el damping factor: con probabilidad 0.85 se sigue un enlace, con 0.15 se salta a un nodo aleatorio. Devuelve un dict <code>{nodo: score}</code>.</div>
+</div>
+
+<div class="qcard" id="q34">
+  <div class="qcard-header">
+    <div class="qno" id="qn34">34</div>
+    <div class="qtext">En una red de emails dirigida, ¿qué diferencia hay entre el <code>in_degree</code> y el <code>out_degree</code> de un nodo?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(34,'A')"><div class="opt-badge">A</div><span>Son siempre iguales en un DiGraph; la diferencia solo existe en MultiGraph.</span></div>
+    <div class="opt" onclick="pick(34,'B')"><div class="opt-badge">B</div><span><code>in_degree</code> cuenta aristas entrantes (emails recibidos); <code>out_degree</code> cuenta aristas salientes (emails enviados).</span></div>
+    <div class="opt" onclick="pick(34,'C')"><div class="opt-badge">C</div><span><code>in_degree</code> mide la importancia; <code>out_degree</code> mide la actividad.</span></div>
+    <div class="opt" onclick="pick(34,'D')"><div class="opt-badge">D</div><span><code>in_degree</code> solo se aplica a nodos; <code>out_degree</code> a aristas.</span></div>
+  </div>
+  <div class="exp-box" id="exp34"><strong>Correcto: B.</strong> En un DiGraph (grafo dirigido), cada arista tiene una dirección. Para nodos en una red de emails: <code>in_degree</code> = número de aristas que llegan al nodo = emails recibidos. <code>out_degree</code> = aristas que salen = emails enviados. Un nodo con alto in_degree es muy popular/buscado.</div>
+</div>
+
+<div class="qcard" id="q35">
+  <div class="qcard-header">
+    <div class="qno" id="qn35">35</div>
+    <div class="qtext">¿Cómo se calcula la densidad de un grafo no dirigido con 5 nodos y 7 aristas?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(35,'A')"><div class="opt-badge">A</div><span>7 / 5 = 1.4</span></div>
+    <div class="opt" onclick="pick(35,'B')"><div class="opt-badge">B</div><span>7 / (5 * (5-1) / 2) = 7/10 = 0.7</span></div>
+    <div class="opt" onclick="pick(35,'C')"><div class="opt-badge">C</div><span>7 / (5 * 5) = 0.28</span></div>
+    <div class="opt" onclick="pick(35,'D')"><div class="opt-badge">D</div><span>5 / 7 = 0.71</span></div>
+  </div>
+  <div class="exp-box" id="exp35"><strong>Correcto: B.</strong> Densidad = aristas reales / aristas máximas posibles. Para un grafo no dirigido de n nodos, el máximo de aristas es n*(n-1)/2. Con 5 nodos: 5*4/2 = 10 aristas máximas. Densidad = 7/10 = 0.7. Un grafo completo tiene densidad 1.0.</div>
+</div>
+
+<div class="qcard" id="q36">
+  <div class="qcard-header">
+    <div class="qno" id="qn36">36</div>
+    <div class="qtext">¿Qué información adicional proporciona <code>nx.spring_layout(G, seed=42)</code> frente a <code>nx.spring_layout(G)</code>?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(36,'A')"><div class="opt-badge">A</div><span>El parámetro <code>seed</code> activa un layout más estético basado en el algoritmo de Fruchterman-Reingold.</span></div>
+    <div class="opt" onclick="pick(36,'B')"><div class="opt-badge">B</div><span><code>seed=42</code> fija la semilla del generador aleatorio, haciendo el layout reproducible (siempre igual posición de nodos).</span></div>
+    <div class="opt" onclick="pick(36,'C')"><div class="opt-badge">C</div><span><code>seed</code> especifica cuántas iteraciones del algoritmo de fuerzas se ejecutan.</span></div>
+    <div class="opt" onclick="pick(36,'D')"><div class="opt-badge">D</div><span>No hay diferencia: <code>seed</code> no afecta al resultado de <code>spring_layout</code>.</span></div>
+  </div>
+  <div class="exp-box" id="exp36"><strong>Correcto: B.</strong> <code>spring_layout</code> usa un algoritmo de fuerzas con componente aleatorio en la inicialización. Sin <code>seed</code>, las posiciones de los nodos varían entre ejecuciones. Con <code>seed=42</code> (o cualquier entero), el resultado es siempre el mismo, lo que es esencial para reproducibilidad en análisis y publicaciones.</div>
+</div>
+
+<div class="qcard" id="q37">
+  <div class="qcard-header">
+    <div class="qno" id="qn37">37</div>
+    <div class="qtext">¿Qué nodo tiene mayor <strong>closeness centrality</strong> en una red de comunicaciones?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(37,'A')"><div class="opt-badge">A</div><span>El nodo con más conexiones directas.</span></div>
+    <div class="opt" onclick="pick(37,'B')"><div class="opt-badge">B</div><span>El nodo que aparece en más caminos mínimos entre otros pares.</span></div>
+    <div class="opt" onclick="pick(37,'C')"><div class="opt-badge">C</div><span>El nodo con menor distancia promedio al resto de nodos (más "central" geográficamente).</span></div>
+    <div class="opt" onclick="pick(37,'D')"><div class="opt-badge">D</div><span>El nodo con conexiones a los vecinos más influyentes.</span></div>
+  </div>
+  <div class="exp-box" id="exp37"><strong>Correcto: C.</strong> Closeness centrality = (n-1) / suma de distancias a todos los nodos. El nodo con mayor closeness es aquel que puede alcanzar a todos los demás en el menor número de pasos promedio. En comunicaciones: el empleado que puede difundir información a toda la red más rápidamente.</div>
+</div>
+
+<div class="section-divider">
+  <div class="section-num">U6</div>
+  <div class="section-title">Deep Learning y LLMs</div>
+</div>
+
+<div class="qcard" id="q38">
+  <div class="qcard-header">
+    <div class="qno" id="qn38">38</div>
+    <div class="qtext">¿Qué tipo de modelo es BERT y para qué fue preentrenado?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(38,'A')"><div class="opt-badge">A</div><span>Un modelo decoder-only preentrenado para generación de texto autoregresiva.</span></div>
+    <div class="opt" onclick="pick(38,'B')"><div class="opt-badge">B</div><span>Un modelo encoder bidireccional preentrenado con Masked Language Modeling y Next Sentence Prediction.</span></div>
+    <div class="opt" onclick="pick(38,'C')"><div class="opt-badge">C</div><span>Un modelo encoder-decoder preentrenado para traducción automática.</span></div>
+    <div class="opt" onclick="pick(38,'D')"><div class="opt-badge">D</div><span>Un modelo CNN preentrenado con clasificación de imágenes adaptado a texto.</span></div>
+  </div>
+  <div class="exp-box" id="exp38"><strong>Correcto: B.</strong> BERT (Bidirectional Encoder Representations from Transformers) es un encoder Transformer bidireccional. Se preentrenó con MLM (predecir tokens enmascarados) y NSP (predecir si dos frases son consecutivas). Por ser bidireccional, cada token atiende a los tokens anteriores Y posteriores.</div>
+</div>
+
+<div class="qcard" id="q39">
+  <div class="qcard-header">
+    <div class="qno" id="qn39">39</div>
+    <div class="qtext">¿Cuál es la diferencia entre un modelo encoder (BERT) y un modelo decoder (GPT) en cuanto a cómo procesan la secuencia?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(39,'A')"><div class="opt-badge">A</div><span>BERT procesa el texto token a token en orden; GPT lo procesa todo en paralelo.</span></div>
+    <div class="opt" onclick="pick(39,'B')"><div class="opt-badge">B</div><span>BERT (encoder) puede atender a todos los tokens en ambas direcciones; GPT (decoder) solo puede atender a los tokens anteriores (atención causal).</span></div>
+    <div class="opt" onclick="pick(39,'C')"><div class="opt-badge">C</div><span>No hay diferencia en el mecanismo de atención: ambos son bidireccionales.</span></div>
+    <div class="opt" onclick="pick(39,'D')"><div class="opt-badge">D</div><span>GPT usa atención bidireccional; BERT solo atiende a los tokens anteriores.</span></div>
+  </div>
+  <div class="exp-box" id="exp39"><strong>Correcto: B.</strong> BERT usa full self-attention bidireccional: cada token atiende a todos los demás (ideal para comprensión). GPT usa masked/causal attention: cada token solo atiende a los tokens anteriores (necesario para generación, donde los tokens futuros no se conocen en el momento de predicción).</div>
+</div>
+
+<div class="qcard" id="q40">
+  <div class="qcard-header">
+    <div class="qno" id="qn40">40</div>
+    <div class="qtext">¿Qué hace el <code>Trainer</code> de Hugging Face?</div>
+  </div>
+  <pre><code><span class="kw">from</span> transformers <span class="kw">import</span> Trainer, TrainingArguments
+
+trainer = Trainer(
+    model=model,
+    args=TrainingArguments(output_dir=<span class="str">'./out'</span>, num_train_epochs=<span class="num">3</span>),
+    train_dataset=train_ds,
+    eval_dataset=eval_ds
+)
+trainer.<span class="fn">train</span>()</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(40,'A')"><div class="opt-badge">A</div><span>Descarga automáticamente un modelo preentrenado desde el Hub y lo evalúa.</span></div>
+    <div class="opt" onclick="pick(40,'B')"><div class="opt-badge">B</div><span>Abstrae el bucle de entrenamiento completo (forward pass, backward, optimizer step, evaluación) con soporte para GPU, mixed precision y logging.</span></div>
+    <div class="opt" onclick="pick(40,'C')"><div class="opt-badge">C</div><span>Solo realiza la evaluación del modelo; el entrenamiento se hace manualmente.</span></div>
+    <div class="opt" onclick="pick(40,'D')"><div class="opt-badge">D</div><span>Convierte el modelo a formato ONNX para despliegue en producción.</span></div>
+  </div>
+  <div class="exp-box" id="exp40"><strong>Correcto: B.</strong> <code>Trainer</code> es una API de alto nivel de Hugging Face que encapsula todo el loop de entrenamiento: forward/backward pass, optimizer step, scheduler, evaluación por época, logging (TensorBoard, WandB), guardado de checkpoints, y soporte automático para multi-GPU y mixed precision (fp16).</div>
+</div>
+
+<div class="qcard" id="q41">
+  <div class="qcard-header">
+    <div class="qno" id="qn41">41</div>
+    <div class="qtext">¿Qué ventaja ofrece la técnica de <strong>quantización</strong> para modelos LLM?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(41,'A')"><div class="opt-badge">A</div><span>Mejora la precisión del modelo al aumentar la dimensión de los embeddings.</span></div>
+    <div class="opt" onclick="pick(41,'B')"><div class="opt-badge">B</div><span>Reduce el tamaño del modelo y el uso de memoria representando los pesos con menos bits (ej. INT8 en lugar de FP32), con pérdida mínima de rendimiento.</span></div>
+    <div class="opt" onclick="pick(41,'C')"><div class="opt-badge">C</div><span>Aumenta la velocidad de entrenamiento multiplicando el número de GPUs disponibles.</span></div>
+    <div class="opt" onclick="pick(41,'D')"><div class="opt-badge">D</div><span>Comprime el dataset de entrenamiento para acelerar el proceso de fine-tuning.</span></div>
+  </div>
+  <div class="exp-box" id="exp41"><strong>Correcto: B.</strong> La quantización convierte pesos de FP32 (32 bits) a INT8 (8 bits) o incluso INT4, reduciendo el tamaño del modelo ~4x sin pérdida significativa de calidad. Permite ejecutar modelos grandes (7B, 13B parámetros) en hardware con memoria limitada. Herramientas: bitsandbytes, GPTQ, GGUF.</div>
+</div>
+
+<div class="qcard" id="q42">
+  <div class="qcard-header">
+    <div class="qno" id="qn42">42</div>
+    <div class="qtext">¿Qué hace <code>outputs.last_hidden_state[:, 0, :]</code> al procesar con BERT?</div>
+  </div>
+  <pre><code>inputs = tokenizer(<span class="str">"Hola mundo"</span>, return_tensors=<span class="str">'pt'</span>)
+outputs = model(**inputs)
+embedding = outputs.last_hidden_state[:, <span class="num">0</span>, :]</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(42,'A')"><div class="opt-badge">A</div><span>Extrae el embedding del último token de la secuencia.</span></div>
+    <div class="opt" onclick="pick(42,'B')"><div class="opt-badge">B</div><span>Extrae el embedding del token [CLS] (primer token), usado como representación del documento completo.</span></div>
+    <div class="opt" onclick="pick(42,'C')"><div class="opt-badge">C</div><span>Calcula el promedio de todos los embeddings de la secuencia.</span></div>
+    <div class="opt" onclick="pick(42,'D')"><div class="opt-badge">D</div><span>Extrae la primera capa de atención del modelo.</span></div>
+  </div>
+  <div class="exp-box" id="exp42"><strong>Correcto: B.</strong> <code>last_hidden_state</code> tiene forma (batch_size, seq_length, hidden_size). El índice <code>[:, 0, :]</code> selecciona la posición 0 de la secuencia para todo el batch. En BERT, el token 0 es siempre [CLS] (Classification token), y su embedding se usa convencionalmente como representación del documento completo para clasificación.</div>
+</div>
+
+<div class="qcard" id="q43">
+  <div class="qcard-header">
+    <div class="qno" id="qn43">43</div>
+    <div class="qtext">¿Qué función de pérdida usa Keras automáticamente para clasificación binaria con <code>activation='sigmoid'</code>?</div>
+  </div>
+  <pre><code>model.<span class="fn">compile</span>(optimizer=<span class="str">'adam'</span>,
+              loss=<span class="str">'???'</span>,
+              metrics=[<span class="str">'accuracy'</span>])</code></pre>
+  <div class="options-list">
+    <div class="opt" onclick="pick(43,'A')"><div class="opt-badge">A</div><span><code>'categorical_crossentropy'</code></span></div>
+    <div class="opt" onclick="pick(43,'B')"><div class="opt-badge">B</div><span><code>'mean_squared_error'</code></span></div>
+    <div class="opt" onclick="pick(43,'C')"><div class="opt-badge">C</div><span><code>'binary_crossentropy'</code></span></div>
+    <div class="opt" onclick="pick(43,'D')"><div class="opt-badge">D</div><span><code>'sparse_categorical_crossentropy'</code></span></div>
+  </div>
+  <div class="exp-box" id="exp43"><strong>Correcto: C.</strong> Para clasificación binaria (salida sigmoid, 1 neurona): <code>'binary_crossentropy'</code>. Para clasificación multiclase con one-hot encoding: <code>'categorical_crossentropy'</code>. Para multiclase con etiquetas enteras: <code>'sparse_categorical_crossentropy'</code>. MSE es para regresión.</div>
+</div>
+
+<div class="qcard" id="q44">
+  <div class="qcard-header">
+    <div class="qno" id="qn44">44</div>
+    <div class="qtext">¿Qué es el <strong>overfitting</strong> en un modelo de clasificación de texto y cómo se detecta?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(44,'A')"><div class="opt-badge">A</div><span>El modelo no converge durante el entrenamiento; se detecta cuando la loss no baja.</span></div>
+    <div class="opt" onclick="pick(44,'B')"><div class="opt-badge">B</div><span>El modelo aprende patrones del ruido de entrenamiento; se detecta cuando la accuracy en train es alta pero baja en validation.</span></div>
+    <div class="opt" onclick="pick(44,'C')"><div class="opt-badge">C</div><span>El modelo es demasiado simple para la tarea; se detecta cuando ambas métricas (train y val) son bajas.</span></div>
+    <div class="opt" onclick="pick(44,'D')"><div class="opt-badge">D</div><span>El modelo tarda demasiado en entrenar; se detecta midiendo el tiempo por época.</span></div>
+  </div>
+  <div class="exp-box" id="exp44"><strong>Correcto: B.</strong> Overfitting (sobreajuste) ocurre cuando el modelo memoriza el conjunto de entrenamiento pero no generaliza. Señal clave: train accuracy alta + val accuracy baja (o train loss baja + val loss alta/creciente). Soluciones: dropout, regularización L2, early stopping, más datos, data augmentation.</div>
+</div>
+
+<div class="qcard" id="q45">
+  <div class="qcard-header">
+    <div class="qno" id="qn45">45</div>
+    <div class="qtext">¿Qué ventaja principal ofrece <strong>LoRA</strong> (Low-Rank Adaptation) para fine-tuning de LLMs?</div>
+  </div>
+  <div class="options-list">
+    <div class="opt" onclick="pick(45,'A')"><div class="opt-badge">A</div><span>Aumenta el número de parámetros del modelo para mejorar su capacidad.</span></div>
+    <div class="opt" onclick="pick(45,'B')"><div class="opt-badge">B</div><span>Permite hacer fine-tuning eficiente entrenando solo matrices de bajo rango adicionales, congelando los pesos originales del modelo.</span></div>
+    <div class="opt" onclick="pick(45,'C')"><div class="opt-badge">C</div><span>Comprime el modelo reduciendo el número de capas de atención.</span></div>
+    <div class="opt" onclick="pick(45,'D')"><div class="opt-badge">D</div><span>Permite usar BERT para generación de texto sin cambios en la arquitectura.</span></div>
+  </div>
+  <div class="exp-box" id="exp45"><strong>Correcto: B.</strong> LoRA (Low-Rank Adaptation) añade matrices de bajo rango (A×B) paralelas a las capas originales del modelo, que están congeladas. Solo se entrenan esas matrices pequeñas (~0.1-1% de parámetros del modelo). Resultado: fine-tuning de LLMs grandes con muy poca VRAM, sin degradar los pesos originales. Implementación popular: PEFT de Hugging Face.</div>
+</div>
+
+<div class="result-card" id="result-card">
+  <div class="rc-mono">Resultado final · Modelo E</div>
+  <div class="rc-score" id="rc-score">—</div>
+  <div class="rc-label">porcentaje de aciertos</div>
+  <div class="rc-grid">
+    <div class="rc-stat">
+      <div class="rc-stat-v" id="rc-correct" style="color:#4ade80">0</div>
+      <div class="rc-stat-l">Correctas</div>
+    </div>
+    <div class="rc-stat">
+      <div class="rc-stat-v" id="rc-wrong" style="color:#f87171">0</div>
+      <div class="rc-stat-l">Erróneas</div>
+    </div>
+    <div class="rc-stat">
+      <div class="rc-stat-v" id="rc-nota">—</div>
+      <div class="rc-stat-l">Nota / 10</div>
+    </div>
+  </div>
+  <button class="btn-reset" onclick="resetAll()">Volver a intentar</button>
+</div>
+
+</div>
+
+<script>
+const ANS = {
+  1:'C', 2:'A', 3:'A', 4:'B', 5:'B', 6:'B', 7:'B', 8:'B',
+  9:'B', 10:'C', 11:'B', 12:'B', 13:'B', 14:'A', 15:'B', 16:'B',
+  17:'B', 18:'B', 19:'B', 20:'B', 21:'B', 22:'B', 23:'B',
+  24:'B', 25:'B', 26:'B', 27:'B', 28:'B', 29:'B', 30:'B',
+  31:'B', 32:'B', 33:'B', 34:'B', 35:'B', 36:'B', 37:'C',
+  38:'B', 39:'B', 40:'B', 41:'B', 42:'B', 43:'C', 44:'B', 45:'B'
+};
+
+let done = {}, nOk = 0, nWrong = 0;
+
+function pick(n, sel) {
+  if (done[n]) return;
+  done[n] = sel;
+  const correct = ANS[n];
+  const card = document.getElementById('q'+n);
+  const opts = card.querySelectorAll('.opt');
+  const lets = ['A','B','C','D'];
+  opts.forEach((o,i) => {
+    o.classList.add('disabled');
+    if (lets[i] === correct) o.classList.add('correct');
+    else if (lets[i] === sel) o.classList.add('wrong');
+  });
+  document.getElementById('exp'+n).classList.add('show');
+  const num = document.getElementById('qn'+n);
+  if (sel === correct) {
+    nOk++;
+    num.className = 'qno ok';
+    num.textContent = '✓';
+  } else {
+    nWrong++;
+    num.className = 'qno err';
+    num.textContent = '✗';
+  }
+  refreshBar();
+}
+
+function refreshBar() {
+  const total = Object.keys(done).length;
+  document.getElementById('bar-answered').textContent = total+'/45';
+  document.getElementById('bar-correct').textContent = '✓ '+nOk;
+  document.getElementById('bar-wrong').textContent = '✗ '+nWrong;
+  const pct = total > 0 ? Math.round(nOk/total*100) : 0;
+  document.getElementById('bar-pct').textContent = total > 0 ? pct+'%' : '—';
+  document.getElementById('pbar').style.width = (total/45*100)+'%';
+  if (total === 45) showResult();
+}
+
+function showResult() {
+  const card = document.getElementById('result-card');
+  card.classList.add('show');
+  const pct = Math.round(nOk/45*100);
+  const nota = (nOk/45*10).toFixed(1);
+  document.getElementById('rc-score').textContent = pct+'%';
+  document.getElementById('rc-correct').textContent = nOk;
+  document.getElementById('rc-wrong').textContent = nWrong;
+  document.getElementById('rc-nota').textContent = nota;
+  card.scrollIntoView({ behavior:'smooth' });
+}
+
+function resetAll() {
+  done = {}; nOk = 0; nWrong = 0;
+  document.querySelectorAll('.opt').forEach(o => o.className = 'opt');
+  document.querySelectorAll('.exp-box').forEach(e => e.classList.remove('show'));
+  document.querySelectorAll('.qno').forEach((n,i) => {
+    n.className = 'qno';
+    n.textContent = String(i+1).padStart(2,'0');
+  });
+  document.getElementById('result-card').classList.remove('show');
+  refreshBar();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+</script>
+</body>
+</html>

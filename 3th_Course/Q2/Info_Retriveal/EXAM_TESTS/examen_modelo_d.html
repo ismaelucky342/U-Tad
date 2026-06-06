@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examen Modelo D — Ingeniería de Datos y NLP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222536;
+    --border: #2e3245;
+    --accent: #6c63ff;
+    --accent2: #00d4aa;
+    --text: #e8eaf6;
+    --muted: #7c83a8;
+    --correct: #00c896;
+    --wrong: #ff5f6d;
+    --code-bg: #12141e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(108,99,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #ffffff 0%, #a29bff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p { color: var(--muted); margin-top: 0.5rem; font-size: 0.95rem; }
+
+  .badge-row {
+    display: flex; gap: 10px; justify-content: center; margin-top: 1.2rem; flex-wrap: wrap;
+  }
+
+  .badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .badge span { color: var(--accent); font-weight: 600; }
+
+  .progress-bar-wrap {
+    background: var(--surface2);
+    border-radius: 3px;
+    height: 4px;
+    margin: 1.5rem 2rem 0;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .stats-bar {
+    display: flex; gap: 24px; padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 0.82rem;
+    color: var(--muted);
+    flex-wrap: wrap;
+  }
+
+  .stats-bar .stat { display: flex; align-items: center; gap: 6px; }
+  .stats-bar .stat-val { font-weight: 600; color: var(--text); }
+  .stats-bar .stat-correct .stat-val { color: var(--correct); }
+  .stats-bar .stat-wrong .stat-val { color: var(--wrong); }
+
+  .content { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  .unit-header {
+    display: flex; align-items: center; gap: 12px;
+    margin: 2.5rem 0 1.2rem;
+  }
+
+  .unit-header:first-child { margin-top: 0; }
+
+  .unit-tag {
+    background: var(--surface2);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .unit-title { font-size: 0.9rem; font-weight: 600; color: var(--muted); }
+
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1.2rem;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .question-card:hover { border-color: #3e4460; }
+  .question-card.answered { border-color: var(--border); }
+
+  .q-header {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 1.2rem 1.4rem 1rem;
+  }
+
+  .q-num {
+    min-width: 28px; height: 28px;
+    background: var(--surface2);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .q-num.correct { background: rgba(0,200,150,0.15); color: var(--correct); }
+  .q-num.wrong { background: rgba(255,95,109,0.15); color: var(--wrong); }
+
+  .q-text { font-size: 0.95rem; line-height: 1.6; color: var(--text); }
+
+  pre {
+    background: var(--code-bg);
+    border: 1px solid #1e2235;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin: 0.8rem 1.4rem 1rem;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+
+  code { font-family: 'JetBrains Mono', monospace; color: #c9d1f0; }
+  pre code { color: #c9d1f0; }
+
+  .kw { color: #bd93f9; }
+  .fn { color: #50fa7b; }
+  .str { color: #f1fa8c; }
+  .cm { color: #6272a4; }
+  .num { color: #ff79c6; }
+
+  .options { padding: 0 1.4rem 1.2rem; display: flex; flex-direction: column; gap: 7px; }
+
+  .option {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .option:hover:not(.disabled) {
+    border-color: var(--accent);
+    background: rgba(108,99,255,0.07);
+  }
+
+  .option.correct {
+    background: rgba(0,200,150,0.1);
+    border-color: var(--correct);
+    color: #d0fff5;
+  }
+
+  .option.wrong {
+    background: rgba(255,95,109,0.1);
+    border-color: var(--wrong);
+    color: #ffd0d2;
+  }
+
+  .option.disabled { cursor: default; }
+
+  .opt-letter {
+    min-width: 22px; height: 22px;
+    border-radius: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .option.correct .opt-letter { background: var(--correct); border-color: var(--correct); color: #001a12; }
+  .option.wrong .opt-letter { background: var(--wrong); border-color: var(--wrong); color: #1a0002; }
+
+  .explanation {
+    margin: 0 1.4rem 1.2rem;
+    background: rgba(108,99,255,0.07);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 0.8rem 1rem;
+    font-size: 0.83rem;
+    line-height: 1.6;
+    color: #b0b8e0;
+    display: none;
+  }
+
+  .explanation.show { display: block; }
+  .explanation strong { color: var(--accent2); }
+
+  .result-panel {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .result-panel.show { display: block; }
+
+  .result-score {
+    font-size: 4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .result-label { color: var(--muted); margin-top: 0.5rem; }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 1.5rem 0;
+  }
+
+  .result-stat {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 1rem;
+  }
+
+  .result-stat-val { font-size: 1.6rem; font-weight: 700; }
+  .result-stat-lbl { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+  .btn-reset {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 2rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: opacity 0.2s;
+  }
+
+  .btn-reset:hover { opacity: 0.85; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.4rem; }
+    .content { padding: 1.2rem 1rem 3rem; }
+    .result-score { font-size: 3rem; }
+    .result-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Ingeniería de Datos y NLP · Modelo D</h1>
+  <p>45 preguntas tipo test · Una sola respuesta correcta</p>
+  <div class="badge-row">
+    <div class="badge">Python <span>U1</span></div>
+    <div class="badge">Minería de texto <span>U2</span></div>
+    <div class="badge">Fuentes de datos <span>U3</span></div>
+    <div class="badge">Modelización <span>U4</span></div>
+    <div class="badge">Grafos <span>U5</span></div>
+    <div class="badge">Deep Learning <span>U6</span></div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress"></div></div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><span>Respondidas:</span><span class="stat-val" id="cnt-answered">0</span><span>/ 45</span></div>
+  <div class="stat stat-correct"><span>✓ Correctas:</span><span class="stat-val" id="cnt-correct">0</span></div>
+  <div class="stat stat-wrong"><span>✗ Errores:</span><span class="stat-val" id="cnt-wrong">0</span></div>
+  <div class="stat" style="margin-left:auto"><span>Puntuación:</span><span class="stat-val" id="cnt-score">—</span></div>
+</div>
+
+<div class="content">
+
+<div class="unit-header">
+  <div class="unit-tag">Unidad 1</div>
+  <div class="unit-title">El ecosistema Python</div>
+</div>
+
+<div class="question-card" id="q1">
+  <div class="q-header">
+    <div class="q-num" id="qn1">1</div>
+    <div class="q-text">¿Qué ocurre al ejecutar el siguiente código?
+    </div>
+  </div>
+  <pre><code><span class="kw">def</span> <span class="fn">doblar</span>(x):
+    <span class="kw">return</span> x * <span class="num">2</span>
+
+nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>]
+resultado = <span class="fn">list</span>(<span class="fn">filter</span>(<span class="kw">lambda</span> x: x % <span class="num">2</span> == <span class="num">0</span>, <span class="fn">map</span>(doblar, nums)))
+<span class="fn">print</span>(resultado)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(1,'A')"><div class="opt-letter">A</div><span>[2, 4, 6, 8]</span></div>
+    <div class="option" onclick="answer(1,'B')"><div class="opt-letter">B</div><span>[4, 8]</span></div>
+    <div class="option" onclick="answer(1,'C')"><div class="opt-letter">C</div><span>[2, 6]</span></div>
+    <div class="option" onclick="answer(1,'D')"><div class="opt-letter">D</div><span>Error: <code>filter</code> no acepta una función lambda.</span></div>
+  </div>
+  <div class="explanation" id="exp1"><strong>Correcto: B.</strong> <code>map(doblar, nums)</code> produce [2,4,6,8]. Luego <code>filter(lambda x: x%2==0, ...)</code> filtra los pares de esa lista. 4 y 8 son pares → resultado [4, 8].</div>
+</div>
+
+<div class="question-card" id="q2">
+  <div class="q-header">
+    <div class="q-num" id="qn2">2</div>
+    <div class="q-text">¿Qué imprime este código?</div>
+  </div>
+  <pre><code>a = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+b = a
+b.append(<span class="num">4</span>)
+<span class="fn">print</span>(a)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(2,'A')"><div class="opt-letter">A</div><span>[1, 2, 3]</span></div>
+    <div class="option" onclick="answer(2,'B')"><div class="opt-letter">B</div><span>[1, 2, 3, 4]</span></div>
+    <div class="option" onclick="answer(2,'C')"><div class="opt-letter">C</div><span>[4]</span></div>
+    <div class="option" onclick="answer(2,'D')"><div class="opt-letter">D</div><span>Error: no se puede asignar una lista a otra variable.</span></div>
+  </div>
+  <div class="explanation" id="exp2"><strong>Correcto: B.</strong> En Python, <code>b = a</code> no copia la lista, sino que hace que <code>b</code> apunte al mismo objeto. Al hacer <code>b.append(4)</code>, se modifica la lista original referenciada por <code>a</code>. Para una copia independiente se usa <code>b = a.copy()</code>.</div>
+</div>
+
+<div class="question-card" id="q3">
+  <div class="q-header">
+    <div class="q-num" id="qn3">3</div>
+    <div class="q-text">¿Cuál de las siguientes opciones elimina filas duplicadas en un DataFrame de Pandas y modifica el objeto en su lugar (sin crear uno nuevo)?</div>
+  </div>
+  <pre><code><span class="kw">import</span> pandas <span class="kw">as</span> pd
+df = pd.DataFrame({<span class="str">'x'</span>: [<span class="num">1</span>,<span class="num">1</span>,<span class="num">2</span>], <span class="str">'y'</span>: [<span class="str">'a'</span>,<span class="str">'a'</span>,<span class="str">'b'</span>]})</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(3,'A')"><div class="opt-letter">A</div><span><code>df = df.drop_duplicates()</code></span></div>
+    <div class="option" onclick="answer(3,'B')"><div class="opt-letter">B</div><span><code>df.drop_duplicates(inplace=True)</code></span></div>
+    <div class="option" onclick="answer(3,'C')"><div class="opt-letter">C</div><span><code>df.remove_duplicates()</code></span></div>
+    <div class="option" onclick="answer(3,'D')"><div class="opt-letter">D</div><span><code>df.dedupe(inplace=True)</code></span></div>
+  </div>
+  <div class="explanation" id="exp3"><strong>Correcto: B.</strong> El parámetro <code>inplace=True</code> modifica el DataFrame directamente sin devolver uno nuevo. La opción A también funciona pero reasigna la variable (no es en su lugar). Las opciones C y D no son métodos reales de Pandas.</div>
+</div>
+
+<div class="question-card" id="q4">
+  <div class="q-header">
+    <div class="q-num" id="qn4">4</div>
+    <div class="q-text">¿Qué devuelve <code>resultado</code> tras ejecutar este fragmento con Polars?</div>
+  </div>
+  <pre><code><span class="kw">import</span> polars <span class="kw">as</span> pl
+
+df = pl.DataFrame({<span class="str">'nombre'</span>: [<span class="str">'Ana'</span>, <span class="str">'Luis'</span>, <span class="str">'Mar'</span>], <span class="str">'edad'</span>: [<span class="num">25</span>, <span class="num">17</span>, <span class="num">30</span>]})
+resultado = df.<span class="fn">filter</span>(pl.<span class="fn">col</span>(<span class="str">'edad'</span>) >= <span class="num">18</span>).<span class="fn">select</span>(<span class="str">'nombre'</span>)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(4,'A')"><div class="opt-letter">A</div><span>Un DataFrame con 3 filas y solo la columna 'nombre'.</span></div>
+    <div class="option" onclick="answer(4,'B')"><div class="opt-letter">B</div><span>Una Serie con los valores ['Ana', 'Mar'].</span></div>
+    <div class="option" onclick="answer(4,'C')"><div class="opt-letter">C</div><span>Un DataFrame con 2 filas (Ana y Mar) y solo la columna 'nombre'.</span></div>
+    <div class="option" onclick="answer(4,'D')"><div class="opt-letter">D</div><span>Error: <code>select</code> no puede usarse tras <code>filter</code> en Polars.</span></div>
+  </div>
+  <div class="explanation" id="exp4"><strong>Correcto: C.</strong> Primero <code>filter</code> elimina a Luis (17 años < 18). Quedan Ana y Mar. Luego <code>select('nombre')</code> selecciona solo esa columna. El resultado es un DataFrame de 2 filas con una columna.</div>
+</div>
+
+<div class="question-card" id="q5">
+  <div class="q-header">
+    <div class="q-num" id="qn5">5</div>
+    <div class="q-text">¿Cuál es el propósito principal de un archivo <code>requirements.txt</code> en un proyecto Python?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(5,'A')"><div class="opt-letter">A</div><span>Almacenar las variables de configuración del entorno (API keys, rutas).</span></div>
+    <div class="option" onclick="answer(5,'B')"><div class="opt-letter">B</div><span>Listar las dependencias del proyecto con sus versiones para reproducir el entorno.</span></div>
+    <div class="option" onclick="answer(5,'C')"><div class="opt-letter">C</div><span>Ejecutar automáticamente los scripts del proyecto al iniciarse.</span></div>
+    <div class="option" onclick="answer(5,'D')"><div class="opt-letter">D</div><span>Documentar las funciones del proyecto de forma automática.</span></div>
+  </div>
+  <div class="explanation" id="exp5"><strong>Correcto: B.</strong> <code>requirements.txt</code> lista las librerías y versiones necesarias. Con <code>pip install -r requirements.txt</code> cualquier persona puede replicar el entorno exacto del proyecto. Es esencial para reproducibilidad.</div>
+</div>
+
+<div class="question-card" id="q6">
+  <div class="q-header">
+    <div class="q-num" id="qn6">6</div>
+    <div class="q-text">¿Cuántas filas tendrá <code>df_result</code>?</div>
+  </div>
+  <pre><code><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+df = pd.DataFrame({
+    <span class="str">'ciudad'</span>: [<span class="str">'Madrid'</span>, <span class="str">'BCN'</span>, <span class="str">'Madrid'</span>, <span class="str">'SEV'</span>, <span class="str">'BCN'</span>],
+    <span class="str">'ventas'</span>: [<span class="num">100</span>, <span class="num">200</span>, <span class="num">150</span>, <span class="num">80</span>, <span class="num">120</span>]
+})
+df_result = df[df[<span class="str">'ventas'</span>] > <span class="num">100</span>]</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(6,'A')"><div class="opt-letter">A</div><span>5</span></div>
+    <div class="option" onclick="answer(6,'B')"><div class="opt-letter">B</div><span>2</span></div>
+    <div class="option" onclick="answer(6,'C')"><div class="opt-letter">C</div><span>3</span></div>
+    <div class="option" onclick="answer(6,'D')"><div class="opt-letter">D</div><span>Error: la comparación booleana no funciona directamente sobre columnas.</span></div>
+  </div>
+  <div class="explanation" id="exp6"><strong>Correcto: C.</strong> Los valores mayores que 100 son: 200 (BCN), 150 (Madrid), 120 (BCN). Hay 3 filas que cumplen la condición <code>> 100</code>. El valor 100 de Madrid no se incluye por ser <code>></code> estricto.</div>
+</div>
+
+<div class="question-card" id="q7">
+  <div class="q-header">
+    <div class="q-num" id="qn7">7</div>
+    <div class="q-text">¿Cuál es la salida de este programa?</div>
+  </div>
+  <pre><code>resultado = {x: x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>) <span class="kw">if</span> x % <span class="num">2</span> != <span class="num">0</span>}
+<span class="fn">print</span>(resultado)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(7,'A')"><div class="opt-letter">A</div><span>{0: 0, 1: 1, 2: 4, 3: 9, 4: 16}</span></div>
+    <div class="option" onclick="answer(7,'B')"><div class="opt-letter">B</div><span>{1: 1, 3: 9}</span></div>
+    <div class="option" onclick="answer(7,'C')"><div class="opt-letter">C</div><span>[1, 9]</span></div>
+    <div class="option" onclick="answer(7,'D')"><div class="opt-letter">D</div><span>{2: 4, 4: 16}</span></div>
+  </div>
+  <div class="explanation" id="exp7"><strong>Correcto: B.</strong> La comprensión itera x en [0,1,2,3,4] pero solo incluye los impares (<code>x % 2 != 0</code>): x=1 y x=3. Para cada uno calcula x²: {1: 1, 3: 9}. Es un diccionario (dict comprehension), no una lista.</div>
+</div>
+
+<div class="question-card" id="q8">
+  <div class="q-header">
+    <div class="q-num" id="qn8">8</div>
+    <div class="q-text">¿Qué ventaja principal tiene el formato Parquet respecto a CSV al hacer consultas analíticas sobre una sola columna?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(8,'A')"><div class="opt-letter">A</div><span>Parquet es legible directamente por humanos, lo que facilita la depuración.</span></div>
+    <div class="option" onclick="answer(8,'B')"><div class="opt-letter">B</div><span>Al ser columnar, Parquet solo lee los bytes de la columna solicitada, sin cargar el resto del archivo.</span></div>
+    <div class="option" onclick="answer(8,'C')"><div class="opt-letter">C</div><span>CSV comprime mejor que Parquet en disco.</span></div>
+    <div class="option" onclick="answer(8,'D')"><div class="opt-letter">D</div><span>Parquet soporta más de 256 columnas, a diferencia de CSV.</span></div>
+  </div>
+  <div class="explanation" id="exp8"><strong>Correcto: B.</strong> El almacenamiento columnar de Parquet permite leer solo las columnas necesarias (column pruning). En CSV, los datos están por filas, por lo que hay que leer todo el archivo aunque solo se necesite una columna. Esto es crítico para rendimiento en grandes volúmenes.</div>
+</div>
+
+<div class="unit-header">
+  <div class="unit-tag">Unidad 2</div>
+  <div class="unit-title">Minería de texto con Python</div>
+</div>
+
+<div class="question-card" id="q9">
+  <div class="q-header">
+    <div class="q-num" id="qn9">9</div>
+    <div class="q-text">¿Qué devuelve <code>resultado</code>?</div>
+  </div>
+  <pre><code><span class="kw">import</span> re
+
+texto = <span class="str">"Tel: 912-345-678 y móvil: 634 567 890"</span>
+resultado = re.<span class="fn">findall</span>(<span class="str">r'\d+'</span>, texto)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(9,'A')"><div class="opt-letter">A</div><span>['912-345-678', '634 567 890']</span></div>
+    <div class="option" onclick="answer(9,'B')"><div class="opt-letter">B</div><span>['912', '345', '678', '634', '567', '890']</span></div>
+    <div class="option" onclick="answer(9,'C')"><div class="opt-letter">C</div><span>['912345678', '634567890']</span></div>
+    <div class="option" onclick="answer(9,'D')"><div class="opt-letter">D</div><span>Error: el texto tiene caracteres no ASCII.</span></div>
+  </div>
+  <div class="explanation" id="exp9"><strong>Correcto: B.</strong> <code>\d+</code> captura secuencias de uno o más dígitos. Los guiones y espacios actúan como separadores. El resultado es una lista con cada secuencia numérica: ['912', '345', '678', '634', '567', '890'].</div>
+</div>
+
+<div class="question-card" id="q10">
+  <div class="q-header">
+    <div class="q-num" id="qn10">10</div>
+    <div class="q-text">¿Qué diferencia hay entre <code>re.match()</code> y <code>re.search()</code> en Python?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(10,'A')"><div class="opt-letter">A</div><span><code>re.match()</code> busca el patrón en cualquier parte del string; <code>re.search()</code> solo al inicio.</span></div>
+    <div class="option" onclick="answer(10,'B')"><div class="opt-letter">B</div><span><code>re.match()</code> solo busca al inicio del string; <code>re.search()</code> busca en cualquier posición.</span></div>
+    <div class="option" onclick="answer(10,'C')"><div class="opt-letter">C</div><span>Son equivalentes: ambas buscan la primera coincidencia en cualquier posición.</span></div>
+    <div class="option" onclick="answer(10,'D')"><div class="opt-letter">D</div><span><code>re.match()</code> devuelve todas las coincidencias; <code>re.search()</code> solo la primera.</span></div>
+  </div>
+  <div class="explanation" id="exp10"><strong>Correcto: B.</strong> <code>re.match()</code> solo tiene éxito si el patrón coincide al inicio del string. <code>re.search()</code> escanea todo el string buscando cualquier posición donde el patrón coincida. Para buscar en todo el string, usar <code>search</code> o <code>findall</code>.</div>
+</div>
+
+<div class="question-card" id="q11">
+  <div class="q-header">
+    <div class="q-num" id="qn11">11</div>
+    <div class="q-text">Aplicamos spaCy a un fragmento de texto. ¿Qué contiene <code>entidades</code>?</div>
+  </div>
+  <pre><code><span class="kw">import</span> spacy
+
+nlp = spacy.<span class="fn">load</span>(<span class="str">'en_core_web_sm'</span>)
+doc = nlp(<span class="str">"Apple was founded in Cupertino by Steve Jobs in 1976."</span>)
+entidades = [(ent.text, ent.label_) <span class="kw">for</span> ent <span class="kw">in</span> doc.ents]</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(11,'A')"><div class="opt-letter">A</div><span>Una lista con todos los tokens del texto y su POS tag.</span></div>
+    <div class="option" onclick="answer(11,'B')"><div class="opt-letter">B</div><span>Una lista de tuplas con el texto de cada entidad nombrada y su tipo (ORG, GPE, PERSON, DATE).</span></div>
+    <div class="option" onclick="answer(11,'C')"><div class="opt-letter">C</div><span>Un diccionario con las dependencias sintácticas.</span></div>
+    <div class="option" onclick="answer(11,'D')"><div class="opt-letter">D</div><span>Error: <code>doc.ents</code> solo funciona con texto en inglés si se usa el modelo <code>en_core_web_lg</code>.</span></div>
+  </div>
+  <div class="explanation" id="exp11"><strong>Correcto: B.</strong> <code>doc.ents</code> contiene las entidades reconocidas (NER). <code>ent.text</code> es el texto y <code>ent.label_</code> es el tipo. Para esta frase: [('Apple', 'ORG'), ('Cupertino', 'GPE'), ('Steve Jobs', 'PERSON'), ('1976', 'DATE')].</div>
+</div>
+
+<div class="question-card" id="q12">
+  <div class="q-header">
+    <div class="q-num" id="qn12">12</div>
+    <div class="q-text">¿Qué imprimirá este fragmento con NLTK?</div>
+  </div>
+  <pre><code><span class="kw">from</span> nltk.corpus <span class="kw">import</span> stopwords
+<span class="kw">from</span> nltk.tokenize <span class="kw">import</span> word_tokenize
+
+texto = <span class="str">"El perro y el gato juegan en el parque"</span>
+stop = <span class="fn">set</span>(stopwords.<span class="fn">words</span>(<span class="str">'spanish'</span>))
+tokens = [w <span class="kw">for</span> w <span class="kw">in</span> word_tokenize(texto.<span class="fn">lower</span>()) <span class="kw">if</span> w <span class="kw">not in</span> stop]
+<span class="fn">print</span>(tokens)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(12,'A')"><div class="opt-letter">A</div><span>['El', 'perro', 'y', 'el', 'gato', 'juegan', 'en', 'el', 'parque']</span></div>
+    <div class="option" onclick="answer(12,'B')"><div class="opt-letter">B</div><span>['perro', 'gato', 'juegan', 'parque']</span></div>
+    <div class="option" onclick="answer(12,'C')"><div class="opt-letter">C</div><span>['el', 'perro', 'el', 'gato', 'juegan', 'el', 'parque']</span></div>
+    <div class="option" onclick="answer(12,'D')"><div class="opt-letter">D</div><span>Error: <code>stopwords.words('spanish')</code> requiere descargar el corpus.</span></div>
+  </div>
+  <div class="explanation" id="exp12"><strong>Correcto: B.</strong> Tras pasar a minúsculas y eliminar las stopwords en español ('el', 'y', 'en'), quedan solo las palabras con contenido semántico: ['perro', 'gato', 'juegan', 'parque']. La opción D sería correcta técnicamente si no se ha descargado el corpus, pero asumimos entorno configurado.</div>
+</div>
+
+<div class="question-card" id="q13">
+  <div class="q-header">
+    <div class="q-num" id="qn13">13</div>
+    <div class="q-text">¿Qué es el TF-IDF y qué problema resuelve respecto al simple conteo de palabras (TF)?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(13,'A')"><div class="opt-letter">A</div><span>TF-IDF convierte el texto en embeddings semánticos; TF no puede capturar significado.</span></div>
+    <div class="option" onclick="answer(13,'B')"><div class="opt-letter">B</div><span>TF-IDF penaliza palabras muy frecuentes en todo el corpus (baja discriminación), potenciando las palabras específicas de cada documento.</span></div>
+    <div class="option" onclick="answer(13,'C')"><div class="opt-letter">C</div><span>TF-IDF elimina automáticamente las stopwords antes de contar.</span></div>
+    <div class="option" onclick="answer(13,'D')"><div class="opt-letter">D</div><span>TF-IDF solo funciona con textos largos; TF es más adecuado para oraciones cortas.</span></div>
+  </div>
+  <div class="explanation" id="exp13"><strong>Correcto: B.</strong> TF mide la frecuencia de una palabra en un documento. El problema es que palabras como "el" o "de" son frecuentes en todos los documentos. IDF penaliza esas palabras ubicuas y premia las que aparecen en pocos documentos, haciéndolas más discriminativas.</div>
+</div>
+
+<div class="question-card" id="q14">
+  <div class="q-header">
+    <div class="q-num" id="qn14">14</div>
+    <div class="q-text">¿Cuál es la diferencia entre <code>re.sub()</code> y <code>re.replace()</code>?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(14,'A')"><div class="opt-letter">A</div><span>Son equivalentes: ambas sustituyen todas las ocurrencias del patrón en el string.</span></div>
+    <div class="option" onclick="answer(14,'B')"><div class="opt-letter">B</div><span><code>re.replace()</code> no existe; la función correcta es siempre <code>re.sub()</code> para sustitución con regex.</span></div>
+    <div class="option" onclick="answer(14,'C')"><div class="opt-letter">C</div><span><code>re.sub()</code> es para patrones fijos; <code>re.replace()</code> acepta expresiones regulares.</span></div>
+    <div class="option" onclick="answer(14,'D')"><div class="opt-letter">D</div><span><code>re.sub()</code> devuelve el número de sustituciones; <code>re.replace()</code> devuelve el string modificado.</span></div>
+  </div>
+  <div class="explanation" id="exp14"><strong>Correcto: B.</strong> El módulo <code>re</code> no tiene función <code>replace()</code>. Para sustituciones con regex se usa <code>re.sub(patron, reemplazo, texto)</code>. Los strings sí tienen el método <code>.replace()</code>, pero este solo acepta strings literales, no patrones regex.</div>
+</div>
+
+<div class="question-card" id="q15">
+  <div class="q-header">
+    <div class="q-num" id="qn15">15</div>
+    <div class="q-text">¿Qué vectorizador de scikit-learn convierte texto en una matriz TF-IDF?</div>
+  </div>
+  <pre><code><span class="kw">from</span> sklearn.feature_extraction.text <span class="kw">import</span> ???
+
+corpus = [<span class="str">"el gato come pescado"</span>, <span class="str">"el perro come carne"</span>, <span class="str">"el gato duerme"</span>]
+vectorizador = ???()
+X = vectorizador.fit_transform(corpus)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(15,'A')"><div class="opt-letter">A</div><span><code>CountVectorizer</code></span></div>
+    <div class="option" onclick="answer(15,'B')"><div class="opt-letter">B</div><span><code>TfidfVectorizer</code></span></div>
+    <div class="option" onclick="answer(15,'C')"><div class="opt-letter">C</div><span><code>HashingVectorizer</code></span></div>
+    <div class="option" onclick="answer(15,'D')"><div class="opt-letter">D</div><span><code>Word2VecVectorizer</code></span></div>
+  </div>
+  <div class="explanation" id="exp15"><strong>Correcto: B.</strong> <code>TfidfVectorizer</code> combina <code>CountVectorizer</code> y <code>TfidfTransformer</code> en un solo paso. Convierte texto en matrices sparse TF-IDF. <code>CountVectorizer</code> solo cuenta frecuencias (TF); <code>HashingVectorizer</code> usa hashing sin IDF.</div>
+</div>
+
+<div class="question-card" id="q16">
+  <div class="q-header">
+    <div class="q-num" id="qn16">16</div>
+    <div class="q-text">¿Qué hace <code>unicodedata.normalize('NFC', texto)</code> en Python?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(16,'A')"><div class="opt-letter">A</div><span>Elimina todos los caracteres no ASCII del texto.</span></div>
+    <div class="option" onclick="answer(16,'B')"><div class="opt-letter">B</div><span>Compone caracteres descompuestos en su forma canónica compuesta (ej. "e" + acento → "é").</span></div>
+    <div class="option" onclick="answer(16,'C')"><div class="opt-letter">C</div><span>Convierte el texto a minúsculas siguiendo reglas Unicode.</span></div>
+    <div class="option" onclick="answer(16,'D')"><div class="opt-letter">D</div><span>Error: <code>unicodedata</code> no tiene la función <code>normalize</code>.</span></div>
+  </div>
+  <div class="explanation" id="exp16"><strong>Correcto: B.</strong> NFC (Canonical Decomposition, followed by Canonical Composition) es la forma de composición canónica. Es útil para estandarizar texto antes de procesarlo, asegurando que caracteres equivalentes tengan la misma representación interna.</div>
+</div>
+
+<div class="unit-header">
+  <div class="unit-tag">Unidad 3</div>
+  <div class="unit-title">Fuentes de datos de tipo texto</div>
+</div>
+
+<div class="question-card" id="q17">
+  <div class="q-header">
+    <div class="q-num" id="qn17">17</div>
+    <div class="q-text">¿Qué método de BeautifulSoup extrae el texto limpio (sin etiquetas HTML) de un elemento?</div>
+  </div>
+  <pre><code><span class="kw">from</span> bs4 <span class="kw">import</span> BeautifulSoup
+
+html = <span class="str">"&lt;p&gt;&lt;strong&gt;Precio:&lt;/strong&gt; 12,99 €&lt;/p&gt;"</span>
+soup = BeautifulSoup(html, <span class="str">'html.parser'</span>)
+parrafo = soup.<span class="fn">find</span>(<span class="str">'p'</span>)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(17,'A')"><div class="opt-letter">A</div><span><code>parrafo.html</code></span></div>
+    <div class="option" onclick="answer(17,'B')"><div class="opt-letter">B</div><span><code>parrafo.get_text()</code> o <code>parrafo.text</code></span></div>
+    <div class="option" onclick="answer(17,'C')"><div class="opt-letter">C</div><span><code>parrafo.string_content()</code></span></div>
+    <div class="option" onclick="answer(17,'D')"><div class="opt-letter">D</div><span><code>parrafo.strip_tags()</code></span></div>
+  </div>
+  <div class="explanation" id="exp17"><strong>Correcto: B.</strong> <code>.get_text()</code> y <code>.text</code> extraen el contenido textual de un elemento eliminando todas las etiquetas HTML. Para el ejemplo devuelve "Precio: 12,99 €". <code>.get_text(separator=' ')</code> añade separadores entre elementos hijos.</div>
+</div>
+
+<div class="question-card" id="q18">
+  <div class="q-header">
+    <div class="q-num" id="qn18">18</div>
+    <div class="q-text">Usamos <code>requests</code> para hacer scraping. ¿Qué indica un código de respuesta HTTP <code>429</code>?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(18,'A')"><div class="opt-letter">A</div><span>La petición fue exitosa y el servidor devolvió el contenido.</span></div>
+    <div class="option" onclick="answer(18,'B')"><div class="opt-letter">B</div><span>El recurso no fue encontrado en el servidor.</span></div>
+    <div class="option" onclick="answer(18,'C')"><div class="opt-letter">C</div><span>El cliente ha enviado demasiadas peticiones en poco tiempo (rate limiting).</span></div>
+    <div class="option" onclick="answer(18,'D')"><div class="opt-letter">D</div><span>El servidor no puede procesar el formato de la petición.</span></div>
+  </div>
+  <div class="explanation" id="exp18"><strong>Correcto: C.</strong> HTTP 429 "Too Many Requests" indica que el cliente ha superado el límite de peticiones por tiempo establecido por el servidor. Es esencial en scraping añadir delays entre peticiones (<code>time.sleep()</code>) para evitar este error y respetar el servidor.</div>
+</div>
+
+<div class="question-card" id="q19">
+  <div class="q-header">
+    <div class="q-num" id="qn19">19</div>
+    <div class="q-text">¿Qué devuelve <code>df</code> tras ejecutar este pipeline con PySpark?</div>
+  </div>
+  <pre><code><span class="kw">from</span> pyspark.sql <span class="kw">import</span> SparkSession
+<span class="kw">from</span> pyspark.sql.functions <span class="kw">import</span> col, <span class="fn">lower</span>
+
+spark = SparkSession.builder.<span class="fn">appName</span>(<span class="str">"NLP"</span>).<span class="fn">getOrCreate</span>()
+df = spark.read.<span class="fn">csv</span>(<span class="str">"noticias.csv"</span>, header=<span class="kw">True</span>)
+df = df.<span class="fn">withColumn</span>(<span class="str">'titular'</span>, <span class="fn">lower</span>(<span class="fn">col</span>(<span class="str">'titular'</span>)))</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(19,'A')"><div class="opt-letter">A</div><span>El mismo DataFrame pero con la columna 'titular' eliminada.</span></div>
+    <div class="option" onclick="answer(19,'B')"><div class="opt-letter">B</div><span>Un nuevo DataFrame donde la columna 'titular' contiene el texto en minúsculas.</span></div>
+    <div class="option" onclick="answer(19,'C')"><div class="opt-letter">C</div><span>Un DataFrame con una nueva columna 'titular_lower' añadida.</span></div>
+    <div class="option" onclick="answer(19,'D')"><div class="opt-letter">D</div><span>Error: <code>lower</code> de PySpark no acepta columnas, solo strings literales.</span></div>
+  </div>
+  <div class="explanation" id="exp19"><strong>Correcto: B.</strong> <code>withColumn('titular', lower(col('titular')))</code> reemplaza la columna existente 'titular' con su versión en minúsculas. Si el nombre pasado a <code>withColumn</code> ya existe, se sobreescribe; si es nuevo, se añade.</div>
+</div>
+
+<div class="question-card" id="q20">
+  <div class="q-header">
+    <div class="q-num" id="qn20">20</div>
+    <div class="q-text">¿Para qué sirve el selector CSS <code>soup.select('table.datos > tr > td:nth-child(2)')</code> en BeautifulSoup?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(20,'A')"><div class="opt-letter">A</div><span>Selecciona todas las tablas con clase "datos" del documento.</span></div>
+    <div class="option" onclick="answer(20,'B')"><div class="opt-letter">B</div><span>Selecciona la segunda celda de cada fila en tablas con clase "datos".</span></div>
+    <div class="option" onclick="answer(20,'C')"><div class="opt-letter">C</div><span>Selecciona la segunda fila de las tablas con clase "datos".</span></div>
+    <div class="option" onclick="answer(20,'D')"><div class="opt-letter">D</div><span>Error: BeautifulSoup no soporta el selector <code>nth-child</code>.</span></div>
+  </div>
+  <div class="explanation" id="exp20"><strong>Correcto: B.</strong> El selector navega: tabla con clase "datos" → hijo directo <code>tr</code> → hijo directo <code>td</code> que sea el segundo hijo. Es útil para extraer columnas específicas de tablas HTML sin iterar manualmente por índices.</div>
+</div>
+
+<div class="question-card" id="q21">
+  <div class="q-header">
+    <div class="q-num" id="qn21">21</div>
+    <div class="q-text">¿Qué hace <code>df.write.mode('append').parquet(ruta)</code> en PySpark?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(21,'A')"><div class="opt-letter">A</div><span>Sobrescribe los datos existentes en la ruta con los nuevos datos.</span></div>
+    <div class="option" onclick="answer(21,'B')"><div class="opt-letter">B</div><span>Añade los nuevos datos a los existentes en la ruta sin eliminar lo anterior.</span></div>
+    <div class="option" onclick="answer(21,'C')"><div class="opt-letter">C</div><span>Lanza un error si ya existen datos en la ruta.</span></div>
+    <div class="option" onclick="answer(21,'D')"><div class="opt-letter">D</div><span>Lee los datos de la ruta y los une con el DataFrame en memoria.</span></div>
+  </div>
+  <div class="explanation" id="exp21"><strong>Correcto: B.</strong> <code>mode('append')</code> añade los datos al destino existente. Los modos de escritura en PySpark son: <code>overwrite</code> (sobrescribe), <code>append</code> (añade), <code>ignore</code> (no hace nada si existe) y <code>error</code> o <code>errorifexists</code> (lanza error si existe, opción por defecto).</div>
+</div>
+
+<div class="question-card" id="q22">
+  <div class="q-header">
+    <div class="q-num" id="qn22">22</div>
+    <div class="q-text">¿Qué código permite extraer el atributo <code>href</code> de todos los enlaces de una página?</div>
+  </div>
+  <pre><code><span class="kw">from</span> bs4 <span class="kw">import</span> BeautifulSoup
+
+html = <span class="str">'&lt;a href="/inicio"&gt;Home&lt;/a&gt; &lt;a href="https://web.com"&gt;Web&lt;/a&gt;'</span>
+soup = BeautifulSoup(html, <span class="str">'html.parser'</span>)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(22,'A')"><div class="opt-letter">A</div><span><code>[a.text for a in soup.find_all('a')]</code></span></div>
+    <div class="option" onclick="answer(22,'B')"><div class="opt-letter">B</div><span><code>[a['href'] for a in soup.find_all('a')]</code></span></div>
+    <div class="option" onclick="answer(22,'C')"><div class="opt-letter">C</div><span><code>[a.href for a in soup.find_all('a')]</code></span></div>
+    <div class="option" onclick="answer(22,'D')"><div class="opt-letter">D</div><span><code>[a.get_attribute('href') for a in soup.find_all('a')]</code></span></div>
+  </div>
+  <div class="explanation" id="exp22"><strong>Correcto: B.</strong> En BeautifulSoup, los atributos de un tag se acceden como un diccionario: <code>tag['atributo']</code> o <code>tag.get('atributo')</code> (más seguro, devuelve None si no existe). La notación de punto <code>a.href</code> no funciona para atributos.</div>
+</div>
+
+<div class="question-card" id="q23">
+  <div class="q-header">
+    <div class="q-num" id="qn23">23</div>
+    <div class="q-text">¿Cuál es la diferencia principal entre <code>spark.read.csv()</code> y <code>pd.read_csv()</code>?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(23,'A')"><div class="opt-letter">A</div><span>PySpark lee CSVs más rápido en una sola máquina; Pandas es mejor para clústeres.</span></div>
+    <div class="option" onclick="answer(23,'B')"><div class="opt-letter">B</div><span>PySpark crea un DataFrame distribuido con evaluación lazy; Pandas carga todo en memoria del driver inmediatamente.</span></div>
+    <div class="option" onclick="answer(23,'C')"><div class="opt-letter">C</div><span>No hay diferencia funcional: ambas producen el mismo tipo de objeto.</span></div>
+    <div class="option" onclick="answer(23,'D')"><div class="opt-letter">D</div><span>PySpark no soporta CSVs con cabecera; Pandas sí.</span></div>
+  </div>
+  <div class="explanation" id="exp23"><strong>Correcto: B.</strong> PySpark usa evaluación <strong>lazy</strong>: las transformaciones no se ejecutan hasta que se llama a una acción (<code>.count()</code>, <code>.collect()</code>). Además, el DataFrame puede distribuirse en múltiples nodos. Pandas carga todos los datos en RAM del proceso actual de forma inmediata (eager).</div>
+</div>
+
+<div class="unit-header">
+  <div class="unit-tag">Unidad 4</div>
+  <div class="unit-title">Modelización y análisis</div>
+</div>
+
+<div class="question-card" id="q24">
+  <div class="q-header">
+    <div class="q-num" id="qn24">24</div>
+    <div class="q-text">¿Qué parámetro de <code>LdaModel</code> en Gensim controla cuántas veces el algoritmo recorre todo el corpus durante el entrenamiento?</div>
+  </div>
+  <pre><code><span class="kw">from</span> gensim.models <span class="kw">import</span> LdaModel
+
+modelo = LdaModel(corpus=corpus, id2word=dictionary, num_topics=<span class="num">5</span>, passes=<span class="num">???</span>)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(24,'A')"><div class="opt-letter">A</div><span><code>num_topics</code></span></div>
+    <div class="option" onclick="answer(24,'B')"><div class="opt-letter">B</div><span><code>iterations</code></span></div>
+    <div class="option" onclick="answer(24,'C')"><div class="opt-letter">C</div><span><code>passes</code></span></div>
+    <div class="option" onclick="answer(24,'D')"><div class="opt-letter">D</div><span><code>alpha</code></span></div>
+  </div>
+  <div class="explanation" id="exp24"><strong>Correcto: C.</strong> El parámetro <code>passes</code> (equivalente a épocas) indica cuántas veces recorre el corpus completo. Más <code>passes</code> = mejor convergencia, pero más tiempo. <code>iterations</code> controla las iteraciones de inferencia por documento; <code>alpha</code> es el hiperparámetro de distribución de tópicos.</div>
+</div>
+
+<div class="question-card" id="q25">
+  <div class="q-header">
+    <div class="q-num" id="qn25">25</div>
+    <div class="q-text">Calculamos similitud coseno entre dos vectores TF-IDF. ¿Cuál es el rango de valores posibles?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(25,'A')"><div class="opt-letter">A</div><span>De -∞ a +∞</span></div>
+    <div class="option" onclick="answer(25,'B')"><div class="opt-letter">B</div><span>De -1 a 1</span></div>
+    <div class="option" onclick="answer(25,'C')"><div class="opt-letter">C</div><span>De 0 a 1 (para vectores TF-IDF con valores no negativos)</span></div>
+    <div class="option" onclick="answer(25,'D')"><div class="opt-letter">D</div><span>De 0 a 100 (porcentaje de similitud)</span></div>
+  </div>
+  <div class="explanation" id="exp25"><strong>Correcto: C.</strong> La similitud coseno general va de -1 a 1. Sin embargo, TF-IDF produce vectores con valores no negativos, por lo que el rango práctico es [0, 1]. 0 indica documentos completamente distintos; 1 indica documentos idénticos en términos de vocabulario ponderado.</div>
+</div>
+
+<div class="question-card" id="q26">
+  <div class="q-header">
+    <div class="q-num" id="qn26">26</div>
+    <div class="q-text">¿Qué imprime el siguiente análisis de sentimiento con TextBlob?</div>
+  </div>
+  <pre><code><span class="kw">from</span> textblob <span class="kw">import</span> TextBlob
+
+textos = [<span class="str">"This product is absolutely terrible!"</span>,
+          <span class="str">"Not bad at all."</span>,
+          <span class="str">"It exists."</span>]
+<span class="kw">for</span> t <span class="kw">in</span> textos:
+    p = TextBlob(t).sentiment.subjectivity
+    <span class="fn">print</span>(<span class="str">"subj"</span> <span class="kw">if</span> p > <span class="num">0.5</span> <span class="kw">else</span> <span class="str">"obj"</span>, end=<span class="str">' '</span>)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(26,'A')"><div class="opt-letter">A</div><span>subj subj obj</span></div>
+    <div class="option" onclick="answer(26,'B')"><div class="opt-letter">B</div><span>obj subj obj</span></div>
+    <div class="option" onclick="answer(26,'C')"><div class="opt-letter">C</div><span>subj obj obj</span></div>
+    <div class="option" onclick="answer(26,'D')"><div class="opt-letter">D</div><span>obj obj subj</span></div>
+  </div>
+  <div class="explanation" id="exp26"><strong>Correcto: A.</strong> <code>subjectivity</code> en TextBlob va de 0 (objetivo) a 1 (subjetivo). "Absolutely terrible!" tiene alta subjetividad (emocional → > 0.5 → "subj"). "Not bad at all." también es subjetivo (opinión → > 0.5 → "subj"). "It exists." es muy factual (≈ 0 → "obj").</div>
+</div>
+
+<div class="question-card" id="q27">
+  <div class="q-header">
+    <div class="q-num" id="qn27">27</div>
+    <div class="q-text">¿Qué representa el vector <code>doc.vector</code> en spaCy?</div>
+  </div>
+  <pre><code><span class="kw">import</span> spacy
+nlp = spacy.<span class="fn">load</span>(<span class="str">'en_core_web_md'</span>)
+doc = nlp(<span class="str">"Machine learning is transforming NLP"</span>)
+<span class="fn">print</span>(doc.vector.shape)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(27,'A')"><div class="opt-letter">A</div><span>Un vector one-hot con dimensión igual al tamaño del vocabulario del modelo.</span></div>
+    <div class="option" onclick="answer(27,'B')"><div class="opt-letter">B</div><span>El promedio de los vectores Word2Vec de todos los tokens del documento.</span></div>
+    <div class="option" onclick="answer(27,'C')"><div class="opt-letter">C</div><span>Una lista de frecuencias de tokens (Bag of Words).</span></div>
+    <div class="option" onclick="answer(27,'D')"><div class="opt-letter">D</div><span>La representación TF-IDF del documento.</span></div>
+  </div>
+  <div class="explanation" id="exp27"><strong>Correcto: B.</strong> En spaCy, <code>doc.vector</code> es el promedio (mean) de los vectores de todos los tokens del documento. Requiere un modelo con vectores (<code>md</code> o <code>lg</code>, no <code>sm</code>). Para <code>en_core_web_md</code>, la forma es (300,).</div>
+</div>
+
+<div class="question-card" id="q28">
+  <div class="q-header">
+    <div class="q-num" id="qn28">28</div>
+    <div class="q-text">En LDA, ¿qué representa la distribución <strong>documento-tópico</strong>?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(28,'A')"><div class="opt-letter">A</div><span>La probabilidad de que cada palabra del vocabulario pertenezca a ese tópico.</span></div>
+    <div class="option" onclick="answer(28,'B')"><div class="opt-letter">B</div><span>La proporción estimada de cada tópico dentro de un documento concreto.</span></div>
+    <div class="option" onclick="answer(28,'C')"><div class="opt-letter">C</div><span>El número de veces que cada tópico aparece en el corpus completo.</span></div>
+    <div class="option" onclick="answer(28,'D')"><div class="opt-letter">D</div><span>La similitud coseno entre dos documentos basada en sus tópicos.</span></div>
+  </div>
+  <div class="explanation" id="exp28"><strong>Correcto: B.</strong> LDA asume que cada documento es una mezcla de tópicos. La distribución documento-tópico (θ) da la proporción de cada tópico en el documento: ej. {tópico 1: 0.6, tópico 2: 0.3, tópico 3: 0.1}. La distribución tópico-palabra (β) indica qué palabras definen cada tópico.</div>
+</div>
+
+<div class="question-card" id="q29">
+  <div class="q-header">
+    <div class="q-num" id="qn29">29</div>
+    <div class="q-text">¿Qué hace <code>sklearn.model_selection.train_test_split</code> con <code>stratify=y</code>?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(29,'A')"><div class="opt-letter">A</div><span>Ordena los datos por la columna <code>y</code> antes de dividirlos.</span></div>
+    <div class="option" onclick="answer(29,'B')"><div class="opt-letter">B</div><span>Asegura que la proporción de clases en train y test sea similar a la del conjunto original.</span></div>
+    <div class="option" onclick="answer(29,'C')"><div class="opt-letter">C</div><span>Elimina las clases minoritarias de <code>y</code> antes de dividir.</span></div>
+    <div class="option" onclick="answer(29,'D')"><div class="opt-letter">D</div><span>Divide los datos en tantos subconjuntos como clases tenga <code>y</code>.</span></div>
+  </div>
+  <div class="explanation" id="exp29"><strong>Correcto: B.</strong> <code>stratify=y</code> realiza una división estratificada: si el dataset tiene 70% clase A y 30% clase B, tanto el split de train como el de test mantendrán esas proporciones. Fundamental para evitar splits desequilibrados en problemas de clasificación.</div>
+</div>
+
+<div class="question-card" id="q30">
+  <div class="q-header">
+    <div class="q-num" id="qn30">30</div>
+    <div class="q-text">¿Qué devuelve <code>classification_report</code> de scikit-learn y para qué sirve?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(30,'A')"><div class="opt-letter">A</div><span>Un float con la accuracy global del clasificador.</span></div>
+    <div class="option" onclick="answer(30,'B')"><div class="opt-letter">B</div><span>Un string con precision, recall y F1-score por clase, más los promedios.</span></div>
+    <div class="option" onclick="answer(30,'C')"><div class="opt-letter">C</div><span>Una matriz de confusión en formato numérico.</span></div>
+    <div class="option" onclick="answer(30,'D')"><div class="opt-letter">D</div><span>Un diccionario con las predicciones incorrectas por clase.</span></div>
+  </div>
+  <div class="explanation" id="exp30"><strong>Correcto: B.</strong> <code>classification_report(y_true, y_pred)</code> devuelve un string formateado con precision, recall y F1-score para cada clase, más macro/weighted averages. Es la herramienta estándar para evaluar clasificadores, especialmente con clases desbalanceadas.</div>
+</div>
+
+<div class="unit-header">
+  <div class="unit-tag">Unidad 5</div>
+  <div class="unit-title">Análisis de redes y grafos</div>
+</div>
+
+<div class="question-card" id="q31">
+  <div class="q-header">
+    <div class="q-num" id="qn31">31</div>
+    <div class="q-text">¿Qué mide la <strong>betweenness centrality</strong> de un nodo en una red?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(31,'A')"><div class="opt-letter">A</div><span>El número total de aristas que inciden en el nodo.</span></div>
+    <div class="option" onclick="answer(31,'B')"><div class="opt-letter">B</div><span>La proporción de caminos más cortos entre todos los pares de nodos que pasan por ese nodo.</span></div>
+    <div class="option" onclick="answer(31,'C')"><div class="opt-letter">C</div><span>Lo cerca que está el nodo del centro geométrico del grafo.</span></div>
+    <div class="option" onclick="answer(31,'D')"><div class="opt-letter">D</div><span>La influencia del nodo basada en la importancia de sus vecinos.</span></div>
+  </div>
+  <div class="explanation" id="exp31"><strong>Correcto: B.</strong> <strong>Betweenness centrality</strong> identifica nodos "puente" o "intermediarios": aquellos que aparecen frecuentemente en los caminos más cortos entre otros pares de nodos. Un valor alto indica que ese nodo controla el flujo de información en la red.</div>
+</div>
+
+<div class="question-card" id="q32">
+  <div class="q-header">
+    <div class="q-num" id="qn32">32</div>
+    <div class="q-text">¿Qué devuelve <code>nx.shortest_path(G, 'A', 'D')</code>?</div>
+  </div>
+  <pre><code><span class="kw">import</span> networkx <span class="kw">as</span> nx
+
+G = nx.<span class="fn">Graph</span>()
+G.<span class="fn">add_edges_from</span>([(<span class="str">'A'</span>,<span class="str">'B'</span>), (<span class="str">'B'</span>,<span class="str">'C'</span>), (<span class="str">'C'</span>,<span class="str">'D'</span>), (<span class="str">'A'</span>,<span class="str">'D'</span>)])</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(32,'A')"><div class="opt-letter">A</div><span>['A', 'B', 'C', 'D'] (único camino)</span></div>
+    <div class="option" onclick="answer(32,'B')"><div class="opt-letter">B</div><span>['A', 'D'] (camino más corto con 1 arista)</span></div>
+    <div class="option" onclick="answer(32,'C')"><div class="opt-letter">C</div><span>2 (longitud del camino más corto)</span></div>
+    <div class="option" onclick="answer(32,'D')"><div class="opt-letter">D</div><span>Error: <code>shortest_path</code> solo funciona con grafos ponderados.</span></div>
+  </div>
+  <div class="explanation" id="exp32"><strong>Correcto: B.</strong> Hay dos caminos de A a D: A→B→C→D (longitud 3) y A→D (longitud 1). <code>nx.shortest_path</code> devuelve el camino con menos saltos: ['A', 'D']. Para obtener la longitud usa <code>nx.shortest_path_length</code>.</div>
+</div>
+
+<div class="question-card" id="q33">
+  <div class="q-header">
+    <div class="q-num" id="qn33">33</div>
+    <div class="q-text">¿Cómo se añade un atributo de peso a una arista en NetworkX?</div>
+  </div>
+  <pre><code><span class="kw">import</span> networkx <span class="kw">as</span> nx
+G = nx.<span class="fn">Graph</span>()
+G.<span class="fn">add_edge</span>(<span class="str">'Alice'</span>, <span class="str">'Bob'</span>, ???)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(33,'A')"><div class="opt-letter">A</div><span><code>G.add_edge('Alice', 'Bob', 5)</code></span></div>
+    <div class="option" onclick="answer(33,'B')"><div class="opt-letter">B</div><span><code>G.add_edge('Alice', 'Bob', weight=5)</code></span></div>
+    <div class="option" onclick="answer(33,'C')"><div class="opt-letter">C</div><span><code>G['Alice']['Bob'] = 5</code></span></div>
+    <div class="option" onclick="answer(33,'D')"><div class="opt-letter">D</div><span><code>G.set_edge_weight('Alice', 'Bob', 5)</code></span></div>
+  </div>
+  <div class="explanation" id="exp33"><strong>Correcto: B.</strong> En NetworkX los atributos de aristas se pasan como kwargs: <code>G.add_edge('Alice', 'Bob', weight=5)</code>. Para acceder: <code>G['Alice']['Bob']['weight']</code>. Muchos algoritmos como Dijkstra usan automáticamente el atributo <code>weight</code>.</div>
+</div>
+
+<div class="question-card" id="q34">
+  <div class="q-header">
+    <div class="q-num" id="qn34">34</div>
+    <div class="q-text">En el análisis de la red Enron, ¿qué información útil proporciona el <strong>coeficiente de clustering</strong> de un nodo?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(34,'A')"><div class="opt-letter">A</div><span>El número total de emails enviados y recibidos por ese empleado.</span></div>
+    <div class="option" onclick="answer(34,'B')"><div class="opt-letter">B</div><span>En qué medida los vecinos del nodo también están conectados entre sí (qué tan cerrado es su círculo de comunicación).</span></div>
+    <div class="option" onclick="answer(34,'C')"><div class="opt-letter">C</div><span>La distancia promedio de ese empleado a todos los demás de la red.</span></div>
+    <div class="option" onclick="answer(34,'D')"><div class="opt-letter">D</div><span>El número de comunidades a las que pertenece ese empleado.</span></div>
+  </div>
+  <div class="explanation" id="exp34"><strong>Correcto: B.</strong> El <strong>coeficiente de clustering</strong> (o clustering local) mide la proporción de triángulos cerrados en el vecindario del nodo respecto al máximo posible. Valor alto = los contactos del empleado también se comunican entre sí (círculo cerrado). Valor bajo = los contactos no se conocen entre sí (broker position).</div>
+</div>
+
+<div class="question-card" id="q35">
+  <div class="q-header">
+    <div class="q-num" id="qn35">35</div>
+    <div class="q-text">¿Qué algoritmo calcula el nodo más "influyente" considerando no solo sus conexiones directas sino la importancia de sus vecinos?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(35,'A')"><div class="opt-letter">A</div><span>Degree centrality</span></div>
+    <div class="option" onclick="answer(35,'B')"><div class="opt-letter">B</div><span>Betweenness centrality</span></div>
+    <div class="option" onclick="answer(35,'C')"><div class="opt-letter">C</div><span>PageRank / Eigenvector centrality</span></div>
+    <div class="option" onclick="answer(35,'D')"><div class="opt-letter">D</div><span>Closeness centrality</span></div>
+  </div>
+  <div class="explanation" id="exp35"><strong>Correcto: C.</strong> <strong>PageRank</strong> y <strong>Eigenvector centrality</strong> propagan importancia: un nodo es importante si está conectado a nodos importantes. Degree centrality solo cuenta conexiones directas; betweenness mide intermediación; closeness mide distancia media a todos los nodos.</div>
+</div>
+
+<div class="question-card" id="q36">
+  <div class="q-header">
+    <div class="q-num" id="qn36">36</div>
+    <div class="q-text">¿Qué diferencia existe entre un grafo <code>nx.Graph()</code> y <code>nx.MultiGraph()</code>?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(36,'A')"><div class="opt-letter">A</div><span>MultiGraph permite nodos con etiquetas de texto; Graph solo acepta enteros.</span></div>
+    <div class="option" onclick="answer(36,'B')"><div class="opt-letter">B</div><span>MultiGraph permite múltiples aristas paralelas entre el mismo par de nodos; Graph solo una.</span></div>
+    <div class="option" onclick="answer(36,'C')"><div class="opt-letter">C</div><span>MultiGraph es siempre dirigido; Graph es siempre no dirigido.</span></div>
+    <div class="option" onclick="answer(36,'D')"><div class="opt-letter">D</div><span>MultiGraph tiene mejor rendimiento que Graph para redes grandes.</span></div>
+  </div>
+  <div class="explanation" id="exp36"><strong>Correcto: B.</strong> Un <code>Graph</code> estándar solo permite una arista entre cada par de nodos. <code>MultiGraph</code> permite múltiples aristas paralelas (útil para modelar, por ejemplo, múltiples emails entre el mismo par). La versión dirigida equivalente es <code>MultiDiGraph</code>.</div>
+</div>
+
+<div class="question-card" id="q37">
+  <div class="q-header">
+    <div class="q-num" id="qn37">37</div>
+    <div class="q-text">¿Cómo se obtiene la lista de componentes conectadas de un grafo no dirigido en NetworkX?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(37,'A')"><div class="opt-letter">A</div><span><code>nx.find_communities(G)</code></span></div>
+    <div class="option" onclick="answer(37,'B')"><div class="opt-letter">B</div><span><code>nx.connected_components(G)</code></span></div>
+    <div class="option" onclick="answer(37,'C')"><div class="opt-letter">C</div><span><code>G.get_components()</code></span></div>
+    <div class="option" onclick="answer(37,'D')"><div class="opt-letter">D</div><span><code>nx.subgraphs(G)</code></span></div>
+  </div>
+  <div class="explanation" id="exp37"><strong>Correcto: B.</strong> <code>nx.connected_components(G)</code> devuelve un generador de sets de nodos, cada uno siendo una componente conexa. Para contar: <code>nx.number_connected_components(G)</code>. Para la componente más grande: <code>max(nx.connected_components(G), key=len)</code>.</div>
+</div>
+
+<div class="unit-header">
+  <div class="unit-tag">Unidad 6</div>
+  <div class="unit-title">Deep Learning y LLMs</div>
+</div>
+
+<div class="question-card" id="q38">
+  <div class="q-header">
+    <div class="q-num" id="qn38">38</div>
+    <div class="q-text">¿Qué hace <code>model.eval()</code> en PyTorch antes de la inferencia?</div>
+  </div>
+  <pre><code>model.<span class="fn">eval</span>()
+<span class="kw">with</span> torch.no_grad():
+    outputs = model(**inputs)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(38,'A')"><div class="opt-letter">A</div><span>Congela los pesos del modelo para que no se actualicen durante la inferencia.</span></div>
+    <div class="option" onclick="answer(38,'B')"><div class="opt-letter">B</div><span>Desactiva capas como Dropout y BatchNorm que se comportan diferente en entrenamiento vs inferencia.</span></div>
+    <div class="option" onclick="answer(38,'C')"><div class="opt-letter">C</div><span>Mueve el modelo de GPU a CPU para la inferencia.</span></div>
+    <div class="option" onclick="answer(38,'D')"><div class="opt-letter">D</div><span>Evalúa el modelo sobre el dataset de validación automáticamente.</span></div>
+  </div>
+  <div class="explanation" id="exp38"><strong>Correcto: B.</strong> <code>model.eval()</code> cambia el comportamiento de capas como Dropout (que se desactiva) y BatchNorm (que usa estadísticas del batch de entrenamiento). <code>torch.no_grad()</code> desactiva el cálculo de gradientes para ahorrar memoria. Ambos son necesarios para inferencia correcta.</div>
+</div>
+
+<div class="question-card" id="q39">
+  <div class="q-header">
+    <div class="q-num" id="qn39">39</div>
+    <div class="q-text">¿Qué representa el parámetro <code>attention_mask</code> que genera el tokenizador de Hugging Face?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(39,'A')"><div class="opt-letter">A</div><span>Los pesos de atención aprendidos por el modelo durante el preentrenamiento.</span></div>
+    <div class="option" onclick="answer(39,'B')"><div class="opt-letter">B</div><span>Una máscara binaria que indica qué tokens son reales (1) y cuáles son padding (0).</span></div>
+    <div class="option" onclick="answer(39,'C')"><div class="opt-letter">C</div><span>La posición de los tokens especiales [CLS] y [SEP] en la secuencia.</span></div>
+    <div class="option" onclick="answer(39,'D')"><div class="opt-letter">D</div><span>Una máscara que oculta tokens futuros para el entrenamiento causal (como GPT).</span></div>
+  </div>
+  <div class="explanation" id="exp39"><strong>Correcto: B.</strong> Cuando se hace padding para igualar longitudes en un batch, <code>attention_mask</code> indica qué posiciones contienen tokens reales (1) y cuáles son relleno (0). El modelo ignora los tokens de padding en el cálculo de atención gracias a esta máscara.</div>
+</div>
+
+<div class="question-card" id="q40">
+  <div class="q-header">
+    <div class="q-num" id="qn40">40</div>
+    <div class="q-text">¿Qué es el fine-tuning de un modelo preentrenado como BERT?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(40,'A')"><div class="opt-letter">A</div><span>Entrenar BERT desde cero con un dataset específico de la tarea.</span></div>
+    <div class="option" onclick="answer(40,'B')"><div class="opt-letter">B</div><span>Continuar entrenando un modelo preentrenado con datos etiquetados de la tarea destino, ajustando sus pesos.</span></div>
+    <div class="option" onclick="answer(40,'C')"><div class="opt-letter">C</div><span>Añadir capas de atención adicionales sin modificar los pesos originales de BERT.</span></div>
+    <div class="option" onclick="answer(40,'D')"><div class="opt-letter">D</div><span>Comprimir BERT para que ocupe menos memoria sin modificar su comportamiento.</span></div>
+  </div>
+  <div class="explanation" id="exp40"><strong>Correcto: B.</strong> El fine-tuning (ajuste fino) parte de los pesos preentrenados de BERT y continúa el entrenamiento con datos etiquetados de la tarea específica. Los pesos del modelo se actualizan levemente. Permite aprovechar el conocimiento preentrenado con relativamente pocos datos.</div>
+</div>
+
+<div class="question-card" id="q41">
+  <div class="q-header">
+    <div class="q-num" id="qn41">41</div>
+    <div class="q-text">¿Qué función de activación es más adecuada en la capa de salida de una red neuronal para clasificación binaria?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(41,'A')"><div class="opt-letter">A</div><span>ReLU</span></div>
+    <div class="option" onclick="answer(41,'B')"><div class="opt-letter">B</div><span>Sigmoid</span></div>
+    <div class="option" onclick="answer(41,'C')"><div class="opt-letter">C</div><span>Softmax</span></div>
+    <div class="option" onclick="answer(41,'D')"><div class="opt-letter">D</div><span>Tanh</span></div>
+  </div>
+  <div class="explanation" id="exp41"><strong>Correcto: B.</strong> <strong>Sigmoid</strong> mapea cualquier valor a (0, 1), interpretable como probabilidad de clase positiva. Para clasificación <strong>multiclase</strong> se usa Softmax. ReLU y Tanh se usan en capas ocultas, no en la capa de salida de clasificación. Dense(1, activation='sigmoid') es el estándar para clasificación binaria.</div>
+</div>
+
+<div class="question-card" id="q42">
+  <div class="q-header">
+    <div class="q-num" id="qn42">42</div>
+    <div class="q-text">¿Qué ocurre si el parámetro <code>max_length</code> del tokenizador es menor que la longitud real del texto de entrada?</div>
+  </div>
+  <pre><code>inputs = tokenizer(<span class="str">"Texto muy largo..."</span>, max_length=<span class="num">64</span>, truncation=<span class="kw">True</span>)</code></pre>
+  <div class="options">
+    <div class="option" onclick="answer(42,'A')"><div class="opt-letter">A</div><span>El tokenizador lanza un error porque el texto no cabe.</span></div>
+    <div class="option" onclick="answer(42,'B')"><div class="opt-letter">B</div><span>El texto se trunca a 64 tokens, descartando los tokens finales que excedan ese límite.</span></div>
+    <div class="option" onclick="answer(42,'C')"><div class="opt-letter">C</div><span>El tokenizador ignora <code>max_length</code> si es menor que el texto real.</span></div>
+    <div class="option" onclick="answer(42,'D')"><div class="opt-letter">D</div><span>El texto se divide automáticamente en múltiples chunks de 64 tokens.</span></div>
+  </div>
+  <div class="explanation" id="exp42"><strong>Correcto: B.</strong> Con <code>truncation=True</code>, el tokenizador trunca el texto a <code>max_length</code> tokens, descartando el exceso por la derecha (por defecto). Sin <code>truncation=True</code>, ignoraría <code>max_length</code>. Para dividir en chunks se necesita lógica adicional con <code>stride</code>.</div>
+</div>
+
+<div class="question-card" id="q43">
+  <div class="q-header">
+    <div class="q-num" id="qn43">43</div>
+    <div class="q-text">¿Para qué sirve el contexto <code>torch.no_grad()</code>?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(43,'A')"><div class="opt-letter">A</div><span>Evita que el modelo actualice sus pesos durante el entrenamiento.</span></div>
+    <div class="option" onclick="answer(43,'B')"><div class="opt-letter">B</div><span>Desactiva el cálculo y almacenamiento de gradientes, reduciendo el uso de memoria y acelerando la inferencia.</span></div>
+    <div class="option" onclick="answer(43,'C')"><div class="opt-letter">C</div><span>Congela capas específicas del modelo para el fine-tuning.</span></div>
+    <div class="option" onclick="answer(43,'D')"><div class="opt-letter">D</div><span>Detiene el entrenamiento si la loss no converge.</span></div>
+  </div>
+  <div class="explanation" id="exp43"><strong>Correcto: B.</strong> Durante inferencia o evaluación, no necesitamos calcular gradientes. <code>torch.no_grad()</code> desactiva el autograd engine: no se construye el grafo computacional ni se almacenan gradientes intermedios. Esto reduce el uso de memoria GPU hasta 2x y acelera el cómputo.</div>
+</div>
+
+<div class="question-card" id="q44">
+  <div class="q-header">
+    <div class="q-num" id="qn44">44</div>
+    <div class="q-text">¿Qué es el mecanismo de <strong>self-attention</strong> en los Transformers?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(44,'A')"><div class="opt-letter">A</div><span>Un mecanismo recursivo donde cada capa atiende a la capa anterior de la red.</span></div>
+    <div class="option" onclick="answer(44,'B')"><div class="opt-letter">B</div><span>Un mecanismo que permite a cada token de la secuencia "atender" a todos los demás tokens para calcular su representación contextual.</span></div>
+    <div class="option" onclick="answer(44,'C')"><div class="opt-letter">C</div><span>Una capa que reduce la dimensionalidad de los embeddings mediante matrices de proyección.</span></div>
+    <div class="option" onclick="answer(44,'D')"><div class="opt-letter">D</div><span>Un mecanismo donde solo el token [CLS] atiende al resto de la secuencia.</span></div>
+  </div>
+  <div class="explanation" id="exp44"><strong>Correcto: B.</strong> En self-attention, cada token calcula puntuaciones de atención con todos los demás tokens de la misma secuencia (incluyendo él mismo). Esto permite capturar dependencias a larga distancia, algo que las RNNs tenían dificultad para hacer. El resultado es una representación de cada token en su contexto completo.</div>
+</div>
+
+<div class="question-card" id="q45">
+  <div class="q-header">
+    <div class="q-num" id="qn45">45</div>
+    <div class="q-text">¿Qué diferencia hay entre <code>BertForMaskedLM</code> y <code>BertForSequenceClassification</code> en Hugging Face?</div>
+  </div>
+  <div class="options">
+    <div class="option" onclick="answer(45,'A')"><div class="opt-letter">A</div><span>Son arquitecturas completamente diferentes sin ninguna parte en común.</span></div>
+    <div class="option" onclick="answer(45,'B')"><div class="opt-letter">B</div><span>Ambas usan el mismo encoder BERT, pero añaden cabezas de predicción distintas según la tarea.</span></div>
+    <div class="option" onclick="answer(45,'C')"><div class="opt-letter">C</div><span><code>BertForMaskedLM</code> es más grande y potente para todas las tareas.</span></div>
+    <div class="option" onclick="answer(45,'D')"><div class="opt-letter">D</div><span><code>BertForSequenceClassification</code> no puede cargarse con pesos preentrenados.</span></div>
+  </div>
+  <div class="explanation" id="exp45"><strong>Correcto: B.</strong> El encoder BERT es compartido. Lo que cambia es la "cabeza" (head): <code>BertForMaskedLM</code> añade una capa de predicción sobre el vocabulario para rellenar máscaras [MASK]. <code>BertForSequenceClassification</code> añade un clasificador lineal sobre el token [CLS] para clasificar la secuencia completa.</div>
+</div>
+
+<div class="result-panel" id="result-panel">
+  <div class="result-score" id="res-score">—</div>
+  <div class="result-label">puntuación final · Modelo D</div>
+  <div class="result-grid">
+    <div class="result-stat">
+      <div class="result-stat-val" id="res-correct" style="color:var(--correct)">0</div>
+      <div class="result-stat-lbl">Correctas</div>
+    </div>
+    <div class="result-stat">
+      <div class="result-stat-val" id="res-wrong" style="color:var(--wrong)">0</div>
+      <div class="result-stat-lbl">Erróneas</div>
+    </div>
+    <div class="result-stat">
+      <div class="result-stat-val" id="res-pct">0%</div>
+      <div class="result-stat-lbl">Aciertos</div>
+    </div>
+  </div>
+  <button class="btn-reset" onclick="resetExam()">Reiniciar examen</button>
+</div>
+
+</div>
+
+<script>
+const ANSWERS = {
+  1:'B', 2:'B', 3:'B', 4:'C', 5:'B', 6:'C', 7:'B', 8:'B',
+  9:'B', 10:'B', 11:'B', 12:'B', 13:'B', 14:'B', 15:'B', 16:'B',
+  17:'B', 18:'C', 19:'B', 20:'B', 21:'B', 22:'B', 23:'B',
+  24:'C', 25:'C', 26:'A', 27:'B', 28:'B', 29:'B', 30:'B',
+  31:'B', 32:'B', 33:'B', 34:'B', 35:'C', 36:'B', 37:'B',
+  38:'B', 39:'B', 40:'B', 41:'B', 42:'B', 43:'B', 44:'B', 45:'B'
+};
+
+let answered = {}, correct = 0, wrong = 0;
+
+function answer(qNum, chosen) {
+  if (answered[qNum]) return;
+  answered[qNum] = chosen;
+
+  const correct_ans = ANSWERS[qNum];
+  const card = document.getElementById('q' + qNum);
+  const opts = card.querySelectorAll('.option');
+  const letters = ['A','B','C','D'];
+
+  opts.forEach((opt, i) => {
+    opt.classList.add('disabled');
+    if (letters[i] === correct_ans) opt.classList.add('correct');
+    else if (letters[i] === chosen) opt.classList.add('wrong');
+  });
+
+  const num = document.getElementById('qn' + qNum);
+  const exp = document.getElementById('exp' + qNum);
+  exp.classList.add('show');
+  card.classList.add('answered');
+
+  if (chosen === correct_ans) {
+    correct++;
+    num.classList.add('correct');
+    num.textContent = '✓';
+  } else {
+    wrong++;
+    num.classList.add('wrong');
+    num.textContent = '✗';
+  }
+
+  updateStats();
+}
+
+function updateStats() {
+  const total = Object.keys(answered).length;
+  document.getElementById('cnt-answered').textContent = total;
+  document.getElementById('cnt-correct').textContent = correct;
+  document.getElementById('cnt-wrong').textContent = wrong;
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+  document.getElementById('cnt-score').textContent = total > 0 ? pct + '%' : '—';
+  document.getElementById('progress').style.width = (total / 45 * 100) + '%';
+
+  if (total === 45) showResult();
+}
+
+function showResult() {
+  const panel = document.getElementById('result-panel');
+  panel.classList.add('show');
+  const pct = Math.round((correct / 45) * 100);
+  document.getElementById('res-score').textContent = pct + '%';
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-pct').textContent = pct + '%';
+  panel.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetExam() {
+  answered = {}; correct = 0; wrong = 0;
+  document.querySelectorAll('.option').forEach(o => {
+    o.classList.remove('correct','wrong','disabled');
+  });
+  document.querySelectorAll('.explanation').forEach(e => e.classList.remove('show'));
+  document.querySelectorAll('.question-card').forEach(c => c.classList.remove('answered'));
+  document.querySelectorAll('.q-num').forEach((n, i) => {
+    n.className = 'q-num';
+    n.textContent = i + 1;
+  });
+  document.getElementById('result-panel').classList.remove('show');
+  updateStats();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
