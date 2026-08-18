@@ -1,5 +1,6 @@
 # U-Tad 
 
+
 Projects and content carried out during my B.S. Double Degree in Computer Science and Computational Mathematics at U-Tad. The repository is organized by academic year, semester, and finally by subject, where I have stored the main study content, practical materials from the subjects, personal projects, and exams. Many of the subjects, such as those taken in the mathematics section of the double degree, do not include practical or coding content, so they will only contain a transcription of my summaries and study materials into Markdown. The rest of the subjects, unless otherwise specified, will have the full content (study material, examples, practical exercises, etc.).
 
 ## Degree Curriculum (345 ECTS):
