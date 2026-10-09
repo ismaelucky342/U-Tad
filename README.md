@@ -74,9 +74,9 @@ In the **fourth year**, students focus on more advanced topics such as **Mathema
 
 ### Q1:
 - **Mathematical Analysis III** (9 ECTS)
-- **Machine Learning I** (6 ECTS)
+- **[Machine Learning I](4th_Course/Q1/Machine_Learning_l)** (6 ECTS)
 - **Algebraic Structures** (6 ECTS)
-- **Software Engineering** (6 ECTS)
+- **[Software Engineering](4th_Course/Q1/Software_Engineering)** (6 ECTS)
 - **Optimization** (6 ECTS)
 
 ### Q2:
@@ -94,11 +94,11 @@ The **final year** is focused on preparation for the professional world. Student
 - An officially-recognized Degree in Computational Mathematics.
 
 ### Q1:
-- **Business Creation and Management** (3 ECTS)
+- **[Business Creation and Management](5th_Course/Q1/Business_Creation)** (3 ECTS)
 - **[Project Management](5th_Course/Q1/Project_Management)** (3 ECTS)
 - **Partial Differential Equations** (6 ECTS)
-- **Programming Paradigms** (3 ECTS)
-- **Computer Vision** (6 ECTS)
+- **[Programming Paradigms](5th_Course/Q1/Programing_Paradigms)** (3 ECTS)
+- **[Computer Vision](5th_Course/Q1/Computer_Vision)** (6 ECTS)
 
 ### Q2:
 - **[Digital Business Models](5th_Course/Q2/Bussiness_and_DM/)** (3 ECTS)
@@ -106,7 +106,7 @@ The **final year** is focused on preparation for the professional world. Student
 - **Data Visualization** (3 ECTS)
   
 ### Full-year Project: 
-- **Data Engineering Projects** (9 ECTS)
+- **[Data Engineering Projects](5th_Course/Data_Engineering_Project)** (9 ECTS)
 - **Computational Maths Final Degree Project** (6 ECTS)
 - **Software Engineering Final Degree Project** (6 ECTS)
 
