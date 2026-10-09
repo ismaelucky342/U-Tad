@@ -102,7 +102,7 @@ The **final year** is focused on preparation for the professional world. Student
 
 ### Q2:
 - **[Digital Business Models](5th_Course/Q2/Bussiness_and_DM/)** (3 ECTS)
-- **Internship in a Company** (6 ECTS) (Telefonica Tech)
+- **Internship in a Company** (6 ECTS) (HERE Technologies)
 - **Data Visualization** (3 ECTS)
   
 ### Full-year Project: 
