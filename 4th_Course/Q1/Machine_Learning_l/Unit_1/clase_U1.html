@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U1 · Introducción al aprendizaje automático</title>
+<style>
+  :root { --bg:#0f172a; --card:#1e293b; --fg:#f1f5f9; --muted:#94a3b8; --a:#38bdf8; --a2:#a78bfa; --g:#4ade80; --o:#fb923c; --r:#f87171; --y:#facc15; --b:#334155;
+          /* series de las gráficas (validadas para CVD sobre --card) */ --s1:#0284c7; --s2:#ea580c; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.55}
+  a{color:var(--a)}
+  nav{position:fixed;top:0;right:0;height:100vh;width:50px;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);border-left:1px solid var(--b);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 0;gap:8px;z-index:100}
+  nav a{width:10px;height:10px;border-radius:50%;background:var(--b);transition:all .2s;cursor:pointer}
+  nav a.active{background:var(--a);transform:scale(1.4)}
+  .counter{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(30,41,59,.9);backdrop-filter:blur(8px);padding:6px 16px;border-radius:20px;font-size:13px;color:var(--muted);border:1px solid var(--b);z-index:100}
+  section{min-height:100vh;padding:70px 80px 100px;display:flex;flex-direction:column;justify-content:center;max-width:1100px;margin:0 auto;border-bottom:1px solid rgba(51,65,85,.3);position:relative}
+  section>*{min-width:0;max-width:100%}
+  .tag{color:var(--a);font-weight:600;font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+  h1{font-size:48px;font-weight:800;line-height:1.1;margin-bottom:16px;background:linear-gradient(135deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  h2{font-size:34px;font-weight:700;margin-bottom:20px}
+  h3{font-size:20px;color:var(--a);margin:18px 0 8px}
+  p,li{font-size:17px}
+  .lead{font-size:19px;color:var(--muted);margin-bottom:16px;max-width:780px}
+  ul{list-style:none;padding:0}
+  li{padding:4px 0 4px 24px;position:relative}
+  li::before{content:"▸";position:absolute;left:0;color:var(--a);font-weight:bold}
+  .grid{display:grid;gap:14px;margin-top:16px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .card{background:var(--card);border:1px solid var(--b);border-radius:10px;padding:18px}
+  .card h4{color:var(--a);font-size:15px;margin-bottom:6px;font-weight:600}
+  .card p{font-size:14px;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:15px;background:var(--card);border-radius:8px;overflow:hidden}
+  th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--b)}
+  th{background:rgba(56,189,248,.1);color:var(--a);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:1px}
+  tr:last-child td{border-bottom:none}
+  .box{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);border-radius:10px;padding:16px 20px;margin:16px 0}
+  .warn{background:rgba(248,113,113,.08);border-left:4px solid var(--r);border-radius:6px;padding:14px 18px;margin:14px 0}
+  .ok{background:rgba(74,222,128,.08);border-left:4px solid var(--g);border-radius:6px;padding:14px 18px;margin:14px 0}
+  .info{background:rgba(167,139,250,.08);border-left:4px solid var(--a2);border-radius:6px;padding:14px 18px;margin:14px 0}
+  .cover{text-align:center;align-items:center;max-width:none;overflow:hidden}
+  .cover > *:not(canvas){position:relative;z-index:1}
+  .cover h1{font-size:64px;margin-bottom:10px}
+  .cover .sub{font-size:22px;color:var(--muted);margin-bottom:24px}
+  #bgnet{position:absolute;inset:0;width:100%;height:100%;opacity:.38;z-index:0}
+  .meta{display:flex;gap:24px;margin-top:30px;flex-wrap:wrap;justify-content:center}
+  .meta div{background:var(--card);padding:10px 18px;border-radius:8px;border:1px solid var(--b)}
+  .meta strong{display:block;color:var(--a);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+  .meta span{font-size:15px}
+  .hint{font-size:13px;color:var(--muted);margin-top:14px}
+  .stage{display:flex;align-items:center;gap:0;margin-top:16px;flex-wrap:wrap}
+  .stage .s{flex:1 1 0;background:var(--card);padding:12px;border:1px solid var(--b);font-size:13px;text-align:center;min-width:76px;color:var(--fg);font-family:inherit}
+  .stage .s:first-child{border-radius:6px 0 0 6px}
+  .stage .s:last-child{border-radius:0 6px 6px 0}
+  .stage .s.act{background:rgba(56,189,248,.15);border-color:var(--a);color:var(--a);font-weight:600}
+  .stage button.s{cursor:pointer;transition:background .15s}
+  .stage button.s:hover{background:rgba(56,189,248,.08)}
+  .stage .arr{padding:0 4px;color:var(--muted)}
+  code{background:rgba(0,0,0,.4);padding:2px 6px;border-radius:4px;font-size:14px;color:var(--y)}
+
+  /* --- controles --- */
+  .btn{background:var(--card);border:1px solid var(--b);color:var(--fg);padding:8px 14px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s}
+  .btn:hover{border-color:var(--a);color:var(--a)}
+  .btn.pri{background:rgba(56,189,248,.15);border-color:var(--a);color:var(--a);font-weight:600}
+  .btn.on{background:rgba(167,139,250,.18);border-color:var(--a2);color:var(--a2)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+  input[type=range]{accent-color:var(--a);width:220px;cursor:pointer}
+  .kv{font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted)}
+  .kv b{color:var(--fg);font-weight:600}
+  svg.chart{width:100%;height:auto;display:block;background:var(--card);border:1px solid var(--b);border-radius:10px}
+  svg.chart text{font-family:inherit}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:8px}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .badge{display:inline-block;padding:4px 12px;border-radius:999px;font-size:14px;font-weight:600;border:1px solid}
+  .tip{position:fixed;pointer-events:none;background:#0b1222;border:1px solid var(--b);color:var(--fg);font-size:13px;padding:6px 10px;border-radius:6px;z-index:200;opacity:0;transition:opacity .1s;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+
+  /* --- quote --- */
+  .quote{border-left:3px solid var(--a2);padding:6px 0 6px 18px;margin:18px 0;font-size:18px;font-style:italic;color:var(--fg)}
+  .quote small{display:block;font-style:normal;color:var(--muted);font-size:13px;margin-top:4px}
+
+  /* --- timeline --- */
+  .tl{display:flex;gap:12px;overflow-x:auto;padding:8px 2px 16px;scroll-snap-type:x mandatory;margin-top:10px}
+  .tl::-webkit-scrollbar{height:6px}.tl::-webkit-scrollbar-thumb{background:var(--b);border-radius:3px}
+  .ev{flex:0 0 200px;scroll-snap-align:start;background:var(--card);border:1px solid var(--b);border-radius:10px;padding:14px;position:relative;border-top:3px solid var(--a)}
+  .ev.winter{border-top-color:var(--muted)}
+  .ev.hot{border-top-color:var(--a2)}
+  .ev .yr{font-size:24px;font-weight:800;color:var(--a)}
+  .ev.winter .yr{color:var(--muted)}
+  .ev.hot .yr{color:var(--a2)}
+  .ev .em{font-size:22px;float:right}
+  .ev h4{font-size:14px;margin:4px 0}
+  .ev p{font-size:13px;color:var(--muted)}
+  .ev a{font-size:12px;display:inline-block;margin-top:6px}
+
+  /* --- juego tipos --- */
+  .game{background:var(--card);border:1px solid var(--b);border-radius:12px;padding:20px;margin-top:18px}
+  .game .q{font-size:18px;min-height:56px}
+  .game .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+  .game .opts .btn.right{background:rgba(74,222,128,.18);border-color:var(--g);color:var(--g)}
+  .game .opts .btn.wrong{background:rgba(248,113,113,.18);border-color:var(--r);color:var(--r)}
+  .game .fb{min-height:24px;font-size:14px;color:var(--muted);margin-top:10px}
+  .score{float:right;font-size:13px;color:var(--muted)}
+
+  /* --- tabla dataset --- */
+  .ds td,.ds th{padding:8px 12px;font-size:14px;transition:background .2s,color .2s}
+  .ds .hl{background:rgba(56,189,248,.18);color:var(--fg)}
+  .ds .hlt{background:rgba(234,88,12,.32);color:var(--fg)}
+
+  /* --- k-fold --- */
+  .splitbar{display:flex;height:46px;border-radius:8px;overflow:hidden;margin-top:12px;font-size:14px;font-weight:600}
+  .splitbar div{display:flex;align-items:center;justify-content:center;gap:6px;border-right:2px solid var(--bg)}
+  .splitbar div:last-child{border-right:none}
+  .sb-train{background:var(--s1);flex:70}
+  .sb-val{background:#8b5cf6;flex:15}
+  .sb-test{background:#475569;flex:15;cursor:pointer}
+  .shake{animation:shake .4s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .folds{display:flex;flex-direction:column;gap:4px;margin-top:12px}
+  .fold{display:flex;gap:2px;align-items:center;opacity:0;transform:translateX(-8px);animation:fin .35s forwards}
+  .fold .c{flex:1;height:22px;background:var(--s1);border-radius:3px}
+  .fold .c.v{background:var(--s2)}
+  .fold .lab{width:70px;font-size:12px;color:var(--muted)}
+  .fold .sc{width:70px;text-align:right;font-size:13px;font-variant-numeric:tabular-nums}
+  @keyframes fin{to{opacity:1;transform:none}}
+
+  /* --- matriz de confusión --- */
+  .cm{display:grid;grid-template-columns:90px 1fr 1fr;gap:4px;font-size:13px;margin-top:6px}
+  .cm div{padding:10px;border-radius:6px;text-align:center}
+  .cm .h{color:var(--muted);font-size:12px;padding:4px}
+  .cm .okc{background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.4)}
+  .cm .koc{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.4)}
+  .cm b{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+  .mbar{display:grid;grid-template-columns:80px 1fr 52px;align-items:center;gap:8px;font-size:13px;margin-top:6px}
+  .mbar .track{height:10px;background:var(--bg);border-radius:5px;overflow:hidden}
+  .mbar .fill{height:100%;background:var(--a);border-radius:5px;transition:width .2s}
+  .mbar span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+
+  /* --- recursos --- */
+  .res{display:block;text-decoration:none;color:var(--fg);transition:transform .15s,border-color .15s}
+  .res:hover{transform:translateY(-3px);border-color:var(--a)}
+  .res .ico{font-size:26px}
+  .res h4{margin-top:6px}
+  .res .lvl{font-size:11px;color:var(--a2);text-transform:uppercase;letter-spacing:1px}
+
+  /* --- exit ticket --- */
+  .xt{background:var(--card);border:1px solid var(--b);border-radius:10px;padding:14px 16px;margin-top:10px}
+  .xt p{font-size:15px;margin-bottom:8px}
+  .xt .btn{font-size:13px;padding:6px 12px;margin:2px 4px 2px 0}
+  .xt .btn.right{background:rgba(74,222,128,.18);border-color:var(--g);color:var(--g)}
+  .xt .btn.wrong{background:rgba(248,113,113,.18);border-color:var(--r);color:var(--r)}
+  .xt .fb{font-size:13px;color:var(--muted);margin-top:6px;min-height:18px}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.fold{opacity:1;transform:none}}
+  @media(max-width:768px){section{padding:50px 16px 90px}h1{font-size:34px}.cover h1{font-size:38px}h2{font-size:24px}.g2,.g3,.g4{grid-template-columns:1fr}.game .opts{grid-template-columns:1fr 1fr}nav{display:none}input[type=range]{width:100%}table{display:block;overflow-x:auto}.cm{grid-template-columns:64px 1fr 1fr}}
+</style>
+</head>
+<body>
+<nav id="nav"></nav>
+<div class="counter" id="c">1 / 1</div>
+<div class="tip" id="tip"></div>
+
+<!-- ============ PORTADA ============ -->
+<section class="cover">
+  <canvas id="bgnet" aria-hidden="true"></canvas>
+  <div class="tag">Unidad 1 · Clase síncrona · 1h</div>
+  <h1>Introducción al<br>Aprendizaje Automático</h1>
+  <div class="sub">Brújula conceptual del cuatrimestre</div>
+  <div class="meta">
+    <div><strong>Semana</strong><span>2-3</span></div>
+    <div><strong>Bloque</strong><span>Teoría</span></div>
+    <div><strong>Próxima entrega</strong><span>Actividad 1 (U1-U2)</span></div>
+  </div>
+  <p class="hint">👀 El fondo no es decoración: es un <strong>perceptrón</strong> aprendiendo en directo a separar puntos azules de naranjas.</p>
+</section>
+
+<!-- ============ AGENDA ============ -->
+<section>
+  <div class="tag">01 · Agenda de la sesión</div>
+  <h2>Qué vamos a ver en 1 hora</h2>
+  <div class="stage">
+    <div class="s act">Concepto + historia<br>10 min</div><div class="arr">▸</div>
+    <div class="s">Tipos (juego)<br>10 min</div><div class="arr">▸</div>
+    <div class="s">Componentes + demo<br>10 min</div><div class="arr">▸</div>
+    <div class="s">Etapas<br>5 min</div><div class="arr">▸</div>
+    <div class="s">Generalización (demo)<br>10 min</div><div class="arr">▸</div>
+    <div class="s">Métricas (demo)<br>10 min</div><div class="arr">▸</div>
+    <div class="s">Cierre<br>5 min</div>
+  </div>
+  <div class="info" style="margin-top:24px"><strong>Recordad:</strong> esta unidad es la base conceptual. No vais a escribir código todavía, pero hoy vais a <strong>tocar</strong> modelos: hay 5 demos interactivas. Tened el ratón a mano.</div>
+</section>
+
+<!-- ============ DEFINICIÓN ============ -->
+<section>
+  <div class="tag">02 · Definición</div>
+  <h2>¿Qué es el aprendizaje automático?</h2>
+  <p class="lead">Es la disciplina que permite a un sistema <strong>aprender patrones a partir de datos</strong> sin estar explícitamente programado para cada caso.</p>
+  <div class="grid g2">
+    <svg class="chart" viewBox="0 0 420 150" role="img" aria-label="Programación clásica: reglas más datos dan respuestas">
+      <text x="16" y="26" fill="#38bdf8" font-size="14" font-weight="600">Programación clásica</text>
+      <rect x="16" y="44" width="110" height="34" rx="6" fill="#0f172a" stroke="#334155"/><text x="71" y="66" fill="#f1f5f9" font-size="13" text-anchor="middle">Reglas 🧑‍💻</text>
+      <rect x="16" y="94" width="110" height="34" rx="6" fill="#0f172a" stroke="#334155"/><text x="71" y="116" fill="#f1f5f9" font-size="13" text-anchor="middle">Datos</text>
+      <path d="M130 61 L170 86 M130 111 L170 86" stroke="#94a3b8" stroke-width="2" fill="none"/>
+      <rect x="172" y="66" width="100" height="40" rx="8" fill="rgba(56,189,248,.15)" stroke="#38bdf8"/><text x="222" y="91" fill="#38bdf8" font-size="13" text-anchor="middle">Programa</text>
+      <path d="M274 86 L300 86" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+      <rect x="306" y="69" width="100" height="34" rx="6" fill="#0f172a" stroke="#4ade80"/><text x="356" y="91" fill="#4ade80" font-size="13" text-anchor="middle">Respuestas</text>
+      <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#94a3b8"/></marker></defs>
+    </svg>
+    <svg class="chart" viewBox="0 0 420 150" role="img" aria-label="Machine learning: datos más respuestas dan reglas">
+      <text x="16" y="26" fill="#a78bfa" font-size="14" font-weight="600">Machine learning</text>
+      <rect x="16" y="44" width="110" height="34" rx="6" fill="#0f172a" stroke="#334155"/><text x="71" y="66" fill="#f1f5f9" font-size="13" text-anchor="middle">Datos</text>
+      <rect x="16" y="94" width="110" height="34" rx="6" fill="#0f172a" stroke="#334155"/><text x="71" y="116" fill="#f1f5f9" font-size="13" text-anchor="middle">Respuestas (y)</text>
+      <path d="M130 61 L170 86 M130 111 L170 86" stroke="#94a3b8" stroke-width="2" fill="none"/>
+      <rect x="172" y="66" width="100" height="40" rx="8" fill="rgba(167,139,250,.15)" stroke="#a78bfa"/><text x="222" y="91" fill="#a78bfa" font-size="13" text-anchor="middle">Algoritmo</text>
+      <path d="M274 86 L300 86" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)"/>
+      <rect x="306" y="69" width="100" height="34" rx="6" fill="#0f172a" stroke="#facc15"/><text x="356" y="91" fill="#facc15" font-size="13" text-anchor="middle">Reglas (θ) 🤖</text>
+    </svg>
+  </div>
+  <div class="quote">“Campo de estudio que da a los ordenadores la capacidad de aprender sin ser programados explícitamente.”<small>— atribuida a Arthur Samuel (1959), que entrenó un programa de damas que acabó jugando mejor que él.</small></div>
+  <div class="box"><strong>Idea clave:</strong> en lugar de programar f(x), el algoritmo aprende una aproximación f(x; θ) minimizando una función de error sobre ejemplos.</div>
+  <div class="ok"><strong>🎮 Pruébalo en 2 minutos:</strong> entrena un clasificador de imágenes con tu webcam en <a href="https://teachablemachine.withgoogle.com/" target="_blank" rel="noopener">Teachable Machine</a> (Google). Ejemplo: “mano abierta” vs “puño”. Sin código, y es exactamente “datos + respuestas → reglas”.</div>
+</section>
+
+<!-- ============ HISTORIA ============ -->
+<section>
+  <div class="tag">03 · Un poco de historia</div>
+  <h2>75 años en 12 tarjetas</h2>
+  <p class="lead">El ML no nació con ChatGPT. Ha pasado por “inviernos” (sin financiación ni resultados) y veranos explosivos. Desliza →</p>
+  <div class="tl">
+    <div class="ev"><span class="em">🧠</span><div class="yr">1950</div><h4>¿Pueden pensar las máquinas?</h4><p>Alan Turing propone el “juego de la imitación” (test de Turing).</p></div>
+    <div class="ev"><span class="em">⚡</span><div class="yr">1957</div><h4>El perceptrón</h4><p>Frank Rosenblatt crea la primera neurona artificial que aprende. Es la del fondo de la portada.</p><a href="https://es.wikipedia.org/wiki/Perceptr%C3%B3n" target="_blank" rel="noopener">Wikipedia →</a></div>
+    <div class="ev"><span class="em">♟️</span><div class="yr">1959</div><h4>Nace el término “machine learning”</h4><p>Arthur Samuel y su programa de damas que aprende jugando contra sí mismo.</p></div>
+    <div class="ev winter"><span class="em">❄️</span><div class="yr">70s · 80s</div><h4>Inviernos de la IA</h4><p>Las promesas superan a los resultados. Se recorta la financiación.</p></div>
+    <div class="ev"><span class="em">🔁</span><div class="yr">1986</div><h4>Backpropagation</h4><p>Rumelhart, Hinton y Williams popularizan cómo entrenar redes de varias capas.</p></div>
+    <div class="ev"><span class="em">🏆</span><div class="yr">1997</div><h4>Deep Blue vence a Kasparov</h4><p>Ojo: era búsqueda + reglas expertas, no aprendizaje. Buen ejemplo de “IA ≠ ML”.</p></div>
+    <div class="ev"><span class="em">🖼️</span><div class="yr">2009</div><h4>ImageNet</h4><p>Fei-Fei Li publica 14M de imágenes etiquetadas. Los datos pasan a ser protagonistas.</p><a href="https://www.image-net.org/" target="_blank" rel="noopener">image-net.org →</a></div>
+    <div class="ev hot"><span class="em">🚀</span><div class="yr">2012</div><h4>AlexNet</h4><p>Una red profunda entrenada en GPU arrasa en ImageNet. Empieza la era del deep learning.</p></div>
+    <div class="ev hot"><span class="em">⚫</span><div class="yr">2016</div><h4>AlphaGo 4 – Lee Sedol 1</h4><p>Aprendizaje por refuerzo en el juego más complejo de tablero. Hay documental gratis.</p><a href="https://www.youtube.com/watch?v=WXuK6gekU1Y" target="_blank" rel="noopener">Ver documental →</a></div>
+    <div class="ev hot"><span class="em">🔤</span><div class="yr">2017</div><h4>“Attention is all you need”</h4><p>Google presenta el Transformer, la arquitectura de los LLM actuales.</p><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Paper →</a></div>
+    <div class="ev hot"><span class="em">💬</span><div class="yr">2022</div><h4>ChatGPT</h4><p>100 millones de usuarios en ~2 meses. El ML sale del laboratorio y llega a todo el mundo.</p></div>
+    <div class="ev hot"><span class="em">🥇</span><div class="yr">2024</div><h4>Dos premios Nobel</h4><p>Física: Hopfield y Hinton (redes neuronales). Química: Hassabis y Jumper (AlphaFold).</p><a href="https://www.nobelprize.org/prizes/physics/2024/summary/" target="_blank" rel="noopener">nobelprize.org →</a></div>
+  </div>
+  <div class="info"><strong>Pregunta para el chat:</strong> ¿qué hito de esta lista os ha afectado más en el día a día? ¿Y cuál creéis que será la tarjeta de 2030?</div>
+</section>
+
+<!-- ============ TIPOS ============ -->
+<section>
+  <div class="tag">04 · Taxonomía</div>
+  <h2>Los 4 tipos de aprendizaje</h2>
+  <table>
+    <thead><tr><th>Tipo</th><th>Dato</th><th>Objetivo</th><th>Ejemplo</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Supervisado</strong></td><td>(X, y) etiquetado</td><td>Predecir y</td><td>Regresión, clasificación</td></tr>
+      <tr><td><strong>No supervisado</strong></td><td>Solo X</td><td>Descubrir estructura</td><td>Clustering, PCA, reglas</td></tr>
+      <tr><td><strong>Semi-supervisado</strong></td><td>Pocos (X,y) + muchos X</td><td>Combinar ambas</td><td>Etiquetado barato + masivo</td></tr>
+      <tr><td><strong>Por refuerzo</strong></td><td>Agente + entorno</td><td>Maximizar recompensa</td><td>Juegos, robótica</td></tr>
+    </tbody>
+  </table>
+  <div class="game" id="game">
+    <span class="score" id="gScore">0 / 0</span>
+    <div class="tag" style="margin-bottom:4px">🎯 Juego · ¿Qué tipo de aprendizaje es?</div>
+    <div class="q" id="gQ"></div>
+    <div class="opts" id="gOpts"></div>
+    <div class="fb" id="gFb"></div>
+    <div class="row"><button class="btn" id="gNext">Siguiente caso →</button></div>
+  </div>
+  <div class="info" style="margin-top:16px"><strong>En este curso:</strong> U3-U4 supervisado · U5-U6 no supervisado. Los otros dos los veréis en otras asignaturas.</div>
+</section>
+
+<!-- ============ COMPONENTES ============ -->
+<section>
+  <div class="tag">05 · Componentes</div>
+  <h2>¿Qué tiene un problema de ML?</h2>
+  <p class="lead">Pasa el ratón por los botones y mira qué parte del dataset (Titanic, el “hola mundo” del ML) es cada cosa.</p>
+  <div class="row">
+    <button class="btn" data-hl="row">Instancias (filas)</button>
+    <button class="btn" data-hl="feat">Atributos X (columnas)</button>
+    <button class="btn" data-hl="target">Etiqueta y (target)</button>
+  </div>
+  <table class="ds" id="ds">
+    <thead><tr><th>pclass</th><th>sexo</th><th>edad</th><th>tarifa (£)</th><th>embarque</th><th>sobrevive</th></tr></thead>
+    <tbody>
+      <tr><td>3</td><td>hombre</td><td>22</td><td>7.25</td><td>Southampton</td><td>0</td></tr>
+      <tr><td>1</td><td>mujer</td><td>38</td><td>71.28</td><td>Cherbourg</td><td>1</td></tr>
+      <tr><td>3</td><td>mujer</td><td>26</td><td>7.93</td><td>Southampton</td><td>1</td></tr>
+      <tr><td>1</td><td>hombre</td><td>54</td><td>51.86</td><td>Southampton</td><td>0</td></tr>
+      <tr><td>2</td><td>mujer</td><td>14</td><td>30.07</td><td>Cherbourg</td><td>?</td></tr>
+    </tbody>
+  </table>
+  <ul style="margin-top:14px">
+    <li><strong>Modelo f(X; θ)</strong>: la función con parámetros ajustables.</li>
+    <li><strong>Función de pérdida</strong>: mide el error entre predicción y realidad.</li>
+    <li><strong>Algoritmo de optimización</strong>: ajusta θ para minimizar la pérdida.</li>
+  </ul>
+  <div class="box" style="margin-top:12px"><strong>Analogía:</strong> el modelo es como una receta con huecos (parámetros). El algoritmo de optimización es el cocinero que prueba, falla, ajusta y vuelve a probar. Siguiente diapositiva: veámoslo cocinar. 👨‍🍳</div>
+</section>
+
+<!-- ============ DEMO DESCENSO DE GRADIENTE ============ -->
+<section>
+  <div class="tag">06 · Demo · El cocinero en acción</div>
+  <h2>Modelo + pérdida + optimizador, en vivo</h2>
+  <p class="lead">Modelo: una recta <code>y = w·x + b</code>. Pérdida: error cuadrático medio (MSE). Optimizador: descenso de gradiente. <strong>Haz clic en la gráfica para añadir puntos</strong> y dale a entrenar.</p>
+  <div class="grid g2">
+    <div>
+      <svg class="chart" id="gdPlot" viewBox="0 0 460 320" style="cursor:crosshair" role="img" aria-label="Datos y recta ajustada"></svg>
+      <div class="legend"><span><i style="background:var(--s1);border-radius:50%"></i>Datos (clic = añadir)</span><span><i style="background:var(--y);height:3px"></i>Modelo actual</span><span><i style="background:var(--r);height:3px"></i>Errores (residuos)</span></div>
+    </div>
+    <div>
+      <svg class="chart" id="gdLoss" viewBox="0 0 460 320" role="img" aria-label="Curva de pérdida por iteración"></svg>
+      <div class="legend"><span>Curva de pérdida (MSE) por iteración</span></div>
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn pri" id="gdTrain">▶ Entrenar</button>
+    <button class="btn" id="gdReset">↺ Recta aleatoria</button>
+    <button class="btn" id="gdData">🎲 Nuevos datos</button>
+    <button class="btn" id="gdOut">😈 Añadir un outlier</button>
+  </div>
+  <div class="row">
+    <span class="kv">Tasa de aprendizaje:</span>
+    <button class="btn" data-lr="0.08">🐢 Pequeña</button>
+    <button class="btn on" data-lr="0.75">👌 Adecuada</button>
+    <button class="btn" data-lr="1.08">💥 Demasiado grande</button>
+    <span class="kv" id="gdStats"></span>
+  </div>
+  <div class="info"><strong>Para comentar:</strong> ¿por qué la curva de pérdida baja rápido al principio y luego se aplana? ¿Qué le pasa a la recta cuando metes un outlier? (Spoiler: el MSE castiga mucho los errores grandes → lo veremos en U3.) Prueba también la tasa “demasiado grande”: el cocinero corrige tanto que cada vez sala más el plato.</div>
+</section>
+
+<!-- ============ ETAPAS ============ -->
+<section>
+  <div class="tag">07 · Flujo</div>
+  <h2>Las 8 etapas de un proyecto</h2>
+  <div class="stage" id="stages"></div>
+  <div class="card" id="stageInfo" style="margin-top:12px;min-height:84px"></div>
+  <h3>¿En qué se va realmente el tiempo?</h3>
+  <div class="grid g2" style="align-items:center">
+    <svg class="chart" id="timeChart" viewBox="0 0 460 230" role="img" aria-label="Reparto del tiempo de un científico de datos"></svg>
+    <div>
+      <p style="font-size:15px;color:var(--muted)">Encuesta a ~2.300 profesionales (<a href="https://know.anaconda.com/rs/387-XNW-688/images/Anaconda-SODS-Report-2020-Final.pdf" target="_blank" rel="noopener">Anaconda, State of Data Science 2020</a>): <strong style="color:var(--fg)">~45% del tiempo se va en cargar y limpiar datos</strong>. Entrenar modelos, lo “glamuroso”, es solo un 12%.</p>
+      <div class="warn"><strong>⚠️ Error típico del alumno:</strong> saltar el paso 3 (EDA) y entrenar directamente. Si no entiendes tus datos, tu modelo será una caja negra.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BIAS-VARIANZA ============ -->
+<section>
+  <div class="tag">08 · Demo · Generalización</div>
+  <h2>Underfitting vs overfitting: mueve el slider</h2>
+  <p class="lead">Ajustamos un polinomio de grado <em>d</em> a 14 puntos de entrenamiento con ruido. Los cuadrados naranjas son datos de <strong>test</strong> que el modelo nunca ve.</p>
+  <div class="row">
+    <label class="kv" for="deg">Complejidad (grado del polinomio): <b id="degV">1</b></label>
+    <input type="range" id="deg" min="1" max="12" value="1">
+    <button class="btn" id="degPlay">▶ Animar</button>
+    <span class="badge" id="diag"></span>
+  </div>
+  <div class="grid g2">
+    <div>
+      <svg class="chart" id="polyPlot" viewBox="0 0 460 300" role="img" aria-label="Datos y polinomio ajustado"></svg>
+      <div class="legend"><span><i style="background:var(--s1);border-radius:50%"></i>Train</span><span><i style="background:transparent;border:2px solid var(--s2)"></i>Test</span><span><i style="background:var(--y);height:3px"></i>Modelo</span><span><i style="background:var(--muted);height:2px"></i>Patrón real (oculto)</span></div>
+    </div>
+    <div>
+      <svg class="chart" id="errPlot" viewBox="0 0 460 300" role="img" aria-label="Error de train y test según la complejidad"></svg>
+      <div class="legend"><span><i style="background:var(--s1);height:3px"></i>Error train (●, línea continua)</span><span><i style="background:var(--s2);height:3px"></i>Error test (■, discontinua)</span></div>
+    </div>
+  </div>
+  <div class="grid g3">
+    <div class="card"><h4>Underfitting (sesgo)</h4><p>Modelo demasiado simple. Falla en train y test. Solución: más features, modelo más complejo.</p></div>
+    <div class="card"><h4>Buen ajuste</h4><p>Capta el patrón en train y generaliza bien a test. Métricas similares en ambos conjuntos.</p></div>
+    <div class="card"><h4>Overfitting (varianza)</h4><p>Modelo demasiado complejo memoriza train. Métricas buenas en train y malas en test.</p></div>
+  </div>
+  <div class="ok" style="margin-top:12px"><strong>Regla práctica:</strong> si tu modelo mejora en train pero empeora en test → estás sobreajustando. Fíjate en la “U” de la curva de test: el mejor modelo está en el fondo de la U, no a la derecha.</div>
+</section>
+
+<!-- ============ SPLIT ============ -->
+<section>
+  <div class="tag">09 · Split de datos</div>
+  <h2>Train / validación / test</h2>
+  <div class="splitbar" id="splitbar">
+    <div class="sb-train">Train 70%</div>
+    <div class="sb-val">Val 15%</div>
+    <div class="sb-test" id="sbTest" title="Haz clic si te atreves">🔒 Test 15%</div>
+  </div>
+  <div class="hint" id="testMsg">Pista: prueba a hacer clic en el test…</div>
+  <ul style="margin-top:12px">
+    <li><strong>Train</strong>: ajusta los parámetros θ del modelo.</li>
+    <li><strong>Validación</strong>: ajusta hiperparámetros y compara modelos. Se rota con <em>cross-validation</em>.</li>
+    <li><strong>Test</strong>: se usa <strong>una sola vez al final</strong> para reportar la métrica definitiva.</li>
+  </ul>
+  <h3>Cross-validation (k-fold) visual</h3>
+  <div class="row">
+    <label class="kv" for="kf">k = <b id="kfV">5</b></label>
+    <input type="range" id="kf" min="3" max="10" value="5">
+    <span class="legend" style="margin:0"><span><i style="background:var(--s1)"></i>Entrena</span><span><i style="background:var(--s2)"></i>Valida</span></span>
+  </div>
+  <div class="folds" id="folds"></div>
+  <div class="box" id="kfRes"></div>
+</section>
+
+<!-- ============ MÉTRICAS ============ -->
+<section>
+  <div class="tag">10 · Demo · Métricas</div>
+  <h2>Mueve el umbral de tu detector</h2>
+  <p class="lead">Un modelo da a cada email una puntuación de 0 a 1. Tú decides a partir de qué puntuación lo marcas como positivo. Mira cómo cambian las métricas.</p>
+  <div class="row">
+    <button class="btn on" id="mSpam">📧 Spam (33% positivos)</button>
+    <button class="btn" id="mFraud">💳 Fraude (1% positivos)</button>
+    <button class="btn" id="mDumb">🙈 Modelo “siempre dice NO”</button>
+  </div>
+  <div class="row">
+    <label class="kv" for="thr">Umbral: <b id="thrV">0.50</b></label>
+    <input type="range" id="thr" min="0" max="1" step="0.01" value="0.5">
+  </div>
+  <div class="grid g2">
+    <div>
+      <svg class="chart" id="distPlot" viewBox="0 0 460 260" role="img" aria-label="Distribución de puntuaciones por clase"></svg>
+      <div class="legend" id="distLeg"></div>
+    </div>
+    <div class="card">
+      <div class="cm" id="cm"></div>
+      <div id="mbars" style="margin-top:12px"></div>
+    </div>
+  </div>
+  <div id="mMsg"></div>
+  <table style="margin-top:10px">
+    <thead><tr><th>Métrica</th><th>Qué mide</th><th>Cuándo usarla</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Accuracy</strong></td><td>% de aciertos totales</td><td>Clases balanceadas</td></tr>
+      <tr><td><strong>Precision</strong></td><td>De los predichos +, cuántos lo eran</td><td>Cuando los FP cuestan caro</td></tr>
+      <tr><td><strong>Recall</strong></td><td>De los +, cuántos detecté</td><td>Cuando los FN cuestan caro</td></tr>
+      <tr><td><strong>F1-score</strong></td><td>Media armónica P-R</td><td>Compromiso entre ambas</td></tr>
+    </tbody>
+  </table>
+  <div class="info" style="margin-top:12px">Estas métricas se explican en detalle en U4. Por ahora basta con entender que <em>accuracy sola no basta</em> en problemas desbalanceados.</div>
+</section>
+
+<!-- ============ LIMITACIONES ============ -->
+<section>
+  <div class="tag">11 · Limitaciones</div>
+  <h2>Lo que el ML <em>no</em> hace</h2>
+  <div class="grid g2" style="align-items:start">
+    <div>
+      <ul>
+        <li><strong>No entiende causalidad</strong>: detecta correlaciones estadísticas, no causas.</li>
+        <li><strong>No razona</strong>: el modelo es una función matemática, no un pensador.</li>
+        <li><strong>Requiere datos</strong>: si no hay datos suficientes o están sesgados, no hay modelo bueno.</li>
+        <li><strong>Se degrada con el tiempo</strong>: los patrones cambian (<em>data drift</em>) y el modelo queda obsoleto.</li>
+        <li><strong>Hereda sesgos</strong>: si los datos de entrenamiento son sesgados, el modelo también.</li>
+      </ul>
+    </div>
+    <div>
+      <svg class="chart" id="spur" viewBox="0 0 460 300" role="img" aria-label="Películas de Nicolas Cage frente a ahogamientos en piscinas, EE. UU. 1999-2009"></svg>
+      <p class="hint" style="margin-top:6px">Datos: <a href="https://www.tylervigen.com/spurious-correlations" target="_blank" rel="noopener">Spurious Correlations</a> (Tyler Vigen). Pasa el ratón por los puntos.</p>
+    </div>
+  </div>
+  <div class="warn"><strong>🤔 ¿Debería Nicolas Cage dejar el cine para salvar vidas?</strong> Un modelo entrenado con estos datos “aprendería” que sí. Correlación ≠ causalidad. Con suficientes variables, siempre encontrarás alguna pareja que se mueve junta por pura casualidad.</div>
+  <div class="box"><strong>Mentalidad correcta:</strong> ML es una herramienta estadística potente, no magia. La calidad del resultado depende de la calidad del problema + datos + validación.</div>
+</section>
+
+<!-- ============ RECURSOS ============ -->
+<section>
+  <div class="tag">12 · Para jugar en casa</div>
+  <h2>Enlaces que merecen la pena</h2>
+  <p class="lead">Todo gratis, en el navegador y sin instalar nada. Ordenados de “5 minutos” a “un fin de semana”.</p>
+  <div class="grid g3">
+    <a class="card res" href="https://teachablemachine.withgoogle.com/" target="_blank" rel="noopener"><span class="ico">📷</span><div class="lvl">5 min · supervisado</div><h4>Teachable Machine</h4><p>Entrena un clasificador con tu webcam o micrófono.</p></a>
+    <a class="card res" href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener"><span class="ico">✏️</span><div class="lvl">5 min · juego</div><h4>Quick, Draw!</h4><p>Dibuja y una red neuronal intenta adivinarlo. Tus dibujos son datos de entrenamiento.</p></a>
+    <a class="card res" href="https://www.whichfaceisreal.com/" target="_blank" rel="noopener"><span class="ico">🎭</span><div class="lvl">5 min · juego</div><h4>Which Face Is Real?</h4><p>¿Cara real o generada por IA? Más difícil de lo que parece.</p></a>
+    <a class="card res" href="https://seeing-theory.brown.edu/" target="_blank" rel="noopener"><span class="ico">🎲</span><div class="lvl">15 min · estadística</div><h4>Seeing Theory</h4><p>Probabilidad y estadística con animaciones (Brown University). Perfecto para preparar U2.</p></a>
+    <a class="card res" href="https://mlu-explain.github.io/" target="_blank" rel="noopener"><span class="ico">📐</span><div class="lvl">15 min · visual</div><h4>MLU-Explain (Amazon)</h4><p>Bias-varianza, train/test, precision-recall… explicados interactivamente.</p></a>
+    <a class="card res" href="https://playground.tensorflow.org/" target="_blank" rel="noopener"><span class="ico">🧪</span><div class="lvl">20 min · redes</div><h4>TensorFlow Playground</h4><p>Entrena una red neuronal en el navegador y provoca overfitting a propósito.</p></a>
+    <a class="card res" href="https://www.tylervigen.com/spurious-correlations" target="_blank" rel="noopener"><span class="ico">📈</span><div class="lvl">10 min · humor</div><h4>Spurious Correlations</h4><p>Correlaciones absurdas reales. Antídoto contra conclusiones precipitadas.</p></a>
+    <a class="card res" href="https://www.3blue1brown.com/topics/neural-networks" target="_blank" rel="noopener"><span class="ico">🎬</span><div class="lvl">1 h · vídeo</div><h4>3Blue1Brown: redes neuronales</h4><p>La mejor explicación visual de cómo aprende una red (con subtítulos).</p></a>
+    <a class="card res" href="https://scikit-learn.org/stable/machine_learning_map.html" target="_blank" rel="noopener"><span class="ico">🗺️</span><div class="lvl">referencia</div><h4>Mapa de scikit-learn</h4><p>“¿Qué algoritmo uso?” en forma de diagrama. Os acompañará todo el curso.</p></a>
+    <a class="card res" href="https://developers.google.com/machine-learning/crash-course" target="_blank" rel="noopener"><span class="ico">🎓</span><div class="lvl">fin de semana</div><h4>Google ML Crash Course</h4><p>Curso corto y muy práctico, complementa U1-U4.</p></a>
+    <a class="card res" href="https://www.kaggle.com/learn" target="_blank" rel="noopener"><span class="ico">🏅</span><div class="lvl">fin de semana</div><h4>Kaggle Learn</h4><p>Micro-cursos de pandas y ML con notebooks listos. Ideal antes de U2.</p></a>
+    <a class="card res" href="https://www.youtube.com/watch?v=WXuK6gekU1Y" target="_blank" rel="noopener"><span class="ico">⚫</span><div class="lvl">1,5 h · documental</div><h4>AlphaGo – The Movie</h4><p>Cómo una máquina aprendió a jugar al Go mejor que nadie.</p></a>
+  </div>
+</section>
+
+<!-- ============ CIERRE ============ -->
+<section>
+  <div class="tag">13 · Cierre</div>
+  <h2>Resumen y ticket de salida</h2>
+  <div class="grid g2" style="align-items:start">
+    <div>
+      <ul>
+        <li>ML aprende patrones f(X; θ) minimizando una función de pérdida sobre ejemplos.</li>
+        <li>Cuatro tipos: supervisado, no supervisado, semi-supervisado, por refuerzo.</li>
+        <li>El flujo completo va de problema → datos → modelo → evaluación → despliegue.</li>
+        <li>Hay que evitar sobreajuste y subajuste con la cantidad justa de complejidad.</li>
+        <li>Tocar test para decidir es el error más caro del desarrollo.</li>
+      </ul>
+    </div>
+    <div id="xt"></div>
+  </div>
+  <div class="warn" style="margin-top:16px"><strong>📦 Entrega · Actividad 1 (U1-U2):</strong> EDA + limpieza + análisis estadístico. Archivo <code>APAU_U1U2_Act1_NombreApellido.zip</code> con el notebook (<code>.ipynb</code>) y los datos. Retraso &lt; 1 semana: −20%. Más de 1 semana: no se evalúa.</div>
+  <div class="ok"><strong>Próxima clase:</strong> U2 — Fundamentos y herramientas para el análisis de datos (Python, pandas, EDA, preprocesamiento). Traed el entorno listo (Anaconda + VSCode o Google Colab).</div>
+  <p style="margin-top:20px;color:var(--muted);font-size:14px">Dudas: ricardo.palacios@u-tad.com · Material completo en el aula virtual.</p>
+</section>
+
+<script>
+/* ===================== utilidades ===================== */
+const NS='http://www.w3.org/2000/svg';
+const C={fg:'#f1f5f9',muted:'#94a3b8',grid:'#334155',card:'#1e293b',s1:'#0284c7',s2:'#ea580c',y:'#facc15',r:'#f87171',g:'#4ade80',a:'#38bdf8',a2:'#a78bfa'};
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+function txt(parent,x,y,s,attrs={}){const t=el('text',Object.assign({x,y,fill:C.muted,'font-size':12},attrs),parent);t.textContent=s;return t}
+function clear(svg){while(svg.firstChild)svg.removeChild(svg.firstChild)}
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function gauss(r){let u=0,v=0;while(!u)u=r();while(!v)v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+const tip=document.getElementById('tip');
+function showTip(e,html){tip.innerHTML=html;tip.style.opacity=1;tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY-10)+'px'}
+function hideTip(){tip.style.opacity=0}
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+// ejes: devuelve escalas
+function axes(svg,{x0,x1,y0,y1,L=46,R=14,T=14,B=34,W=460,H=300,xt=[],yt=[],xl='',yl='',xf=v=>v,yf=v=>v}){
+  const sx=v=>L+(v-x0)/(x1-x0)*(W-L-R), sy=v=>H-B-(v-y0)/(y1-y0)*(H-T-B);
+  yt.forEach(v=>{el('line',{x1:L,x2:W-R,y1:sy(v),y2:sy(v),stroke:C.grid,'stroke-width':1,'stroke-dasharray':'2 4'},svg);txt(svg,L-6,sy(v)+4,yf(v),{'text-anchor':'end'})});
+  xt.forEach(v=>txt(svg,sx(v),H-B+16,xf(v),{'text-anchor':'middle'}));
+  el('line',{x1:L,x2:W-R,y1:H-B,y2:H-B,stroke:C.muted,'stroke-width':1},svg);
+  if(xl)txt(svg,(L+W-R)/2,H-4,xl,{'text-anchor':'middle'});
+  if(yl)txt(svg,12,(T+H-B)/2,yl,{'text-anchor':'middle',transform:`rotate(-90 12 ${(T+H-B)/2})`});
+  return {sx,sy,L,R,T,B,W,H};
+}
+function svgPoint(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+
+/* ===================== navegación ===================== */
+const S=document.querySelectorAll('section'),N=document.getElementById('nav'),Ct=document.getElementById('c');
+Ct.textContent=`1 / ${S.length}`;
+S.forEach((_,i)=>{const a=document.createElement('a');a.addEventListener('click',e=>{e.preventDefault();S[i].scrollIntoView({behavior:'smooth'})});N.appendChild(a)});
+const dots=N.querySelectorAll('a'),obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const i=Array.from(S).indexOf(e.target);Ct.textContent=`${i+1} / ${S.length}`;dots.forEach((d,j)=>d.classList.toggle('active',j===i))}}),{threshold:.4});
+S.forEach(s=>obs.observe(s));
+document.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;
+  const cur=[...S].findIndex(s=>{const r=s.getBoundingClientRect();return r.top<=innerHeight*.4&&r.bottom>innerHeight*.4});
+  if(e.key==='ArrowDown'||e.key==='PageDown'){e.preventDefault();S[Math.min(cur+1,S.length-1)].scrollIntoView({behavior:'smooth'})}
+  if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();S[Math.max(cur-1,0)].scrollIntoView({behavior:'smooth'})}
+});
+
+/* ===================== portada: perceptrón de fondo ===================== */
+(function(){
+  const cv=document.getElementById('bgnet'),ctx=cv.getContext('2d');let W,H,pts=[],w=[0.3,-1,0.1],tick=0;
+  function size(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight}
+  function init(){size();const r=rng(7);pts=[];for(let i=0;i<90;i++){const x=r()*2-1,y=r()*2-1;const lab=(y>0.45*x-0.1+0.12*(r()-.5))?1:-1;pts.push({x,y,lab,vx:(r()-.5)*.0015,vy:(r()-.5)*.0015})}}
+  const P=p=>[(p.x+1)/2*W,(1-(p.y+1)/2)*H];
+  function step(){
+    // un paso del perceptrón sobre un punto mal clasificado
+    const bad=pts.filter(p=>Math.sign(w[0]*p.x+w[1]*p.y+w[2])!==p.lab);
+    if(bad.length&&tick%4===0){const p=bad[Math.floor(Math.random()*bad.length)];w[0]+=.05*p.lab*p.x;w[1]+=.05*p.lab*p.y;w[2]+=.05*p.lab}
+    if(tick%900===0&&tick>0){w=[Math.random()-.5,Math.random()-.5,Math.random()-.5]} // vuelve a empezar de vez en cuando
+    pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(Math.abs(p.x)>1)p.vx*=-1;if(Math.abs(p.y)>1)p.vy*=-1});
+    tick++;
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{const[x,y]=P(p);const ok=Math.sign(w[0]*p.x+w[1]*p.y+w[2])===p.lab;ctx.beginPath();ctx.arc(x,y,ok?4:6,0,7);ctx.fillStyle=p.lab>0?C.s1:C.s2;ctx.globalAlpha=ok?.8:1;ctx.fill();if(!ok){ctx.strokeStyle=C.fg;ctx.lineWidth=1.5;ctx.stroke()}});
+    ctx.globalAlpha=1;
+    // recta w0 x + w1 y + w2 = 0
+    if(Math.abs(w[1])>1e-6){const ya=-(w[0]*-1+w[2])/w[1],yb=-(w[0]*1+w[2])/w[1];const A=P({x:-1,y:ya}),B=P({x:1,y:yb});ctx.strokeStyle=C.y;ctx.lineWidth=2;ctx.setLineDash([6,6]);ctx.beginPath();ctx.moveTo(...A);ctx.lineTo(...B);ctx.stroke();ctx.setLineDash([])}
+  }
+  let visible=true;new IntersectionObserver(es=>{visible=es[0].isIntersecting}).observe(cv);
+  function loop(){if(visible){step();draw()}requestAnimationFrame(loop)}
+  init();addEventListener('resize',()=>{size();draw()});
+  if(reduceMotion){for(let i=0;i<3000;i++)step();draw()}else loop();
+})();
+
+/* ===================== juego: tipos de aprendizaje ===================== */
+(function(){
+  const T=['Supervisado','No supervisado','Semi-supervisado','Refuerzo'];
+  const Q=[
+    ['🏠 Predecir el precio de un piso a partir de m², barrio y planta, con miles de ventas pasadas.',0,'Hay una y conocida (el precio) → supervisado (regresión, U3).'],
+    ['🎧 Agrupar usuarios de Spotify según sus hábitos de escucha, sin ninguna etiqueta previa.',1,'Solo X, buscamos grupos → no supervisado (clustering, U5).'],
+    ['🤖 Un robot aprende a andar: recibe +1 cada vez que avanza y −1 cuando se cae.',3,'Agente + entorno + recompensa → refuerzo.'],
+    ['📧 Filtro de spam con 500 correos etiquetados a mano y 2 millones sin etiquetar.',2,'Pocas etiquetas + muchísimos datos sin etiquetar → semi-supervisado.'],
+    ['🩻 Detectar neumonía en radiografías, cada una con el diagnóstico del radiólogo.',0,'Etiqueta = diagnóstico → supervisado (clasificación, U4).'],
+    ['🛒 “Quien compra pañales suele comprar también cerveza” en los tickets de un súper.',1,'Reglas de asociación sobre transacciones, sin etiqueta → no supervisado (U6).'],
+    ['♟️ AlphaZero aprende ajedrez jugando millones de partidas contra sí mismo.',3,'Gana o pierde = recompensa → refuerzo.'],
+    ['💳 Marcar transacciones “raras” en un banco sin saber cuáles son fraude.',1,'Detección de anomalías sin etiquetas → no supervisado.'],
+    ['📉 Predecir si un cliente se dará de baja, con el histórico de clientes que se fueron.',0,'Etiqueta = se fue / no se fue → supervisado (clasificación).'],
+  ];
+  let order=[...Q.keys()].sort(()=>Math.random()-.5),i=0,ok=0,n=0,answered=false;
+  const q=document.getElementById('gQ'),o=document.getElementById('gOpts'),fb=document.getElementById('gFb'),sc=document.getElementById('gScore');
+  function show(){
+    const [text,ans,why]=Q[order[i%order.length]];answered=false;q.textContent=text;fb.textContent='';o.innerHTML='';
+    T.forEach((t,j)=>{const b=document.createElement('button');b.className='btn';b.textContent=t;b.onclick=()=>{
+      if(answered)return;answered=true;n++;
+      if(j===ans){ok++;b.classList.add('right');fb.innerHTML='✅ <strong>¡Correcto!</strong> '+why}
+      else{b.classList.add('wrong');o.children[ans].classList.add('right');fb.innerHTML='❌ <strong>No exactamente.</strong> '+why}
+      sc.textContent=`${ok} / ${n}`;
+    };o.appendChild(b)});
+  }
+  document.getElementById('gNext').onclick=()=>{i++;show()};
+  show();
+})();
+
+/* ===================== tabla dataset ===================== */
+(function(){
+  const t=document.getElementById('ds');
+  function hl(kind){
+    t.querySelectorAll('td,th').forEach(c=>c.classList.remove('hl','hlt'));
+    if(kind==='row')t.querySelectorAll('tbody tr:nth-child(2) td').forEach(c=>c.classList.add('hl'));
+    if(kind==='feat')t.querySelectorAll('tr').forEach(r=>[...r.children].slice(0,5).forEach(c=>c.classList.add('hl')));
+    if(kind==='target')t.querySelectorAll('tr').forEach(r=>r.children[5].classList.add('hlt'));
+  }
+  document.querySelectorAll('[data-hl]').forEach(b=>{b.addEventListener('mouseenter',()=>hl(b.dataset.hl));b.addEventListener('focus',()=>hl(b.dataset.hl));b.addEventListener('click',()=>hl(b.dataset.hl))});
+  hl('target');
+})();
+
+/* ===================== demo descenso de gradiente ===================== */
+(function(){
+  const plot=document.getElementById('gdPlot'),lossSvg=document.getElementById('gdLoss'),stats=document.getElementById('gdStats');
+  let pts=[],w,b,hist=[],running=false,step=0,seed=3,lrF=0.75;
+  function newData(){const r=rng(seed++);const m=0.4+r()*0.6,c=1+r()*3;pts=[];for(let i=0;i<14;i++){const x=0.5+r()*9;pts.push([x,Math.max(0.2,Math.min(9.8,m*x+c+gauss(r)*0.8))])}}
+  function randLine(){w=(Math.random()-.5)*1.6;b=0.2+Math.random()*0.6}  // en unidades normalizadas (x/10, y/10)
+  const loss=()=>pts.length?100*pts.reduce((s,[x,y])=>s+(w*x/10+b-y/10)**2,0)/pts.length:0;
+  function gdStep(){const n=pts.length;if(!n)return;let gw=0,gb=0,uu=0,u1=0;
+    pts.forEach(([x,y])=>{const u=x/10,e=w*u+b-y/10;gw+=2*e*u/n;gb+=2*e/n;uu+=u*u/n;u1+=u/n});
+    // λmax del hessiano 2·[[E u², E u],[E u, 1]]: por encima de 2/λmax el descenso diverge
+    const lmax=(uu+1)+Math.sqrt((uu-1)**2+4*u1*u1),lr=lrF*2/lmax;w-=lr*gw;b-=lr*gb}
+  function draw(){
+    clear(plot);
+    const ax=axes(plot,{x0:0,x1:10,y0:0,y1:10,W:460,H:320,xt:[0,2,4,6,8,10],yt:[0,2,4,6,8,10],xl:'x (p. ej. horas de estudio)',yl:'y (nota)'});
+    const pred=x=>(w*x/10+b)*10;
+    pts.forEach(([x,y])=>el('line',{x1:ax.sx(x),x2:ax.sx(x),y1:ax.sy(y),y2:ax.sy(Math.max(0,Math.min(10,pred(x)))),stroke:C.r,'stroke-width':1.5,opacity:.7},plot));
+    const clip=el('clipPath',{id:'gdc'},el('defs',{},plot));el('rect',{x:ax.L,y:ax.T,width:460-ax.L-ax.R,height:320-ax.T-ax.B},clip);
+    el('line',{x1:ax.sx(0),y1:ax.sy(pred(0)),x2:ax.sx(10),y2:ax.sy(pred(10)),stroke:C.y,'stroke-width':2.5,'clip-path':'url(#gdc)'},plot);
+    pts.forEach(([x,y])=>{const c=el('circle',{cx:ax.sx(x),cy:ax.sy(y),r:5.5,fill:C.s1,stroke:C.card,'stroke-width':2},plot);
+      c.addEventListener('mousemove',e=>showTip(e,`x = ${x.toFixed(1)} · y = ${y.toFixed(1)}<br>predicción = ${pred(x).toFixed(1)}`));c.addEventListener('mouseleave',hideTip)});
+    txt(plot,ax.W-ax.R-6,ax.H-ax.B-10,`ŷ = ${w.toFixed(2)}·x + ${(b*10).toFixed(2)}`,{'text-anchor':'end',fill:C.y,'font-size':14,'font-weight':600});
+    // curva de pérdida
+    clear(lossSvg);
+    const maxL=Math.max(1,...hist,loss()),maxS=Math.max(60,hist.length);
+    const la=axes(lossSvg,{x0:0,x1:maxS,y0:0,y1:maxL*1.05,W:460,H:320,L:52,xt:[0,Math.round(maxS/2),maxS],yt:[0,maxL/2,maxL].map(v=>+v.toPrecision(2)),xl:'iteración',yl:'MSE',yf:v=>v>=10?Math.round(v):v.toFixed(1)});
+    if(hist.length>1){el('path',{d:hist.map((v,i)=>(i?'L':'M')+la.sx(i)+','+la.sy(v)).join(''),fill:'none',stroke:C.y,'stroke-width':2},lossSvg);
+      const last=hist.length-1;el('circle',{cx:la.sx(last),cy:la.sy(hist[last]),r:4,fill:C.y},lossSvg)}
+    else txt(lossSvg,230,160,'Pulsa ▶ Entrenar',{'text-anchor':'middle','font-size':15});
+    const L=loss();
+    stats.innerHTML=L>1e4?`💥 <b style="color:var(--r)">¡Diverge!</b> El MSE se dispara: cada paso se pasa de largo.`:`iteración <b>${step}</b> · MSE <b>${L.toFixed(2)}</b> · ${pts.length} puntos`;
+  }
+  function run(){
+    if(!running)return;
+    for(let k=0;k<2;k++){gdStep();step++;hist.push(loss())}
+    draw();
+    if(step>=240||loss()>1e4||(hist.length>3&&Math.abs(hist.at(-1)-hist.at(-3))<1e-5)){running=false;document.getElementById('gdTrain').textContent='▶ Entrenar';return}
+    requestAnimationFrame(run);
+  }
+  document.getElementById('gdTrain').onclick=e=>{
+    if(running){running=false;e.target.textContent='▶ Entrenar';return}
+    if(!pts.length)return;
+    if(step>=240||hist.length===0||loss()>1e4){if(loss()>1e4)randLine();hist=[loss()];step=0}
+    running=true;e.target.textContent='⏸ Pausa';
+    if(reduceMotion){while(step<240&&loss()<1e4){gdStep();step++;hist.push(loss())}running=false;e.target.textContent='▶ Entrenar';draw()}else run();
+  };
+  const restart=()=>{hist=[];step=0;draw()};
+  document.getElementById('gdReset').onclick=()=>{randLine();restart()};
+  document.getElementById('gdData').onclick=()=>{newData();randLine();restart()};
+  document.querySelectorAll('[data-lr]').forEach(bt=>bt.onclick=()=>{lrF=+bt.dataset.lr;document.querySelectorAll('[data-lr]').forEach(o=>o.classList.toggle('on',o===bt));running=false;document.getElementById('gdTrain').textContent='▶ Entrenar';w=-0.3;b=0.8;restart()});
+  document.getElementById('gdOut').onclick=()=>{pts.push([9+Math.random()*.6,0.4+Math.random()*.6]);restart()};
+  plot.addEventListener('click',e=>{if(e.target.tagName==='circle')return;const p=svgPoint(plot,e);const x=(p.x-46)/(460-46-14)*10,y=(320-34-p.y)/(320-14-34)*10;if(x<0||x>10||y<0||y>10)return;pts.push([x,y]);restart()});
+  newData();w=-0.3;b=0.8;draw();
+})();
+
+/* ===================== etapas + gráfico de tiempo ===================== */
+(function(){
+  const ST=[
+    ['1. Problema','¿Qué quiero predecir o descubrir y para qué? ¿Cómo mediré el éxito? Un buen problema mal planteado no lo salva ningún algoritmo.','U1'],
+    ['2. Datos','Recoger, integrar y entender de dónde vienen. ¿Son representativos? ¿Tienen sesgos?','U2'],
+    ['3. EDA','Análisis exploratorio: distribuciones, correlaciones, outliers, gráficos. Conocer a tus datos antes de modelar.','U2 · Actividad 1'],
+    ['4. Limpieza','Nulos, duplicados, tipos, codificar categóricas, escalar. La parte menos vistosa y la más importante.','U2 · Actividad 1'],
+    ['5. Split','Separar train / validación / test ANTES de mirar demasiado. Evita fugas de información (data leakage).','U3'],
+    ['6. Entrenar','Elegir algoritmo, ajustar parámetros e hiperparámetros. Se repite con varios modelos.','U3 · U4 · U5'],
+    ['7. Evaluar','Métricas adecuadas al problema, comparar con un baseline, analizar errores.','U3 · U4 · Actividad 2'],
+    ['8. Desplegar','Poner el modelo en producción, monitorizar el drift y reentrenar cuando haga falta.','Otras asignaturas'],
+  ];
+  const box=document.getElementById('stages'),info=document.getElementById('stageInfo');
+  function sel(i){[...box.querySelectorAll('.s')].forEach((s,j)=>s.classList.toggle('act',j===i));info.innerHTML=`<h4>${ST[i][0]}</h4><p style="font-size:15px;color:var(--fg)">${ST[i][1]}</p><p style="margin-top:6px">📍 Dónde lo veremos: <strong style="color:var(--a2)">${ST[i][2]}</strong></p>`}
+  ST.forEach((s,i)=>{if(i){const a=document.createElement('div');a.className='arr';a.textContent='▸';box.appendChild(a)}const b=document.createElement('button');b.className='s';b.textContent=s[0];b.onclick=()=>sel(i);box.appendChild(b)});
+  sel(2);
+  // barras horizontales
+  const D=[['Limpieza de datos',26,1],['Visualización',21,0],['Carga de datos',19,1],['Entrenar y puntuar',12,0],['Selección de modelo',11,0],['Despliegue',11,0]];
+  const svg=document.getElementById('timeChart'),L=150,R=46,T=8,rowH=34,W=460,max=30;
+  D.forEach(([n,v,prep],i)=>{const y=T+i*rowH,len=(v/max)*(W-L-R);
+    txt(svg,L-10,y+rowH/2+4,n,{'text-anchor':'end',fill:C.fg,'font-size':13});
+    const g=el('g',{},svg);
+    el('rect',{x:L,y:y+4,width:W-L,height:rowH-8,fill:'transparent'},g);
+    el('path',{d:`M${L},${y+7} h${len-4} a4,4 0 0 1 4,4 v${rowH-22} a4,4 0 0 1 -4,4 h${-(len-4)} z`,fill:prep?C.a2:'#475569'},g);
+    txt(g,L+len+6,y+rowH/2+4,v+'%',{fill:C.fg,'font-size':13,'font-weight':600});
+    g.addEventListener('mousemove',e=>showTip(e,`<strong>${n}</strong>: ${v}% del tiempo${prep?'<br>→ preparación de datos':''}`));g.addEventListener('mouseleave',hideTip);
+  });
+  txt(svg,L,T+D.length*rowH+16,'■ morado = preparación de datos (45%)',{fill:C.a2,'font-size':12});
+})();
+
+/* ===================== demo bias-varianza ===================== */
+(function(){
+  const r=rng(42),f=x=>Math.sin(2*Math.PI*x);
+  // train repartido por todo el rango (si no, el polinomio extrapola y la "U" se ensucia)
+  const train=Array.from({length:14},(_,i)=>{const x=(i+0.5)/14+(r()-.5)*0.05;return[x,f(x)+gauss(r)*.25]});
+  const test=Array.from({length:50},()=>{const x=0.02+r()*0.96;return[x,f(x)+gauss(r)*.25]});
+  function solve(A,y){const n=A.length;for(let i=0;i<n;i++){let p=i;for(let k=i+1;k<n;k++)if(Math.abs(A[k][i])>Math.abs(A[p][i]))p=k;[A[i],A[p]]=[A[p],A[i]];[y[i],y[p]]=[y[p],y[i]];for(let k=i+1;k<n;k++){const m=A[k][i]/A[i][i];for(let j=i;j<n;j++)A[k][j]-=m*A[i][j];y[k]-=m*y[i]}}const c=Array(n).fill(0);for(let i=n-1;i>=0;i--){let s=y[i];for(let j=i+1;j<n;j++)s-=A[i][j]*c[j];c[i]=s/A[i][i]}return c}
+  function fit(d){const m=d+1,G=Array.from({length:m},()=>Array(m).fill(0)),v=Array(m).fill(0);
+    train.forEach(([x,y])=>{const t=2*x-1,p=Array.from({length:m},(_,j)=>t**j);for(let i=0;i<m;i++){v[i]+=p[i]*y;for(let j=0;j<m;j++)G[i][j]+=p[i]*p[j]}});
+    for(let i=0;i<m;i++)G[i][i]+=1e-9;const c=solve(G,v);return x=>{const t=2*x-1;let s=0;for(let j=m-1;j>=0;j--)s=s*t+c[j];return s}}
+  const rmse=(p,D)=>Math.sqrt(D.reduce((s,[x,y])=>s+(p(x)-y)**2,0)/D.length);
+  const models={},errs=[];for(let d=1;d<=12;d++){models[d]=fit(d);errs.push([d,rmse(models[d],train),rmse(models[d],test)])}
+  const minTest=Math.min(...errs.map(e=>e[2])),best=errs.find(e=>e[2]===minTest)[0];
+  const ps=document.getElementById('polyPlot'),es=document.getElementById('errPlot'),sl=document.getElementById('deg'),dv=document.getElementById('degV'),diag=document.getElementById('diag');
+  const CAP=1.2;
+  function draw(d){
+    dv.textContent=d;
+    clear(ps);
+    const ax=axes(ps,{x0:0,x1:1,y0:-2,y1:2,xt:[0,.25,.5,.75,1],yt:[-2,-1,0,1,2],xl:'x',yl:'y'});
+    const clip=el('clipPath',{id:'pc'},el('defs',{},ps));el('rect',{x:ax.L,y:ax.T,width:460-ax.L-ax.R,height:300-ax.T-ax.B},clip);
+    const xs=Array.from({length:241},(_,i)=>i/240);
+    el('path',{d:xs.map((x,i)=>(i?'L':'M')+ax.sx(x)+','+ax.sy(f(x))).join(''),fill:'none',stroke:C.muted,'stroke-width':1.5,'stroke-dasharray':'4 4'},ps);
+    test.forEach(([x,y])=>el('rect',{x:ax.sx(x)-3.5,y:ax.sy(y)-3.5,width:7,height:7,fill:'none',stroke:C.s2,'stroke-width':1.5,opacity:.85},ps));
+    const m=models[d];
+    el('path',{d:xs.map((x,i)=>(i?'L':'M')+ax.sx(x)+','+ax.sy(Math.max(-5,Math.min(5,m(x))))).join(''),fill:'none',stroke:C.y,'stroke-width':2.5,'clip-path':'url(#pc)'},ps);
+    train.forEach(([x,y])=>el('circle',{cx:ax.sx(x),cy:ax.sy(y),r:5.5,fill:C.s1,stroke:C.card,'stroke-width':2},ps));
+    // errores
+    clear(es);
+    const ea=axes(es,{x0:.5,x1:12.5,y0:0,y1:CAP,xt:[1,2,3,4,5,6,7,8,9,10,11,12],yt:[0,.3,.6,.9,1.2],xl:'grado del polinomio (complejidad →)',yl:'RMSE',yf:v=>v.toFixed(1)});
+    el('rect',{x:ea.sx(d-.5),y:ea.T,width:ea.sx(1)-ea.sx(0),height:300-ea.T-ea.B,fill:'rgba(250,204,21,.08)'},es);
+    const yc=v=>ea.sy(Math.min(v,CAP));
+    el('path',{d:errs.map(([k,tr],i)=>(i?'L':'M')+ea.sx(k)+','+yc(tr)).join(''),fill:'none',stroke:C.s1,'stroke-width':2},es);
+    el('path',{d:errs.map(([k,,te],i)=>(i?'L':'M')+ea.sx(k)+','+yc(te)).join(''),fill:'none',stroke:C.s2,'stroke-width':2,'stroke-dasharray':'6 4'},es);
+    errs.forEach(([k,tr,te])=>{
+      const g=el('g',{style:'cursor:pointer'},es);
+      el('rect',{x:ea.sx(k-.5),y:ea.T,width:ea.sx(1)-ea.sx(0),height:300-ea.T-ea.B,fill:'transparent'},g);
+      el('circle',{cx:ea.sx(k),cy:yc(tr),r:k===d?6:4,fill:C.s1,stroke:C.card,'stroke-width':2},g);
+      el('rect',{x:ea.sx(k)-(k===d?6:4),y:yc(te)-(k===d?6:4),width:k===d?12:8,height:k===d?12:8,fill:C.s2,stroke:C.card,'stroke-width':2},g);
+      if(te>CAP)txt(g,ea.sx(k),ea.T+10,'↑',{'text-anchor':'middle',fill:C.s2,'font-size':14,'font-weight':700});
+      g.addEventListener('mousemove',e=>showTip(e,`<strong>Grado ${k}</strong><br>RMSE train: ${tr.toFixed(3)}<br>RMSE test: ${te.toFixed(3)}${te>CAP?' (fuera de escala)':''}`));
+      g.addEventListener('mouseleave',hideTip);g.addEventListener('click',()=>{sl.value=k;draw(k)});
+    });
+    txt(es,ea.sx(best),yc(minTest)-12,'mejor',{'text-anchor':'middle',fill:C.fg,'font-size':12});
+    const te=errs[d-1][2];
+    if(d<best&&te>1.25*minTest){diag.textContent='Underfitting · demasiado simple';diag.style.color=C.a;diag.style.borderColor=C.a}
+    else if(d>best&&te>1.25*minTest){diag.textContent='Overfitting · memoriza el ruido';diag.style.color=C.r;diag.style.borderColor=C.r}
+    else{diag.textContent='Buen ajuste ✓';diag.style.color=C.g;diag.style.borderColor=C.g}
+  }
+  sl.oninput=()=>draw(+sl.value);
+  let timer=null;
+  document.getElementById('degPlay').onclick=e=>{
+    if(timer){clearInterval(timer);timer=null;e.target.textContent='▶ Animar';return}
+    let d=+sl.value>=12?1:+sl.value;e.target.textContent='⏸ Parar';
+    timer=setInterval(()=>{sl.value=d;draw(d);if(++d>12){clearInterval(timer);timer=null;e.target.textContent='▶ Animar'}},700);
+  };
+  draw(1);
+})();
+
+/* ===================== split + k-fold ===================== */
+(function(){
+  const tb=document.getElementById('sbTest'),msg=document.getElementById('testMsg');
+  const M=['🚨 ¡Pecado capital! Si miras el test para decidir, deja de ser test.','😤 Que no. El test se toca UNA vez, al final.','🔒 Vale, ya lo has tocado 3 veces. Tu métrica final ya no vale nada.'];
+  let n=0;
+  tb.onclick=()=>{tb.classList.remove('shake');void tb.offsetWidth;tb.classList.add('shake');msg.innerHTML=`<span style="color:var(--r);font-weight:600">${M[Math.min(n++,M.length-1)]}</span>`};
+  const kf=document.getElementById('kf'),kv=document.getElementById('kfV'),F=document.getElementById('folds'),res=document.getElementById('kfRes');
+  function draw(k){
+    kv.textContent=k;F.innerHTML='';const r=rng(k*13),sc=[];
+    for(let i=0;i<k;i++){const row=document.createElement('div');row.className='fold';row.style.animationDelay=(i*0.12)+'s';
+      const s=0.82+gauss(r)*0.03;sc.push(s);
+      row.innerHTML=`<span class="lab">Iter. ${i+1}</span>`+Array.from({length:k},(_,j)=>`<span class="c${i===j?' v':''}"></span>`).join('')+`<span class="sc">acc ${s.toFixed(3)}</span>`;
+      F.appendChild(row)}
+    const m=sc.reduce((a,b)=>a+b)/k,sd=Math.sqrt(sc.reduce((a,b)=>a+(b-m)**2,0)/k);
+    res.innerHTML=`<strong>Resultado:</strong> accuracy media = <b>${m.toFixed(3)} ± ${sd.toFixed(3)}</b>. Cada dato se usa ${k-1} veces para entrenar y 1 vez para validar. Con k = ${k} entrenas ${k} modelos: más estable, pero ${k}× más caro.`;
+  }
+  kf.oninput=()=>draw(+kf.value);draw(5);
+})();
+
+/* ===================== métricas con umbral ===================== */
+(function(){
+  const erf=x=>{const s=Math.sign(x);x=Math.abs(x);const t=1/(1+0.3275911*x);return s*(1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x))};
+  const Phi=(x,m,s)=>0.5*(1+erf((x-m)/(s*Math.SQRT2)));
+  const pdf=(x,m,s)=>Math.exp(-(((x-m)/s)**2)/2)/(s*Math.sqrt(2*Math.PI));
+  const SC={spam:{nN:200,nP:100,mN:.35,mP:.66,s:.12,neg:'legítimos',pos:'spam'},fraud:{nN:990,nP:10,mN:.33,mP:.62,s:.12,neg:'normales',pos:'fraude'}};
+  let sc=SC.spam;
+  const thr=document.getElementById('thr'),tv=document.getElementById('thrV'),svg=document.getElementById('distPlot'),cm=document.getElementById('cm'),mb=document.getElementById('mbars'),msg=document.getElementById('mMsg'),leg=document.getElementById('distLeg');
+  const bS=document.getElementById('mSpam'),bF=document.getElementById('mFraud');
+  function draw(){
+    const t=+thr.value;tv.textContent=t.toFixed(2);
+    const TP=Math.round(sc.nP*(1-Phi(t,sc.mP,sc.s))),FN=sc.nP-TP,FP=Math.round(sc.nN*(1-Phi(t,sc.mN,sc.s))),TN=sc.nN-FP;
+    // distribución (escalada por nº de casos: el desbalance se ve)
+    clear(svg);
+    const xs=Array.from({length:201},(_,i)=>i/200);
+    const yN=xs.map(x=>sc.nN*pdf(x,sc.mN,sc.s)),yP=xs.map(x=>sc.nP*pdf(x,sc.mP,sc.s)),ymax=Math.max(...yN,...yP)*1.08;
+    const ax=axes(svg,{x0:0,x1:1,y0:0,y1:ymax,W:460,H:260,L:20,xt:[0,.25,.5,.75,1],yt:[],xl:'puntuación del modelo'});
+    const area=(ys,col)=>{el('path',{d:'M'+ax.sx(0)+','+ax.sy(0)+xs.map((x,i)=>'L'+ax.sx(x)+','+ax.sy(ys[i])).join('')+'L'+ax.sx(1)+','+ax.sy(0)+'Z',fill:col,'fill-opacity':.28,stroke:col,'stroke-width':2},svg)};
+    area(yN,C.s1);area(yP,C.s2);
+    el('rect',{x:ax.sx(t),y:ax.T,width:ax.sx(1)-ax.sx(t),height:260-ax.T-ax.B,fill:'rgba(250,204,21,.06)'},svg);
+    el('line',{x1:ax.sx(t),x2:ax.sx(t),y1:ax.T,y2:260-ax.B,stroke:C.y,'stroke-width':2},svg);
+    txt(svg,Math.min(ax.sx(t)+6,400),ax.T+14,'→ predice “'+sc.pos+'”',{fill:C.y,'font-size':12});
+    if(sc===SC.fraud)txt(svg,ax.sx(sc.mP),ax.sy(0)-10,'← 10 fraudes: casi invisibles',{fill:C.s2,'font-size':12});
+    leg.innerHTML=`<span><i style="background:${C.s1}"></i>${sc.nN} ${sc.neg} (negativos)</span><span><i style="background:${C.s2}"></i>${sc.nP} ${sc.pos} (positivos)</span>`;
+    // matriz
+    cm.innerHTML=`<div class="h"></div><div class="h">Predice NO</div><div class="h">Predice SÍ</div>
+      <div class="h" style="text-align:right">Real NO</div><div class="okc"><b>${TN}</b>TN ✓</div><div class="koc"><b>${FP}</b>FP ✗ falsa alarma</div>
+      <div class="h" style="text-align:right">Real SÍ</div><div class="koc"><b>${FN}</b>FN ✗ se escapa</div><div class="okc"><b>${TP}</b>TP ✓</div>`;
+    const acc=(TP+TN)/(sc.nN+sc.nP),prec=TP+FP?TP/(TP+FP):NaN,rec=TP/sc.nP,f1=(prec+rec)&&!isNaN(prec)?2*prec*rec/(prec+rec):NaN;
+    mb.innerHTML=[['Accuracy',acc],['Precision',prec],['Recall',rec],['F1',f1]].map(([n,v])=>`<div class="mbar"><span>${n}</span><div class="track"><div class="fill" style="width:${isNaN(v)?0:v*100}%"></div></div><span>${isNaN(v)?'—':(v*100).toFixed(1)+'%'}</span></div>`).join('');
+    if(acc>.95&&rec<.05)msg.innerHTML=`<div class="warn"><strong>🙈 La paradoja de la accuracy:</strong> ${(acc*100).toFixed(1)}% de accuracy… y no detecta <strong>ni un solo ${sc.pos}</strong>. Un modelo inútil con una métrica preciosa.</div>`;
+    else if(rec>.95&&prec<.5)msg.innerHTML=`<div class="info"><strong>Umbral muy bajo:</strong> lo pillas casi todo (recall alto) pero llenas de falsas alarmas (precision baja).</div>`;
+    else msg.innerHTML=`<div class="info">Sube el umbral → menos falsas alarmas (↑ precision) pero se escapan más (↓ recall). Bájalo → al revés. <strong>No existe el umbral perfecto:</strong> depende de qué error te cueste más.</div>`;
+  }
+  thr.oninput=draw;
+  bS.onclick=()=>{sc=SC.spam;bS.classList.add('on');bF.classList.remove('on');thr.value=.5;draw()};
+  bF.onclick=()=>{sc=SC.fraud;bF.classList.add('on');bS.classList.remove('on');thr.value=.5;draw()};
+  document.getElementById('mDumb').onclick=()=>{thr.value=1;draw()};
+  draw();
+})();
+
+/* ===================== correlación espuria ===================== */
+(function(){
+  const yrs=[1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009],fl=[2,2,2,3,1,1,2,3,4,1,4],dr=[109,102,102,98,85,95,96,98,123,94,102];
+  const svg=document.getElementById('spur');
+  const ax=axes(svg,{x0:0,x1:5,y0:80,y1:130,L:50,xt:[0,1,2,3,4,5],yt:[80,90,100,110,120,130],xl:'películas de Nicolas Cage en el año',yl:'ahogados en piscinas (EE. UU.)'});
+  const m=a=>a.reduce((s,v)=>s+v)/a.length,mf=m(fl),md=m(dr);let sxy=0,sxx=0,syy=0;fl.forEach((v,i)=>{sxy+=(v-mf)*(dr[i]-md);sxx+=(v-mf)**2;syy+=(dr[i]-md)**2});
+  const r=sxy/Math.sqrt(sxx*syy),sl=sxy/sxx,ic=md-sl*mf;
+  el('line',{x1:ax.sx(0.5),y1:ax.sy(ic+sl*.5),x2:ax.sx(4.5),y2:ax.sy(ic+sl*4.5),stroke:C.muted,'stroke-width':2,'stroke-dasharray':'6 4'},svg);
+  // desplazamiento horizontal pequeño para los años con el mismo valor
+  const seen={};
+  yrs.forEach((y,i)=>{const key=fl[i]+'-'+dr[i];const off=(seen[key]=(seen[key]||0)+1)-1;
+    const c=el('circle',{cx:ax.sx(fl[i])+off*12,cy:ax.sy(dr[i]),r:7,fill:C.s2,stroke:C.card,'stroke-width':2,style:'cursor:pointer'},svg);
+    c.addEventListener('mousemove',e=>showTip(e,`<strong>${y}</strong><br>${fl[i]} película${fl[i]>1?'s':''} · ${dr[i]} ahogados`));c.addEventListener('mouseleave',hideTip)});
+  txt(svg,ax.sx(4.95),ax.T+16,`r = ${r.toFixed(2)}`,{'text-anchor':'end',fill:C.fg,'font-size':16,'font-weight':700});
+  txt(svg,ax.sx(4.95),ax.T+34,'1999-2009',{'text-anchor':'end'});
+})();
+
+/* ===================== ticket de salida ===================== */
+(function(){
+  const X=[
+    ['1. Tu modelo tiene 99% en train y 70% en test. ¿Qué le pasa?',['Underfitting','Overfitting','Nada, está bien'],1,'Gran diferencia train ≫ test = memoriza → overfitting.'],
+    ['2. Quieres agrupar clientes sin saber de antemano qué grupos hay. Es…',['Supervisado','No supervisado','Refuerzo'],1,'Sin etiqueta y buscando estructura → clustering (U5).'],
+    ['3. Un detector de cáncer: ¿qué error es más caro?',['Falso positivo','Falso negativo'],1,'Un enfermo no detectado (FN) es peor → prioriza recall.'],
+  ];
+  const box=document.getElementById('xt');
+  box.innerHTML='<div class="tag" style="margin-bottom:0">🎟️ Ticket de salida</div>';
+  X.forEach(([q,opts,ans,why])=>{const d=document.createElement('div');d.className='xt';d.innerHTML=`<p>${q}</p>`;const fb=document.createElement('div');fb.className='fb';let done=false;
+    opts.forEach((o,j)=>{const b=document.createElement('button');b.className='btn';b.textContent=o;b.onclick=()=>{if(done)return;done=true;b.classList.add(j===ans?'right':'wrong');d.querySelectorAll('.btn')[ans].classList.add('right');fb.textContent=(j===ans?'✅ ':'❌ ')+why};d.appendChild(b)});
+    d.appendChild(fb);box.appendChild(d)});
+})();
+</script>
+</body>
+</html>

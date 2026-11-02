@@ -1,0 +1,122 @@
+[
+ {
+  "archivo": "IMG_01.jpg",
+  "rol": "subexpuesta",
+  "titulo_commons": "Underexposed pollen flower (25413776865).jpg",
+  "pagina": "https://commons.wikimedia.org/wiki/File:Underexposed_pollen_flower_(25413776865).jpg",
+  "licencia": "CC BY 2.0",
+  "licencia_url": "https://creativecommons.org/licenses/by/2.0",
+  "autor": "Raita Futo from Tokyo, Japan",
+  "creditos": "Underexposed pollen flower",
+  "ancho": 6000,
+  "alto": 4000,
+  "bytes": 4633480,
+  "sha256": "b76f9fc7be5232cfed6288246fd6dd2b8b95f9082cf38bfc4817965c800e9bf6",
+  "diag": {
+   "sat_bajo": 40.38,
+   "sat_alto": 0.0,
+   "rango_p1_p99": 178,
+   "entropia": 4.98,
+   "desv_tipica": 32.8,
+   "R": 19.9,
+   "G": 18.7,
+   "B": 13.9
+  }
+ },
+ {
+  "archivo": "IMG_02.jpg",
+  "rol": "sobreexpuesta",
+  "titulo_commons": "Liyutan Reservoir Management Center exterior, overexposed, as taken on 8 August 2021.jpg",
+  "pagina": "https://commons.wikimedia.org/wiki/File:Liyutan_Reservoir_Management_Center_exterior,_overexposed,_as_taken_on_8_August_2021.jpg",
+  "licencia": "CC BY-SA 4.0",
+  "licencia_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "autor": "Kai3952",
+  "creditos": "Own work",
+  "ancho": 4000,
+  "alto": 3000,
+  "bytes": 4404459,
+  "sha256": "9d560d957e90bbfaa78b2cae39cf0a5be364cdaedd595ed2a616e9cee4721f0a",
+  "diag": {
+   "sat_bajo": 0.01,
+   "sat_alto": 26.36,
+   "rango_p1_p99": 238,
+   "entropia": 6.63,
+   "desv_tipica": 76.8,
+   "R": 155.0,
+   "G": 164.5,
+   "B": 141.3
+  }
+ },
+ {
+  "archivo": "IMG_03.jpg",
+  "rol": "iluminacion_desigual",
+  "titulo_commons": "Dimly lit historic room interior with a large window and antique furniture. (55253828074).jpg",
+  "pagina": "https://commons.wikimedia.org/wiki/File:Dimly_lit_historic_room_interior_with_a_large_window_and_antique_furniture._(55253828074).jpg",
+  "licencia": "CC BY 4.0",
+  "licencia_url": "https://creativecommons.org/licenses/by/4.0",
+  "autor": "Michael Gaylard from Horsham, UK",
+  "creditos": "Dimly lit historic room interior with a large window and antique furniture.",
+  "ancho": 3691,
+  "alto": 6048,
+  "bytes": 20925450,
+  "sha256": "02031281b21e920ee70eca48d89602486d46c477b2231813962dceb07056d74a",
+  "diag": {
+   "sat_bajo": 0.23,
+   "sat_alto": 0.0,
+   "rango_p1_p99": 192,
+   "entropia": 7.37,
+   "desv_tipica": 46.4,
+   "R": 98.4,
+   "G": 74.6,
+   "B": 53.5
+  }
+ },
+ {
+  "archivo": "IMG_04.jpg",
+  "rol": "dominante_color",
+  "titulo_commons": "Blue light at the end of the hallway (6245672550).jpg",
+  "pagina": "https://commons.wikimedia.org/wiki/File:Blue_light_at_the_end_of_the_hallway_(6245672550).jpg",
+  "licencia": "CC BY 2.0",
+  "licencia_url": "https://creativecommons.org/licenses/by/2.0",
+  "autor": "Bruce Guenter from Saskatoon, SK, Canada",
+  "creditos": "Blue light at the end of the hallway",
+  "ancho": 1024,
+  "alto": 682,
+  "bytes": 357546,
+  "sha256": "922e33cedca7246af596d906fbc01a360aad5bd7bb55c88977aabf71c1d77522",
+  "diag": {
+   "sat_bajo": 0.01,
+   "sat_alto": 0.0,
+   "rango_p1_p99": 198,
+   "entropia": 7.32,
+   "desv_tipica": 40.5,
+   "R": 104.4,
+   "G": 96.9,
+   "B": 118.5
+  }
+ },
+ {
+  "archivo": "IMG_05.jpg",
+  "rol": "objeto_saturado",
+  "titulo_commons": "Red Apple.jpg",
+  "pagina": "https://commons.wikimedia.org/wiki/File:Red_Apple.jpg",
+  "licencia": "CC BY 2.0",
+  "licencia_url": "https://creativecommons.org/licenses/by/2.0",
+  "autor": "Abhijit Tembhekar from Mumbai, India",
+  "creditos": "Nikon D80 Apple",
+  "ancho": 2418,
+  "alto": 2192,
+  "bytes": 576216,
+  "sha256": "bfbaf6828607d9b94fb54056877497ac32926aa75c09de4abd61bc05ba24e2a7",
+  "diag": {
+   "sat_bajo": 0.0,
+   "sat_alto": 0.05,
+   "rango_p1_p99": 210,
+   "entropia": 6.73,
+   "desv_tipica": 68.9,
+   "R": 219.8,
+   "G": 155.7,
+   "B": 140.5
+  }
+ }
+]
