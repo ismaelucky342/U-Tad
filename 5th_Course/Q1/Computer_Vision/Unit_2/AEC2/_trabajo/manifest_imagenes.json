@@ -1,0 +1,117 @@
+{
+  "semilla": 20260101,
+  "version_trabajo": {
+    "lado_mayor": 512,
+    "interpolacion": "INTER_AREA",
+    "espacio_de_color": "gris uint8",
+    "umbral_densidad_gradiente": 10.0,
+    "estimador_ruido": "median(|Laplaciano|) / (0.6745 * 6)"
+  },
+  "imagenes": [
+    {
+      "archivo": "IMG_01.jpg",
+      "rol": "textura_fina",
+      "titulo": "Close up of dense green foliage hedge",
+      "autor": "A S M Jobaer",
+      "licencia": "CC BY-SA 4.0",
+      "ficha": "https://commons.wikimedia.org/wiki/File:Close_up_of_dense_green_foliage_hedge.jpg",
+      "url_original": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Close_up_of_dense_green_foliage_hedge.jpg",
+      "sha256": "348fd88c0e99ab0ee66a5fe01c3d662646354712a4b353dc2c06a24cbc70ba4b",
+      "tamano_original": [
+        6000,
+        4000
+      ],
+      "tamano_trabajo": [
+        512,
+        341
+      ],
+      "escala_trabajo": 0.085333,
+      "diagnostico_original": {
+        "gradiente_medio": 9.552089,
+        "gradiente_p95": 27.45906,
+        "densidad_gradiente": 0.2884,
+        "sigma_laplaciano_mad": 0.494193,
+        "entropia": 7.15142,
+        "frac_saturados": 2e-06
+      },
+      "diagnostico_trabajo": {
+        "gradiente_medio": 63.032774,
+        "gradiente_p95": 208.201825,
+        "densidad_gradiente": 0.801262,
+        "sigma_laplaciano_mad": 0.74129,
+        "entropia": 7.140768,
+        "frac_saturados": 0.0
+      }
+    },
+    {
+      "archivo": "IMG_02.jpg",
+      "rol": "regiones_uniformes",
+      "titulo": "Apple With White Background",
+      "autor": "Karl Thomas Moore (Karlfonza)",
+      "licencia": "CC BY-SA 4.0",
+      "ficha": "https://commons.wikimedia.org/wiki/File:Apple_With_White_Background.jpg",
+      "url_original": "https://upload.wikimedia.org/wikipedia/commons/1/13/Apple_With_White_Background.jpg",
+      "sha256": "f739e66c8ab29da3848c5bcf1218fd42ffe13ab0cb5eebdb4cbdb338ad54a00b",
+      "tamano_original": [
+        5184,
+        3456
+      ],
+      "tamano_trabajo": [
+        512,
+        341
+      ],
+      "escala_trabajo": 0.098765,
+      "diagnostico_original": {
+        "gradiente_medio": 2.179827,
+        "gradiente_p95": 8.485281,
+        "densidad_gradiente": 0.040953,
+        "sigma_laplaciano_mad": 0.0,
+        "entropia": 3.466212,
+        "frac_saturados": 0.351293
+      },
+      "diagnostico_trabajo": {
+        "gradiente_medio": 6.530323,
+        "gradiente_p95": 34.409301,
+        "densidad_gradiente": 0.086825,
+        "sigma_laplaciano_mad": 0.0,
+        "entropia": 3.464507,
+        "frac_saturados": 0.350698
+      }
+    },
+    {
+      "archivo": "IMG_03.jpg",
+      "rol": "ruido_real",
+      "titulo": "Image noise in low light sample (Canon 100D) at ISO 6400",
+      "autor": "Rodrigo.Argenton",
+      "licencia": "CC BY-SA 4.0",
+      "ficha": "https://commons.wikimedia.org/wiki/File:Image_noise_in_low_light_sample_(Canon_100D)_at_ISO_6400.jpg",
+      "url_original": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Image_noise_in_low_light_sample_%28Canon_100D%29_at_ISO_6400.jpg",
+      "sha256": "050b7bcabe09732e7aa3141c863d04f8692002cf36977da435c6e39456a6f0ff",
+      "tamano_original": [
+        3440,
+        3440
+      ],
+      "tamano_trabajo": [
+        512,
+        512
+      ],
+      "escala_trabajo": 0.148837,
+      "diagnostico_original": {
+        "gradiente_medio": 108.983374,
+        "gradiente_p95": 219.804459,
+        "densidad_gradiente": 0.992524,
+        "sigma_laplaciano_mad": 8.401285,
+        "entropia": 7.347885,
+        "frac_saturados": 2.5e-05
+      },
+      "diagnostico_trabajo": {
+        "gradiente_medio": 18.711667,
+        "gradiente_p95": 36.71512,
+        "densidad_gradiente": 0.736431,
+        "sigma_laplaciano_mad": 3.459353,
+        "entropia": 6.781528,
+        "frac_saturados": 0.0
+      }
+    }
+  ]
+}

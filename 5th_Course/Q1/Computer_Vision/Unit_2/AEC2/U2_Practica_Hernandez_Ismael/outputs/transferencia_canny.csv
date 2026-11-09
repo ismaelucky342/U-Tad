@@ -1,0 +1,13 @@
+imagen,regla,umbral_alto,umbral_bajo,px_borde,frac_borde
+IMG_01.jpg,optimo_sintetico,48,28,21298,0.12198726173020528
+IMG_01.jpg,unidad_sintetica,20,10,26295,0.15060827529325513
+IMG_01.jpg,percentil_optimo_local,125,75,8810,0.05046050219941349
+IMG_01.jpg,percentil_unidad_local,84,42,16694,0.09561721041055718
+IMG_02.jpg,optimo_sintetico,48,28,1412,0.008087426686217009
+IMG_02.jpg,unidad_sintetica,20,10,2337,0.013385493035190616
+IMG_02.jpg,percentil_optimo_local,109,65,775,0.004438920454545455
+IMG_02.jpg,percentil_unidad_local,48,24,1426,0.008167613636363636
+IMG_03.jpg,optimo_sintetico,48,28,1212,0.0046234130859375
+IMG_03.jpg,unidad_sintetica,20,10,2178,0.00830841064453125
+IMG_03.jpg,percentil_optimo_local,20,12,2124,0.0081024169921875
+IMG_03.jpg,percentil_unidad_local,8,4,29592,0.112884521484375

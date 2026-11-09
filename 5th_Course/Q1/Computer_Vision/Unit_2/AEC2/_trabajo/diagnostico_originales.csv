@@ -1,0 +1,7 @@
+imagen,version,rol,ancho,alto,gradiente_medio,gradiente_p95,densidad_gradiente,sigma_laplaciano_mad,entropia,frac_saturados
+IMG_01.jpg,original,textura_fina,6000,4000,9.5521,27.4591,0.2884,0.4942,7.1514,2e-06
+IMG_01.jpg,trabajo,textura_fina,512,341,63.0328,208.2018,0.801262,0.7413,7.1408,0.0
+IMG_02.jpg,original,regiones_uniformes,5184,3456,2.1798,8.4853,0.040953,0.0,3.4662,0.351293
+IMG_02.jpg,trabajo,regiones_uniformes,512,341,6.5303,34.4093,0.086825,0.0,3.4645,0.350698
+IMG_03.jpg,original,ruido_real,3440,3440,108.9834,219.8045,0.992524,8.4013,7.3479,2.5e-05
+IMG_03.jpg,trabajo,ruido_real,512,512,18.7117,36.7151,0.736431,3.4594,6.7815,0.0

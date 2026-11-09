@@ -1,0 +1,21 @@
+Sello de declaraciones antes de medir
+Fecha: 2026-11-08T18:26:11+01:00
+Zona: CET
+
+predicciones.md          SHA-256: e5e83615b5c59e98c37a4424651908022673b026708a48cc472214853f399b9f
+criterios_declarados.md  SHA-256: 2339ea0b8b8f552dc77a6fe5c7b52419062e475085b3f692ed16524addb33da3
+manifest_imagenes.json   SHA-256: f44ad19eed844be4108fb7a587da4b450d26d333527680cf56529d48aa8480af
+
+Estado de outputs/ en el sello: vacio.
+Diagnostico de imagenes guardado en _trabajo/diagnostico_originales.csv (no es resultado de los ejercicios).
+
+SHA-256 de los originales:
+348fd88c0e99ab0ee66a5fe01c3d662646354712a4b353dc2c06a24cbc70ba4b  U2_Practica_Hernandez_Ismael/data/IMG_01.jpg
+f739e66c8ab29da3848c5bcf1218fd42ffe13ab0cb5eebdb4cbdb338ad54a00b  U2_Practica_Hernandez_Ismael/data/IMG_02.jpg
+050b7bcabe09732e7aa3141c863d04f8692002cf36977da435c6e39456a6f0ff  U2_Practica_Hernandez_Ismael/data/IMG_03.jpg
+
+Ficheros declarados:
+- _trabajo/predicciones.md
+- _trabajo/criterios_declarados.md
+
+Cualquier cambio posterior de criterios se anota en _trabajo/BITACORA.md y se vuelve a sellar.

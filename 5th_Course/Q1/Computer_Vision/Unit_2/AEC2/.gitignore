@@ -1,0 +1,6 @@
+_trabajo/venv/
+_trabajo/imagenes_candidatas/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.zip

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<style>
+@page { size: A4; margin: 1.55cm 1.7cm 1.5cm 1.7cm; }
+body { font-family: "DejaVu Serif", serif; font-size: 9.25pt; line-height: 1.3; color: #111; }
+h1 { font-family: "DejaVu Sans", sans-serif; font-size: 15pt; margin: 0 0 6px 0; }
+h2 { font-family: "DejaVu Sans", sans-serif; font-size: 10.5pt; margin: 8px 0 3px 0; border-bottom: 0.5px solid #999; }
+p { margin: 0 0 4px 0; text-align: justify; }
+ul { margin: 2px 0 4px 16px; padding: 0; }
+li { margin: 0 0 2px 0; }
+code { font-family: "DejaVu Sans Mono", monospace; font-size: 8.3pt; }
+.small { font-size: 8.3pt; color: #333; }
+</style></head><body>
+<h1>Programación funcional en Python: cómo he aplicado el paradigma</h1>
+<p class="small">Práctica de Programación · Unidades 1 y 2 · Ismael Hernández</p>
+<p>En todo el código intento lo mismo: funciones puras (mismo argumento, mismo resultado, sin variables externas ni modificar lo que reciben), sin bucles <code>for</code> ni <code>while</code>, y trabajando con <code>map</code>, <code>filter</code>, <code>reduce</code>, lambdas, closures y funciones que reciben o devuelven otras funciones. Todo está en un único archivo, <code>practica_programacion_funcional.py</code>, con al menos cinco llamadas de comprobación por función. Los ejercicios de la parte 1 están inspirados en katas clásicas de <b>Codewars</b> (<span class="small">https://www.codewars.com/</span>), reescritas desde cero con el enfoque de la asignatura.</p>
+
+<h2>Parte 1: ejercicios funcionales</h2>
+<ul>
+<li><b>es_palindromo.</b> Normalizo el texto encadenando <code>filter</code>: primero descarto los caracteres combinantes tras descomponer en NFD (así desaparecen las tildes) y luego me quedo solo con letras y dígitos con <code>str.isalnum</code>. Después comparo la cadena con su inversa. No modifico ninguna variable; cada paso produce un valor nuevo.</li>
+<li><b>palindromos.</b> Es un <code>map</code> de <code>es_palindromo</code> sobre la lista de entrada, convertido a lista. Paso la función como argumento en lugar de escribir un bucle.</li>
+<li><b>cuadrados_sumados.</b> <code>reduce</code> con una lambda que acumula <code>k·k</code> sobre <code>range(1, n+1)</code>, con 0 como valor inicial (por eso <code>n = 0</code> da 0).</li>
+<li><b>factorial.</b> También con <code>reduce</code> y una lambda que multiplica. Evito la recursión, que se queda sin pila con números grandes, y el valor inicial 1 resuelve el caso de 0! y 1!.</li>
+<li><b>filtrar_aprobados.</b> <code>filter</code> con un predicado que fabrica la función <code>promedio_al_menos(minimo)</code>. Esa función devuelve una lambda que recuerda el valor de <code>minimo</code> (closure), de modo que la nota de corte (6) es un parámetro y no está escrita dentro del predicado. La lista original no se modifica; devuelvo una nueva.</li>
+</ul>
+
+<h2>Parte 2: comprobador de contraseñas y dominios</h2>
+<ul>
+<li><b>Callbacks para elegir el hash.</b> El diccionario <code>FORMATOS</code> asocia la opción del usuario (1 o 2) con una tupla que contiene la propia función de hash (<code>hash_sha1</code> o <code>hash_ntlm</code>) y los parámetros de la petición (<code>mode=ntlm</code> en el segundo caso). <code>comprobar_contrasena</code> recibe ese formato y llama a <code>formato.hashear(...)</code> sin saber de cuál se trata. Añadir otro formato sería añadir una entrada a la tabla. NTLM es el MD4 de la contraseña en UTF-16 little endian; como <code>hashlib</code> ya no suele traer MD4, uso <code>pycryptodome</code>.</li>
+<li><b>Callbacks para cada caso de la respuesta.</b> <code>gestionar_respuesta</code> busca el código HTTP en una tabla de manejadores (200, 400, 403, 404, 429, 503) y ejecuta el que corresponda; si el código no está, aplica uno por defecto. Los manejadores se fabrican con funciones de orden superior: <code>error(mensaje)</code> devuelve un callback, y <code>partial(contar_filtraciones, sufijo)</code> fija el sufijo buscado. Para los rangos, <code>contar_filtraciones</code> procesa las líneas <code>SUFIJO:CUENTA</code> con <code>filter</code>, <code>map</code> y <code>reduce</code> (el 0 de las entradas de relleno no suma). Con dominios, un 404 se interpreta como «sin filtraciones», no como error, y las brechas se resumen con <code>map</code> y se ordenan por fecha.</li>
+<li><b>Errores de conexión.</b> El decorador <code>protegida</code> envuelve las consultas y traduce las excepciones de <code>requests</code> (tiempo agotado, sin conexión, JSON ilegible) a un resultado de error mediante una tabla de mensajes, de modo que el resto del código nunca ve una excepción.</li>
+<li><b>Callbacks para el modo.</b> <code>MODOS</code> asocia «1» con <code>modo_contrasenas</code> y «2» con <code>modo_dominios</code>; <code>ejecutar</code> elige el callback con <code>despachar</code> (el mismo mecanismo se usa para el hash y para los códigos HTTP) y cae en <code>modo_invalido</code> si la opción no existe.</li>
+<li><b>Separar lo puro de los efectos.</b> Las funciones no llaman a <code>input</code>, <code>print</code> ni <code>requests.get</code> directamente: los reciben en un <code>Entorno</code> (<code>namedtuple</code>). Los modos devuelven el mensaje y solo <code>ejecutar</code> lo muestra. Gracias a eso los ejemplos corren sin red, con respuestas simuladas (<code>--ejemplos</code>). La contraseña completa no sale del equipo: solo se envían los cinco primeros caracteres del hash, y se pide con <code>getpass</code> para que no se vea al escribir.</li>
+</ul>
+
+<h2>Cómo probarlo</h2>
+<p><code>pip install -r requirements.txt</code>. Después, <code>python practica_programacion_funcional.py --ejemplos</code> ejecuta los ejemplos de las dos partes sin red; <code>--parte1</code> ejecuta solo la primera; <code>--parte2</code> abre el modo interactivo contra la API real, y sin argumentos se abre directamente ese modo. Las marcas y brechas de los ejemplos con respuestas simuladas son inventadas.</p>
+<p class="small">Fuente de la parte 2: documentación de Have I Been Pwned, endpoints Pwned Passwords y Breaches.</p>
+</body></html>

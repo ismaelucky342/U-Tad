@@ -1,0 +1,25 @@
+parametro,valor,criterio,barrido
+truncada_k,7.0,"maximo SSIM medio en 3 imagenes y gaussianos 10/20/40; desempate PSNR, k, alpha",outputs/barrido_aux_truncada.csv
+truncada_alpha,0.2,"maximo SSIM medio en 3 imagenes y gaussianos 10/20/40; desempate PSNR, k, alpha",outputs/barrido_aux_truncada.csv
+bilateral_A_d,9.0,maximo SSIM medio con gaussiano sigma=20 en 3 imagenes,outputs/barrido_aux_bilateral.csv
+bilateral_A_sigma_color,75.0,maximo SSIM medio con gaussiano sigma=20 en 3 imagenes,outputs/barrido_aux_bilateral.csv
+bilateral_A_sigma_space,5.0,maximo SSIM medio con gaussiano sigma=20 en 3 imagenes,outputs/barrido_aux_bilateral.csv
+bilateral_B_d,7.0,"maximo PSNR medio con gaussiano sigma=20, distinto de A",outputs/barrido_aux_bilateral.csv
+bilateral_B_sigma_color,75.0,"maximo PSNR medio con gaussiano sigma=20, distinto de A",outputs/barrido_aux_bilateral.csv
+bilateral_B_sigma_space,5.0,"maximo PSNR medio con gaussiano sigma=20, distinto de A",outputs/barrido_aux_bilateral.csv
+epsilon_rebotes,0.00023598334667821938,menor epsilon que da cero rebotes en los tres gaussianos,outputs/barrido_aux_epsilon.csv
+sigma_suavizado_canny,1.5,maximo mejor F1 en la escena sintetica con semilla auxiliar; desempate menor sigma,outputs/barrido_aux_sigma_canny.csv
+canny_p_optimo,95,"maximo F1; desempate precision, percentil alto y fraccion baja",outputs/barrido_canny.csv
+canny_f_optimo,0.6,"maximo F1; desempate precision, percentil alto y fraccion baja",outputs/barrido_canny.csv
+canny_umbral_alto_optimo,48,umbrales absolutos de la fila optima sintetica,outputs/barrido_canny.csv
+canny_umbral_bajo_optimo,28,umbrales absolutos de la fila optima sintetica,outputs/barrido_canny.csv
+canny_umbral_alto_unidad,20,regla de la unidad: percentil 85 y fraccion 0.5,outputs/barrido_canny.csv
+canny_umbral_bajo_unidad,10,regla de la unidad: percentil 85 y fraccion 0.5,outputs/barrido_canny.csv
+canny_perdida_absoluta_f1,0.8957131834725913,F1 optimo - F1 unidad,outputs/barrido_canny.csv
+canny_perdida_relativa_f1,0.8972675615270832,(F1 optimo - F1 unidad) / F1 optimo,outputs/barrido_canny.csv
+fast_threshold,25,valor principal declarado; sensibilidad 10/25/50 en escala,outputs/repetibilidad_sensibilidad.csv
+orb_nfeatures,5000,alto para que el limite no domine; valor declarado,outputs/repetibilidad.csv
+orb_nlevels,8,valor principal declarado; sensibilidad 1/4/8 en escala,outputs/repetibilidad_sensibilidad.csv
+sift_configuracion,default,cv2.SIFT_create() sin argumentos,outputs/repetibilidad.csv
+tol_repetibilidad,3.0,tolerancia principal; sensibilidad 1/2/3/5,outputs/repetibilidad_sensibilidad.csv
+azar_formula,1-(1-pi*tol^2/lado^2)^n_trans,linea base por densidad; aproximacion uniforme declarada,outputs/repetibilidad.csv
