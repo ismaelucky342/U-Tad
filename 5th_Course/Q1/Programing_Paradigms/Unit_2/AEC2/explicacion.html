@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<title>Explicación del chat reactivo con Kafka</title>
+<style>
+@page { size: A4; margin: 1.35cm 1.55cm 1.25cm 1.55cm; }
+body { font-family: "DejaVu Serif", serif; font-size: 8.45pt; line-height: 1.24; color: #111; }
+h1 { font-family: "DejaVu Sans", sans-serif; font-size: 13.5pt; margin: 0 0 2px 0; }
+h2 { font-family: "DejaVu Sans", sans-serif; font-size: 9.7pt; margin: 6px 0 2px 0; border-bottom: 0.5px solid #999; }
+p { margin: 0 0 3px 0; text-align: justify; }
+ul { margin: 1px 0 3px 15px; padding: 0; }
+li { margin: 0 0 1.5px 0; text-align: left; }
+code { font-family: "DejaVu Sans Mono", monospace; font-size: 7.9pt; }
+.small { font-size: 7.9pt; color: #333; }
+</style></head><body>
+
+<h1>Chat reactivo con Kafka: cómo se aplica el paradigma reactivo</h1>
+<p class="small">Programación, paradigmas · Unidad 2 · Ismael Hernández · <code>main.py</code> y paquete <code>chat/</code></p>
+
+<p>La aplicación trata los mensajes como <b>flujos de datos</b>. La interfaz no consulta al bróker ni espera su respuesta: emite eventos en <i>subjects</i> y reacciona a los valores que llegan por los <i>observables</i>. Las transformaciones se declaran con <code>pipe</code>, <code>map</code>, <code>filter</code> y <code>merge</code>; la concurrencia se resuelve con <code>observe_on</code> y dos schedulers. El resultado es una recepción y un envío no bloqueantes.</p>
+
+<h2>1. Recepción de mensajes</h2>
+<ul>
+<li><b>messages.py.</b> <code>ChatMessage</code> es un <i>dataclass</i> inmutable con usuario, texto, fecha y <code>id_cliente</code>. <code>to_payload()</code> lo serializa a JSON UTF-8. <code>message_from_payload()</code> hace lo contrario: interpreta el JSON y, si el payload no es válido o es texto plano de otro productor, devuelve un mensaje con usuario <code>desconocido</code> y la hora actual, de modo que un dato inesperado no rompe el flujo. <code>_parse_datetime()</code> recupera la fecha ISO y usa la actual como respaldo. <code>format_message()</code> es una función pura que produce exactamente <code>"fecha-hora usuario: mensaje"</code>.</li>
+<li><b>KafkaReceiver.</b> <code>as_observable()</code> devuelve un <code>Observable</code> construido con <code>reactivex.create</code>. Al suscribirse, <code>_subscribe()</code> arranca un hilo daemon y devuelve un <code>Disposable</code>; el hilo crea el <code>KafkaConsumer</code> (con <code>group_id=None</code> para que cada instancia reciba todo el topic) y, en <code>listen()</code>, recorre los registros y llama a <code>observer.on_next(record.value)</code>. Los errores se envían con <code>on_error</code>. <code>dispose()</code> activa un <code>Event</code> de parada y llama a <code>consumer.wakeup()</code> para desbloquear el <code>poll()</code>; el consumidor se cierra en el <code>finally</code>. El hilo de Tkinter nunca se bloquea.</li>
+<li><b>Pipe de recepción.</b> En <code>ChatService.connect()</code> se encadena <code>do_action(on_error=...)</code>, <code>on_error_resume_next(empty())</code>, <code>map(message_from_payload)</code> y <code>filter(...)</code>. El <code>map</code> convierte el payload en <code>ChatMessage</code>; el <code>filter</code> descarta los mensajes cuyo <code>id_cliente</code> coincide con el de esta instancia, porque ya se mostraron como eco local. Los errores se notifican en la barra de estado y el flujo continúa.</li>
+<li><b>Presentación.</b> <code>merge(incoming, _outgoing)</code> une recibidos y enviados; después <code>map(format_message)</code> aplica el formato y el <code>Subject</code> <code>messages</code> notifica al observer <code>TextUpdater</code>, cuyo <code>on_next()</code> inserta la línea en el <code>Text</code> y hace scroll. La vista se suscribe con <code>observe_on(TkScheduler)</code>.</li>
+<li><b>TkScheduler.</b> <code>__init__</code> programa el primer <code>_drain</code> con <code>root.after</code>. <code>schedule</code>, <code>schedule_relative</code> y <code>schedule_absolute</code> no tocan Tk: <code>_enqueue</code> guarda la acción en un <i>heap</i> protegido por un <code>Lock</code> y devuelve un <code>SingleAssignmentDisposable</code>. <code>_drain</code> se ejecuta en el hilo principal, saca las acciones vencidas, las invoca y vuelve a programarse. Así se respeta la regla de Tkinter de actualizar widgets solo desde el hilo de <code>mainloop</code>. <code>stop()</code> cancela el temporizador al cerrar.</li>
+</ul>
+
+<h2>2. Envío de mensajes</h2>
+<ul>
+<li><b>ChatService.send().</b> La interfaz solo llama a este método al pulsar <b>Enviar</b> o Intro. Si hay conexión, crea un <code>ChatMessage</code> con la hora y el <code>id_cliente</code> y lo emite con <code>_outgoing.on_next(...)</code>. No se envía nada mientras se escribe: el mensaje se convierte en un evento del flujo.</li>
+<li><b>KafkaSender.</b> Es un <code>Observer[ChatMessage]</code> suscrito al flujo de salida, por lo que ReactiveX le notifica cada mensaje pendiente en <code>on_next()</code>. Allí llama a <code>_get_producer()</code> (creación perezosa del <code>KafkaProducer</code>), publica <code>message.to_payload()</code> y espera la confirmación con <code>future.get()</code>, equivalente al <code>flush()</code> del enunciado. <code>on_error()</code> y <code>on_completed()</code> cierran el productor mediante <code>close()</code>; <code>prepare()</code> lo crea al conectar para detectar antes un bróker caído. Cualquier excepción se comunica con el callback <code>on_error</code> sin cancelar el flujo.</li>
+<li><b>Pipe de envío.</b> <code>_outgoing.pipe(observe_on(io_scheduler))</code> traslada la escritura a un hilo del <code>ThreadPoolScheduler</code>. La interfaz emite y vuelve inmediatamente; la posible espera de red queda en segundo plano. El mismo <code>_outgoing</code> alimenta el eco local mediante <code>merge</code>, así el mensaje aparece al instante sin esperar al bróker ni duplicarse cuando el consumidor lo recibe.</li>
+<li><b>ChatService.disconnect().</b> Libera el <code>CompositeDisposable</code> (lo que cierra el consumidor), programa el cierre del productor en el hilo de E/S y publica el estado «Desconectado». <code>_report_send_error</code> y <code>_report_receive_error</code> convierten las excepciones en avisos del <code>Subject</code> <code>status</code>.</li>
+</ul>
+
+<h2>3. Interfaz y arranque</h2>
+<ul>
+<li><b>ui.py.</b> <code>ChatWindow.__init__</code> guarda las dependencias, crea las variables de Tk y encadena la construcción y la suscripción a los flujos. <code>_build_window()</code> crea los <code>Entry</code> de usuario, topic y mensaje, los botones <b>Conectar</b> y <b>Enviar</b>, el <code>Text</code> del historial y la barra de estado. <code>_subscribe_to_streams()</code> es la única conexión de la vista con el servicio: se suscribe a <code>messages</code> y <code>status</code> con <code>observe_on(TkScheduler)</code>. <code>_on_connect()</code> valida, llama a <code>service.connect()</code> y conmuta el texto del botón; <code>_on_send()</code> llama a <code>send()</code>, limpia el campo y devuelve <code>"break"</code> para que Intro no añada saltos. <code>_set_connected()</code> habilita o deshabilita los campos y <code>_set_status()</code> actualiza la etiqueta. <code>_on_close()</code> libera suscripciones, desconecta, detiene el scheduler y destruye la ventana.</li>
+<li><b>TextUpdater.</b> <code>__init__</code> recibe el <code>Text</code>; <code>on_next()</code> lo habilita temporalmente, inserta la línea, hace scroll y lo vuelve a deshabilitar; <code>on_error()</code> y <code>on_completed()</code> solo registran el final del flujo.</li>
+<li><b>ChatService.__init__.</b> Crea los <code>Subject</code> <code>_outgoing</code>, <code>messages</code> y <code>status</code> y un <code>CompositeDisposable</code> vacío; <code>connect()</code> y <code>disconnect()</code> gestionan el ciclo de vida de las suscripciones, de modo que reconectar no deja consumidores ni productores abiertos.</li>
+<li><b>main.py.</b> <code>parse_args()</code> lee <code>--bootstrap</code> y <code>--topic</code> (con variables de entorno). <code>main()</code> crea la raíz Tk, el <code>TkSc</code> lee <code>--bootstrap</code> y <code>--topic</code> (con variables de entorno). <code>main()</code> crea la raíz Tk, el <code>TkScheduler</code>, un <code>ThreadPoolScheduler</code> para E/S, el <code>ChatService</code> y la ventana; después entra en <code>mainloop()</code>. Las dos instancias usan el mismo topic y distinto usuario.</li>
+</ul>
+
+<p class="small">Prueba: <code>pip install -r requirements.txt</code>; arrancar Kafka en <code>localhost:9092</code>; ejecutar <code>python main.py</code> dos veces, conectar ambas ventanas al mismo topic y enviar mensajes. Cada línea del historial muestra fecha-hora, usuario y texto, tanto en el emisor como en el receptor.</p>
+
+</body></html>
